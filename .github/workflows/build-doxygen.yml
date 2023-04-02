@@ -4,10 +4,14 @@ on: [push]
 jobs:
   build_artifacts:
     name: Build Artifacts
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Get latest code
         uses: actions/checkout@v3
+
+      - name: Generate html path
+        shell: bash
+        run: mkdir docs/html -p
 
       - name: Build doxygen document
         uses: mattnotmitt/doxygen-action@v1
