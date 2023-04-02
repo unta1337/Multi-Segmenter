@@ -10,7 +10,7 @@ jobs:
   deploy:
     runs-on: ubuntu-22.04
     steps:
-      - name: Generate html path
+      - name: Generate HTML path
         shell: bash
         run: mkdir docs/html -p
 
