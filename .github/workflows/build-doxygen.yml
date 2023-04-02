@@ -9,12 +9,16 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      - name: Generate html path
+      - name: Generate HTML path
         shell: bash
         run: mkdir docs/html -p
 
       - name: Build doxygen document
         uses: mattnotmitt/doxygen-action@v1
+
+      - name: Move HTML files
+        shell: bash
+        run: mv docs/html/* docs/ && rm -r docs/html
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
