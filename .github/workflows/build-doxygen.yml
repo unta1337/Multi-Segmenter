@@ -18,7 +18,7 @@ jobs:
 
       - name: Move HTML files
         shell: bash
-        run: chown -R ubuntu:ubuntu docs && mv docs/html/* docs/ && rm -r docs/html
+        run: chown -R root docs && mv docs/html/* docs/ && rm -r docs/html
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
