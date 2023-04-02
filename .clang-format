@@ -1,0 +1,9 @@
+---
+BasedOnStyle: LLVM
+AlignTrailingComments: 'true'
+AllowShortFunctionsOnASingleLine: None
+DerivePointerAlignment: 'false'
+IndentWidth: '4'
+PointerAlignment: Left
+
+...
