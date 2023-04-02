@@ -9,10 +9,6 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      - name: Generate html path
-        shell: bash
-        run: mkdir docs/html -p
-
       - name: Build doxygen document
         uses: mattnotmitt/doxygen-action@v1
 
