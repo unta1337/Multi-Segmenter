@@ -14,7 +14,7 @@ jobs:
 
       - name: Build Win32
         shell: pwsh
-        run: cmake --build Win32 --target MCP-Mid-Project MCP-Mid-Project-Test --config Release && mv Win32/Release/* Win32
+        run: cmake --build Win32 --target Multi-Segmentor Multi-Segmentor-Test --config Release && mv Win32/Release/* Win32
 
       - name: CMake x64
         shell: pwsh
@@ -22,14 +22,14 @@ jobs:
 
       - name: Build x64
         shell: pwsh
-        run: cmake --build x64 --target MCP-Mid-Project MCP-Mid-Project-Test --config Release && mv x64/Release/* x64
+        run: cmake --build x64 --target Multi-Segmentor Multi-Segmentor-Test --config Release && mv x64/Release/* x64
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: build
           path: |
-            Win32/MCP-Mid-Project.exe
-            Win32/MCP-Mid-Project-Test.exe
-            x64/MCP-Mid-Project.exe
-            x64/MCP-Mid-Project-Test.exe
+            Win32/Multi-Segmentor.exe
+            Win32/Multi-Segmentor-Test.exe
+            x64/Multi-Segmentor.exe
+            x64/Multi-Segmentor-Test.exe

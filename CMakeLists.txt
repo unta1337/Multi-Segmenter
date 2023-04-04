@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.9)
 
 project(
-        MCP-Mid-Project
+        Multi-Segmentor
         VERSION 0.1
-        DESCRIPTION "한국기술교육대학교 2023학년도 1학기 멀티코어프로그래밍 중간 텀프로젝트"
+        DESCRIPTION "3D Object Segmentation with Parallel Computing"
         LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
@@ -33,9 +33,9 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 enable_testing()
 
-add_executable(MCP-Mid-Project ${MAIN_FILE} ${PROJECT_SRC} ${PROJECT_HEADERS})
-target_link_libraries(MCP-Mid-Project PRIVATE OpenMP::OpenMP_CXX)
+add_executable(Multi-Segmentor ${MAIN_FILE} ${PROJECT_SRC} ${PROJECT_HEADERS})
+target_link_libraries(Multi-Segmentor PRIVATE OpenMP::OpenMP_CXX)
 
-add_executable(MCP-Mid-Project-Test ${PROJECT_TESTS} ${PROJECT_SRC} ${PROJECT_HEADERS})
-target_link_libraries(MCP-Mid-Project-Test PRIVATE GTest::gtest_main OpenMP::OpenMP_CXX)
-gtest_discover_tests(MCP-Mid-Project-Test)
+add_executable(Multi-Segmentor-Test ${PROJECT_TESTS} ${PROJECT_SRC} ${PROJECT_HEADERS})
+target_link_libraries(Multi-Segmentor-Test PRIVATE GTest::gtest_main OpenMP::OpenMP_CXX)
+gtest_discover_tests(Multi-Segmentor-Test)
