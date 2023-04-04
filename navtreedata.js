@@ -24,8 +24,7 @@
 */
 var NAVTREE =
 [
-  [ "MCP-Mid-Project", "index.html", [
-    [ "Kut-Multicore-Programming-Midterm-Project", "index.html", null ],
+  [ "Multi-Segmentor", "index.html", [
     [ "파일들", "files.html", [
       [ "파일 목록", "files.html", "files_dup" ],
       [ "파일 멤버", "globals.html", [

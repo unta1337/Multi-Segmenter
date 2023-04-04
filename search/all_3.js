@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['library_2ecpp_4',['library.cpp',['../library_8cpp.html',1,'']]],
-  ['library_2eh_5',['library.h',['../library_8h.html',1,'']]],
-  ['library_5fmacro_6',['LIBRARY_MACRO',['../library_8h.html#af3210279bdb42bc586bffe8d8bbf13b8',1,'library.h']]]
+  ['main_6',['main',['../src_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;main.cpp'],['../tests_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627',1,'main(int argc, char **argv):&#160;main.cpp']]],
+  ['main_2ecpp_7',['main.cpp',['../src_2main_8cpp.html',1,'(전역 이름공간)'],['../tests_2main_8cpp.html',1,'(전역 이름공간)']]],
+  ['multi_2dsegmentor_8',['Multi-Segmentor',['../index.html',1,'']]]
 ];
