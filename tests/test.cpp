@@ -1,5 +1,5 @@
+﻿#include "testlib.h"
 #include "gtest/gtest.h"
-#include "testlib.h"
 #include <omp.h>
 
 TEST(HelloTest, BasicAssertions) {
