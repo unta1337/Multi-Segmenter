@@ -13,6 +13,7 @@ set(MAIN_FILE src/main.cpp)
 file(GLOB PROJECT_SRC ${ROOT_DIR}/src/*)
 file(GLOB PROJECT_HEADERS ${ROOT_DIR}/inc/*)
 file(GLOB PROJECT_TESTS ${ROOT_DIR}/tests/*)
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 
 list(FILTER PROJECT_SRC EXCLUDE REGEX .*${MAIN_FILE})
 include_directories(${ROOT_DIR}/inc)
@@ -27,7 +28,7 @@ include(FetchContent)
 FetchContent_Declare(
         glm
         GIT_REPOSITORY https://github.com/g-truc/glm.git
-        GIT_TAG		   0.9.9.2
+        GIT_TAG		   0.9.9.8
 )
 
 FetchContent_GetProperties(glm)
