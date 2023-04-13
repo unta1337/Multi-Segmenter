@@ -25,6 +25,26 @@
 var NAVTREE =
 [
   [ "Multi-Segmentor", "index.html", [
+    [ "네임스페이스", "namespaces.html", [
+      [ "네임스페이스 목록", "namespaces.html", "namespaces_dup" ],
+      [ "네임스페이스 멤버", "namespacemembers.html", [
+        [ "모두", "namespacemembers.html", null ],
+        [ "함수", "namespacemembers_func.html", null ],
+        [ "타입정의", "namespacemembers_type.html", null ],
+        [ "열거형 타입", "namespacemembers_enum.html", null ],
+        [ "열거형 멤버", "namespacemembers_eval.html", null ]
+      ] ]
+    ] ],
+    [ "클래스", "annotated.html", [
+      [ "클래스 목록", "annotated.html", "annotated_dup" ],
+      [ "클래스 색인", "classes.html", null ],
+      [ "클래스 계통도", "hierarchy.html", "hierarchy" ],
+      [ "클래스 멤버", "functions.html", [
+        [ "모두", "functions.html", null ],
+        [ "함수", "functions_func.html", null ],
+        [ "변수", "functions_vars.html", null ]
+      ] ]
+    ] ],
     [ "파일들", "files.html", [
       [ "파일 목록", "files.html", "files_dup" ],
       [ "파일 멤버", "globals.html", [
@@ -38,7 +58,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"dir_59425e443f801f1f2fd8bbe4959a3ccf.html"
+"_model_8cpp.html",
+"structtinyobj_1_1texture__option__t.html#ae93ebf5f70b1b3e3c1de58a257157e00"
 ];
 
 var SYNCONMSG = '패널 동기화를 비활성화하기 위해 클릭하십시오';

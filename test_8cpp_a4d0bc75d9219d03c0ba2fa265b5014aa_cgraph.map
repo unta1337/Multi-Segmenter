@@ -1,5 +1,4 @@
 <map id="TEST" name="TEST">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,60,57"/>
-<area shape="rect" id="node2" href="$library_8h.html#a251d18bceee53628393ff44db3125727" title=" " alt="" coords="124,5,183,32"/>
-<area shape="rect" id="node3" href="$testlib_8cpp.html#a881d717ace3bfc6b8f4c957dc10f8fcf" title=" " alt="" coords="108,56,199,83"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,5,60,32"/>
+<area shape="rect" id="node2" href="$testlib_8cpp.html#a881d717ace3bfc6b8f4c957dc10f8fcf" title=" " alt="" coords="108,5,199,32"/>
 </map>
