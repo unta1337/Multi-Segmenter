@@ -1,9 +1,13 @@
-﻿#include "model.hpp"
+﻿#include "consoleutils.h"
+#include "model.hpp"
 #include "objutils.h"
+#include "originalsegmenter.h"
 #include "serialsegmenter.h"
 #include <iostream>
 
 int main() {
+    INIT_CONSOLE();
+
     Model model;
     model.read_obj("assets/Cube_noised.obj");
 
