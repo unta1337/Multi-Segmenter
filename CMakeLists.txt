@@ -26,6 +26,14 @@ find_package(OpenMP REQUIRED)
 include(FetchContent)
 
 FetchContent_Declare(
+        tinyobjloader
+        GIT_REPOSITORY https://github.com/tinyobjloader/tinyobjloader
+        GIT_TAG bca2719a11e688b85ce9af21dcb156f3d8b918bc
+)
+FetchContent_MakeAvailable(tinyobjloader)
+
+
+FetchContent_Declare(
         glm
         GIT_REPOSITORY https://github.com/g-truc/glm.git
         GIT_TAG		   0.9.9.8
@@ -50,9 +58,9 @@ enable_testing()
 
 add_executable(Multi-Segmentor ${MAIN_FILE} ${PROJECT_SRC} ${PROJECT_HEADERS})
 target_include_directories(Multi-Segmentor PRIVATE ${glm_SOURCE_DIR})
-target_link_libraries(Multi-Segmentor PRIVATE OpenMP::OpenMP_CXX)
+target_link_libraries(Multi-Segmentor PRIVATE OpenMP::OpenMP_CXX tinyobjloader)
 
 add_executable(Multi-Segmentor-Test ${PROJECT_TESTS} ${PROJECT_SRC} ${PROJECT_HEADERS})
 target_include_directories(Multi-Segmentor-Test PRIVATE ${glm_SOURCE_DIR})
-target_link_libraries(Multi-Segmentor-Test PRIVATE GTest::gtest_main OpenMP::OpenMP_CXX)
+target_link_libraries(Multi-Segmentor-Test PRIVATE GTest::gtest_main OpenMP::OpenMP_CXX tinyobjloader)
 gtest_discover_tests(Multi-Segmentor-Test)
