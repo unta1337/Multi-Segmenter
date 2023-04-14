@@ -5,29 +5,28 @@ SerialSegmenter::SerialSegmenter(TriangleMesh* mesh, float tolerance)
 }
 
 std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
-    std::vector<glm::vec3> facenormals(mesh->index.size());
+    std::vector<glm::vec3> face_normals(mesh->index.size());
 
     for (int i = 0; i < mesh->index.size(); i++) {
-        facenormals[i] = glm::triangleNormal(
-            mesh->vertex[mesh->index[i].x], mesh->vertex[mesh->index[i].y],
-            mesh->vertex[mesh->index[i].z]);
+        face_normals[i] = glm::triangleNormal(mesh->vertex[mesh->index[i].x],
+                                             mesh->vertex[mesh->index[i].y],
+                                             mesh->vertex[mesh->index[i].z]);
     }
 
     std::cout << "Normal vector compute done" << std::endl;
 
-    int count = facenormals.size();
+    size_t count = face_normals.size();
 
     std::unordered_map<glm::vec3, size_t, FaceGraph::Vec3Hash> count_map;
 
     for (int i = 0; i < count; i++) {
-        glm::vec3 target_norm = facenormals[i];
+        glm::vec3 target_norm = face_normals[i];
 
         for (auto iter : count_map) {
             glm::vec3 compare = iter.first;
-            float normAngle =
-                glm::degrees(glm::angle(compare, target_norm));
+            float norm_angle = glm::degrees(glm::angle(compare, target_norm));
 
-            if (normAngle < tolerance) {
+            if (norm_angle < tolerance) {
                 target_norm = compare;
                 break;
             }
@@ -56,12 +55,11 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
               << std::endl;
 
     for (int i = 0; i < count; i++) {
-        glm::vec3 target_norm = facenormals[i];
+        glm::vec3 target_norm = face_normals[i];
 
         for (auto& iter : count_map) {
             glm::vec3 compare = iter.first;
-            float norm_angle =
-                glm::degrees(glm::angle(compare, target_norm));
+            float norm_angle = glm::degrees(glm::angle(compare, target_norm));
 
             if (norm_angle < tolerance) {
                 target_norm = compare;
@@ -84,8 +82,8 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
         }
 
         if (iter.second == 0) {
-            std::cout << "Removed map : " << glm::to_string(iter.first)
-                      << " " << iter.second << std::endl;
+            std::cout << "Removed map : " << glm::to_string(iter.first) << " "
+                      << iter.second << std::endl;
             my_map.erase(iter.first);
             count_map.erase(iter.first);
         }
@@ -97,12 +95,11 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
 
     double total_time = 0.0;
     for (int i = 0; i < count; i++) {
-        glm::vec3 target_norm = facenormals[i];
+        glm::vec3 target_norm = face_normals[i];
 
         for (auto& iter : count_map) {
             glm::vec3 compare = iter.first;
-            float norm_angle =
-                glm::degrees(glm::angle(compare, target_norm));
+            float norm_angle = glm::degrees(glm::angle(compare, target_norm));
 
             if (norm_angle < tolerance) {
                 target_norm = compare;
@@ -145,8 +142,7 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
             sub_object->material->name =
                 "sub_materials_" + std::to_string(number);
-            sub_object->name =
-                mesh->name + "_seg_" + std::to_string(number++);
+            sub_object->name = mesh->name + "_seg_" + std::to_string(number++);
 
             result.push_back(sub_object);
         }
@@ -160,12 +156,11 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
         std::cout << "Spend : " << total_time << " ms (" << (ms / 1000.)
                   << " ms)" << std::endl;
     }
-    std::cout << "Check connectivity and Make triangle mesh done"
-              << std::endl;
+    std::cout << "Check connectivity and Make triangle mesh done" << std::endl;
 
     for (int i = 0; i < result.size(); i++) {
         result[i]->material->diffuse =
-            Color::get_color_from_jet(i, 0, result.size());
+            Color::get_color_from_jet((float)i, 0, (float)result.size());
         result[i]->material->ambient = glm::vec3(1.0f, 1.0f, 1.0f);
         result[i]->material->specular = glm::vec3(0.5f, 0.5f, 0.5f);
     }
