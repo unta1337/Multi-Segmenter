@@ -23,12 +23,12 @@ std::vector<TriangleMesh*> SerialSegmentor::do_segmentation() {
         glm::vec3 target_norm = facenormals[i];
 
         for (auto iter : count_map) {
-            glm::vec3 _compare = iter.first;
+            glm::vec3 compare = iter.first;
             float normAngle =
-                glm::degrees(glm::angle(_compare, target_norm));
+                glm::degrees(glm::angle(compare, target_norm));
 
             if (normAngle < tolerance) {
-                target_norm = _compare;
+                target_norm = compare;
                 break;
             }
         }
@@ -59,19 +59,19 @@ std::vector<TriangleMesh*> SerialSegmentor::do_segmentation() {
         glm::vec3 target_norm = facenormals[i];
 
         for (auto& iter : count_map) {
-            glm::vec3 _compare = iter.first;
+            glm::vec3 compare = iter.first;
             float norm_angle =
-                glm::degrees(glm::angle(_compare, target_norm));
+                glm::degrees(glm::angle(compare, target_norm));
 
             if (norm_angle < tolerance) {
-                target_norm = _compare;
+                target_norm = compare;
                 break;
             }
         }
 
-        auto indexs = count_map.find(target_norm);
+        auto indexes = count_map.find(target_norm);
 
-        indexs->second++;
+        indexes->second++;
     }
 
     for (auto& iter : count_map) {
@@ -111,14 +111,14 @@ std::vector<TriangleMesh*> SerialSegmentor::do_segmentation() {
         }
 
         auto item = my_map.find(target_norm);
-        auto indexs = count_map.find(target_norm);
+        auto indexes = count_map.find(target_norm);
 
         FaceGraph::Triangle tri;
         tri.vert[0] = mesh->vertex[mesh->index[i].x];
         tri.vert[1] = mesh->vertex[mesh->index[i].y];
         tri.vert[2] = mesh->vertex[mesh->index[i].z];
 
-        item->second[indexs->second++] = tri;
+        item->second[indexes->second++] = tri;
     }
 
     std::cout << "Normal map insert done total (" << my_map.size()

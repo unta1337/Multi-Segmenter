@@ -39,27 +39,27 @@ inline bool is_connected(Triangle a, Triangle b) {
     return (v > 1);
 }
 
-inline TriangleMesh* triangle_list_to_obj(std::vector<Triangle> __list) {
+inline TriangleMesh* triangle_list_to_obj(std::vector<Triangle> list) {
     TriangleMesh* sub_object = new TriangleMesh();
 
     Material* sub_mtl = new Material();
 
     std::unordered_map<glm::vec3, size_t, Vec3Hash> vertex_map;
-    sub_object->index.resize(__list.size());
+    sub_object->index.resize(list.size());
     size_t vert_idx = 1;
-    for (int i = 0; i < __list.size(); i++) {
+    for (int i = 0; i < list.size(); i++) {
         glm::ivec3 index;
         for (int j = 0; j < 3; j++) {
-            auto vertex_item = vertex_map.find(__list[i].vert[j]);
+            auto vertex_item = vertex_map.find(list[i].vert[j]);
 
             if (vertex_item != vertex_map.end()) {
                 index[j] = vertex_item->second;
             } else {
-                vertex_map.insert({__list[i].vert[j], vert_idx});
+                vertex_map.insert({list[i].vert[j], vert_idx});
                 index[j] = vert_idx++;
             }
             // auto vertIter = std::find(sub_object->vertex.begin(),
-            // sub_object->vertex.end(), __list[i].vert[j]);
+            // sub_object->vertex.end(), list[i].vert[j]);
 
             ////찾은경우
             // if (vertIter != sub_object->vertex.end()) {
@@ -67,7 +67,7 @@ inline TriangleMesh* triangle_list_to_obj(std::vector<Triangle> __list) {
             // }
             ////못찾은경우
             // else {
-            //     sub_object->vertex.push_back(__list[i].vert[j]);
+            //     sub_object->vertex.push_back(list[i].vert[j]);
             //     index[j] = sub_object->vertex.end() -
             //     sub_object->vertex.begin();
             // }

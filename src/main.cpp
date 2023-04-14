@@ -4,16 +4,16 @@
 #include <iostream>
 
 int main() {
-    Model tmp;
-    tmp.read_obj("assets/Cube_noised.obj");
+    Model model;
+    model.read_obj("assets/Cube_noised.obj");
 
-    std::cout << "Mesh 1 vertex size : " << tmp.meshes[0]->vertex.size()
+    std::cout << "Mesh 1 vertex size : " << model.meshes[0]->vertex.size()
               << std::endl;
-    std::cout << "Mesh 1 triangle size : " << tmp.meshes[0]->index.size()
+    std::cout << "Mesh 1 triangle size : " << model.meshes[0]->index.size()
               << std::endl;
 
-    SerialSegmentor segs(tmp.meshes[0], 15.f);
-    auto seg = segs.do_segmentation();
+    SerialSegmentor serial_segmentor(model.meshes[0], 15.f);
+    auto seg = serial_segmentor.do_segmentation();
 
     std::cout << "Segmentation result " << seg.size() << std::endl;
     for (auto& s : seg) {
