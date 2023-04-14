@@ -1,5 +1,5 @@
-﻿#ifndef __SEGMENTOR_H
-#define __SEGMENTOR_H
+﻿#ifndef __SEGMENTER_H
+#define __SEGMENTER_H
 
 #include "trianglemesh.hpp"
 #include <vector>

@@ -1,5 +1,5 @@
-﻿#ifndef __PARALLELSEGMENTOR_H
-#define __PARALLELSEGMENTOR_H
+﻿#ifndef __PARALLELSEGMENTER_H
+#define __PARALLELSEGMENTER_H
 
 #include "segmenter.hpp"
 #include "trianglemesh.hpp"

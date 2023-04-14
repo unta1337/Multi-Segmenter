@@ -1,5 +1,5 @@
-﻿#ifndef __SERIALSEGMENTOR_H
-#define __SERIALSEGMENTOR_H
+﻿#ifndef __SERIALSEGMENTER_H
+#define __SERIALSEGMENTER_H
 
 #include "color.hpp"
 #include "facegraph.h"
