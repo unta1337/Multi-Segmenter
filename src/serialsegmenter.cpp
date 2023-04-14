@@ -9,8 +9,8 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
 
     for (int i = 0; i < mesh->index.size(); i++) {
         face_normals[i] = glm::triangleNormal(mesh->vertex[mesh->index[i].x],
-                                             mesh->vertex[mesh->index[i].y],
-                                             mesh->vertex[mesh->index[i].z]);
+                                              mesh->vertex[mesh->index[i].y],
+                                              mesh->vertex[mesh->index[i].z]);
     }
 
     std::cout << "Normal vector compute done" << std::endl;
@@ -111,9 +111,9 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
         auto indexes = count_map.find(target_norm);
 
         FaceGraph::Triangle tri;
-        tri.vert[0] = mesh->vertex[mesh->index[i].x];
-        tri.vert[1] = mesh->vertex[mesh->index[i].y];
-        tri.vert[2] = mesh->vertex[mesh->index[i].z];
+        tri.vertex[0] = mesh->vertex[mesh->index[i].x];
+        tri.vertex[1] = mesh->vertex[mesh->index[i].y];
+        tri.vertex[2] = mesh->vertex[mesh->index[i].z];
 
         item->second[indexes->second++] = tri;
     }
