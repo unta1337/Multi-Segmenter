@@ -5,7 +5,7 @@
 
 namespace FaceGraph {
 typedef struct Triangle {
-    glm::vec3 vert[3];
+    glm::vec3 vertex[3];
 } Triangle;
 } // namespace FaceGraph
 

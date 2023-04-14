@@ -23,17 +23,17 @@ struct Vec3Hash {
 
 inline bool is_connected(Triangle a, Triangle b) {
     int v = 0;
-    if (glm::all(glm::equal(a.vert[0], b.vert[0])) ||
-        glm::all(glm::equal(a.vert[0], b.vert[1])) ||
-        glm::all(glm::equal(a.vert[0], b.vert[2])))
+    if (glm::all(glm::equal(a.vertex[0], b.vertex[0])) ||
+        glm::all(glm::equal(a.vertex[0], b.vertex[1])) ||
+        glm::all(glm::equal(a.vertex[0], b.vertex[2])))
         v++;
-    if (glm::all(glm::equal(a.vert[1], b.vert[0])) ||
-        glm::all(glm::equal(a.vert[1], b.vert[1])) ||
-        glm::all(glm::equal(a.vert[1], b.vert[2])))
+    if (glm::all(glm::equal(a.vertex[1], b.vertex[0])) ||
+        glm::all(glm::equal(a.vertex[1], b.vertex[1])) ||
+        glm::all(glm::equal(a.vertex[1], b.vertex[2])))
         v++;
-    if (glm::all(glm::equal(a.vert[2], b.vert[0])) ||
-        glm::all(glm::equal(a.vert[2], b.vert[1])) ||
-        glm::all(glm::equal(a.vert[2], b.vert[2])))
+    if (glm::all(glm::equal(a.vertex[2], b.vertex[0])) ||
+        glm::all(glm::equal(a.vertex[2], b.vertex[1])) ||
+        glm::all(glm::equal(a.vertex[2], b.vertex[2])))
         v++;
 
     return (v > 1);
@@ -50,16 +50,16 @@ inline TriangleMesh* triangle_list_to_obj(std::vector<Triangle> list) {
     for (int i = 0; i < list.size(); i++) {
         glm::ivec3 index;
         for (int j = 0; j < 3; j++) {
-            auto vertex_item = vertex_map.find(list[i].vert[j]);
+            auto vertex_item = vertex_map.find(list[i].vertex[j]);
 
             if (vertex_item != vertex_map.end()) {
                 index[j] = (int) vertex_item->second;
             } else {
-                vertex_map.insert({list[i].vert[j], vert_idx});
+                vertex_map.insert({list[i].vertex[j], vert_idx});
                 index[j] = (int) vert_idx++;
             }
             // auto vertIter = std::find(sub_object->vertex.begin(),
-            // sub_object->vertex.end(), list[i].vert[j]);
+            // sub_object->vertex.end(), list[i].vertex[j]);
 
             ////찾은경우
             // if (vertIter != sub_object->vertex.end()) {
@@ -67,7 +67,7 @@ inline TriangleMesh* triangle_list_to_obj(std::vector<Triangle> list) {
             // }
             ////못찾은경우
             // else {
-            //     sub_object->vertex.push_back(list[i].vert[j]);
+            //     sub_object->vertex.push_back(list[i].vertex[j]);
             //     index[j] = sub_object->vertex.end() -
             //     sub_object->vertex.begin();
             // }
