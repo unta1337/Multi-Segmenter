@@ -3,6 +3,7 @@
 
 #include "trianglemesh.hpp"
 #include <vector>
+
 class Segmentor {
   protected:
     TriangleMesh* mesh;

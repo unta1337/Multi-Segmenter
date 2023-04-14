@@ -1,5 +1,6 @@
 ﻿#ifndef __TRIANGLEMESH_H
 #define __TRIANGLEMESH_H
+
 #include "material.h"
 #include <glm/glm.hpp>
 #include <string>
