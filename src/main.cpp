@@ -1,5 +1,5 @@
 ﻿#include "model.hpp"
-#include "obj_utils.h"
+#include "objutils.h"
 #include "serialsegmentor.h"
 #include <iostream>
 
