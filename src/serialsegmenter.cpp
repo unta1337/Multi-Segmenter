@@ -1,10 +1,10 @@
-﻿#include "serialsegmentor.h"
+﻿#include "serialsegmenter.h"
 
-SerialSegmentor::SerialSegmentor(TriangleMesh* mesh, float tolerance)
-    : Segmentor(mesh, tolerance) {
+SerialSegmenter::SerialSegmenter(TriangleMesh* mesh, float tolerance)
+    : Segmenter(mesh, tolerance) {
 }
 
-std::vector<TriangleMesh*> SerialSegmentor::do_segmentation() {
+std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
     std::vector<glm::vec3> facenormals(mesh->index.size());
 
     for (int i = 0; i < mesh->index.size(); i++) {

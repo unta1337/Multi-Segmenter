@@ -1,6 +1,6 @@
 ﻿#include "model.hpp"
 #include "objutils.h"
-#include "serialsegmentor.h"
+#include "serialsegmenter.h"
 #include <iostream>
 
 int main() {
@@ -12,8 +12,8 @@ int main() {
     std::cout << "Mesh 1 triangle size : " << model.meshes[0]->index.size()
               << std::endl;
 
-    SerialSegmentor serial_segmentor(model.meshes[0], 15.f);
-    auto seg = serial_segmentor.do_segmentation();
+    SerialSegmenter serial_segmenter(model.meshes[0], 15.f);
+    auto seg = serial_segmenter.do_segmentation();
 
     std::cout << "Segmentation result " << seg.size() << std::endl;
     for (auto& s : seg) {

@@ -4,7 +4,7 @@
 #include "color.hpp"
 #include "facegraph.hpp"
 #include "model.hpp"
-#include "segmentor.hpp"
+#include "segmenter.hpp"
 #include "trianglemesh.hpp"
 #include <algorithm>
 #include <chrono>
@@ -18,9 +18,9 @@
 #include <unordered_map>
 #include <vector>
 
-class SerialSegmentor : public Segmentor {
+class SerialSegmenter : public Segmenter {
   public:
-    SerialSegmentor(TriangleMesh* mesh, float tolerance = 0.0f);
+    SerialSegmenter(TriangleMesh* mesh, float tolerance = 0.0f);
     virtual std::vector<TriangleMesh*> do_segmentation();
 };
 
