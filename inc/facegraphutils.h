@@ -53,10 +53,10 @@ inline TriangleMesh* triangle_list_to_obj(std::vector<Triangle> list) {
             auto vertex_item = vertex_map.find(list[i].vert[j]);
 
             if (vertex_item != vertex_map.end()) {
-                index[j] = vertex_item->second;
+                index[j] = (int) vertex_item->second;
             } else {
                 vertex_map.insert({list[i].vert[j], vert_idx});
-                index[j] = vert_idx++;
+                index[j] = (int) vert_idx++;
             }
             // auto vertIter = std::find(sub_object->vertex.begin(),
             // sub_object->vertex.end(), list[i].vert[j]);
