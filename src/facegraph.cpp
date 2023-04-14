@@ -7,7 +7,7 @@ FaceGraph::FaceGraph(std::vector<Triangle>* list) {
     std::unordered_map<glm::vec3, std::vector<int>, Vec3Hash> vertex_map;
     for (int i = 0; i < list->size(); i++) {
         for (int j = 0; j < 3; j++) {
-            glm::vec3 vertex = list->at(i).vert[j];
+            glm::vec3 vertex = list->at(i).vertex[j];
             vertex_map[vertex].push_back(i);
         }
     }
@@ -15,7 +15,7 @@ FaceGraph::FaceGraph(std::vector<Triangle>* list) {
     adj_list = std::vector<std::vector<int>>(list->size());
     for (int i = 0; i < list->size(); i++) {
         for (int j = 0; j < 3; j++) {
-            glm::vec3 vertex = list->at(i).vert[j];
+            glm::vec3 vertex = list->at(i).vertex[j];
             std::vector<int> adjacent_triangles = vertex_map[vertex];
             for (int k = 0; k < adjacent_triangles.size(); k++) {
                 int adjacent_triangle = adjacent_triangles[k];
