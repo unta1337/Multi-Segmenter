@@ -2,7 +2,7 @@
 #define __SERIALSEGMENTOR_H
 
 #include "color.hpp"
-#include "facegraph.hpp"
+#include "facegraph.h"
 #include "model.hpp"
 #include "segmenter.hpp"
 #include "trianglemesh.hpp"
