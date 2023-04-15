@@ -113,9 +113,9 @@ SerialFaceGraph에 대한 협력 다이어그램:</div>
 Public 멤버 함수</h2></td></tr>
 <tr class="memitem:a86e605d720d9f4b632dce75fe6500306"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_serial_face_graph.html#a86e605d720d9f4b632dce75fe6500306">SerialFaceGraph</a> (std::vector&lt; <a class="el" href="struct_triangle.html">Triangle</a> &gt; *list)</td></tr>
 <tr class="separator:a86e605d720d9f4b632dce75fe6500306"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a985f8d4edc774a1adda9b6e074340f42"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::vector&lt; <a class="el" href="struct_triangle.html">Triangle</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_serial_face_graph.html#a985f8d4edc774a1adda9b6e074340f42">check_connected</a> ()</td></tr>
-<tr class="memdesc:a985f8d4edc774a1adda9b6e074340f42"><td class="mdescLeft">&#160;</td><td class="mdescRight">인접 리스트에 있는 면을 인접한 면끼리 분류.  <a href="class_serial_face_graph.html#a985f8d4edc774a1adda9b6e074340f42">더 자세히 ...</a><br /></td></tr>
-<tr class="separator:a985f8d4edc774a1adda9b6e074340f42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84e0345d2436ad9b1a6320606b403c94"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::vector&lt; <a class="el" href="struct_triangle.html">Triangle</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_serial_face_graph.html#a84e0345d2436ad9b1a6320606b403c94">get_segments</a> ()</td></tr>
+<tr class="memdesc:a84e0345d2436ad9b1a6320606b403c94"><td class="mdescLeft">&#160;</td><td class="mdescRight">인접 리스트에 있는 면을 인접한 면끼리 분류.  <a href="class_serial_face_graph.html#a84e0345d2436ad9b1a6320606b403c94">더 자세히 ...</a><br /></td></tr>
+<tr class="separator:a84e0345d2436ad9b1a6320606b403c94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a4eb94112e060ea88349a2dd84b5f0d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_serial_face_graph.html#a1a4eb94112e060ea88349a2dd84b5f0d">traverse_dfs</a> (std::vector&lt; int &gt; &amp;visit, int start_vert, int count)</td></tr>
 <tr class="memdesc:a1a4eb94112e060ea88349a2dd84b5f0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">인접 리스트에 있는 면을 순회하며 인덱스 부여.  <a href="class_serial_face_graph.html#a1a4eb94112e060ea88349a2dd84b5f0d">더 자세히 ...</a><br /></td></tr>
 <tr class="separator:a1a4eb94112e060ea88349a2dd84b5f0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,8 +165,8 @@ Public 멤버 함수</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">멤버 함수 문서화</h2>
-<a id="a985f8d4edc774a1adda9b6e074340f42"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a985f8d4edc774a1adda9b6e074340f42">&#9670;&nbsp;</a></span>check_connected()</h2>
+<a id="a84e0345d2436ad9b1a6320606b403c94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84e0345d2436ad9b1a6320606b403c94">&#9670;&nbsp;</a></span>get_segments()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -175,7 +175,7 @@ Public 멤버 함수</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; std::vector&lt; <a class="el" href="struct_triangle.html">Triangle</a> &gt; &gt; SerialFaceGraph::check_connected </td>
+          <td class="memname">std::vector&lt; std::vector&lt; <a class="el" href="struct_triangle.html">Triangle</a> &gt; &gt; SerialFaceGraph::get_segments </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -191,24 +191,24 @@ Public 멤버 함수</h2></td></tr>
 <p>인접 리스트에 있는 면을 인접한 면끼리 분류. </p>
 <p>adj_list는 면의 법선 벡터를 기준으로 분류된 정보. 이를 다시 인접한 면끼리 분류하여 세그멘테이션 수행. </p><dl class="section return"><dt>반환값</dt><dd>인접한 면끼리 분류된 배열. </dd></dl>
 
-<p><a class="el" href="class_face_graph.html#a3aa29b55e0bd0a910361864a56dd3164">FaceGraph</a>를 구현.</p>
+<p><a class="el" href="class_face_graph.html#a67bcbb68888255acb526397cdc387f35">FaceGraph</a>를 구현.</p>
 
 <p class="definition"><a class="el" href="serialfacegraph_8cpp_source.html">serialfacegraph.cpp</a> 파일의 <a class="el" href="serialfacegraph_8cpp_source.html#l00036">36</a> 번째 라인에서 정의되었습니다.</p>
 <div class="dynheader">
 이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_serial_face_graph_a985f8d4edc774a1adda9b6e074340f42_cgraph.png" border="0" usemap="#aclass_serial_face_graph_a985f8d4edc774a1adda9b6e074340f42_cgraph" alt=""/></div>
-<map name="aclass_serial_face_graph_a985f8d4edc774a1adda9b6e074340f42_cgraph" id="aclass_serial_face_graph_a985f8d4edc774a1adda9b6e074340f42_cgraph">
-<area shape="rect" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="5,5,179,47"/>
-<area shape="rect" href="class_serial_face_graph.html#a1a4eb94112e060ea88349a2dd84b5f0d" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="227,13,443,39"/>
+<div class="center"><img src="class_serial_face_graph_a84e0345d2436ad9b1a6320606b403c94_cgraph.png" border="0" usemap="#aclass_serial_face_graph_a84e0345d2436ad9b1a6320606b403c94_cgraph" alt=""/></div>
+<map name="aclass_serial_face_graph_a84e0345d2436ad9b1a6320606b403c94_cgraph" id="aclass_serial_face_graph_a84e0345d2436ad9b1a6320606b403c94_cgraph">
+<area shape="rect" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="5,5,161,47"/>
+<area shape="rect" href="class_serial_face_graph.html#a1a4eb94112e060ea88349a2dd84b5f0d" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="209,13,425,39"/>
 </map>
 </div>
 <div class="dynheader">
 이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_serial_face_graph_a985f8d4edc774a1adda9b6e074340f42_icgraph.png" border="0" usemap="#aclass_serial_face_graph_a985f8d4edc774a1adda9b6e074340f42_icgraph" alt=""/></div>
-<map name="aclass_serial_face_graph_a985f8d4edc774a1adda9b6e074340f42_icgraph" id="aclass_serial_face_graph_a985f8d4edc774a1adda9b6e074340f42_icgraph">
-<area shape="rect" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="311,39,484,80"/>
+<div class="center"><img src="class_serial_face_graph_a84e0345d2436ad9b1a6320606b403c94_icgraph.png" border="0" usemap="#aclass_serial_face_graph_a84e0345d2436ad9b1a6320606b403c94_icgraph" alt=""/></div>
+<map name="aclass_serial_face_graph_a84e0345d2436ad9b1a6320606b403c94_icgraph" id="aclass_serial_face_graph_a84e0345d2436ad9b1a6320606b403c94_icgraph">
+<area shape="rect" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="311,39,467,80"/>
 <area shape="rect" href="class_original_segmenter.html#ab275d076428cbd8c59115d13ddbb94fa" title="세그멘테이션 수행." alt="" coords="109,5,261,47"/>
 <area shape="rect" href="class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e" title="세그멘테이션 수행." alt="" coords="108,71,263,112"/>
 <area shape="rect" href="src_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,78,60,105"/>
@@ -275,8 +275,8 @@ Public 멤버 함수</h2></td></tr>
 <div class="dyncontent">
 <div class="center"><img src="class_serial_face_graph_a1a4eb94112e060ea88349a2dd84b5f0d_icgraph.png" border="0" usemap="#aclass_serial_face_graph_a1a4eb94112e060ea88349a2dd84b5f0d_icgraph" alt=""/></div>
 <map name="aclass_serial_face_graph_a1a4eb94112e060ea88349a2dd84b5f0d_icgraph" id="aclass_serial_face_graph_a1a4eb94112e060ea88349a2dd84b5f0d_icgraph">
-<area shape="rect" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="532,46,748,73"/>
-<area shape="rect" href="class_serial_face_graph.html#a985f8d4edc774a1adda9b6e074340f42" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="311,39,484,80"/>
+<area shape="rect" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="515,46,731,73"/>
+<area shape="rect" href="class_serial_face_graph.html#a84e0345d2436ad9b1a6320606b403c94" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="311,39,467,80"/>
 <area shape="rect" href="class_original_segmenter.html#ab275d076428cbd8c59115d13ddbb94fa" title="세그멘테이션 수행." alt="" coords="109,5,261,47"/>
 <area shape="rect" href="class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e" title="세그멘테이션 수행." alt="" coords="108,71,263,112"/>
 <area shape="rect" href="src_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,78,60,105"/>

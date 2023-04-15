@@ -1,7 +1,7 @@
 <map id="OriginalSegmenter::do_segmentation" name="OriginalSegmenter::do_segmentation">
-<area shape="rect" id="node1" title="세그멘테이션 수행." alt="" coords="5,64,157,105"/>
-<area shape="rect" id="node2" href="$class_serial_face_graph.html#a985f8d4edc774a1adda9b6e074340f42" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="212,5,385,47"/>
-<area shape="rect" id="node4" href="$namespace_color.html#a63c419ad75758acc7b685dfb62bbf6d2" title=" " alt="" coords="205,71,392,98"/>
-<area shape="rect" id="node5" href="$facegraphutils_8h.html#af3ee9a8b50f8cf032310abb89ed48784" title=" " alt="" coords="225,122,372,149"/>
-<area shape="rect" id="node3" href="$class_serial_face_graph.html#a1a4eb94112e060ea88349a2dd84b5f0d" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="440,13,656,39"/>
+<area shape="rect" id="node1" title="세그멘테이션 수행." alt="" coords="5,57,157,98"/>
+<area shape="rect" id="node2" href="$namespace_color.html#a63c419ad75758acc7b685dfb62bbf6d2" title=" " alt="" coords="205,5,392,32"/>
+<area shape="rect" id="node3" href="$class_serial_face_graph.html#a84e0345d2436ad9b1a6320606b403c94" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="221,57,377,98"/>
+<area shape="rect" id="node5" href="$facegraphutils_8h.html#af3ee9a8b50f8cf032310abb89ed48784" title=" " alt="" coords="225,123,372,149"/>
+<area shape="rect" id="node4" href="$class_serial_face_graph.html#a1a4eb94112e060ea88349a2dd84b5f0d" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="440,64,656,91"/>
 </map>

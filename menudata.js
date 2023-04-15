@@ -36,10 +36,10 @@ var menudata={children:[
 {text:"클래스 멤버",url:"functions.html",children:[
 {text:"모두",url:"functions.html",children:[
 {text:"a",url:"functions.html#index_a"},
-{text:"c",url:"functions.html#index_c"},
 {text:"d",url:"functions.html#index_d"},
 {text:"e",url:"functions.html#index_e"},
 {text:"f",url:"functions.html#index_f"},
+{text:"g",url:"functions.html#index_g"},
 {text:"i",url:"functions.html#index_i"},
 {text:"m",url:"functions.html#index_m"},
 {text:"n",url:"functions.html#index_n"},

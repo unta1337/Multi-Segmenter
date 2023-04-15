@@ -109,9 +109,9 @@ FaceGraph에 대한 상속 다이어그램 : </div>
 Public 멤버 함수</h2></td></tr>
 <tr class="memitem:a09a3f698103ffe04965079d8b28bcba7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph.html#a09a3f698103ffe04965079d8b28bcba7">FaceGraph</a> (std::vector&lt; <a class="el" href="struct_triangle.html">Triangle</a> &gt; *<a class="el" href="class_face_graph.html#a673a9a5a0ee96331c71364204d599262">triangles</a>)</td></tr>
 <tr class="separator:a09a3f698103ffe04965079d8b28bcba7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3aa29b55e0bd0a910361864a56dd3164"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::vector&lt; <a class="el" href="struct_triangle.html">Triangle</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph.html#a3aa29b55e0bd0a910361864a56dd3164">check_connected</a> ()=0</td></tr>
-<tr class="memdesc:a3aa29b55e0bd0a910361864a56dd3164"><td class="mdescLeft">&#160;</td><td class="mdescRight">인접 리스트에 있는 면을 인접한 면끼리 분류.  <a href="class_face_graph.html#a3aa29b55e0bd0a910361864a56dd3164">더 자세히 ...</a><br /></td></tr>
-<tr class="separator:a3aa29b55e0bd0a910361864a56dd3164"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67bcbb68888255acb526397cdc387f35"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::vector&lt; <a class="el" href="struct_triangle.html">Triangle</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph.html#a67bcbb68888255acb526397cdc387f35">get_segments</a> ()=0</td></tr>
+<tr class="memdesc:a67bcbb68888255acb526397cdc387f35"><td class="mdescLeft">&#160;</td><td class="mdescRight">인접 리스트에 있는 면을 인접한 면끼리 분류.  <a href="class_face_graph.html#a67bcbb68888255acb526397cdc387f35">더 자세히 ...</a><br /></td></tr>
+<tr class="separator:a67bcbb68888255acb526397cdc387f35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f355a34195446a27b03f3f1af6738b9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph.html#a7f355a34195446a27b03f3f1af6738b9">traverse_dfs</a> (std::vector&lt; int &gt; &amp;visit, int start_vert, int count)=0</td></tr>
 <tr class="memdesc:a7f355a34195446a27b03f3f1af6738b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">인접 리스트에 있는 면을 순회하며 인덱스 부여.  <a href="class_face_graph.html#a7f355a34195446a27b03f3f1af6738b9">더 자세히 ...</a><br /></td></tr>
 <tr class="separator:a7f355a34195446a27b03f3f1af6738b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -157,8 +157,8 @@ Public 속성</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">멤버 함수 문서화</h2>
-<a id="a3aa29b55e0bd0a910361864a56dd3164"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3aa29b55e0bd0a910361864a56dd3164">&#9670;&nbsp;</a></span>check_connected()</h2>
+<a id="a67bcbb68888255acb526397cdc387f35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67bcbb68888255acb526397cdc387f35">&#9670;&nbsp;</a></span>get_segments()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -167,7 +167,7 @@ Public 속성</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::vector&lt;std::vector&lt;<a class="el" href="struct_triangle.html">Triangle</a>&gt; &gt; FaceGraph::check_connected </td>
+          <td class="memname">virtual std::vector&lt;std::vector&lt;<a class="el" href="struct_triangle.html">Triangle</a>&gt; &gt; FaceGraph::get_segments </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -183,7 +183,7 @@ Public 속성</h2></td></tr>
 <p>인접 리스트에 있는 면을 인접한 면끼리 분류. </p>
 <p>adj_list는 면의 법선 벡터를 기준으로 분류된 정보. 이를 다시 인접한 면끼리 분류하여 세그멘테이션 수행. </p><dl class="section return"><dt>반환값</dt><dd>인접한 면끼리 분류된 배열. </dd></dl>
 
-<p><a class="el" href="class_serial_face_graph.html#a985f8d4edc774a1adda9b6e074340f42">SerialFaceGraph</a>, <a class="el" href="class_parallel_face_graph.html#af28b50f4b9285428cd5c1b51230bdac8">ParallelFaceGraph</a>에서 구현되었습니다.</p>
+<p><a class="el" href="class_serial_face_graph.html#a84e0345d2436ad9b1a6320606b403c94">SerialFaceGraph</a>, <a class="el" href="class_parallel_face_graph.html#a84fc8f30e23495df7a8c8fd3dad43cb1">ParallelFaceGraph</a>에서 구현되었습니다.</p>
 
 </div>
 </div>
