@@ -1,4 +1,5 @@
 ﻿#include "originalsegmenter.h"
+#include "serialfacegraph.h"
 
 OriginalSegmenter::OriginalSegmenter(TriangleMesh* mesh, float tolerance)
     : Segmenter(mesh, tolerance) {
@@ -17,7 +18,7 @@ std::vector<TriangleMesh*> OriginalSegmenter::do_segmentation() {
 
     size_t count = face_normals.size();
 
-    std::unordered_map<glm::vec3, size_t, FaceGraph::Vec3Hash> count_map;
+    std::unordered_map<glm::vec3, size_t, Vec3Hash> count_map;
 
     for (int i = 0; i < count; i++) {
         glm::vec3 target_norm = face_normals[i];
@@ -40,19 +41,15 @@ std::vector<TriangleMesh*> OriginalSegmenter::do_segmentation() {
         count_map[target_norm]++;
     }
 
-    std::unordered_map<glm::vec3, std::vector<FaceGraph::Triangle>,
-                       FaceGraph::Vec3Hash>
-        my_map;
+    std::unordered_map<glm::vec3, std::vector<Triangle>, Vec3Hash> my_map;
     for (auto& iter : count_map) {
         // std::cout << "map["<< glm::to_string(iter.first) <<"] : " <<
         // iter.second << std::endl;
-        my_map.insert(
-            {iter.first, std::vector<FaceGraph::Triangle>(iter.second)});
+        my_map.insert({iter.first, std::vector<Triangle>(iter.second)});
         // std::cout << "check : " << my_map[iter.first].size() << std::endl;
         iter.second = 0;
     }
-    std::cout << "Map count complete (map size : " << count_map.size() << ")"
-              << std::endl;
+    std::cout << "Map count complete (map size : " << count_map.size() << ")" << std::endl;
 
     for (int i = 0; i < count; i++) {
         glm::vec3 target_norm = face_normals[i];
@@ -110,7 +107,7 @@ std::vector<TriangleMesh*> OriginalSegmenter::do_segmentation() {
         auto item = my_map.find(target_norm);
         auto indexes = count_map.find(target_norm);
 
-        FaceGraph::Triangle tri;
+        Triangle tri;
         tri.vertex[0] = mesh->vertex[mesh->index[i].x];
         tri.vertex[1] = mesh->vertex[mesh->index[i].y];
         tri.vertex[2] = mesh->vertex[mesh->index[i].z];
@@ -131,14 +128,13 @@ std::vector<TriangleMesh*> OriginalSegmenter::do_segmentation() {
         // " << iter.first.z << "] : "; std::cout << "Number of faces : " <<
         // iter.second.size() << std::endl;
 
-        FaceGraph::FaceGraph fg(&iter.second);
+        SerialFaceGraph fg(&iter.second);
         std::cout << "Face Graph done" << std::endl;
-        std::vector<std::vector<FaceGraph::Triangle>> temp =
-            fg.check_connected();
+        std::vector<std::vector<Triangle>> temp = fg.check_connected();
         std::cout << "Check connected done" << std::endl;
 
         for (auto subs : temp) {
-            TriangleMesh* sub_object = FaceGraph::triangle_list_to_obj(subs);
+            TriangleMesh* sub_object = triangle_list_to_obj(subs);
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
             sub_object->material->name =
                 "sub_materials_" + std::to_string(number);

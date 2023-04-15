@@ -1,13 +1,8 @@
-﻿#include "facegraph.h"
+﻿#include "serialfacegraph.h"
 
-// TODO: 직렬/병렬용 로직 분리 방법에 대해서 생각해 봐야 함 (클래스 or 함수명에 serial parallel 식별자 등)
-namespace FaceGraph {
-FaceGraph::FaceGraph(std::vector<Triangle>* list) {
-    triangles = list;
-
+SerialFaceGraph::SerialFaceGraph(std::vector<Triangle>* list) : FaceGraph(list) {
     // 정점 -> 정점과 인접한 삼각형 매핑.
-    std::unordered_map<glm::vec3, std::vector<int>, Vec3Hash>
-        vertex_adjacent_map;
+    std::unordered_map<glm::vec3, std::vector<int>, Vec3Hash> vertex_adjacent_map;
     for (int i = 0; i < list->size(); i++) {
         for (int j = 0; j < 3; j++) {
             glm::vec3 vertex = list->at(i).vertex[j];
@@ -30,8 +25,7 @@ FaceGraph::FaceGraph(std::vector<Triangle>* list) {
 
                 // 자기 자신이 아니고,
                 // 원래의 삼각형과도 맞닿아 있으면 인접 리스트에 추가.
-                if (i != adjacent_triangle &&
-                    is_connected(list->at(i), list->at(adjacent_triangle))) {
+                if (i != adjacent_triangle && is_connected(list->at(i), list->at(adjacent_triangle))) {
                     adj_triangles[i].push_back(adjacent_triangle);
                 }
             }
@@ -39,7 +33,7 @@ FaceGraph::FaceGraph(std::vector<Triangle>* list) {
     }
 }
 
-std::vector<std::vector<Triangle>> FaceGraph::check_connected() {
+std::vector<std::vector<Triangle>> SerialFaceGraph::check_connected() {
     std::vector<int> is_visit(adj_triangles.size());
     // 방문했다면 정점이 속한 그룹의 카운트 + 1.
 
@@ -59,8 +53,7 @@ std::vector<std::vector<Triangle>> FaceGraph::check_connected() {
     return component_list;
 }
 
-void FaceGraph::traverse_dfs(std::vector<int>& visit, int start_vert,
-                             int count) {
+void SerialFaceGraph::traverse_dfs(std::vector<int>& visit, int start_vert, int count) {
     std::stack<int> dfs_stack;
     dfs_stack.push(start_vert);
 
@@ -77,4 +70,3 @@ void FaceGraph::traverse_dfs(std::vector<int>& visit, int start_vert,
         }
     }
 }
-} // namespace FaceGraph

@@ -3,7 +3,6 @@
 
 #include "glm/vec3.hpp"
 
-namespace FaceGraph {
 /**
  * @brief 세 개의 정점으로 정의하는 삼각형 자료형.
  */
@@ -14,6 +13,5 @@ typedef struct Triangle {
      */
     glm::vec3 vertex[3];
 } Triangle;
-} // namespace FaceGraph
 
 #endif

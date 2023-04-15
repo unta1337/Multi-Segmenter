@@ -2,7 +2,7 @@
 #define __ORIGINALSEGMENTER_H
 
 #include "color.hpp"
-#include "facegraph.h"
+#include "facegraph.hpp"
 #include "model.h"
 #include "segmenter.hpp"
 #include "trianglemesh.hpp"

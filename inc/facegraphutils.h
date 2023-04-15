@@ -7,7 +7,6 @@
 #include <unordered_map>
 #include <vector>
 
-namespace FaceGraph {
 struct Vec3Hash {
     std::size_t operator()(const glm::vec3& v) const {
         // Use the std::hash function to hash the individual components of the
@@ -76,5 +75,4 @@ inline TriangleMesh* triangle_list_to_obj(const std::vector<Triangle>& list) {
 
     return sub_object;
 }
-} // namespace FaceGraph
 #endif

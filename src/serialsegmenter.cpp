@@ -1,12 +1,12 @@
 ﻿#include "serialsegmenter.h"
+#include "serialfacegraph.h"
 
 SerialSegmenter::SerialSegmenter(TriangleMesh* mesh, float tolerance)
     : Segmenter(mesh, tolerance) {
 }
 
-inline glm::vec3 SerialSegmenter::get_normal_key(
-    std::unordered_map<glm::vec3, size_t, FaceGraph::Vec3Hash>& count_map,
-    glm::vec3& normal) {
+inline glm::vec3 SerialSegmenter::get_normal_key(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map,
+                                                 glm::vec3& normal) {
     for (const auto& entry : count_map) {
         glm::vec3 compare = entry.first;
         float norm_angle = glm::degrees(glm::angle(compare, normal));
@@ -19,9 +19,8 @@ inline glm::vec3 SerialSegmenter::get_normal_key(
     return normal;
 }
 
-inline void SerialSegmenter::init_count_map(
-    std::unordered_map<glm::vec3, size_t, FaceGraph::Vec3Hash>& count_map,
-    std::vector<glm::vec3>& face_normals) {
+inline void SerialSegmenter::init_count_map(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map,
+                                            std::vector<glm::vec3>& face_normals) {
     for (auto& normal : face_normals) {
         count_map[get_normal_key(count_map, normal)]++;
     }
@@ -45,26 +44,22 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
 
     // 법선 벡터 -> 개수.
     // 특정 법선 벡터와 비슷한 방향성을 갖는 법선 벡터의 개수.
-    std::unordered_map<glm::vec3, size_t, FaceGraph::Vec3Hash> count_map;
+    std::unordered_map<glm::vec3, size_t, Vec3Hash> count_map;
     init_count_map(count_map, face_normals);
 
     // 법선 벡터 -> 삼각형(면).
     // 특정 법선 벡터와 비슷한 방향성을 갖는 벡터를 법선 벡터로 갖는 면.
-    std::unordered_map<glm::vec3, std::vector<FaceGraph::Triangle>,
-                       FaceGraph::Vec3Hash>
-        normal_triangle_list_map;
+    std::unordered_map<glm::vec3, std::vector<Triangle>, Vec3Hash> normal_triangle_list_map;
     for (const auto& entry : count_map) {
-        normal_triangle_list_map.insert(
-            {entry.first, std::vector<FaceGraph::Triangle>()});
+        normal_triangle_list_map.insert({entry.first, std::vector<Triangle>()});
     }
-    std::cout << "Map count complete (map size : " << count_map.size() << ")"
-              << std::endl;
+    std::cout << "Map count complete (map size : " << count_map.size() << ")" << std::endl;
 
     double total_time = 0.0;
     for (int i = 0; i < face_normals_count; i++) {
         glm::vec3 target_norm = get_normal_key(count_map, face_normals[i]);
 
-        FaceGraph::Triangle triangle;
+        Triangle triangle;
         glm::ivec3 indexes = mesh->index[i];
         for (int d = 0; d < 3; d++) {
             triangle.vertex[d] = mesh->vertex[indexes[d]];
@@ -81,14 +76,13 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
     for (auto iter : normal_triangle_list_map) {
         auto start_time = std::chrono::system_clock::now();
 
-        FaceGraph::FaceGraph fg(&iter.second);
+        SerialFaceGraph fg(&iter.second);
         std::cout << "Face Graph done" << std::endl;
-        std::vector<std::vector<FaceGraph::Triangle>> temp =
-            fg.check_connected();
+        std::vector<std::vector<Triangle>> temp = fg.check_connected();
         std::cout << "Check connected done" << std::endl;
 
         for (auto subs : temp) {
-            TriangleMesh* sub_object = FaceGraph::triangle_list_to_obj(subs);
+            TriangleMesh* sub_object = triangle_list_to_obj(subs);
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
             sub_object->material->name =
                 "sub_materials_" + std::to_string(number);

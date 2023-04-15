@@ -10,7 +10,6 @@
 #include <unordered_map>
 #include <vector>
 
-namespace FaceGraph {
 /**
  * @brief 삼각형에 대한 인접 리스트를 유지.
  */
@@ -25,7 +24,9 @@ class FaceGraph {
      */
     std::vector<Triangle>* triangles;
 
-    FaceGraph(std::vector<Triangle>* list);
+    FaceGraph(std::vector<Triangle>* triangles) {
+        this->triangles = triangles;
+    }
 
     /**
      * @brief 인접 리스트에 있는 면을 인접한 면끼리 분류.
@@ -33,7 +34,7 @@ class FaceGraph {
      * 이를 다시 인접한 면끼리 분류하여 세그멘테이션 수행.
      * @returns 인접한 면끼리 분류된 배열.
      */
-    std::vector<std::vector<Triangle>> check_connected();
+    virtual std::vector<std::vector<Triangle>> check_connected() = 0;
 
     /**
      * @brief 인접 리스트에 있는 면을 순회하며 인덱스 부여.
@@ -41,7 +42,6 @@ class FaceGraph {
      * @param start_vert 순회를 시작할 정점 인덱스.
      * @param count 순회할 정점에 부여될 인덱스.
      */
-    void traverse_dfs(std::vector<int>& visit, int start_vert, int count);
+    virtual void traverse_dfs(std::vector<int>& visit, int start_vert, int count) = 0;
 };
-} // namespace FaceGraph
 #endif
