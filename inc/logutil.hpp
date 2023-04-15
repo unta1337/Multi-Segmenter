@@ -6,15 +6,15 @@
 #include "dstimer.h"
 
 #ifdef DO_STEP_LOG
-void step_log(std::string message) { std::cout << message << "\n"; }
+#define STEP_LOG(expression) expression
 #else
-void step_log(std::string message) { }
+#define STEP_LOG(expression)
 #endif
 
 #ifdef DO_TIME_LOG
-void time_log(DS_timer& timer) { timer.printTimer(); }
+#define TIME_LOG(expression) expression
 #else
-void time_log(DS_timer& timer) { }
+#define TIME_LOG(expression)
 #endif
 
 #endif

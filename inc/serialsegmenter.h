@@ -3,11 +3,13 @@
 
 #include "color.hpp"
 #include "facegraph.hpp"
+#include "logutil.hpp"
 #include "model.h"
 #include "segmenter.hpp"
 #include "trianglemesh.hpp"
 #include <algorithm>
 #include <chrono>
+#include <format>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/normal.hpp>
 #include <glm/gtx/quaternion.hpp>
