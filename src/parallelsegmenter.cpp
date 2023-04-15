@@ -1,4 +1,4 @@
-#include "parallelsegmenter.h"
+﻿#include "parallelsegmenter.h"
 
 ParallelSegmenter::ParallelSegmenter(TriangleMesh* mesh, float tolerance)
     : Segmenter(mesh, tolerance) {

@@ -1,22 +1,11 @@
-﻿#include "model.hpp"
+﻿#include "model.h"
+#include "modelutils.hpp"
 
-int add_vertex(TriangleMesh* mesh, tinyobj::attrib_t& attributes,
-              const tinyobj::index_t& idx, std::map<int, int>& known_vertices) {
-    if (known_vertices.find(idx.vertex_index) != known_vertices.end())
-        return known_vertices[idx.vertex_index];
-
-    const glm::vec3* vertex_array =
-        (const glm::vec3*)attributes.vertices.data();
-    const glm::vec3* normal_array = (const glm::vec3*)attributes.normals.data();
-    const glm::vec2* texcoord_array =
-        (const glm::vec2*)attributes.texcoords.data();
-
-    int new_id = (int)mesh->vertex.size();
-    known_vertices[idx.vertex_index] = new_id;
-
-    mesh->vertex.push_back(vertex_array[idx.vertex_index]);
-
-    return new_id;
+Model::~Model() {
+    for (auto mesh : meshes)
+        delete mesh;
+    for (auto texture : textures)
+        delete texture;
 }
 
 void Model::read_obj(std::string obj_file_path) {
@@ -28,9 +17,10 @@ void Model::read_obj(std::string obj_file_path) {
     std::vector<tinyobj::material_t> materials;
     std::string err = "";
 
-    bool read_ok = tinyobj::LoadObj(&attributes, &shapes, &materials, &err, &err,
-                                   obj_file_path.c_str(), model_dir.c_str(),
-                                   /* triangulate */ true);
+    bool read_ok =
+        tinyobj::LoadObj(&attributes, &shapes, &materials, &err, &err,
+                         obj_file_path.c_str(), model_dir.c_str(),
+                         /* triangulate */ true);
     if (!read_ok) {
         throw std::runtime_error("Could not read OBJ model from " +
                                  obj_file_path + " : " + err);
@@ -55,9 +45,9 @@ void Model::read_obj(std::string obj_file_path) {
 
         for (int material_id : material_ids) {
             TriangleMesh* mesh = new TriangleMesh;
-            Material* mater = new Material;
+            Material* mat = new Material;
             mesh->name = shape.name;
-            mesh->material = mater;
+            mesh->material = mat;
 
             for (int face_id = 0; face_id < shape.mesh.material_ids.size();
                  face_id++) {

@@ -9,6 +9,14 @@
 // And also path must be write without extensions (.ply, .mtl)
 inline bool write_obj(std::vector<TriangleMesh*> meshes, std::string path,
                       bool is_one_file) {
+    // 참고:
+    // TriangleMesh 자체가 .obj 포맷으로 구성되어 있음.
+    // name: 각 부분의 명칭 -> "o cube_seg0"
+    // vertex: 정점 정보 -> "v 0.5 0.7 1.45"
+    // normal: 정점의 법선 벡터 -> 사용하지 않음.
+    // texcoord: 텍스쳐 매핑 -> 사용하지 않음.
+    // index: 그룹에 속한 면 정보 -> "f 153 29 598"
+    // material, materialTextureID: 재질 정보 -> "mtllib Segmented_cube.mtl"
 
     if (is_one_file) {
         std::ofstream mtl_file(path + ".mtl");

@@ -4,7 +4,7 @@ SerialSegmenter::SerialSegmenter(TriangleMesh* mesh, float tolerance)
     : Segmenter(mesh, tolerance) {
 }
 
-glm::vec3 SerialSegmenter::get_normal_key(
+inline glm::vec3 SerialSegmenter::get_normal_key(
     std::unordered_map<glm::vec3, size_t, FaceGraph::Vec3Hash>& count_map,
     glm::vec3& normal) {
     for (const auto& entry : count_map) {
@@ -19,7 +19,7 @@ glm::vec3 SerialSegmenter::get_normal_key(
     return normal;
 }
 
-void SerialSegmenter::init_count_map(
+inline void SerialSegmenter::init_count_map(
     std::unordered_map<glm::vec3, size_t, FaceGraph::Vec3Hash>& count_map,
     std::vector<glm::vec3>& face_normals) {
     for (auto& normal : face_normals) {
@@ -28,8 +28,10 @@ void SerialSegmenter::init_count_map(
 }
 
 std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
+    // obj에 포함된 면의 개수만큼 법선 벡터 계산 필요.
     std::vector<glm::vec3> face_normals(mesh->index.size());
 
+    // 오브젝트에 포함된 면에 대한 법선 벡터 계산.
     for (int i = 0; i < mesh->index.size(); i++) {
         glm::ivec3& index = mesh->index[i];
         face_normals[i] =
@@ -41,9 +43,13 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
 
     size_t face_normals_count = face_normals.size();
 
+    // 법선 벡터 -> 개수.
+    // 특정 법선 벡터와 비슷한 방향성을 갖는 법선 벡터의 개수.
     std::unordered_map<glm::vec3, size_t, FaceGraph::Vec3Hash> count_map;
     init_count_map(count_map, face_normals);
 
+    // 법선 벡터 -> 삼각형(면).
+    // 특정 법선 벡터와 비슷한 방향성을 갖는 벡터를 법선 벡터로 갖는 면.
     std::unordered_map<glm::vec3, std::vector<FaceGraph::Triangle>,
                        FaceGraph::Vec3Hash>
         normal_triangle_list_map;
@@ -67,8 +73,8 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
         normal_triangle_list_map[target_norm].push_back(triangle);
     }
 
-    std::cout << "Normal map insert done total (" << normal_triangle_list_map.size()
-              << ") size map" << std::endl;
+    std::cout << "Normal map insert done total ("
+              << normal_triangle_list_map.size() << ") size map" << std::endl;
 
     std::vector<TriangleMesh*> result;
     int number = 0;

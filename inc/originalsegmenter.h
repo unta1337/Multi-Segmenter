@@ -3,7 +3,7 @@
 
 #include "color.hpp"
 #include "facegraph.h"
-#include "model.hpp"
+#include "model.h"
 #include "segmenter.hpp"
 #include "trianglemesh.hpp"
 #include <algorithm>

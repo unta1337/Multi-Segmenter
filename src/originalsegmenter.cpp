@@ -9,8 +9,8 @@ std::vector<TriangleMesh*> OriginalSegmenter::do_segmentation() {
 
     for (int i = 0; i < mesh->index.size(); i++) {
         face_normals[i] = glm::triangleNormal(mesh->vertex[mesh->index[i].x],
-                                             mesh->vertex[mesh->index[i].y],
-                                             mesh->vertex[mesh->index[i].z]);
+                                              mesh->vertex[mesh->index[i].y],
+                                              mesh->vertex[mesh->index[i].z]);
     }
 
     std::cout << "Normal vector compute done" << std::endl;

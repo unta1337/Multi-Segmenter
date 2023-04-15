@@ -3,7 +3,7 @@
 
 #include "color.hpp"
 #include "facegraph.h"
-#include "model.hpp"
+#include "model.h"
 #include "segmenter.hpp"
 #include "trianglemesh.hpp"
 #include <algorithm>
@@ -24,11 +24,11 @@ class SerialSegmenter : public Segmenter {
     virtual std::vector<TriangleMesh*> do_segmentation();
 
   private:
-    glm::vec3 get_normal_key(
+    inline glm::vec3 get_normal_key(
         std::unordered_map<glm::vec3, size_t, FaceGraph::Vec3Hash>& count_map,
         glm::vec3& normal);
 
-    void init_count_map(
+    inline void init_count_map(
         std::unordered_map<glm::vec3, size_t, FaceGraph::Vec3Hash>& count_map,
         std::vector<glm::vec3>& face_normals);
 };
