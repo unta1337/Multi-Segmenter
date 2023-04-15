@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['originalsegmenter_90',['OriginalSegmenter',['../class_original_segmenter.html',1,'']]]
+  ['material_174',['Material',['../class_material.html',1,'']]],
+  ['model_175',['Model',['../struct_model.html',1,'']]]
 ];

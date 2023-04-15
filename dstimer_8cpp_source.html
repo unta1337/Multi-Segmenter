@@ -1,0 +1,461 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Multi-Segmenter: src/dstimer.cpp 소스 파일</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Multi-Segmenter
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 다음에 의해 생성됨 :  Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'검색','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','검색');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('dstimer_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">dstimer.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="dstimer_8cpp.html">이 파일의 문서화 페이지로 가기</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="dstimer_8h.html">dstimer.h</a>&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">//#ifndef _WIN32</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//#define fprintf_s fprintf</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">//void fopen_s(FILE** fp, char* name, char* mode)</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//{</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">//  *fp = fopen(name, mode);</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">//}</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">//#endif</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">/* Constructor &amp; Destructor                                             */</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#a71164ec2c484594338396672371523a3">   15</a></span>&#160;<a class="code" href="class_d_s__timer.html#a71164ec2c484594338396672371523a3">DS_timer::DS_timer</a>(<span class="keywordtype">int</span> _numTimer <span class="comment">/* =0 */</span>, <span class="keywordtype">int</span> _numCount <span class="comment">/* =0 */</span>, <span class="keywordtype">bool</span> _trunOn <span class="comment">/* =true */</span>){</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    turnOn = _trunOn ;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    start_ticks = NULL ; end_ticks = NULL ; totalTicks = NULL ;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    counters = NULL ;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    timerStates = NULL ;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    timerName = NULL ;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    numTimer = numCounter = 0 ;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">char</span> name[255] = <span class="stringliteral">&quot;DS_timer Report&quot;</span>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <a class="code" href="class_d_s__timer.html#a3743d3ae9b90a99a8813d866c93232aa">setTimerTitle</a>(name) ;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="class_d_s__timer.html#a0dcf18b726452e86349dd1c2a840ee21">setTimer</a>(_numTimer ) ;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="class_d_s__timer.html#a6c7ef25816212f7e5ca740540162bbd3">setCounter</a>( _numTimer ) ;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment">// For windows</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    QueryPerformanceFrequency(&amp;ticksPerSecond) ;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#abc831ea3703889b999e598fbfeee8a80">   36</a></span>&#160;<a class="code" href="class_d_s__timer.html#abc831ea3703889b999e598fbfeee8a80">DS_timer::~DS_timer</a>(<span class="keywordtype">void</span>){</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    releaseTimers() ;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    releaseCounters() ;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">/* Set &amp; Get configurations                                             */</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">// Memory allocation</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordtype">void</span> DS_timer::memAllocCounters( <span class="keywordtype">void</span> ) {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    releaseCounters() ;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    counters = <span class="keyword">new</span> <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a>[numCounter] ;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="class_d_s__timer.html#a9694ee37bb3dc05a722ca4310b6843ba">initCounters</a>() ;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keywordtype">void</span> DS_timer::memAllocTimers( <span class="keywordtype">void</span> ) {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    releaseTimers() ;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    timerStates = <span class="keyword">new</span> <span class="keywordtype">bool</span>[numTimer] ;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    start_ticks = <span class="keyword">new</span> <a class="code" href="dstimer_8h.html#ae144a2ca9947b96c18c5b54184e3e065">TIME_VAL</a>[numTimer];</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    end_ticks = <span class="keyword">new</span> <a class="code" href="dstimer_8h.html#ae144a2ca9947b96c18c5b54184e3e065">TIME_VAL</a>[numTimer];</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    totalTicks = <span class="keyword">new</span> <a class="code" href="dstimer_8h.html#ae144a2ca9947b96c18c5b54184e3e065">TIME_VAL</a>[numTimer];</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment">// Initialize</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    memset(timerStates, 0, <span class="keyword">sizeof</span>(<span class="keywordtype">bool</span>)*numTimer);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    memset(start_ticks, 0, <span class="keyword">sizeof</span>(<a class="code" href="dstimer_8h.html#ae144a2ca9947b96c18c5b54184e3e065">TIME_VAL</a>)*numTimer);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    memset(end_ticks, 0, <span class="keyword">sizeof</span>(<a class="code" href="dstimer_8h.html#ae144a2ca9947b96c18c5b54184e3e065">TIME_VAL</a>)*numTimer);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    memset(totalTicks, 0, <span class="keyword">sizeof</span>(<a class="code" href="dstimer_8h.html#ae144a2ca9947b96c18c5b54184e3e065">TIME_VAL</a>)*numTimer);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    timerName = <span class="keyword">new</span> std::string[numTimer] ;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">for</span> ( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> i = 0 ; i &lt; numTimer ; i++ ) {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        timerName[i].clear() ;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        timerName[i].resize(255) ;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">// Memory release</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keywordtype">void</span> DS_timer::releaseCounters( <span class="keywordtype">void</span> ) { <a class="code" href="dstimer_8h.html#a98396fab0514a285e63985bfca01507f">DS_MEM_DELETE_ARRAY</a>(counters) ; }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keywordtype">void</span> DS_timer::releaseTimers( <span class="keywordtype">void</span> ) {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment">//DS_MEM_DELETE(start_ticks) ; DS_MEM_DELETE(end_ticks) ; DS_MEM_DELETE(totalTicks) ;</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="dstimer_8h.html#a98396fab0514a285e63985bfca01507f">DS_MEM_DELETE_ARRAY</a>(timerStates) ;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <a class="code" href="dstimer_8h.html#a98396fab0514a285e63985bfca01507f">DS_MEM_DELETE_ARRAY</a>(start_ticks) ;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="dstimer_8h.html#a98396fab0514a285e63985bfca01507f">DS_MEM_DELETE_ARRAY</a>(end_ticks) ;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="dstimer_8h.html#a98396fab0514a285e63985bfca01507f">DS_MEM_DELETE_ARRAY</a>(totalTicks) ;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="dstimer_8h.html#a98396fab0514a285e63985bfca01507f">DS_MEM_DELETE_ARRAY</a>(timerName) ;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">// Getters</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#ae7e122c143809857702e80657c05e010">   85</a></span>&#160;<a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> <a class="code" href="class_d_s__timer.html#ae7e122c143809857702e80657c05e010">DS_timer::getNumTimer</a>( <span class="keywordtype">void</span> ) { <span class="keywordflow">return</span> numTimer ; }</div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#aaf0fbccdcb7d629e2d4178a36cedbb6b">   86</a></span>&#160;<a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> <a class="code" href="class_d_s__timer.html#aaf0fbccdcb7d629e2d4178a36cedbb6b">DS_timer::getNumCounter</a>( <span class="keywordtype">void</span> ) { <span class="keywordflow">return</span> numCounter ; }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">// Setters</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#a0dcf18b726452e86349dd1c2a840ee21">   89</a></span>&#160;<a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> <a class="code" href="class_d_s__timer.html#a0dcf18b726452e86349dd1c2a840ee21">DS_timer::setTimer</a>( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> _numTimer ) {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">if</span> ( _numTimer == 0 )</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">return</span> 0 ;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordflow">if</span> (_numTimer &lt;= numTimer)</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keywordflow">return</span> numTimer;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">if</span> ( numTimer != 0 ) {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="comment">// Backup</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> oldNumTimer = numTimer ;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <a class="code" href="dstimer_8h.html#ae144a2ca9947b96c18c5b54184e3e065">TIME_VAL</a> *oldTotalTicks = <span class="keyword">new</span> <a class="code" href="dstimer_8h.html#ae144a2ca9947b96c18c5b54184e3e065">TIME_VAL</a>[oldNumTimer];</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        memcpy(oldTotalTicks, totalTicks, <span class="keyword">sizeof</span>(<a class="code" href="dstimer_8h.html#ae144a2ca9947b96c18c5b54184e3e065">TIME_VAL</a>)*oldNumTimer);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        numTimer = _numTimer ;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        memAllocTimers() ;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        memcpy(totalTicks, oldTotalTicks, <span class="keyword">sizeof</span>(<a class="code" href="dstimer_8h.html#ae144a2ca9947b96c18c5b54184e3e065">TIME_VAL</a>)* oldNumTimer);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keyword">delete</span> oldTotalTicks ;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        numTimer = _numTimer ;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        memAllocTimers() ;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    }</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">return</span> _numTimer ;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#a6c7ef25816212f7e5ca740540162bbd3">  116</a></span>&#160;<a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> <a class="code" href="class_d_s__timer.html#a6c7ef25816212f7e5ca740540162bbd3">DS_timer::setCounter</a>( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> _numCounter ) {</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">if</span> (_numCounter == 0 )</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordflow">return</span> 0 ;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">if</span> (_numCounter &lt;= numCounter)</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="keywordflow">return</span> numCounter;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">if</span> ( numCounter != 0 ) {</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="comment">// Backup</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordtype">int</span> numOldCounter = numCounter ;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> *oldCounters = <span class="keyword">new</span> <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a>[numOldCounter] ;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        memcpy(oldCounters, counters, <span class="keyword">sizeof</span>(<a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a>)*numOldCounter) ;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        numCounter = _numCounter ;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        memAllocCounters() ;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="comment">// Restore</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        memcpy(counters, oldCounters, <span class="keyword">sizeof</span>(<a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a>)*numOldCounter) ;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="keyword">delete</span> oldCounters ;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        numCounter = _numCounter ;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        memAllocCounters() ;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    }</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordflow">return</span> numCounter ;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160; </div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;}</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="comment">/* Timer                                                                */</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#aa48b6a21d4dcc619d89d4f6400391940">  150</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_d_s__timer.html#aa48b6a21d4dcc619d89d4f6400391940">DS_timer::initTimer</a>( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> <span class="keywordtype">id</span> ) {</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    timerStates[id] = <a class="code" href="dstimer_8h.html#ad80273c8e5ead08517aeb0a4147c0cc0">TIMER_OFF</a> ;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    totalTicks[id].QuadPart = 0 ;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    totalTicks[id].tv_sec = 0;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    totalTicks[id].tv_usec = 0;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;}</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
+<div class="line"><a name="l00160"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#a4bfe682cdf9e8dfb0160dea92149b024">  160</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_d_s__timer.html#a4bfe682cdf9e8dfb0160dea92149b024">DS_timer::initTimers</a>( <span class="keywordtype">void</span> ) {</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordflow">for</span> ( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> i = 0 ; i &lt; numTimer ; i++ ) {</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <a class="code" href="class_d_s__timer.html#aa48b6a21d4dcc619d89d4f6400391940">initTimer</a>(i);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    }</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;}</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
+<div class="line"><a name="l00166"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0">  166</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0">DS_timer::onTimer</a>( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> <span class="keywordtype">id</span> ) {</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordflow">if</span> ( turnOn == <span class="keyword">false</span> )</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        return ;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keywordflow">if</span> ( timerStates[<span class="keywordtype">id</span>] == <a class="code" href="dstimer_8h.html#a23e3042b30e54262db5a843455dac6b2">TIMER_ON</a> )</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        return ;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    QueryPerformanceCounter(&amp;start_ticks[<span class="keywordtype">id</span>]) ;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    gettimeofday(&amp;start_ticks[<span class="keywordtype">id</span>], NULL);</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    timerStates[id] = <a class="code" href="dstimer_8h.html#a23e3042b30e54262db5a843455dac6b2">TIMER_ON</a> ;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;}</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160; </div>
+<div class="line"><a name="l00181"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca">  181</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca">DS_timer::offTimer</a>( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> <span class="keywordtype">id</span> ) {</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keywordflow">if</span> ( turnOn == <span class="keyword">false</span> )</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        return ;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="keywordflow">if</span> ( timerStates[<span class="keywordtype">id</span>] == <a class="code" href="dstimer_8h.html#ad80273c8e5ead08517aeb0a4147c0cc0">TIMER_OFF</a> )</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        return ;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    QueryPerformanceCounter(&amp;end_ticks[<span class="keywordtype">id</span>]) ;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    totalTicks[id].QuadPart = totalTicks[id].QuadPart + (end_ticks[id].QuadPart - start_ticks[id].QuadPart) ;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    gettimeofday(&amp;end_ticks[<span class="keywordtype">id</span>], NULL);</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <a class="code" href="dstimer_8h.html#ae144a2ca9947b96c18c5b54184e3e065">TIME_VAL</a> period, previous;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    timersub(&amp;end_ticks[<span class="keywordtype">id</span>], &amp;start_ticks[<span class="keywordtype">id</span>], &amp;period);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    previous = totalTicks[id];</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    timeradd(&amp;previous, &amp;period, &amp;totalTicks[<span class="keywordtype">id</span>]);</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160; </div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    timerStates[id] = <a class="code" href="dstimer_8h.html#ad80273c8e5ead08517aeb0a4147c0cc0">TIMER_OFF</a> ;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;}</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160; </div>
+<div class="line"><a name="l00202"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#a6f0e6e82ecd8c8d34949c81b7c5c8143">  202</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="class_d_s__timer.html#a6f0e6e82ecd8c8d34949c81b7c5c8143">DS_timer::getTimer_ms</a>( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> <span class="keywordtype">id</span> ) {</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="keywordflow">return</span> ((<span class="keywordtype">double</span>)totalTicks[<span class="keywordtype">id</span>].QuadPart/(<span class="keywordtype">double</span>)ticksPerSecond.QuadPart * 1000) ;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <span class="keywordflow">return</span> (<span class="keywordtype">double</span>)(totalTicks[id].tv_sec * 1000 + totalTicks[id].tv_usec / 1000.0);</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;}</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160; </div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="comment">/* Counter                                                              */</span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00213"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#a47fcb030d49b775da2b2460497a53e7c">  213</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_d_s__timer.html#a47fcb030d49b775da2b2460497a53e7c">DS_timer::incCounter</a>( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> <span class="keywordtype">id</span> ) {</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keywordflow">if</span> ( turnOn == <span class="keyword">false</span> )</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        return ;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160; </div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    counters[id]++ ;</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;}</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160; </div>
+<div class="line"><a name="l00220"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#a9694ee37bb3dc05a722ca4310b6843ba">  220</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_d_s__timer.html#a9694ee37bb3dc05a722ca4310b6843ba">DS_timer::initCounters</a>( <span class="keywordtype">void</span> ) {</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keywordflow">if</span> ( turnOn == <span class="keyword">false</span> )</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        return ;</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160; </div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keywordflow">for</span> ( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> i = 0 ; i &lt; numCounter ; i++ )</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        counters[i] = 0 ;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;}</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160; </div>
+<div class="line"><a name="l00228"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#a4b1c0167e7672ab608fe7ea09785df6e">  228</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_d_s__timer.html#a4b1c0167e7672ab608fe7ea09785df6e">DS_timer::initCounter</a>( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> <span class="keywordtype">id</span> ) {</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    <span class="keywordflow">if</span> ( turnOn == <span class="keyword">false</span> )</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        return ;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160; </div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    counters[id] = 0 ;</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;}</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160; </div>
+<div class="line"><a name="l00235"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#a221a24be18f8e21fd3f96246f6275540">  235</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_d_s__timer.html#a221a24be18f8e21fd3f96246f6275540">DS_timer::add2Counter</a>( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> <span class="keywordtype">id</span>, <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> num ) {</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    <span class="keywordflow">if</span> ( turnOn == <span class="keyword">false</span> )</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        return ;</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    counters[id] += num ;</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;}</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160; </div>
+<div class="line"><a name="l00242"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#adcf29dea4714ee4c32b7f5711a75ef08">  242</a></span>&#160;<a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> <a class="code" href="class_d_s__timer.html#adcf29dea4714ee4c32b7f5711a75ef08">DS_timer::getCounter</a>( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> <span class="keywordtype">id</span> ) {</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <span class="keywordflow">if</span> ( turnOn == <span class="keyword">false</span> )</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160; </div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <span class="keywordflow">return</span> counters[id] ;</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;}</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="comment">/*                                                                      */</span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00252"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#a99853e6082d53cc6c166be5df5d34c66">  252</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_d_s__timer.html#a99853e6082d53cc6c166be5df5d34c66">DS_timer::printTimer</a>( <span class="keywordtype">float</span> _denominator){</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160; </div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="keywordflow">if</span> ( turnOn == <span class="keyword">false</span> )</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        return ;</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160; </div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    <span class="comment">//printf(&quot;\numBins*\t DS_timer Report \t*\numBins&quot;) ;</span></div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    printf(<span class="stringliteral">&quot;\n*\t %s \t*\n&quot;</span>, timerTitle) ;</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    printf(<span class="stringliteral">&quot;* The number of timer = %d, counter = %d\n&quot;</span>, numTimer, numCounter ) ;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    printf(<span class="stringliteral">&quot;**** Timer report ****\n&quot;</span>) ;</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160; </div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    <span class="keywordflow">for</span> ( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> i = 0 ; i &lt; numTimer ; i++ ) {</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        <span class="comment">/*if ( getTimer_ms(i) == 0 )</span></div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="comment">            continue ;*/</span></div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        <span class="keywordflow">if</span> ( timerName[i].c_str()[0] == 0 )</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;            printf(<span class="stringliteral">&quot;Timer %d : %.5f ms (%.5f ms)\n&quot;</span>, i, <a class="code" href="class_d_s__timer.html#a6f0e6e82ecd8c8d34949c81b7c5c8143">getTimer_ms</a>(i)/_denominator, <a class="code" href="class_d_s__timer.html#a6f0e6e82ecd8c8d34949c81b7c5c8143">getTimer_ms</a>(i) ) ;</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;            printf(<span class="stringliteral">&quot;%s : %.5f ms (%.5f ms)\n&quot;</span>, timerName[i].c_str(), <a class="code" href="class_d_s__timer.html#a6f0e6e82ecd8c8d34949c81b7c5c8143">getTimer_ms</a>(i)/_denominator, <a class="code" href="class_d_s__timer.html#a6f0e6e82ecd8c8d34949c81b7c5c8143">getTimer_ms</a>(i) ) ;</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    }</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160; </div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    printf(<span class="stringliteral">&quot;**** Counter report ****\n&quot;</span>) ;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="keywordflow">for</span> ( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> i = 0 ; i &lt; numCounter ;i++ ) {</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        <span class="keywordflow">if</span> ( counters[i] == 0 )</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;            continue ;</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        printf(<span class="stringliteral">&quot;Counter %d : %.3f (%d) \n&quot;</span>,i, counters[i]/_denominator, counters[i] ) ;</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    }</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160; </div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    printf(<span class="stringliteral">&quot;*\t End of the report \t*\n&quot;</span>) ;</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;}</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
+<div class="line"><a name="l00281"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#a4407edd9db4a67daaf739a80792b88a5">  281</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_d_s__timer.html#a4407edd9db4a67daaf739a80792b88a5">DS_timer::printToFile</a>( <span class="keywordtype">char</span>* fileName, <span class="keywordtype">int</span> _id )</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;{</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <span class="keywordflow">if</span> ( turnOn == <span class="keyword">false</span> )</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        return ;</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160; </div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    FILE *fp ;</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160; </div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    <span class="keywordflow">if</span> ( fileName == NULL)</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;        <a class="code" href="dstimer_8h.html#a4862dbb7a498e311b97725aafffce231">fopen_s</a>(&amp;fp, <span class="stringliteral">&quot;DS_timer_report.txt&quot;</span>, <span class="stringliteral">&quot;a&quot;</span>) ;</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        <a class="code" href="dstimer_8h.html#a4862dbb7a498e311b97725aafffce231">fopen_s</a>(&amp;fp, fileName, <span class="stringliteral">&quot;a&quot;</span>) ;</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    }</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160; </div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    <span class="keywordflow">if</span> ( _id &gt;= 0 )</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        <a class="code" href="dstimer_8h.html#ab585170ee7f44400249814a0787014bc">fprintf_s</a>(fp,<span class="stringliteral">&quot;%d\t&quot;</span>, _id) ;</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160; </div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    <span class="keywordflow">for</span> ( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> i = 0 ; i &lt; numTimer ; i++ ) {</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;        <span class="keywordflow">if</span> ( <a class="code" href="class_d_s__timer.html#a6f0e6e82ecd8c8d34949c81b7c5c8143">getTimer_ms</a>(i) == 0 )</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;            continue ;</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;        <a class="code" href="dstimer_8h.html#ab585170ee7f44400249814a0787014bc">fprintf_s</a>(fp, <span class="stringliteral">&quot;%s: %.9f\n&quot;</span>, timerName[i].c_str(), <a class="code" href="class_d_s__timer.html#a6f0e6e82ecd8c8d34949c81b7c5c8143">getTimer_ms</a>(i) ) ;</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    }</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160; </div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    <span class="keywordflow">for</span> ( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> i = 0 ; i &lt; numCounter ;i++ ) {</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        <span class="keywordflow">if</span> ( counters[i] == 0 )</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;            continue ;</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        <a class="code" href="dstimer_8h.html#ab585170ee7f44400249814a0787014bc">fprintf_s</a>(fp, <span class="stringliteral">&quot;%s: %d\n&quot;</span>, timerName[i].c_str(), counters[i] ) ;</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    }</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160; </div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    <a class="code" href="dstimer_8h.html#ab585170ee7f44400249814a0787014bc">fprintf_s</a>(fp, <span class="stringliteral">&quot;\n&quot;</span>) ;</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160; </div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    fclose(fp) ;</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;}</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160; </div>
+<div class="line"><a name="l00314"></a><span class="lineno"><a class="line" href="class_d_s__timer.html#a0aa9f23045646fbb018c234ec40e2c58">  314</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_d_s__timer.html#a0aa9f23045646fbb018c234ec40e2c58">DS_timer::printTimerNameToFile</a>( <span class="keywordtype">char</span>* fileName )</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;{</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    <span class="keywordflow">if</span> ( turnOn == <span class="keyword">false</span> )</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        return ;</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160; </div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    FILE *fp ;</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160; </div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    <span class="keywordflow">if</span> ( fileName == NULL)</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        <a class="code" href="dstimer_8h.html#a4862dbb7a498e311b97725aafffce231">fopen_s</a>(&amp;fp, <span class="stringliteral">&quot;DS_timer_name.txt&quot;</span>, <span class="stringliteral">&quot;a&quot;</span>) ;</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        <a class="code" href="dstimer_8h.html#a4862dbb7a498e311b97725aafffce231">fopen_s</a>(&amp;fp, fileName, <span class="stringliteral">&quot;a&quot;</span>) ;</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    }</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160; </div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160; </div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    <span class="keywordflow">for</span> ( <a class="code" href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> i = 0 ; i &lt; numTimer ; i++ ) {</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        <span class="keywordflow">if</span> ( timerName[i].empty() )</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;            continue ;</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;        <a class="code" href="dstimer_8h.html#ab585170ee7f44400249814a0787014bc">fprintf_s</a>(fp, <span class="stringliteral">&quot;%s\t&quot;</span>, timerName[i].c_str() ) ;</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;    }</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    <a class="code" href="dstimer_8h.html#ab585170ee7f44400249814a0787014bc">fprintf_s</a>(fp, <span class="stringliteral">&quot;\n&quot;</span>) ;</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;    fclose(fp) ;</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;}</div>
+<div class="ttc" id="aclass_d_s__timer_html_a0aa9f23045646fbb018c234ec40e2c58"><div class="ttname"><a href="class_d_s__timer.html#a0aa9f23045646fbb018c234ec40e2c58">DS_timer::printTimerNameToFile</a></div><div class="ttdeci">void printTimerNameToFile(char *fileName)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00314">dstimer.cpp:314</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_a0dcf18b726452e86349dd1c2a840ee21"><div class="ttname"><a href="class_d_s__timer.html#a0dcf18b726452e86349dd1c2a840ee21">DS_timer::setTimer</a></div><div class="ttdeci">UINT setTimer(UINT _numTimer)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00089">dstimer.cpp:89</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_a221a24be18f8e21fd3f96246f6275540"><div class="ttname"><a href="class_d_s__timer.html#a221a24be18f8e21fd3f96246f6275540">DS_timer::add2Counter</a></div><div class="ttdeci">void add2Counter(UINT id, UINT num)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00235">dstimer.cpp:235</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_a3743d3ae9b90a99a8813d866c93232aa"><div class="ttname"><a href="class_d_s__timer.html#a3743d3ae9b90a99a8813d866c93232aa">DS_timer::setTimerTitle</a></div><div class="ttdeci">void setTimerTitle(char *_name)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8h_source.html#l00277">dstimer.h:277</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_a4407edd9db4a67daaf739a80792b88a5"><div class="ttname"><a href="class_d_s__timer.html#a4407edd9db4a67daaf739a80792b88a5">DS_timer::printToFile</a></div><div class="ttdeci">void printToFile(char *fileName, int _id=-1)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00281">dstimer.cpp:281</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_a47fcb030d49b775da2b2460497a53e7c"><div class="ttname"><a href="class_d_s__timer.html#a47fcb030d49b775da2b2460497a53e7c">DS_timer::incCounter</a></div><div class="ttdeci">void incCounter(UINT id)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00213">dstimer.cpp:213</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_a4b1c0167e7672ab608fe7ea09785df6e"><div class="ttname"><a href="class_d_s__timer.html#a4b1c0167e7672ab608fe7ea09785df6e">DS_timer::initCounter</a></div><div class="ttdeci">void initCounter(UINT id)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00228">dstimer.cpp:228</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_a4bfe682cdf9e8dfb0160dea92149b024"><div class="ttname"><a href="class_d_s__timer.html#a4bfe682cdf9e8dfb0160dea92149b024">DS_timer::initTimers</a></div><div class="ttdeci">void initTimers(void)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00160">dstimer.cpp:160</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_a6c7ef25816212f7e5ca740540162bbd3"><div class="ttname"><a href="class_d_s__timer.html#a6c7ef25816212f7e5ca740540162bbd3">DS_timer::setCounter</a></div><div class="ttdeci">UINT setCounter(UINT _numCounter)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00116">dstimer.cpp:116</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_a6f0e6e82ecd8c8d34949c81b7c5c8143"><div class="ttname"><a href="class_d_s__timer.html#a6f0e6e82ecd8c8d34949c81b7c5c8143">DS_timer::getTimer_ms</a></div><div class="ttdeci">double getTimer_ms(UINT id)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00202">dstimer.cpp:202</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_a71164ec2c484594338396672371523a3"><div class="ttname"><a href="class_d_s__timer.html#a71164ec2c484594338396672371523a3">DS_timer::DS_timer</a></div><div class="ttdeci">DS_timer(int _numTimer=1, int _numCount=1, bool _trunOn=true)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00015">dstimer.cpp:15</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_a7dbede6331a22f58fae49f413db4b7e0"><div class="ttname"><a href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0">DS_timer::onTimer</a></div><div class="ttdeci">void onTimer(UINT id)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00166">dstimer.cpp:166</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_a9694ee37bb3dc05a722ca4310b6843ba"><div class="ttname"><a href="class_d_s__timer.html#a9694ee37bb3dc05a722ca4310b6843ba">DS_timer::initCounters</a></div><div class="ttdeci">void initCounters(void)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00220">dstimer.cpp:220</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_a99853e6082d53cc6c166be5df5d34c66"><div class="ttname"><a href="class_d_s__timer.html#a99853e6082d53cc6c166be5df5d34c66">DS_timer::printTimer</a></div><div class="ttdeci">void printTimer(float _denominator=1)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00252">dstimer.cpp:252</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_aa48b6a21d4dcc619d89d4f6400391940"><div class="ttname"><a href="class_d_s__timer.html#aa48b6a21d4dcc619d89d4f6400391940">DS_timer::initTimer</a></div><div class="ttdeci">void initTimer(UINT id)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00150">dstimer.cpp:150</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_aaf0fbccdcb7d629e2d4178a36cedbb6b"><div class="ttname"><a href="class_d_s__timer.html#aaf0fbccdcb7d629e2d4178a36cedbb6b">DS_timer::getNumCounter</a></div><div class="ttdeci">UINT getNumCounter(void)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00086">dstimer.cpp:86</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_abc831ea3703889b999e598fbfeee8a80"><div class="ttname"><a href="class_d_s__timer.html#abc831ea3703889b999e598fbfeee8a80">DS_timer::~DS_timer</a></div><div class="ttdeci">~DS_timer(void)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00036">dstimer.cpp:36</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_ad70ada9cf08b890d81ec0568134860ca"><div class="ttname"><a href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca">DS_timer::offTimer</a></div><div class="ttdeci">void offTimer(UINT id)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00181">dstimer.cpp:181</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_adcf29dea4714ee4c32b7f5711a75ef08"><div class="ttname"><a href="class_d_s__timer.html#adcf29dea4714ee4c32b7f5711a75ef08">DS_timer::getCounter</a></div><div class="ttdeci">UINT getCounter(UINT id)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00242">dstimer.cpp:242</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_ae7e122c143809857702e80657c05e010"><div class="ttname"><a href="class_d_s__timer.html#ae7e122c143809857702e80657c05e010">DS_timer::getNumTimer</a></div><div class="ttdeci">UINT getNumTimer(void)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00085">dstimer.cpp:85</a></div></div>
+<div class="ttc" id="adstimer_8h_html"><div class="ttname"><a href="dstimer_8h.html">dstimer.h</a></div></div>
+<div class="ttc" id="adstimer_8h_html_a23e3042b30e54262db5a843455dac6b2"><div class="ttname"><a href="dstimer_8h.html#a23e3042b30e54262db5a843455dac6b2">TIMER_ON</a></div><div class="ttdeci">#define TIMER_ON</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8h_source.html#l00226">dstimer.h:226</a></div></div>
+<div class="ttc" id="adstimer_8h_html_a36cb3b01d81ffd844bbbfb54003e06ec"><div class="ttname"><a href="dstimer_8h.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a></div><div class="ttdeci">unsigned int UINT</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8h_source.html#l00068">dstimer.h:68</a></div></div>
+<div class="ttc" id="adstimer_8h_html_a4862dbb7a498e311b97725aafffce231"><div class="ttname"><a href="dstimer_8h.html#a4862dbb7a498e311b97725aafffce231">fopen_s</a></div><div class="ttdeci">#define fopen_s(fp, name, mode)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8h_source.html#l00050">dstimer.h:50</a></div></div>
+<div class="ttc" id="adstimer_8h_html_a98396fab0514a285e63985bfca01507f"><div class="ttname"><a href="dstimer_8h.html#a98396fab0514a285e63985bfca01507f">DS_MEM_DELETE_ARRAY</a></div><div class="ttdeci">#define DS_MEM_DELETE_ARRAY(a)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8h_source.html#l00079">dstimer.h:79</a></div></div>
+<div class="ttc" id="adstimer_8h_html_ab585170ee7f44400249814a0787014bc"><div class="ttname"><a href="dstimer_8h.html#ab585170ee7f44400249814a0787014bc">fprintf_s</a></div><div class="ttdeci">#define fprintf_s</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8h_source.html#l00046">dstimer.h:46</a></div></div>
+<div class="ttc" id="adstimer_8h_html_ad80273c8e5ead08517aeb0a4147c0cc0"><div class="ttname"><a href="dstimer_8h.html#ad80273c8e5ead08517aeb0a4147c0cc0">TIMER_OFF</a></div><div class="ttdeci">#define TIMER_OFF</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8h_source.html#l00227">dstimer.h:227</a></div></div>
+<div class="ttc" id="adstimer_8h_html_ae144a2ca9947b96c18c5b54184e3e065"><div class="ttname"><a href="dstimer_8h.html#ae144a2ca9947b96c18c5b54184e3e065">TIME_VAL</a></div><div class="ttdeci">struct timeval TIME_VAL</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8h_source.html#l00210">dstimer.h:223</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dstimer_8cpp.html">dstimer.cpp</a></li>
+    <li class="footer">다음에 의해 생성됨 :  <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

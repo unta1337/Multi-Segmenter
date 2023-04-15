@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['material_163',['material',['../class_triangle_mesh.html#a1ae3f69873b401e058d739fbc6be2e5d',1,'TriangleMesh']]],
-  ['material_5ftexture_5fid_164',['material_texture_id',['../class_triangle_mesh.html#ab438b473a0aaed99bd6bd03c2d7ea50f',1,'TriangleMesh']]],
-  ['mesh_165',['mesh',['../class_segmenter.html#af70ce8086c5555cd761b5bb17f4655b4',1,'Segmenter']]],
-  ['meshes_166',['meshes',['../struct_model.html#a205a97a1dfd9e39aaa71021359b7baef',1,'Model']]]
+  ['illumination_5fmodel_280',['illumination_model',['../class_material.html#ae907b3e1467955f669463eb0d6c0f58e',1,'Material']]],
+  ['index_281',['index',['../class_triangle_mesh.html#a5ac8e98e942a168d215a86d3cef45cdc',1,'TriangleMesh']]],
+  ['input_282',['input',['../structname_match.html#a150f7c281e80636fe357e92ad3cdcd5a',1,'nameMatch']]]
 ];

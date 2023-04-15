@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['cmake_5fminimum_5frequired_3',['cmake_minimum_required',['../_c_make_lists_8txt.html#a50387a12093e859192fbf83ecd776b5e',1,'CMakeLists.txt']]],
-  ['cmakelists_2etxt_4',['CMakeLists.txt',['../_c_make_lists_8txt.html',1,'']]],
-  ['color_5',['Color',['../namespace_color.html',1,'']]],
-  ['color_2ehpp_6',['color.hpp',['../color_8hpp.html',1,'']]],
-  ['consoleutils_2eh_7',['consoleutils.h',['../consoleutils_8h.html',1,'']]]
+  ['add2counter_6',['add2Counter',['../class_d_s__timer.html#a221a24be18f8e21fd3f96246f6275540',1,'DS_timer']]],
+  ['add_5fvertex_7',['add_vertex',['../modelutils_8hpp.html#a6e27044316dfa8ead81ff31aa71f2392',1,'modelutils.hpp']]],
+  ['adj_5ftriangles_8',['adj_triangles',['../class_face_graph.html#aaf4f97b76e425612557c564eda941c8e',1,'FaceGraph']]],
+  ['allocninitmem_9',['allocNinitMem',['../dstimer_8h.html#a993155ca2fc177dd7b167f21db889f65',1,'dstimer.h']]],
+  ['ambient_10',['ambient',['../class_material.html#af99c823542e497c98a35d1aac5fc9012',1,'Material']]]
 ];

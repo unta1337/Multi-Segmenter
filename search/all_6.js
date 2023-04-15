@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['illumination_5fmodel_17',['illumination_model',['../class_material.html#ae907b3e1467955f669463eb0d6c0f58e',1,'Material']]],
-  ['index_18',['index',['../class_triangle_mesh.html#a5ac8e98e942a168d215a86d3cef45cdc',1,'TriangleMesh']]],
-  ['init_5fconsole_19',['INIT_CONSOLE',['../consoleutils_8h.html#afd96c84e8a8852e762ebc070825be7c7',1,'consoleutils.h']]],
-  ['initconsole_20',['initConsole',['../consoleutils_8h.html#ad24f8543a0732778c17a49774424ab41',1,'consoleutils.h']]],
-  ['is_5fconnected_21',['is_connected',['../facegraphutils_8h.html#a4bb6b74466eb8a16cda72725de76bb1b',1,'facegraphutils.h']]]
+  ['get_5fcolor_5ffrom_5fjet_37',['get_color_from_jet',['../namespace_color.html#a63c419ad75758acc7b685dfb62bbf6d2',1,'Color']]],
+  ['get_5fsegments_38',['get_segments',['../class_face_graph.html#a67bcbb68888255acb526397cdc387f35',1,'FaceGraph::get_segments()'],['../class_parallel_face_graph.html#a84fc8f30e23495df7a8c8fd3dad43cb1',1,'ParallelFaceGraph::get_segments()'],['../class_serial_face_graph.html#a84e0345d2436ad9b1a6320606b403c94',1,'SerialFaceGraph::get_segments()']]],
+  ['getcounter_39',['getCounter',['../class_d_s__timer.html#adcf29dea4714ee4c32b7f5711a75ef08',1,'DS_timer']]],
+  ['getnumcounter_40',['getNumCounter',['../class_d_s__timer.html#aaf0fbccdcb7d629e2d4178a36cedbb6b',1,'DS_timer']]],
+  ['getnumtimer_41',['getNumTimer',['../class_d_s__timer.html#ae7e122c143809857702e80657c05e010',1,'DS_timer']]],
+  ['gettimer_5fms_42',['getTimer_ms',['../class_d_s__timer.html#a6f0e6e82ecd8c8d34949c81b7c5c8143',1,'DS_timer']]]
 ];

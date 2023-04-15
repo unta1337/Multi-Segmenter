@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['vertex_177',['vertex',['../struct_triangle.html#ab471d5577eb0d4bfe79edc8d6813a8d3',1,'Triangle::vertex()'],['../class_triangle_mesh.html#a3bbd116b4f498879d8e28ebc3349401d',1,'TriangleMesh::vertex()']]]
+  ['shininess_292',['shininess',['../class_material.html#a9dc184c883ec135ace28c1917af3fe84',1,'Material']]],
+  ['specular_293',['specular',['../class_material.html#aac1c499923ff99564cdd97a4b5e504a9',1,'Material']]]
 ];

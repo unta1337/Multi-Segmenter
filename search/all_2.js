@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['diffuse_8',['diffuse',['../class_material.html#a099904e2f5a7bbec3cba6bf8ec546b11',1,'Material']]],
-  ['dissolve_9',['dissolve',['../class_material.html#a250ec8f3999c76f2977954fc31e99c07',1,'Material']]],
-  ['do_5fsegmentation_10',['do_segmentation',['../class_original_segmenter.html#ab275d076428cbd8c59115d13ddbb94fa',1,'OriginalSegmenter::do_segmentation()'],['../class_parallel_segmenter.html#a30f2e417a8656119ce7f8f9e9e50e9f9',1,'ParallelSegmenter::do_segmentation()'],['../class_segmenter.html#a553a7c299bfd1d6595b57d0d328f77a4',1,'Segmenter::do_segmentation()'],['../class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e',1,'SerialSegmenter::do_segmentation()']]]
+  ['char_5fstring_5fsize_11',['CHAR_STRING_SIZE',['../dstimer_8h.html#a90be576399d400d484c9140ccde09949',1,'dstimer.h']]],
+  ['cmake_5fminimum_5frequired_12',['cmake_minimum_required',['../_c_make_lists_8txt.html#a50387a12093e859192fbf83ecd776b5e',1,'CMakeLists.txt']]],
+  ['cmakelists_2etxt_13',['CMakeLists.txt',['../_c_make_lists_8txt.html',1,'']]],
+  ['color_14',['Color',['../namespace_color.html',1,'']]],
+  ['color_2ehpp_15',['color.hpp',['../color_8hpp.html',1,'']]],
+  ['consoleutils_2eh_16',['consoleutils.h',['../consoleutils_8h.html',1,'']]]
 ];

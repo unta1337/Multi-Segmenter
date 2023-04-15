@@ -1,10 +1,7 @@
 var searchData=
 [
-  ['parallelfacegraph_42',['ParallelFaceGraph',['../class_parallel_face_graph.html',1,'ParallelFaceGraph'],['../class_parallel_face_graph.html#ab11f742819834d66c45a16c56338265b',1,'ParallelFaceGraph::ParallelFaceGraph()']]],
-  ['parallelfacegraph_2ecpp_43',['parallelfacegraph.cpp',['../parallelfacegraph_8cpp.html',1,'']]],
-  ['parallelfacegraph_2eh_44',['parallelfacegraph.h',['../parallelfacegraph_8h.html',1,'']]],
-  ['parallelsegmenter_45',['ParallelSegmenter',['../class_parallel_segmenter.html',1,'ParallelSegmenter'],['../class_parallel_segmenter.html#add2a29122ba88ab93f729573a7814e24',1,'ParallelSegmenter::ParallelSegmenter()']]],
-  ['parallelsegmenter_2ecpp_46',['parallelsegmenter.cpp',['../parallelsegmenter_8cpp.html',1,'']]],
-  ['parallelsegmenter_2eh_47',['parallelsegmenter.h',['../parallelsegmenter_8h.html',1,'']]],
-  ['pixel_48',['pixel',['../struct_texture.html#a34d6de3c4dff559a1adad442604c4c48',1,'Texture']]]
+  ['name_82',['name',['../class_material.html#affe06990f884293d0fe2f39110f71730',1,'Material::name()'],['../class_triangle_mesh.html#ae42971a3f0133ff6a0442f0bcbfa3226',1,'TriangleMesh::name()']]],
+  ['namematch_83',['nameMatch',['../structname_match.html',1,'']]],
+  ['normal_84',['normal',['../class_triangle_mesh.html#a2f6fc95f5fd415dbf76d355bddb5c7a2',1,'TriangleMesh']]],
+  ['nullptr_85',['nullptr',['../dstimer_8h.html#ab979d9d4b4923f7c54d6caa6e1a61936',1,'dstimer.h']]]
 ];

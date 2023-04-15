@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['texture_96',['Texture',['../struct_texture.html',1,'']]],
-  ['triangle_97',['Triangle',['../struct_triangle.html',1,'']]],
-  ['trianglemesh_98',['TriangleMesh',['../class_triangle_mesh.html',1,'']]]
+  ['parallelfacegraph_178',['ParallelFaceGraph',['../class_parallel_face_graph.html',1,'']]],
+  ['parallelsegmenter_179',['ParallelSegmenter',['../class_parallel_segmenter.html',1,'']]]
 ];
