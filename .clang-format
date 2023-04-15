@@ -5,5 +5,5 @@ AllowShortFunctionsOnASingleLine: None
 DerivePointerAlignment: 'false'
 IndentWidth: '4'
 PointerAlignment: Left
-
+ColumnLimit: 120
 ...
