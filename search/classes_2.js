@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['facegraph_210',['FaceGraph',['../class_face_graph_1_1_face_graph.html',1,'FaceGraph']]]
+  ['material_89',['Material',['../class_material.html',1,'']]],
+  ['model_90',['Model',['../struct_model.html',1,'']]]
 ];

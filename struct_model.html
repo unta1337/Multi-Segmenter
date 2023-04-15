@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Multi-Segmentor: Model 구조체 참조</title>
+<title>Multi-Segmenter: Model 구조체 참조</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Multi-Segmentor
+   <div id="projectname">Multi-Segmenter
    </div>
   </td>
  </tr>
@@ -90,14 +90,18 @@ $(document).ready(function(){initNavTree('struct_model.html',''); initResizable(
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="_model_8h_source.html">Model.h</a>&gt;</code></p>
+<p>하나의 .obj 파일을 저장하는 내부 자료형.  
+ <a href="struct_model.html#details">더 자세히 ...</a></p>
+
+<p><code>#include &lt;<a class="el" href="model_8h_source.html">model.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public 멤버 함수</h2></td></tr>
 <tr class="memitem:ad6ebd2062a0b823db841a0b88baac4c0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_model.html#ad6ebd2062a0b823db841a0b88baac4c0">~Model</a> ()</td></tr>
 <tr class="separator:ad6ebd2062a0b823db841a0b88baac4c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6926e0cbe707f49934a8a286a6a55962"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_model.html#a6926e0cbe707f49934a8a286a6a55962">readOBJ</a> (std::string objFilePath)</td></tr>
-<tr class="separator:a6926e0cbe707f49934a8a286a6a55962"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dee6172f89b27a20de52a8c835e5fe7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_model.html#a1dee6172f89b27a20de52a8c835e5fe7">read_obj</a> (std::string obj_file_path)</td></tr>
+<tr class="memdesc:a1dee6172f89b27a20de52a8c835e5fe7"><td class="mdescLeft">&#160;</td><td class="mdescRight">경로에 있는 .obj 파일 로드.  <a href="struct_model.html#a1dee6172f89b27a20de52a8c835e5fe7">더 자세히 ...</a><br /></td></tr>
+<tr class="separator:a1dee6172f89b27a20de52a8c835e5fe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public 속성</h2></td></tr>
@@ -107,17 +111,15 @@ Public 속성</h2></td></tr>
 <tr class="separator:a72326328feb6ed3dd979200982502969"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">상세한 설명</h2>
-<div class="textblock">
-<p class="definition"><a class="el" href="_model_8h_source.html">Model.h</a> 파일의 <a class="el" href="_model_8h_source.html#l00044">44</a> 번째 라인에서 정의되었습니다.</p>
+<div class="textblock"><p>하나의 .obj 파일을 저장하는 내부 자료형. </p>
+
+<p class="definition"><a class="el" href="model_8h_source.html">model.h</a> 파일의 <a class="el" href="model_8h_source.html#l00017">17</a> 번째 라인에서 정의되었습니다.</p>
 </div><h2 class="groupheader">생성자 &amp; 소멸자 문서화</h2>
 <a id="ad6ebd2062a0b823db841a0b88baac4c0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad6ebd2062a0b823db841a0b88baac4c0">&#9670;&nbsp;</a></span>~Model()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">Model::~Model </td>
@@ -126,51 +128,53 @@ Public 속성</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p class="definition"><a class="el" href="_model_8h_source.html">Model.h</a> 파일의 <a class="el" href="_model_8h_source.html#l00045">45</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="model_8cpp_source.html">model.cpp</a> 파일의 <a class="el" href="model_8cpp_source.html#l00004">4</a> 번째 라인에서 정의되었습니다.</p>
 
 </div>
 </div>
 <h2 class="groupheader">멤버 함수 문서화</h2>
-<a id="a6926e0cbe707f49934a8a286a6a55962"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6926e0cbe707f49934a8a286a6a55962">&#9670;&nbsp;</a></span>readOBJ()</h2>
+<a id="a1dee6172f89b27a20de52a8c835e5fe7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1dee6172f89b27a20de52a8c835e5fe7">&#9670;&nbsp;</a></span>read_obj()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Model::readOBJ </td>
+          <td class="memname">void Model::read_obj </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>objFilePath</em></td><td>)</td>
+          <td class="paramname"><em>obj_file_path</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition"><a class="el" href="_model_8cpp_source.html">Model.cpp</a> 파일의 <a class="el" href="_model_8cpp_source.html#l00025">25</a> 번째 라인에서 정의되었습니다.</p>
+<p>경로에 있는 .obj 파일 로드. </p>
+<dl class="params"><dt>매개변수</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">objFilePath</td><td>오브젝트 파일 경로. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"><a class="el" href="model_8cpp_source.html">model.cpp</a> 파일의 <a class="el" href="model_8cpp_source.html#l00011">11</a> 번째 라인에서 정의되었습니다.</p>
 <div class="dynheader">
 이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
-<div class="center"><img src="struct_model_a6926e0cbe707f49934a8a286a6a55962_cgraph.png" border="0" usemap="#astruct_model_a6926e0cbe707f49934a8a286a6a55962_cgraph" alt=""/></div>
-<map name="astruct_model_a6926e0cbe707f49934a8a286a6a55962_cgraph" id="astruct_model_a6926e0cbe707f49934a8a286a6a55962_cgraph">
-<area shape="rect" title=" " alt="" coords="5,31,128,57"/>
-<area shape="rect" href="_model_8cpp.html#a06baa8755b3a8d2e4eac97866a651704" title=" " alt="" coords="196,5,284,32"/>
-<area shape="rect" href="namespacetinyobj.html#a0c22f3a92421785b8b4e8965b9e894e2" title="==&gt;&gt;========= Legacy v1 API =============================================" alt="" coords="176,56,304,83"/>
+<div class="center"><img src="struct_model_a1dee6172f89b27a20de52a8c835e5fe7_cgraph.png" border="0" usemap="#astruct_model_a1dee6172f89b27a20de52a8c835e5fe7_cgraph" alt=""/></div>
+<map name="astruct_model_a1dee6172f89b27a20de52a8c835e5fe7_cgraph" id="astruct_model_a1dee6172f89b27a20de52a8c835e5fe7_cgraph">
+<area shape="rect" title="경로에 있는 .obj 파일 로드." alt="" coords="5,5,132,32"/>
+<area shape="rect" href="modelutils_8hpp.html#a6e27044316dfa8ead81ff31aa71f2392" title=" " alt="" coords="180,5,275,32"/>
 </map>
 </div>
 <div class="dynheader">
 이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
-<div class="center"><img src="struct_model_a6926e0cbe707f49934a8a286a6a55962_icgraph.png" border="0" usemap="#astruct_model_a6926e0cbe707f49934a8a286a6a55962_icgraph" alt=""/></div>
-<map name="astruct_model_a6926e0cbe707f49934a8a286a6a55962_icgraph" id="astruct_model_a6926e0cbe707f49934a8a286a6a55962_icgraph">
-<area shape="rect" title=" " alt="" coords="108,5,231,32"/>
+<div class="center"><img src="struct_model_a1dee6172f89b27a20de52a8c835e5fe7_icgraph.png" border="0" usemap="#astruct_model_a1dee6172f89b27a20de52a8c835e5fe7_icgraph" alt=""/></div>
+<map name="astruct_model_a1dee6172f89b27a20de52a8c835e5fe7_icgraph" id="astruct_model_a1dee6172f89b27a20de52a8c835e5fe7_icgraph">
+<area shape="rect" title="경로에 있는 .obj 파일 로드." alt="" coords="108,5,235,32"/>
 <area shape="rect" href="src_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,5,60,32"/>
 </map>
 </div>
@@ -189,8 +193,9 @@ Public 속성</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>오브젝트에 포함된 메시 그룹 모음. </p>
 
-<p class="definition"><a class="el" href="_model_8h_source.html">Model.h</a> 파일의 <a class="el" href="_model_8h_source.html#l00052">52</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="model_8h_source.html">model.h</a> 파일의 <a class="el" href="model_8h_source.html#l00023">23</a> 번째 라인에서 정의되었습니다.</p>
 
 </div>
 </div>
@@ -205,14 +210,15 @@ Public 속성</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>오브젝트에 사용된 텍스쳐 모음. </p>
 
-<p class="definition"><a class="el" href="_model_8h_source.html">Model.h</a> 파일의 <a class="el" href="_model_8h_source.html#l00053">53</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="model_8h_source.html">model.h</a> 파일의 <a class="el" href="model_8h_source.html#l00027">27</a> 번째 라인에서 정의되었습니다.</p>
 
 </div>
 </div>
 <hr/>이 구조체에 대한 문서화 페이지는 다음의 파일들로부터 생성되었습니다.:<ul>
-<li>inc/<a class="el" href="_model_8h_source.html">Model.h</a></li>
-<li>src/<a class="el" href="_model_8cpp_source.html">Model.cpp</a></li>
+<li>inc/<a class="el" href="model_8h_source.html">model.h</a></li>
+<li>src/<a class="el" href="model_8cpp_source.html">model.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

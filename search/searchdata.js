@@ -1,16 +1,14 @@
 var indexSectionsWithContent =
 {
-  0: "abcdefgijlmnoprstuvw~",
-  1: "acfgijlmopstv",
-  2: "cft",
-  3: "cmrst",
-  4: "acdefgilmoprstvw~",
-  5: "abcdefgijlmnoprstuvw",
-  6: "rt",
-  7: "t",
-  8: "t",
-  9: "t",
-  10: "m"
+  0: "acdefgilmnoprstvw~",
+  1: "fgmopstv",
+  2: "cf",
+  3: "cfgmoprst",
+  4: "acdfgimoprstw~",
+  5: "adeilmnoprstv",
+  6: "t",
+  7: "it",
+  8: "m"
 };
 
 var indexSectionNames =
@@ -22,10 +20,8 @@ var indexSectionNames =
   4: "functions",
   5: "variables",
   6: "typedefs",
-  7: "enums",
-  8: "enumvalues",
-  9: "defines",
-  10: "pages"
+  7: "defines",
+  8: "pages"
 };
 
 var indexSectionLabels =
@@ -37,9 +33,7 @@ var indexSectionLabels =
   4: "함수",
   5: "변수",
   6: "타입정의",
-  7: "열거형 타입",
-  8: "열거형 멤버",
-  9: "매크로",
-  10: "페이지들"
+  7: "매크로",
+  8: "페이지들"
 };
 

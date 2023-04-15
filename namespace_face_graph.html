@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Multi-Segmentor: FaceGraph 네임스페이스 참조</title>
+<title>Multi-Segmenter: FaceGraph 네임스페이스 참조</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Multi-Segmentor
+   <div id="projectname">Multi-Segmenter
    </div>
   </td>
  </tr>
@@ -92,59 +92,67 @@ $(document).ready(function(){initNavTree('namespace_face_graph.html',''); initRe
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 클래스</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_face_graph_1_1_triangle__t.html">Triangle_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph_1_1graph_node__t.html">graphNode_t</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph_1_1_face_graph.html">FaceGraph</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">삼각형에 대한 인접 리스트를 유지.  <a href="class_face_graph_1_1_face_graph.html#details">더 자세히 ...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_face_graph_1_1_vec3_hash.html">Vec3Hash</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph_1_1_face_graph.html">FaceGraph</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph_1_1_graph_node.html">GraphNode</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_face_graph_1_1_triangle.html">Triangle</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">세 개의 정점으로 정의하는 삼각형 자료형.  <a href="struct_face_graph_1_1_triangle.html#details">더 자세히 ...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 타입정의</h2></td></tr>
-<tr class="memitem:a89683910c79938a8f0dae2c29322480c"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_face_graph_1_1_triangle__t.html">FaceGraph::Triangle_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_face_graph.html#a89683910c79938a8f0dae2c29322480c">Triangle_t</a></td></tr>
-<tr class="separator:a89683910c79938a8f0dae2c29322480c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44d14cd7822a3ddffffb634e77ddee23"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_face_graph_1_1_triangle.html">FaceGraph::Triangle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_face_graph.html#a44d14cd7822a3ddffffb634e77ddee23">Triangle</a></td></tr>
+<tr class="memdesc:a44d14cd7822a3ddffffb634e77ddee23"><td class="mdescLeft">&#160;</td><td class="mdescRight">세 개의 정점으로 정의하는 삼각형 자료형.  <a href="namespace_face_graph.html#a44d14cd7822a3ddffffb634e77ddee23">더 자세히 ...</a><br /></td></tr>
+<tr class="separator:a44d14cd7822a3ddffffb634e77ddee23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 함수</h2></td></tr>
-<tr class="memitem:a7bd457107c7c2da2e5aeaf6dbe5068ff"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_face_graph.html#a7bd457107c7c2da2e5aeaf6dbe5068ff">isConnected</a> (<a class="el" href="struct_face_graph_1_1_triangle__t.html">Triangle_t</a> a, <a class="el" href="struct_face_graph_1_1_triangle__t.html">Triangle_t</a> b)</td></tr>
-<tr class="separator:a7bd457107c7c2da2e5aeaf6dbe5068ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38f8344a47c414dbea0e725927051b79"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_triangle_mesh.html">TriangleMesh</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_face_graph.html#a38f8344a47c414dbea0e725927051b79">TriangleListToObj</a> (std::vector&lt; <a class="el" href="struct_face_graph_1_1_triangle__t.html">Triangle_t</a> &gt; __list)</td></tr>
-<tr class="separator:a38f8344a47c414dbea0e725927051b79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc53c2228c8cdedd21aa2804a5b6e449"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_face_graph.html#abc53c2228c8cdedd21aa2804a5b6e449">is_connected</a> (const <a class="el" href="struct_face_graph_1_1_triangle.html">Triangle</a> &amp;a, const <a class="el" href="struct_face_graph_1_1_triangle.html">Triangle</a> &amp;b)</td></tr>
+<tr class="separator:abc53c2228c8cdedd21aa2804a5b6e449"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41d7d25733337e8dec21ad0643413861"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_triangle_mesh.html">TriangleMesh</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_face_graph.html#a41d7d25733337e8dec21ad0643413861">triangle_list_to_obj</a> (const std::vector&lt; <a class="el" href="struct_face_graph_1_1_triangle.html">Triangle</a> &gt; &amp;list)</td></tr>
+<tr class="separator:a41d7d25733337e8dec21ad0643413861"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">타입정의 문서화</h2>
-<a id="a89683910c79938a8f0dae2c29322480c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89683910c79938a8f0dae2c29322480c">&#9670;&nbsp;</a></span>Triangle_t</h2>
+<a id="a44d14cd7822a3ddffffb634e77ddee23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44d14cd7822a3ddffffb634e77ddee23">&#9670;&nbsp;</a></span>Triangle</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef struct <a class="el" href="struct_face_graph_1_1_triangle__t.html">FaceGraph::Triangle_t</a> <a class="el" href="struct_face_graph_1_1_triangle__t.html">FaceGraph::Triangle_t</a></td>
+          <td class="memname">typedef struct <a class="el" href="struct_face_graph_1_1_triangle.html">FaceGraph::Triangle</a> <a class="el" href="struct_face_graph_1_1_triangle.html">FaceGraph::Triangle</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>세 개의 정점으로 정의하는 삼각형 자료형. </p>
+
 </div>
 </div>
 <h2 class="groupheader">함수 문서화</h2>
-<a id="a7bd457107c7c2da2e5aeaf6dbe5068ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7bd457107c7c2da2e5aeaf6dbe5068ff">&#9670;&nbsp;</a></span>isConnected()</h2>
+<a id="abc53c2228c8cdedd21aa2804a5b6e449"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc53c2228c8cdedd21aa2804a5b6e449">&#9670;&nbsp;</a></span>is_connected()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool FaceGraph::isConnected </td>
+          <td class="memname">bool FaceGraph::is_connected </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_face_graph_1_1_triangle__t.html">Triangle_t</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="struct_face_graph_1_1_triangle.html">Triangle</a> &amp;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="struct_face_graph_1_1_triangle__t.html">Triangle_t</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="struct_face_graph_1_1_triangle.html">Triangle</a> &amp;&#160;</td>
           <td class="paramname"><em>b</em>&#160;</td>
         </tr>
         <tr>
@@ -153,46 +161,60 @@ $(document).ready(function(){initNavTree('namespace_face_graph.html',''); initRe
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p class="definition"><a class="el" href="_segmentation_8h_source.html">Segmentation.h</a> 파일의 <a class="el" href="_segmentation_8h_source.html#l00019">19</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="facegraphutils_8h_source.html">facegraphutils.h</a> 파일의 <a class="el" href="facegraphutils_8h_source.html#l00024">24</a> 번째 라인에서 정의되었습니다.</p>
 <div class="dynheader">
 이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespace_face_graph_a7bd457107c7c2da2e5aeaf6dbe5068ff_icgraph.png" border="0" usemap="#anamespace_face_graph_a7bd457107c7c2da2e5aeaf6dbe5068ff_icgraph" alt=""/></div>
-<map name="anamespace_face_graph_a7bd457107c7c2da2e5aeaf6dbe5068ff_icgraph" id="anamespace_face_graph_a7bd457107c7c2da2e5aeaf6dbe5068ff_icgraph">
-<area shape="rect" title=" " alt="" coords="220,13,399,39"/>
-<area shape="rect" href="class_face_graph_1_1_face_graph.html#af966162a7ca824621a027b9d60136a65" title=" " alt="" coords="5,5,172,47"/>
+<div class="center"><img src="namespace_face_graph_abc53c2228c8cdedd21aa2804a5b6e449_icgraph.png" border="0" usemap="#anamespace_face_graph_abc53c2228c8cdedd21aa2804a5b6e449_icgraph" alt=""/></div>
+<map name="anamespace_face_graph_abc53c2228c8cdedd21aa2804a5b6e449_icgraph" id="anamespace_face_graph_abc53c2228c8cdedd21aa2804a5b6e449_icgraph">
+<area shape="rect" title=" " alt="" coords="220,13,403,39"/>
+<area shape="rect" href="class_face_graph_1_1_face_graph.html#a0fea5f27d69a02027b98ee5ff5238edc" title=" " alt="" coords="5,5,172,47"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a38f8344a47c414dbea0e725927051b79"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a38f8344a47c414dbea0e725927051b79">&#9670;&nbsp;</a></span>TriangleListToObj()</h2>
+<a id="a41d7d25733337e8dec21ad0643413861"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41d7d25733337e8dec21ad0643413861">&#9670;&nbsp;</a></span>triangle_list_to_obj()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_triangle_mesh.html">TriangleMesh</a>* FaceGraph::TriangleListToObj </td>
+          <td class="memname"><a class="el" href="class_triangle_mesh.html">TriangleMesh</a>* FaceGraph::triangle_list_to_obj </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="struct_face_graph_1_1_triangle__t.html">Triangle_t</a> &gt;&#160;</td>
-          <td class="paramname"><em>__list</em></td><td>)</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="struct_face_graph_1_1_triangle.html">Triangle</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>list</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p class="definition"><a class="el" href="_segmentation_8h_source.html">Segmentation.h</a> 파일의 <a class="el" href="_segmentation_8h_source.html#l00146">146</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="facegraphutils_8h_source.html">facegraphutils.h</a> 파일의 <a class="el" href="facegraphutils_8h_source.html#l00039">39</a> 번째 라인에서 정의되었습니다.</p>
 <div class="dynheader">
 이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespace_face_graph_a38f8344a47c414dbea0e725927051b79_icgraph.png" border="0" usemap="#anamespace_face_graph_a38f8344a47c414dbea0e725927051b79_icgraph" alt=""/></div>
-<map name="anamespace_face_graph_a38f8344a47c414dbea0e725927051b79_icgraph" id="anamespace_face_graph_a38f8344a47c414dbea0e725927051b79_icgraph">
-<area shape="rect" title=" " alt="" coords="399,5,607,32"/>
-<area shape="rect" href="class_segmentation__t.html#ab37e5b602fc14c37b85223fd6653170b" title=" " alt="" coords="108,5,351,32"/>
-<area shape="rect" href="src_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,5,60,32"/>
+<div class="center"><img src="namespace_face_graph_a41d7d25733337e8dec21ad0643413861_icgraph.png" border="0" usemap="#anamespace_face_graph_a41d7d25733337e8dec21ad0643413861_icgraph" alt=""/></div>
+<map name="anamespace_face_graph_a41d7d25733337e8dec21ad0643413861_icgraph" id="anamespace_face_graph_a41d7d25733337e8dec21ad0643413861_icgraph">
+<area shape="rect" title=" " alt="" coords="311,39,459,80"/>
+<area shape="rect" href="class_original_segmenter.html#ab275d076428cbd8c59115d13ddbb94fa" title="세그멘테이션 수행." alt="" coords="109,5,261,47"/>
+<area shape="rect" href="class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e" title="세그멘테이션 수행." alt="" coords="108,71,263,112"/>
+<area shape="rect" href="src_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,78,60,105"/>
 </map>
 </div>
 

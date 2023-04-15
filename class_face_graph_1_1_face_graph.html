@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Multi-Segmentor: FaceGraph::FaceGraph 클래스 참조</title>
+<title>Multi-Segmenter: FaceGraph::FaceGraph 클래스 참조</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Multi-Segmentor
+   <div id="projectname">Multi-Segmenter
    </div>
   </td>
  </tr>
@@ -90,152 +90,114 @@ $(document).ready(function(){initNavTree('class_face_graph_1_1_face_graph.html',
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="_segmentation_8h_source.html">Segmentation.h</a>&gt;</code></p>
+<p>삼각형에 대한 인접 리스트를 유지.  
+ <a href="class_face_graph_1_1_face_graph.html#details">더 자세히 ...</a></p>
+
+<p><code>#include &lt;<a class="el" href="facegraph_8h_source.html">facegraph.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public 멤버 함수</h2></td></tr>
-<tr class="memitem:a70dd765926b3b5aea6892d1c3bb7cd3f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph_1_1_face_graph.html#a70dd765926b3b5aea6892d1c3bb7cd3f">FaceGraph</a> ()</td></tr>
-<tr class="separator:a70dd765926b3b5aea6892d1c3bb7cd3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af966162a7ca824621a027b9d60136a65"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph_1_1_face_graph.html#af966162a7ca824621a027b9d60136a65">FaceGraph</a> (std::vector&lt; <a class="el" href="struct_face_graph_1_1_triangle__t.html">Triangle_t</a> &gt; *_list)</td></tr>
-<tr class="separator:af966162a7ca824621a027b9d60136a65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af389d40767993f8391f65e40ea4cdf1d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; <a class="el" href="struct_face_graph_1_1_triangle__t.html">Triangle_t</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph_1_1_face_graph.html#af389d40767993f8391f65e40ea4cdf1d">check_connected</a> ()</td></tr>
-<tr class="separator:af389d40767993f8391f65e40ea4cdf1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a376365b612926c95fcc09630aa1d3d18"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph_1_1_face_graph.html#a376365b612926c95fcc09630aa1d3d18">traverse_dfs</a> (std::vector&lt; int &gt; *visit, int startVert, int count)</td></tr>
-<tr class="separator:a376365b612926c95fcc09630aa1d3d18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fea5f27d69a02027b98ee5ff5238edc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph_1_1_face_graph.html#a0fea5f27d69a02027b98ee5ff5238edc">FaceGraph</a> (std::vector&lt; <a class="el" href="struct_face_graph_1_1_triangle.html">Triangle</a> &gt; *list)</td></tr>
+<tr class="separator:a0fea5f27d69a02027b98ee5ff5238edc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2613777236ed608229935963eda06725"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; <a class="el" href="struct_face_graph_1_1_triangle.html">Triangle</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph_1_1_face_graph.html#a2613777236ed608229935963eda06725">check_connected</a> ()</td></tr>
+<tr class="memdesc:a2613777236ed608229935963eda06725"><td class="mdescLeft">&#160;</td><td class="mdescRight">인접 리스트에 있는 면을 인접한 면끼리 분류.  <a href="class_face_graph_1_1_face_graph.html#a2613777236ed608229935963eda06725">더 자세히 ...</a><br /></td></tr>
+<tr class="separator:a2613777236ed608229935963eda06725"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a506f0b78167461c2517bf69123a72731"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph_1_1_face_graph.html#a506f0b78167461c2517bf69123a72731">traverse_dfs</a> (std::vector&lt; int &gt; &amp;visit, int start_vert, int count)</td></tr>
+<tr class="memdesc:a506f0b78167461c2517bf69123a72731"><td class="mdescLeft">&#160;</td><td class="mdescRight">인접 리스트에 있는 면을 순회하며 인덱스 부여.  <a href="class_face_graph_1_1_face_graph.html#a506f0b78167461c2517bf69123a72731">더 자세히 ...</a><br /></td></tr>
+<tr class="separator:a506f0b78167461c2517bf69123a72731"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public 속성</h2></td></tr>
-<tr class="memitem:a37f0faf7d32e68052f8b69742bfd8e79"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph_1_1_face_graph.html#a37f0faf7d32e68052f8b69742bfd8e79">adj_list</a></td></tr>
-<tr class="separator:a37f0faf7d32e68052f8b69742bfd8e79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbcbce04ede26e7039cbadaf1e519b0c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="struct_face_graph_1_1_triangle__t.html">Triangle_t</a> &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph_1_1_face_graph.html#acbcbce04ede26e7039cbadaf1e519b0c">ref_vector</a></td></tr>
-<tr class="separator:acbcbce04ede26e7039cbadaf1e519b0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c5018b5d1ac5bda26b451be72d07809"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph_1_1_face_graph.html#a2c5018b5d1ac5bda26b451be72d07809">adj_triangles</a></td></tr>
+<tr class="separator:a2c5018b5d1ac5bda26b451be72d07809"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fa95f641504e2326899212e2945e4a1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="struct_face_graph_1_1_triangle.html">Triangle</a> &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph_1_1_face_graph.html#a5fa95f641504e2326899212e2945e4a1">triangles</a></td></tr>
+<tr class="separator:a5fa95f641504e2326899212e2945e4a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">상세한 설명</h2>
-<div class="textblock">
-<p class="definition"><a class="el" href="_segmentation_8h_source.html">Segmentation.h</a> 파일의 <a class="el" href="_segmentation_8h_source.html#l00060">60</a> 번째 라인에서 정의되었습니다.</p>
+<div class="textblock"><p>삼각형에 대한 인접 리스트를 유지. </p>
+
+<p class="definition"><a class="el" href="facegraph_8h_source.html">facegraph.h</a> 파일의 <a class="el" href="facegraph_8h_source.html#l00017">17</a> 번째 라인에서 정의되었습니다.</p>
 </div><h2 class="groupheader">생성자 &amp; 소멸자 문서화</h2>
-<a id="a70dd765926b3b5aea6892d1c3bb7cd3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70dd765926b3b5aea6892d1c3bb7cd3f">&#9670;&nbsp;</a></span>FaceGraph() <span class="overload">[1/2]</span></h2>
+<a id="a0fea5f27d69a02027b98ee5ff5238edc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fea5f27d69a02027b98ee5ff5238edc">&#9670;&nbsp;</a></span>FaceGraph()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">FaceGraph::FaceGraph::FaceGraph </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="struct_face_graph_1_1_triangle.html">Triangle</a> &gt; *&#160;</td>
+          <td class="paramname"><em>list</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p class="definition"><a class="el" href="_segmentation_8h_source.html">Segmentation.h</a> 파일의 <a class="el" href="_segmentation_8h_source.html#l00065">65</a> 번째 라인에서 정의되었습니다.</p>
-
-</div>
-</div>
-<a id="af966162a7ca824621a027b9d60136a65"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af966162a7ca824621a027b9d60136a65">&#9670;&nbsp;</a></span>FaceGraph() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">FaceGraph::FaceGraph::FaceGraph </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="struct_face_graph_1_1_triangle__t.html">Triangle_t</a> &gt; *&#160;</td>
-          <td class="paramname"><em>_list</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition"><a class="el" href="_segmentation_8h_source.html">Segmentation.h</a> 파일의 <a class="el" href="_segmentation_8h_source.html#l00067">67</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="facegraph_8cpp_source.html">facegraph.cpp</a> 파일의 <a class="el" href="facegraph_8cpp_source.html#l00005">5</a> 번째 라인에서 정의되었습니다.</p>
 <div class="dynheader">
 이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_face_graph_1_1_face_graph_af966162a7ca824621a027b9d60136a65_cgraph.png" border="0" usemap="#aclass_face_graph_1_1_face_graph_af966162a7ca824621a027b9d60136a65_cgraph" alt=""/></div>
-<map name="aclass_face_graph_1_1_face_graph_af966162a7ca824621a027b9d60136a65_cgraph" id="aclass_face_graph_1_1_face_graph_af966162a7ca824621a027b9d60136a65_cgraph">
+<div class="center"><img src="class_face_graph_1_1_face_graph_a0fea5f27d69a02027b98ee5ff5238edc_cgraph.png" border="0" usemap="#aclass_face_graph_1_1_face_graph_a0fea5f27d69a02027b98ee5ff5238edc_cgraph" alt=""/></div>
+<map name="aclass_face_graph_1_1_face_graph_a0fea5f27d69a02027b98ee5ff5238edc_cgraph" id="aclass_face_graph_1_1_face_graph_a0fea5f27d69a02027b98ee5ff5238edc_cgraph">
 <area shape="rect" title=" " alt="" coords="5,5,172,47"/>
-<area shape="rect" href="namespace_face_graph.html#a7bd457107c7c2da2e5aeaf6dbe5068ff" title=" " alt="" coords="220,13,399,39"/>
+<area shape="rect" href="namespace_face_graph.html#abc53c2228c8cdedd21aa2804a5b6e449" title=" " alt="" coords="220,13,403,39"/>
 </map>
 </div>
 
 </div>
 </div>
 <h2 class="groupheader">멤버 함수 문서화</h2>
-<a id="af389d40767993f8391f65e40ea4cdf1d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af389d40767993f8391f65e40ea4cdf1d">&#9670;&nbsp;</a></span>check_connected()</h2>
+<a id="a2613777236ed608229935963eda06725"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2613777236ed608229935963eda06725">&#9670;&nbsp;</a></span>check_connected()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;std::vector&lt;<a class="el" href="struct_face_graph_1_1_triangle__t.html">Triangle_t</a>&gt; &gt; FaceGraph::FaceGraph::check_connected </td>
+          <td class="memname">std::vector&lt; std::vector&lt; <a class="el" href="struct_face_graph_1_1_triangle.html">Triangle</a> &gt; &gt; FaceGraph::FaceGraph::check_connected </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p class="definition"><a class="el" href="_segmentation_8h_source.html">Segmentation.h</a> 파일의 <a class="el" href="_segmentation_8h_source.html#l00095">95</a> 번째 라인에서 정의되었습니다.</p>
+<p>인접 리스트에 있는 면을 인접한 면끼리 분류. </p>
+<p>adj_list는 면의 법선 벡터를 기준으로 분류된 정보. 이를 다시 인접한 면끼리 분류하여 세그멘테이션 수행. </p><dl class="section return"><dt>반환값</dt><dd>인접한 면끼리 분류된 배열. </dd></dl>
+
+<p class="definition"><a class="el" href="facegraph_8cpp_source.html">facegraph.cpp</a> 파일의 <a class="el" href="facegraph_8cpp_source.html#l00042">42</a> 번째 라인에서 정의되었습니다.</p>
 <div class="dynheader">
 이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_face_graph_1_1_face_graph_af389d40767993f8391f65e40ea4cdf1d_icgraph.png" border="0" usemap="#aclass_face_graph_1_1_face_graph_af389d40767993f8391f65e40ea4cdf1d_icgraph" alt=""/></div>
-<map name="aclass_face_graph_1_1_face_graph_af389d40767993f8391f65e40ea4cdf1d_icgraph" id="aclass_face_graph_1_1_face_graph_af389d40767993f8391f65e40ea4cdf1d_icgraph">
-<area shape="rect" title=" " alt="" coords="399,5,565,47"/>
-<area shape="rect" href="class_segmentation__t.html#ab37e5b602fc14c37b85223fd6653170b" title=" " alt="" coords="108,13,351,39"/>
-<area shape="rect" href="src_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,60,39"/>
+<div class="center"><img src="class_face_graph_1_1_face_graph_a2613777236ed608229935963eda06725_icgraph.png" border="0" usemap="#aclass_face_graph_1_1_face_graph_a2613777236ed608229935963eda06725_icgraph" alt=""/></div>
+<map name="aclass_face_graph_1_1_face_graph_a2613777236ed608229935963eda06725_icgraph" id="aclass_face_graph_1_1_face_graph_a2613777236ed608229935963eda06725_icgraph">
+<area shape="rect" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="311,39,477,80"/>
+<area shape="rect" href="class_original_segmenter.html#ab275d076428cbd8c59115d13ddbb94fa" title="세그멘테이션 수행." alt="" coords="109,5,261,47"/>
+<area shape="rect" href="class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e" title="세그멘테이션 수행." alt="" coords="108,71,263,112"/>
+<area shape="rect" href="src_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,78,60,105"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a376365b612926c95fcc09630aa1d3d18"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a376365b612926c95fcc09630aa1d3d18">&#9670;&nbsp;</a></span>traverse_dfs()</h2>
+<a id="a506f0b78167461c2517bf69123a72731"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a506f0b78167461c2517bf69123a72731">&#9670;&nbsp;</a></span>traverse_dfs()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void FaceGraph::FaceGraph::traverse_dfs </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; int &gt; *&#160;</td>
+          <td class="paramtype">std::vector&lt; int &gt; &amp;&#160;</td>
           <td class="paramname"><em>visit</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>startVert</em>, </td>
+          <td class="paramname"><em>start_vert</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -249,52 +211,60 @@ Public 속성</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p class="definition"><a class="el" href="_segmentation_8h_source.html">Segmentation.h</a> 파일의 <a class="el" href="_segmentation_8h_source.html#l00118">118</a> 번째 라인에서 정의되었습니다.</p>
+<p>인접 리스트에 있는 면을 순회하며 인덱스 부여. </p>
+<dl class="params"><dt>매개변수</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">visit</td><td>방문 추적용 배열. </td></tr>
+    <tr><td class="paramname">start_vert</td><td>순회를 시작할 정점 인덱스. </td></tr>
+    <tr><td class="paramname">count</td><td>순회할 정점에 부여될 인덱스. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"><a class="el" href="facegraph_8cpp_source.html">facegraph.cpp</a> 파일의 <a class="el" href="facegraph_8cpp_source.html#l00062">62</a> 번째 라인에서 정의되었습니다.</p>
 
 </div>
 </div>
 <h2 class="groupheader">멤버 데이터 문서화</h2>
-<a id="a37f0faf7d32e68052f8b69742bfd8e79"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37f0faf7d32e68052f8b69742bfd8e79">&#9670;&nbsp;</a></span>adj_list</h2>
+<a id="a2c5018b5d1ac5bda26b451be72d07809"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c5018b5d1ac5bda26b451be72d07809">&#9670;&nbsp;</a></span>adj_triangles</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;std::vector&lt;int&gt; &gt; FaceGraph::FaceGraph::adj_list</td>
+          <td class="memname">std::vector&lt;std::vector&lt;int&gt; &gt; FaceGraph::FaceGraph::adj_triangles</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>삼각형에 대한 인접 리스트 </p>
 
-<p class="definition"><a class="el" href="_segmentation_8h_source.html">Segmentation.h</a> 파일의 <a class="el" href="_segmentation_8h_source.html#l00062">62</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="facegraph_8h_source.html">facegraph.h</a> 파일의 <a class="el" href="facegraph_8h_source.html#l00022">22</a> 번째 라인에서 정의되었습니다.</p>
 
 </div>
 </div>
-<a id="acbcbce04ede26e7039cbadaf1e519b0c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acbcbce04ede26e7039cbadaf1e519b0c">&#9670;&nbsp;</a></span>ref_vector</h2>
+<a id="a5fa95f641504e2326899212e2945e4a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fa95f641504e2326899212e2945e4a1">&#9670;&nbsp;</a></span>triangles</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;<a class="el" href="struct_face_graph_1_1_triangle__t.html">Triangle_t</a>&gt;* FaceGraph::FaceGraph::ref_vector</td>
+          <td class="memname">std::vector&lt;<a class="el" href="struct_face_graph_1_1_triangle.html">Triangle</a>&gt;* FaceGraph::FaceGraph::triangles</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>면을 인덱스로 다루기 위한 실제 면 정보 모음. </p>
 
-<p class="definition"><a class="el" href="_segmentation_8h_source.html">Segmentation.h</a> 파일의 <a class="el" href="_segmentation_8h_source.html#l00063">63</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="facegraph_8h_source.html">facegraph.h</a> 파일의 <a class="el" href="facegraph_8h_source.html#l00026">26</a> 번째 라인에서 정의되었습니다.</p>
 
 </div>
 </div>
-<hr/>이 클래스에 대한 문서화 페이지는 다음의 파일로부터 생성되었습니다.:<ul>
-<li>inc/<a class="el" href="_segmentation_8h_source.html">Segmentation.h</a></li>
+<hr/>이 클래스에 대한 문서화 페이지는 다음의 파일들로부터 생성되었습니다.:<ul>
+<li>inc/<a class="el" href="facegraph_8h_source.html">facegraph.h</a></li>
+<li>src/<a class="el" href="facegraph_8cpp_source.html">facegraph.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

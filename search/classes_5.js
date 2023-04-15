@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['joint_5fand_5fweight_5ft_213',['joint_and_weight_t',['../structtinyobj_1_1joint__and__weight__t.html',1,'tinyobj']]]
+  ['segmenter_93',['Segmenter',['../class_segmenter.html',1,'']]],
+  ['serialsegmenter_94',['SerialSegmenter',['../class_serial_segmenter.html',1,'']]]
 ];

@@ -1,0 +1,6 @@
+<map id="ParallelSegmenter" name="ParallelSegmenter">
+<area shape="rect" id="node1" title=" " alt="" coords="5,260,147,287"/>
+<area shape="rect" id="node2" href="$class_segmenter.html" title="하나의 메시 그룹에 대한 세그멘테이션을 수행." alt="" coords="29,184,123,211"/>
+<area shape="rect" id="node3" href="$class_triangle_mesh.html" title="오브젝트에서 하나의 속성을 공유하는 삼각형의 집합." alt="" coords="22,95,130,121"/>
+<area shape="rect" id="node4" href="$class_material.html" title="mtl 파일에 대한 자료형." alt="" coords="38,5,114,32"/>
+</map>

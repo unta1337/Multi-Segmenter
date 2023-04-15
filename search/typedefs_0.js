@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['real_5ft_412',['real_t',['../namespacetinyobj.html#ad5ca7469ff56bf0d8423120cfd99adce',1,'tinyobj']]]
+  ['triangle_177',['Triangle',['../namespace_face_graph.html#a44d14cd7822a3ddffffb634e77ddee23',1,'FaceGraph']]]
 ];

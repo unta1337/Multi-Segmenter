@@ -1,11 +1,10 @@
 <map id="main" name="main">
-<area shape="rect" id="node1" title=" " alt="" coords="5,173,60,199"/>
-<area shape="rect" id="node2" href="$class_segmentation__t.html#ab37e5b602fc14c37b85223fd6653170b" title=" " alt="" coords="108,97,351,123"/>
-<area shape="rect" id="node6" href="$struct_model.html#a6926e0cbe707f49934a8a286a6a55962" title=" " alt="" coords="168,173,291,199"/>
-<area shape="rect" id="node9" href="$src_2main_8cpp.html#aa74af706123592bafeaf5c2b74a0acfa" title=" " alt="" coords="190,223,269,250"/>
-<area shape="rect" id="node3" href="$class_face_graph_1_1_face_graph.html#af389d40767993f8391f65e40ea4cdf1d" title=" " alt="" coords="419,5,586,47"/>
-<area shape="rect" id="node4" href="$namespace_color.html#ae90042fb0567406043789bcec58e35d9" title=" " alt="" coords="417,71,588,98"/>
-<area shape="rect" id="node5" href="$namespace_face_graph.html#a38f8344a47c414dbea0e725927051b79" title=" " alt="" coords="399,122,607,149"/>
-<area shape="rect" id="node7" href="$_model_8cpp.html#a06baa8755b3a8d2e4eac97866a651704" title=" " alt="" coords="459,173,547,199"/>
-<area shape="rect" id="node8" href="$namespacetinyobj.html#a0c22f3a92421785b8b4e8965b9e894e2" title="==&gt;&gt;========= Legacy v1 API =============================================" alt="" coords="439,223,567,250"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,174,60,201"/>
+<area shape="rect" id="node2" href="$class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e" title="세그멘테이션 수행." alt="" coords="108,79,263,120"/>
+<area shape="rect" id="node6" href="$struct_model.html#a1dee6172f89b27a20de52a8c835e5fe7" title="경로에 있는 .obj 파일 로드." alt="" coords="122,174,249,201"/>
+<area shape="rect" id="node8" href="$objutils_8h.html#ab675714cd506a42f93600f3bfa89c93a" title=" " alt="" coords="144,225,227,251"/>
+<area shape="rect" id="node3" href="$class_face_graph_1_1_face_graph.html#a2613777236ed608229935963eda06725" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="321,5,487,47"/>
+<area shape="rect" id="node4" href="$namespace_color.html#a63c419ad75758acc7b685dfb62bbf6d2" title=" " alt="" coords="311,71,497,98"/>
+<area shape="rect" id="node5" href="$namespace_face_graph.html#a41d7d25733337e8dec21ad0643413861" title=" " alt="" coords="330,123,478,164"/>
+<area shape="rect" id="node7" href="$modelutils_8hpp.html#a6e27044316dfa8ead81ff31aa71f2392" title=" " alt="" coords="357,189,451,215"/>
 </map>

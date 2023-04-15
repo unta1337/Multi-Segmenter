@@ -1,0 +1,11 @@
+<map id="inc/triangle.h" name="inc/triangle.h">
+<area shape="rect" id="node1" title=" " alt="" coords="313,5,419,32"/>
+<area shape="rect" id="node2" href="$facegraph_8h.html" title=" " alt="" coords="305,155,427,181"/>
+<area shape="rect" id="node9" href="$facegraphutils_8h.html" title=" " alt="" coords="348,80,499,107"/>
+<area shape="rect" id="node3" href="$originalsegmenter_8h.html" title=" " alt="" coords="85,229,260,256"/>
+<area shape="rect" id="node6" href="$serialsegmenter_8h.html" title=" " alt="" coords="285,229,447,256"/>
+<area shape="rect" id="node8" href="$facegraph_8cpp.html" title=" " alt="" coords="472,229,609,256"/>
+<area shape="rect" id="node4" href="$src_2main_8cpp.html" title=" " alt="" coords="220,304,325,331"/>
+<area shape="rect" id="node5" href="$originalsegmenter_8cpp.html" title=" " alt="" coords="5,304,196,331"/>
+<area shape="rect" id="node7" href="$serialsegmenter_8cpp.html" title=" " alt="" coords="349,304,527,331"/>
+</map>

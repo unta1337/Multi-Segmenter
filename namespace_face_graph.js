@@ -1,10 +1,10 @@
 var namespace_face_graph =
 [
-    [ "Triangle_t", "struct_face_graph_1_1_triangle__t.html", "struct_face_graph_1_1_triangle__t" ],
-    [ "graphNode_t", "class_face_graph_1_1graph_node__t.html", "class_face_graph_1_1graph_node__t" ],
-    [ "Vec3Hash", "struct_face_graph_1_1_vec3_hash.html", "struct_face_graph_1_1_vec3_hash" ],
     [ "FaceGraph", "class_face_graph_1_1_face_graph.html", "class_face_graph_1_1_face_graph" ],
-    [ "Triangle_t", "namespace_face_graph.html#a89683910c79938a8f0dae2c29322480c", null ],
-    [ "isConnected", "namespace_face_graph.html#a7bd457107c7c2da2e5aeaf6dbe5068ff", null ],
-    [ "TriangleListToObj", "namespace_face_graph.html#a38f8344a47c414dbea0e725927051b79", null ]
+    [ "Vec3Hash", "struct_face_graph_1_1_vec3_hash.html", "struct_face_graph_1_1_vec3_hash" ],
+    [ "GraphNode", "class_face_graph_1_1_graph_node.html", "class_face_graph_1_1_graph_node" ],
+    [ "Triangle", "struct_face_graph_1_1_triangle.html", "struct_face_graph_1_1_triangle" ],
+    [ "Triangle", "namespace_face_graph.html#a44d14cd7822a3ddffffb634e77ddee23", null ],
+    [ "is_connected", "namespace_face_graph.html#abc53c2228c8cdedd21aa2804a5b6e449", null ],
+    [ "triangle_list_to_obj", "namespace_face_graph.html#a41d7d25733337e8dec21ad0643413861", null ]
 ];

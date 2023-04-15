@@ -1,0 +1,6 @@
+<map id="OriginalSegmenter::do_segmentation" name="OriginalSegmenter::do_segmentation">
+<area shape="rect" id="node1" title="세그멘테이션 수행." alt="" coords="5,64,157,105"/>
+<area shape="rect" id="node2" href="$class_face_graph_1_1_face_graph.html#a2613777236ed608229935963eda06725" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="215,5,382,47"/>
+<area shape="rect" id="node3" href="$namespace_color.html#a63c419ad75758acc7b685dfb62bbf6d2" title=" " alt="" coords="205,71,392,98"/>
+<area shape="rect" id="node4" href="$namespace_face_graph.html#a41d7d25733337e8dec21ad0643413861" title=" " alt="" coords="225,123,373,164"/>
+</map>

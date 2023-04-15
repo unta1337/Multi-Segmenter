@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['graphnode_5ft_211',['graphNode_t',['../class_face_graph_1_1graph_node__t.html',1,'FaceGraph']]]
+  ['originalsegmenter_91',['OriginalSegmenter',['../class_original_segmenter.html',1,'']]]
 ];

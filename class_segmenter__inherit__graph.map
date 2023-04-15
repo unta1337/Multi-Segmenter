@@ -1,0 +1,6 @@
+<map id="Segmenter" name="Segmenter">
+<area shape="rect" id="node1" title="하나의 메시 그룹에 대한 세그멘테이션을 수행." alt="" coords="197,5,291,32"/>
+<area shape="rect" id="node2" href="$class_original_segmenter.html" title=" " alt="" coords="5,80,149,107"/>
+<area shape="rect" id="node3" href="$class_parallel_segmenter.html" title=" " alt="" coords="173,80,315,107"/>
+<area shape="rect" id="node4" href="$class_serial_segmenter.html" title=" " alt="" coords="339,80,469,107"/>
+</map>
