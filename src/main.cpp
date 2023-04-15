@@ -3,6 +3,7 @@
 #include "objutils.h"
 #include "originalsegmenter.h"
 #include "serialsegmenter.h"
+#include "parallelsegmenter.h"
 #include <iostream>
 
 int main() {
@@ -20,6 +21,10 @@ int main() {
 
     SerialSegmenter serial_segmenter(model.meshes[0], 15.f);
     auto seg = serial_segmenter.do_segmentation();
+
+    ParallelSegmenter parallel_segmenter(model.meshes[0], 15.f);
+    auto seg2 = parallel_segmenter.do_segmentation();
+
 
     // 구분된 부분별 출력.
     std::cout << "Segmentation result " << seg.size() << std::endl;
