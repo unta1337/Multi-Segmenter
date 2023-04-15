@@ -4,7 +4,7 @@
 #include "color.hpp"
 #include "dstimer.h"
 #include "facegraph.hpp"
-#include "logutil.hpp"
+#include "logutils.h"
 #include "model.h"
 #include "segmenter.hpp"
 #include "trianglemesh.hpp"
