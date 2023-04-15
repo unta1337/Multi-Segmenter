@@ -78,7 +78,7 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
 
         SerialFaceGraph fg(&iter.second);
         std::cout << "Face Graph done" << std::endl;
-        std::vector<std::vector<Triangle>> temp = fg.check_connected();
+        std::vector<std::vector<Triangle>> temp = fg.get_segments();
         std::cout << "Check connected done" << std::endl;
 
         for (auto subs : temp) {

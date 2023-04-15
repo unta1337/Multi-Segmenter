@@ -34,7 +34,7 @@ class FaceGraph {
      * 이를 다시 인접한 면끼리 분류하여 세그멘테이션 수행.
      * @returns 인접한 면끼리 분류된 배열.
      */
-    virtual std::vector<std::vector<Triangle>> check_connected() = 0;
+    virtual std::vector<std::vector<Triangle>> get_segments() = 0;
 
     /**
      * @brief 인접 리스트에 있는 면을 순회하며 인덱스 부여.

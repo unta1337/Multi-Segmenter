@@ -33,7 +33,7 @@ SerialFaceGraph::SerialFaceGraph(std::vector<Triangle>* list) : FaceGraph(list) 
     }
 }
 
-std::vector<std::vector<Triangle>> SerialFaceGraph::check_connected() {
+std::vector<std::vector<Triangle>> SerialFaceGraph::get_segments() {
     std::vector<int> is_visit(adj_triangles.size());
     // 방문했다면 정점이 속한 그룹의 카운트 + 1.
 
