@@ -26,7 +26,15 @@ inline void SerialSegmenter::init_count_map(std::unordered_map<glm::vec3, size_t
 }
 
 std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
+    DS_timer timer(4);
+
+    timer.setTimerName(0, (char*)"Normal Vector Computation                         ");
+    timer.setTimerName(1, (char*)"Map Count                                         ");
+    timer.setTimerName(2, (char*)"Normal Map Insertion                              ");
+    timer.setTimerName(3, (char*)"Connectivity Checking and Triangle Mesh Generating");
+
     STEP_LOG(std::cout << "[Begin] Normal Vector Computation.\n");
+    timer.onTimer(0);
 
     // obj에 포함된 면의 개수만큼 법선 벡터 계산 필요.
     std::vector<glm::vec3> face_normals(mesh->index.size());
@@ -37,9 +45,11 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
         face_normals[i] = glm::triangleNormal(mesh->vertex[index[0]], mesh->vertex[index[1]], mesh->vertex[index[2]]);
     }
 
+    timer.offTimer(0);
     STEP_LOG(std::cout << "[End] Normal Vector Computation.\n");
 
     STEP_LOG(std::cout << "[Begin] Map Count.\n");
+    timer.onTimer(1);
 
     size_t face_normals_count = face_normals.size();
 
@@ -55,9 +65,11 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
         normal_triangle_list_map.insert({entry.first, std::vector<Triangle>()});
     }
 
+    timer.offTimer(1);
     STEP_LOG(std::cout << "[End] Map Count. (Map size: " << count_map.size() << ")\n");
 
     STEP_LOG(std::cout << "[Begin] Normal Map Insertion.\n");
+    timer.onTimer(2);
 
     double total_time = 0.0;
     for (int i = 0; i < face_normals_count; i++) {
@@ -72,9 +84,11 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
         normal_triangle_list_map[target_norm].push_back(triangle);
     }
 
+    timer.offTimer(2);
     STEP_LOG(std::cout << "[End] Normal Map Insertion. (Total: " << normal_triangle_list_map.size() << ")\n");
 
     STEP_LOG(std::cout << "[Begin] Connectivity Checking and Triangle Mesh Generating.\n");
+    timer.onTimer(3);
 
     std::vector<TriangleMesh*> result;
     int number = 0;
@@ -82,7 +96,7 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
         SerialFaceGraph fg(&iter.second);
         STEP_LOG(std::cout << "[Step] Face Graph Generating.\n");
         std::vector<std::vector<Triangle>> temp = fg.get_segments();
-        STEP_LOG(std::cout << "[Step] Conectivity Checking.\n");
+        STEP_LOG(std::cout << "[Step] Connectivity Checking.\n");
 
         for (auto subs : temp) {
             TriangleMesh* sub_object = triangle_list_to_obj(subs);
@@ -94,7 +108,10 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
         }
     }
 
+    timer.offTimer(3);
     STEP_LOG(std::cout << "[End] Connectivity Checking and Triangle Mesh Generating.\n");
+
+    TIME_LOG(timer.printTimer());
 
     for (int i = 0; i < result.size(); i++) {
         result[i]->material->diffuse = Color::get_color_from_jet((float)i, 0, (float)result.size());

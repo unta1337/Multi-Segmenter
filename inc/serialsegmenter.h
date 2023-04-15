@@ -2,6 +2,7 @@
 #define __SERIALSEGMENTER_H
 
 #include "color.hpp"
+#include "dstimer.h"
 #include "facegraph.hpp"
 #include "logutil.hpp"
 #include "model.h"
