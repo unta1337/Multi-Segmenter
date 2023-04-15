@@ -3,16 +3,14 @@
 
 #include "glm/vec3.hpp"
 #include "glm/vec4.hpp"
+#include <algorithm>
 
 namespace Color {
 inline glm::vec4 get_color_from_jet(float v, float vmin, float vmax) {
     glm::vec3 c = {1.0, 1.0, 1.0};
     float dv;
 
-    if (v < vmin)
-        v = vmin;
-    if (v > vmax)
-        v = vmax;
+    v = std::clamp(v, vmin, vmax);
     dv = vmax - vmin;
 
     if (v < (vmin + 0.25 * dv)) {
