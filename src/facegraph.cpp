@@ -1,5 +1,6 @@
 ﻿#include "facegraph.h"
 
+// TODO: 직렬/병렬용 로직 분리 방법에 대해서 생각해 봐야 함 (클래스 or 함수명에 serial parallel 식별자 등)
 namespace FaceGraph {
 FaceGraph::FaceGraph(std::vector<Triangle>* list) {
     ref_vector = list;
