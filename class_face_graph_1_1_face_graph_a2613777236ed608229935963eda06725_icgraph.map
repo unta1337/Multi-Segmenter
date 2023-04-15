@@ -1,6 +1,0 @@
-<map id="FaceGraph::FaceGraph::check_connected" name="FaceGraph::FaceGraph::check_connected">
-<area shape="rect" id="node1" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="311,39,477,80"/>
-<area shape="rect" id="node2" href="$class_original_segmenter.html#ab275d076428cbd8c59115d13ddbb94fa" title="세그멘테이션 수행." alt="" coords="109,5,261,47"/>
-<area shape="rect" id="node3" href="$class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e" title="세그멘테이션 수행." alt="" coords="108,71,263,112"/>
-<area shape="rect" id="node4" href="$src_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,78,60,105"/>
-</map>

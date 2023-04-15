@@ -1,0 +1,4 @@
+<map id="SerialFaceGraph::check_connected" name="SerialFaceGraph::check_connected">
+<area shape="rect" id="node1" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="5,5,179,47"/>
+<area shape="rect" id="node2" href="$class_serial_face_graph.html#a1a4eb94112e060ea88349a2dd84b5f0d" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="227,13,443,39"/>
+</map>

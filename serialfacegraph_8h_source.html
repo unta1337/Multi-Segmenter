@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Multi-Segmenter: inc/serialfacegraph.h 소스 파일</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Multi-Segmenter
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 다음에 의해 생성됨 :  Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'검색','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','검색');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('serialfacegraph_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">serialfacegraph.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="serialfacegraph_8h.html">이 파일의 문서화 페이지로 가기</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef __SERIALFACEGRAPH_H</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define __SERIALFACEGRAPH_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="facegraph_8hpp.html">facegraph.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="class_serial_face_graph.html">    5</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_serial_face_graph.html">SerialFaceGraph</a> : <span class="keyword">public</span> <a class="code" href="class_face_graph.html">FaceGraph</a> {</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <a class="code" href="class_serial_face_graph.html#a86e605d720d9f4b632dce75fe6500306">SerialFaceGraph</a>(std::vector&lt;Triangle&gt;* list);</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">virtual</span> std::vector&lt;std::vector&lt;Triangle&gt;&gt; <a class="code" href="class_serial_face_graph.html#a985f8d4edc774a1adda9b6e074340f42">check_connected</a>();</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_serial_face_graph.html#a1a4eb94112e060ea88349a2dd84b5f0d">traverse_dfs</a>(std::vector&lt;int&gt;&amp; visit, <span class="keywordtype">int</span> start_vert, <span class="keywordtype">int</span> count);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;};</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aclass_face_graph_html"><div class="ttname"><a href="class_face_graph.html">FaceGraph</a></div><div class="ttdoc">삼각형에 대한 인접 리스트를 유지.</div><div class="ttdef"><b>Definition:</b> <a href="facegraph_8hpp_source.html#l00016">facegraph.hpp:16</a></div></div>
+<div class="ttc" id="aclass_serial_face_graph_html"><div class="ttname"><a href="class_serial_face_graph.html">SerialFaceGraph</a></div><div class="ttdef"><b>Definition:</b> <a href="serialfacegraph_8h_source.html#l00005">serialfacegraph.h:5</a></div></div>
+<div class="ttc" id="aclass_serial_face_graph_html_a1a4eb94112e060ea88349a2dd84b5f0d"><div class="ttname"><a href="class_serial_face_graph.html#a1a4eb94112e060ea88349a2dd84b5f0d">SerialFaceGraph::traverse_dfs</a></div><div class="ttdeci">virtual void traverse_dfs(std::vector&lt; int &gt; &amp;visit, int start_vert, int count)</div><div class="ttdoc">인접 리스트에 있는 면을 순회하며 인덱스 부여.</div><div class="ttdef"><b>Definition:</b> <a href="serialfacegraph_8cpp_source.html#l00056">serialfacegraph.cpp:56</a></div></div>
+<div class="ttc" id="aclass_serial_face_graph_html_a86e605d720d9f4b632dce75fe6500306"><div class="ttname"><a href="class_serial_face_graph.html#a86e605d720d9f4b632dce75fe6500306">SerialFaceGraph::SerialFaceGraph</a></div><div class="ttdeci">SerialFaceGraph(std::vector&lt; Triangle &gt; *list)</div><div class="ttdef"><b>Definition:</b> <a href="serialfacegraph_8cpp_source.html#l00003">serialfacegraph.cpp:3</a></div></div>
+<div class="ttc" id="aclass_serial_face_graph_html_a985f8d4edc774a1adda9b6e074340f42"><div class="ttname"><a href="class_serial_face_graph.html#a985f8d4edc774a1adda9b6e074340f42">SerialFaceGraph::check_connected</a></div><div class="ttdeci">virtual std::vector&lt; std::vector&lt; Triangle &gt; &gt; check_connected()</div><div class="ttdoc">인접 리스트에 있는 면을 인접한 면끼리 분류.</div><div class="ttdef"><b>Definition:</b> <a href="serialfacegraph_8cpp_source.html#l00036">serialfacegraph.cpp:36</a></div></div>
+<div class="ttc" id="afacegraph_8hpp_html"><div class="ttname"><a href="facegraph_8hpp.html">facegraph.hpp</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_bfccd401955b95cf8c75461437045ac0.html">inc</a></li><li class="navelem"><a class="el" href="serialfacegraph_8h.html">serialfacegraph.h</a></li>
+    <li class="footer">다음에 의해 생성됨 :  <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['parallelsegmenter_92',['ParallelSegmenter',['../class_parallel_segmenter.html',1,'']]]
+  ['segmenter_93',['Segmenter',['../class_segmenter.html',1,'']]],
+  ['serialfacegraph_94',['SerialFaceGraph',['../class_serial_face_graph.html',1,'']]],
+  ['serialsegmenter_95',['SerialSegmenter',['../class_serial_segmenter.html',1,'']]]
 ];

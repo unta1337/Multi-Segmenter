@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['parallelsegmenter_2ecpp_116',['parallelsegmenter.cpp',['../parallelsegmenter_8cpp.html',1,'']]],
-  ['parallelsegmenter_2eh_117',['parallelsegmenter.h',['../parallelsegmenter_8h.html',1,'']]]
+  ['readme_2emd_118',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]]
 ];

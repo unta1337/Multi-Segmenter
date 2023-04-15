@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['graphnode_88',['GraphNode',['../class_face_graph_1_1_graph_node.html',1,'FaceGraph']]]
+  ['material_88',['Material',['../class_material.html',1,'']]],
+  ['model_89',['Model',['../struct_model.html',1,'']]]
 ];

@@ -28,8 +28,7 @@ var menudata={children:[
 {text:"네임스페이스 목록",url:"namespaces.html"},
 {text:"네임스페이스 멤버",url:"namespacemembers.html",children:[
 {text:"모두",url:"namespacemembers.html"},
-{text:"함수",url:"namespacemembers_func.html"},
-{text:"타입정의",url:"namespacemembers_type.html"}]}]},
+{text:"함수",url:"namespacemembers_func.html"}]}]},
 {text:"클래스",url:"annotated.html",children:[
 {text:"클래스 목록",url:"annotated.html"},
 {text:"클래스 색인",url:"classes.html"},
@@ -42,7 +41,6 @@ var menudata={children:[
 {text:"e",url:"functions.html#index_e"},
 {text:"f",url:"functions.html#index_f"},
 {text:"i",url:"functions.html#index_i"},
-{text:"l",url:"functions.html#index_l"},
 {text:"m",url:"functions.html#index_m"},
 {text:"n",url:"functions.html#index_n"},
 {text:"o",url:"functions.html#index_o"},
@@ -59,4 +57,5 @@ var menudata={children:[
 {text:"파일 멤버",url:"globals.html",children:[
 {text:"모두",url:"globals.html"},
 {text:"함수",url:"globals_func.html"},
+{text:"타입정의",url:"globals_type.html"},
 {text:"매크로",url:"globals_defs.html"}]}]}]}

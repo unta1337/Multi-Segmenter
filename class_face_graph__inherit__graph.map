@@ -1,0 +1,5 @@
+<map id="FaceGraph" name="FaceGraph">
+<area shape="rect" id="node1" title="삼각형에 대한 인접 리스트를 유지." alt="" coords="108,5,199,32"/>
+<area shape="rect" id="node2" href="$class_parallel_face_graph.html" title=" " alt="" coords="5,80,144,107"/>
+<area shape="rect" id="node3" href="$class_serial_face_graph.html" title=" " alt="" coords="169,80,295,107"/>
+</map>

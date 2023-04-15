@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['optical_5fdensity_167',['optical_density',['../class_material.html#a7ea772a1afc621edb4c408844631f9d5',1,'Material']]]
+  ['resolution_170',['resolution',['../struct_texture.html#ae2e64acebcf53bd3f142fe49533678f9',1,'Texture']]]
 ];

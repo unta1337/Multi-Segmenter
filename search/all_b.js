@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['parallelsegmenter_47',['ParallelSegmenter',['../class_parallel_segmenter.html',1,'ParallelSegmenter'],['../class_parallel_segmenter.html#add2a29122ba88ab93f729573a7814e24',1,'ParallelSegmenter::ParallelSegmenter()']]],
-  ['parallelsegmenter_2ecpp_48',['parallelsegmenter.cpp',['../parallelsegmenter_8cpp.html',1,'']]],
-  ['parallelsegmenter_2eh_49',['parallelsegmenter.h',['../parallelsegmenter_8h.html',1,'']]],
-  ['pixel_50',['pixel',['../struct_texture.html#a34d6de3c4dff559a1adad442604c4c48',1,'Texture']]]
+  ['read_5fobj_49',['read_obj',['../struct_model.html#a1dee6172f89b27a20de52a8c835e5fe7',1,'Model']]],
+  ['readme_2emd_50',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
+  ['resolution_51',['resolution',['../struct_texture.html#ae2e64acebcf53bd3f142fe49533678f9',1,'Texture']]]
 ];

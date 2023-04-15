@@ -1,10 +1,13 @@
 <map id="inc/facegraphutils.h" name="inc/facegraphutils.h">
-<area shape="rect" id="node1" title=" " alt="" coords="291,5,441,32"/>
-<area shape="rect" id="node2" href="$facegraph_8h.html" title=" " alt="" coords="305,80,427,107"/>
-<area shape="rect" id="node3" href="$originalsegmenter_8h.html" title=" " alt="" coords="85,155,260,181"/>
-<area shape="rect" id="node6" href="$serialsegmenter_8h.html" title=" " alt="" coords="285,155,447,181"/>
-<area shape="rect" id="node8" href="$facegraph_8cpp.html" title=" " alt="" coords="472,155,609,181"/>
-<area shape="rect" id="node4" href="$src_2main_8cpp.html" title=" " alt="" coords="220,229,325,256"/>
-<area shape="rect" id="node5" href="$originalsegmenter_8cpp.html" title=" " alt="" coords="5,229,196,256"/>
-<area shape="rect" id="node7" href="$serialsegmenter_8cpp.html" title=" " alt="" coords="349,229,527,256"/>
+<area shape="rect" id="node1" title=" " alt="" coords="353,5,504,32"/>
+<area shape="rect" id="node2" href="$facegraph_8hpp.html" title=" " alt="" coords="359,80,498,107"/>
+<area shape="rect" id="node3" href="$originalsegmenter_8h.html" title=" " alt="" coords="247,155,421,181"/>
+<area shape="rect" id="node6" href="$parallelfacegraph_8h.html" title=" " alt="" coords="693,155,863,181"/>
+<area shape="rect" id="node8" href="$serialfacegraph_8h.html" title=" " alt="" coords="445,155,604,181"/>
+<area shape="rect" id="node11" href="$serialsegmenter_8h.html" title=" " alt="" coords="59,155,222,181"/>
+<area shape="rect" id="node4" href="$src_2main_8cpp.html" title=" " alt="" coords="5,229,111,256"/>
+<area shape="rect" id="node5" href="$originalsegmenter_8cpp.html" title=" " alt="" coords="336,229,527,256"/>
+<area shape="rect" id="node7" href="$parallelfacegraph_8cpp.html" title=" " alt="" coords="749,229,935,256"/>
+<area shape="rect" id="node9" href="$serialfacegraph_8cpp.html" title=" " alt="" coords="551,229,725,256"/>
+<area shape="rect" id="node10" href="$serialsegmenter_8cpp.html" title=" " alt="" coords="135,229,312,256"/>
 </map>

@@ -30,8 +30,7 @@ var NAVTREE =
       [ "네임스페이스 목록", "namespaces.html", "namespaces_dup" ],
       [ "네임스페이스 멤버", "namespacemembers.html", [
         [ "모두", "namespacemembers.html", null ],
-        [ "함수", "namespacemembers_func.html", null ],
-        [ "타입정의", "namespacemembers_type.html", null ]
+        [ "함수", "namespacemembers_func.html", null ]
       ] ]
     ] ],
     [ "클래스", "annotated.html", [
@@ -49,6 +48,7 @@ var NAVTREE =
       [ "파일 멤버", "globals.html", [
         [ "모두", "globals.html", null ],
         [ "함수", "globals_func.html", null ],
+        [ "타입정의", "globals_type.html", null ],
         [ "매크로", "globals_defs.html", null ]
       ] ]
     ] ]

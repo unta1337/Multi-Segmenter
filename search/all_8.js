@@ -1,16 +1,5 @@
 var searchData=
 [
-  ['main_26',['main',['../src_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;main.cpp'],['../tests_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627',1,'main(int argc, char **argv):&#160;main.cpp']]],
-  ['main_2ecpp_27',['main.cpp',['../src_2main_8cpp.html',1,'(전역 이름공간)'],['../tests_2main_8cpp.html',1,'(전역 이름공간)']]],
-  ['material_28',['Material',['../class_material.html',1,'']]],
-  ['material_29',['material',['../class_triangle_mesh.html#a1ae3f69873b401e058d739fbc6be2e5d',1,'TriangleMesh']]],
-  ['material_2eh_30',['material.h',['../material_8h.html',1,'']]],
-  ['material_5ftexture_5fid_31',['material_texture_id',['../class_triangle_mesh.html#ab438b473a0aaed99bd6bd03c2d7ea50f',1,'TriangleMesh']]],
-  ['mesh_32',['mesh',['../class_segmenter.html#af70ce8086c5555cd761b5bb17f4655b4',1,'Segmenter']]],
-  ['meshes_33',['meshes',['../struct_model.html#a205a97a1dfd9e39aaa71021359b7baef',1,'Model']]],
-  ['model_34',['Model',['../struct_model.html',1,'']]],
-  ['model_2ecpp_35',['model.cpp',['../model_8cpp.html',1,'']]],
-  ['model_2eh_36',['model.h',['../model_8h.html',1,'']]],
-  ['modelutils_2ehpp_37',['modelutils.hpp',['../modelutils_8hpp.html',1,'']]],
-  ['multi_2dsegmentor_38',['Multi-Segmentor',['../index.html',1,'']]]
+  ['name_35',['name',['../class_material.html#affe06990f884293d0fe2f39110f71730',1,'Material::name()'],['../class_triangle_mesh.html#ae42971a3f0133ff6a0442f0bcbfa3226',1,'TriangleMesh::name()']]],
+  ['normal_36',['normal',['../class_triangle_mesh.html#a2f6fc95f5fd415dbf76d355bddb5c7a2',1,'TriangleMesh']]]
 ];

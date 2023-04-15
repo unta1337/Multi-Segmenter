@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['originalsegmenter_91',['OriginalSegmenter',['../class_original_segmenter.html',1,'']]]
+  ['parallelfacegraph_91',['ParallelFaceGraph',['../class_parallel_face_graph.html',1,'']]],
+  ['parallelsegmenter_92',['ParallelSegmenter',['../class_parallel_segmenter.html',1,'']]]
 ];
