@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.9)
 
 project(
-        Multi-Segmentor
+        Multi-Segmenter
         VERSION 0.1
         DESCRIPTION "3D Object Segmentation with Parallel Computing"
         LANGUAGES CXX)
@@ -26,6 +26,14 @@ find_package(OpenMP REQUIRED)
 include(FetchContent)
 
 FetchContent_Declare(
+        tinyobjloader
+        GIT_REPOSITORY https://github.com/tinyobjloader/tinyobjloader
+        GIT_TAG bca2719a11e688b85ce9af21dcb156f3d8b918bc
+)
+FetchContent_MakeAvailable(tinyobjloader)
+
+
+FetchContent_Declare(
         glm
         GIT_REPOSITORY https://github.com/g-truc/glm.git
         GIT_TAG		   0.9.9.8
@@ -48,11 +56,11 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 enable_testing()
 
-add_executable(Multi-Segmentor ${MAIN_FILE} ${PROJECT_SRC} ${PROJECT_HEADERS})
-target_include_directories(Multi-Segmentor PRIVATE ${glm_SOURCE_DIR})
-target_link_libraries(Multi-Segmentor PRIVATE OpenMP::OpenMP_CXX)
+add_executable(Multi-Segmenter ${MAIN_FILE} ${PROJECT_SRC} ${PROJECT_HEADERS})
+target_include_directories(Multi-Segmenter PRIVATE ${glm_SOURCE_DIR})
+target_link_libraries(Multi-Segmenter PRIVATE OpenMP::OpenMP_CXX tinyobjloader)
 
-add_executable(Multi-Segmentor-Test ${PROJECT_TESTS} ${PROJECT_SRC} ${PROJECT_HEADERS})
-target_include_directories(Multi-Segmentor-Test PRIVATE ${glm_SOURCE_DIR})
-target_link_libraries(Multi-Segmentor-Test PRIVATE GTest::gtest_main OpenMP::OpenMP_CXX)
-gtest_discover_tests(Multi-Segmentor-Test)
+add_executable(Multi-Segmenter-Test ${PROJECT_TESTS} ${PROJECT_SRC} ${PROJECT_HEADERS})
+target_include_directories(Multi-Segmenter-Test PRIVATE ${glm_SOURCE_DIR})
+target_link_libraries(Multi-Segmenter-Test PRIVATE GTest::gtest_main OpenMP::OpenMP_CXX tinyobjloader)
+gtest_discover_tests(Multi-Segmenter-Test)
