@@ -5,6 +5,26 @@
 #include "serialsegmenter.h"
 #include <iostream>
 
+std::string file_path;
+std::string folder_path;
+std::string filename;
+
+void init_file_path(int argc, char* argv[]) {
+    for (int i = 1; i < argc; ++i) {
+        file_path += std::string(argv[i]) + " ";
+    }
+
+    file_path.pop_back();
+    std::replace(file_path.begin(), file_path.end(), '\\', '/');
+    size_t separator_next_index = file_path.find_last_of('/') + 1;
+    folder_path = file_path.substr(0, separator_next_index);
+    filename = file_path.substr(separator_next_index, file_path.length());
+    size_t extension_index = filename.find_last_of('.');
+    if (extension_index != std::string::npos) {
+        filename = filename.substr(0, extension_index);
+    }
+}
+
 int main(int argc, char* argv[]) {
     INIT_CONSOLE();
 
@@ -14,21 +34,7 @@ int main(int argc, char* argv[]) {
 
         return 1;
     }
-
-    std::string file_path;
-    for (int i = 1; i < argc; ++i) {
-        file_path += std::string(argv[i]) + " ";
-    }
-
-    file_path.pop_back();
-    std::replace(file_path.begin(), file_path.end(), '\\', '/');
-    size_t separator_next_index = file_path.find_last_of('/') + 1;
-    std::string folder_path = file_path.substr(0, separator_next_index);
-    std::string filename = file_path.substr(separator_next_index, file_path.length());
-    size_t extension_index = filename.find_last_of('.');
-    if (extension_index != std::string::npos) {
-        filename = filename.substr(0, extension_index);
-    }
+    init_file_path(argc, argv);
 
     Model model;
     model.read_obj(file_path);
