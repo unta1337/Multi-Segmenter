@@ -32,7 +32,7 @@ jobs:
 
       - name: echo test
         shell: bash
-        run: echo ${{ matrix.file }}
+        run: echo ${{ matrix.assets }}
 
       - name: Install prerequisite
         shell: bash
@@ -58,11 +58,11 @@ jobs:
 
       - name: Test launch
         shell: bash
-        run: ./x64/Multi-Segmenter assets/${{ matrix.file }}
+        run: ./x64/Multi-Segmenter assets/${{ matrix.assets }}
 
       - name: Launch renderer
         shell: bash
-        run: python utils/SimpleRenderer/renderer.py assets/Segmented_${{ matrix.file }} --scale 10 --align --videoonly --frame 5
+        run: python utils/SimpleRenderer/renderer.py assets/Segmented_${{ matrix.assets }} --scale 10 --align --videoonly --frame 5
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
