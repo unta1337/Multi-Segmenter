@@ -21,9 +21,9 @@ class Segmenter {
     float tolerance;
 
   public:
-    Segmenter(TriangleMesh* mesh, float tolerance = 0.0f)
-        : mesh(mesh), tolerance(tolerance) {
+    Segmenter(TriangleMesh* mesh, float tolerance = 0.0f) : mesh(mesh), tolerance(tolerance) {
     }
+    virtual ~Segmenter(){};
 
     /**
      * @brief 세그멘테이션 수행.

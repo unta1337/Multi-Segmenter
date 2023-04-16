@@ -2,15 +2,19 @@
 #include "model.h"
 #include "objutils.h"
 #include "originalsegmenter.h"
+#include "parallelsegmenter.h"
 #include "serialsegmenter.h"
 #include <iostream>
+#include <memory>
 
+std::string mode;
 std::string file_path;
 std::string folder_path;
 std::string filename;
 
 void init_file_path(int argc, char* argv[]) {
-    for (int i = 1; i < argc; ++i) {
+    mode = argv[1];
+    for (int i = 2; i < argc; ++i) {
         file_path += std::string(argv[i]) + " ";
     }
 
@@ -28,9 +32,10 @@ void init_file_path(int argc, char* argv[]) {
 int main(int argc, char* argv[]) {
     INIT_CONSOLE();
 
-    if (argc != 2) {
+    if (argc < 3) {
         std::cout << "Usage:\n";
-        std::cout << "    " << argv[0] << " {obj_file_path}\n";
+        std::cout << "\t" << argv[0] << " "
+                  << "[mode (serial/parallel)] [obj_file_path]\n";
 
         return 1;
     }
@@ -44,8 +49,15 @@ int main(int argc, char* argv[]) {
     // 오브젝트를 구성하는 삼각형 개수.
     std::cout << "Mesh 1 triangle size : " << model.meshes[0]->index.size() << std::endl;
 
-    SerialSegmenter serial_segmenter(model.meshes[0], 15.f);
-    auto seg = serial_segmenter.do_segmentation();
+    std::unique_ptr<Segmenter> segmenter;
+
+    if (mode == "serial") {
+        segmenter = std::make_unique<SerialSegmenter>(model.meshes[0], 15.f);
+    } else if (mode == "parallel") {
+        segmenter = std::make_unique<ParallelSegmenter>(model.meshes[0], 15.f);
+    } else if (mode == "cuda") {
+    }
+    auto seg = segmenter->do_segmentation();
 
     // 구분된 부분별 출력.
     std::cout << "Segmentation result " << seg.size() << std::endl;
