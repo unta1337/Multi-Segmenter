@@ -1,0 +1,33 @@
+name: Build Assets
+on: [push]
+jobs:
+  build_artifacts:
+    name: Build Artifacts
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v3
+
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          cache: 'pip'
+          python-version: '3.10'
+
+      - name: Install requirements
+        shell: pwsh
+        working-directory: utils/SimpleRenderer
+        run: pip install -r requirements.txt
+
+      - name: Launch renderer
+        shell: pwsh
+        run: python utils/SimpleRenderer/renderer.py assets/Cube_noised.obj
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: |
+            assets/Cube_noised_x_axis.mp4
+            assets/Cube_noised_y_axis.mp4
+            assets/Cube_noised_z_axis.mp4
