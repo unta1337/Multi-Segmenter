@@ -17,7 +17,7 @@ jobs:
         run: cmake --build x64 --target Multi-Segmenter Multi-Segmenter-Test --config Release && mv x64/Release/* x64
 
       - name: Install requirements
-      - uses: actions/setup-python@v4
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
         working-directory: utils/SimpleRenderer
@@ -28,7 +28,7 @@ jobs:
         run: x64/Multi-Segmenter.exe assets/Cube_noised.obj
 
       - name: Run
-      - uses: actions/setup-python@v4
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
         run: python utils/SimpleRenderer/renderer.py assets/Segmented_Cube_noised.obj
