@@ -2,6 +2,8 @@
 #define __PARALLELFACEGRAPH_H
 
 #include "facegraph.hpp"
+#include <omp.h>
+
 class ParallelFaceGraph : public FaceGraph {
   public:
     ParallelFaceGraph(std::vector<Triangle>* list);
