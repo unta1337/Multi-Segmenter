@@ -30,7 +30,8 @@ var NAVTREE =
       [ "네임스페이스 목록", "namespaces.html", "namespaces_dup" ],
       [ "네임스페이스 멤버", "namespacemembers.html", [
         [ "모두", "namespacemembers.html", null ],
-        [ "함수", "namespacemembers_func.html", null ]
+        [ "함수", "namespacemembers_func.html", null ],
+        [ "변수", "namespacemembers_vars.html", null ]
       ] ]
     ] ],
     [ "클래스", "annotated.html", [
@@ -58,7 +59,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"annotated.html"
+"annotated.html",
+"renderer_8py.html#abbe733831ef4439938c0c1d1259a7f95"
 ];
 
 var SYNCONMSG = '패널 동기화를 비활성화하기 위해 클릭하십시오';

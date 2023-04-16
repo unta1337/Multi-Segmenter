@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['shininess_302',['shininess',['../class_material.html#a9dc184c883ec135ace28c1917af3fe84',1,'Material']]],
-  ['specular_303',['specular',['../class_material.html#aac1c499923ff99564cdd97a4b5e504a9',1,'Material']]]
+  ['parser_363',['parser',['../namespacerenderer.html#abb02664b604e475c8e8ac0ad1fc944db',1,'renderer']]],
+  ['pixel_364',['pixel',['../struct_texture.html#a34d6de3c4dff559a1adad442604c4c48',1,'Texture']]]
 ];

@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['vertex_308',['vertex',['../struct_triangle.html#ab471d5577eb0d4bfe79edc8d6813a8d3',1,'Triangle::vertex()'],['../class_triangle_mesh.html#a3bbd116b4f498879d8e28ebc3349401d',1,'TriangleMesh::vertex()']]]
+  ['resolution_366',['resolution',['../struct_texture.html#ae2e64acebcf53bd3f142fe49533678f9',1,'Texture']]],
+  ['resolution_5fpercentage_367',['resolution_percentage',['../namespacerenderer.html#a73c96c598048034e8c92500d889f3c27',1,'renderer']]],
+  ['rotation_5feuler_368',['rotation_euler',['../namespacerenderer.html#a4ba8db7442576a16aa4e2d654e4bdc71',1,'renderer']]]
 ];
