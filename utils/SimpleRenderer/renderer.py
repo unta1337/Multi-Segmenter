@@ -9,11 +9,12 @@ import imageio.v2 as imageio
 parser = argparse.ArgumentParser()
 
 # 인자 추가
-parser.add_argument("--fps", type=int, default=60, help="FPS argument")
-parser.add_argument("--frame", type=int, default=5 ,help="Frame argument")
+parser.add_argument("--fps", type=int, default=10, help="FPS argument")
+parser.add_argument("--frame", type=int, default=60, help="Frame argument")
 parser.add_argument("--quality", type=int, default=6, help="Quality argument")
 parser.add_argument("--align", action="store_true", help="Align argument")
-parser.add_argument("--videoonly", action="store_true", help="Align argument")
+parser.add_argument("--videoonly", action="store_true", help="Video only argument")
+parser.add_argument("--scale", type=int, default=100, help="Scale argument")
 parser.add_argument("filepath", help="Filepath argument")
 
 # 인자 파싱
@@ -25,6 +26,7 @@ quality = args.quality
 align = args.align
 videoonly = args.videoonly
 filepath = os.path.abspath(args.filepath)
+scale = args.scale
 
 dir_path = os.path.dirname(filepath)
 file_name, file_ext = os.path.splitext(os.path.basename(filepath))
@@ -51,6 +53,7 @@ bpy.ops.import_scene.obj(filepath=filepath)
 # 뷰어 설정 및 렌더링
 bpy.context.scene.render.engine = 'BLENDER_EEVEE'
 bpy.context.scene.render.image_settings.file_format = 'PNG'
+bpy.context.scene.render.resolution_percentage = scale
 
 # 모든 오브젝트 가져오기
 objects = bpy.context.selected_objects
