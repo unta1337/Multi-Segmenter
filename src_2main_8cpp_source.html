@@ -92,44 +92,63 @@ $(document).ready(function(){initNavTree('src_2main_8cpp_source.html',''); initR
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="serialsegmenter_8h.html">serialsegmenter.h</a>&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="src_2main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">    8</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="src_2main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* argv[]) {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keywordflow">if</span> (argc != 2) {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Usage:\n&quot;</span>;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;    &quot;</span> &lt;&lt; argv[0] &lt;&lt; <span class="stringliteral">&quot; {obj_file_path}\n&quot;</span>;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    }</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    std::string file_path = argv[1];</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="consoleutils_8h.html#afd96c84e8a8852e762ebc070825be7c7">INIT_CONSOLE</a>();</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="struct_model.html">Model</a> model;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    model.<a class="code" href="struct_model.html#a1dee6172f89b27a20de52a8c835e5fe7">read_obj</a>(file_path);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="comment">// 오브젝트를 구성하는 정점 개수.</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Mesh 1 vertex size : &quot;</span> &lt;&lt; model.<a class="code" href="struct_model.html#a205a97a1dfd9e39aaa71021359b7baef">meshes</a>[0]-&gt;vertex.size() &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="comment">// 오브젝트를 구성하는 삼각형 개수.</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Mesh 1 triangle size : &quot;</span> &lt;&lt; model.<a class="code" href="struct_model.html#a205a97a1dfd9e39aaa71021359b7baef">meshes</a>[0]-&gt;index.size() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="src_2main_8cpp.html#abf5d4571e49256d0c9d862dfe4936e55">    8</a></span>&#160;std::string <a class="code" href="src_2main_8cpp.html#abf5d4571e49256d0c9d862dfe4936e55">file_path</a>;</div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="src_2main_8cpp.html#a439b971847d11167bdaf27e28812c063">    9</a></span>&#160;std::string <a class="code" href="src_2main_8cpp.html#a439b971847d11167bdaf27e28812c063">folder_path</a>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="src_2main_8cpp.html#ae80f820219e45772366a2a68de6a54c4">   10</a></span>&#160;std::string <a class="code" href="src_2main_8cpp.html#ae80f820219e45772366a2a68de6a54c4">filename</a>;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="src_2main_8cpp.html#a6760ea4a941f8953f0ba84f62368a8f9">   12</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="src_2main_8cpp.html#a6760ea4a941f8953f0ba84f62368a8f9">init_file_path</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* argv[]) {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt; argc; ++i) {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <a class="code" href="src_2main_8cpp.html#abf5d4571e49256d0c9d862dfe4936e55">file_path</a> += std::string(argv[i]) + <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    }</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <a class="code" href="src_2main_8cpp.html#abf5d4571e49256d0c9d862dfe4936e55">file_path</a>.pop_back();</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    std::replace(<a class="code" href="src_2main_8cpp.html#abf5d4571e49256d0c9d862dfe4936e55">file_path</a>.begin(), <a class="code" href="src_2main_8cpp.html#abf5d4571e49256d0c9d862dfe4936e55">file_path</a>.end(), <span class="charliteral">&#39;\\&#39;</span>, <span class="charliteral">&#39;/&#39;</span>);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">size_t</span> separator_next_index = <a class="code" href="src_2main_8cpp.html#abf5d4571e49256d0c9d862dfe4936e55">file_path</a>.find_last_of(<span class="charliteral">&#39;/&#39;</span>) + 1;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="src_2main_8cpp.html#a439b971847d11167bdaf27e28812c063">folder_path</a> = <a class="code" href="src_2main_8cpp.html#abf5d4571e49256d0c9d862dfe4936e55">file_path</a>.substr(0, separator_next_index);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="src_2main_8cpp.html#ae80f820219e45772366a2a68de6a54c4">filename</a> = <a class="code" href="src_2main_8cpp.html#abf5d4571e49256d0c9d862dfe4936e55">file_path</a>.substr(separator_next_index, <a class="code" href="src_2main_8cpp.html#abf5d4571e49256d0c9d862dfe4936e55">file_path</a>.length());</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">size_t</span> extension_index = <a class="code" href="src_2main_8cpp.html#ae80f820219e45772366a2a68de6a54c4">filename</a>.find_last_of(<span class="charliteral">&#39;.&#39;</span>);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">if</span> (extension_index != std::string::npos) {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="src_2main_8cpp.html#ae80f820219e45772366a2a68de6a54c4">filename</a> = <a class="code" href="src_2main_8cpp.html#ae80f820219e45772366a2a68de6a54c4">filename</a>.substr(0, extension_index);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    }</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="class_serial_segmenter.html">SerialSegmenter</a> serial_segmenter(model.<a class="code" href="struct_model.html#a205a97a1dfd9e39aaa71021359b7baef">meshes</a>[0], 15.f);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">auto</span> seg = serial_segmenter.<a class="code" href="class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e">do_segmentation</a>();</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="src_2main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">   28</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="src_2main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* argv[]) {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <a class="code" href="consoleutils_8h.html#afd96c84e8a8852e762ebc070825be7c7">INIT_CONSOLE</a>();</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment">// 구분된 부분별 출력.</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Segmentation result &quot;</span> &lt;&lt; seg.size() &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; s : seg) {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        std::cout &lt;&lt; s-&gt;name &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        std::cout &lt;&lt; s-&gt;vertex.size() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">if</span> (argc != 2) {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Usage:\n&quot;</span>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;    &quot;</span> &lt;&lt; argv[0] &lt;&lt; <span class="stringliteral">&quot; {obj_file_path}\n&quot;</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">return</span> 1;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="comment">// 구분된 부분별 .obj 저장. 각 부분별 명칭으로 저장됨. (i.e., cube_seg0.obj)</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="objutils_8h.html#ab675714cd506a42f93600f3bfa89c93a">write_obj</a>(seg, <span class="stringliteral">&quot;&quot;</span>, <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="comment">// 한꺼번에 .obj 저장.</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="objutils_8h.html#ab675714cd506a42f93600f3bfa89c93a">write_obj</a>(seg, <span class="stringliteral">&quot;Segmented_cube&quot;</span>, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="src_2main_8cpp.html#a6760ea4a941f8953f0ba84f62368a8f9">init_file_path</a>(argc, argv);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="struct_model.html">Model</a> model;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    model.<a class="code" href="struct_model.html#a1dee6172f89b27a20de52a8c835e5fe7">read_obj</a>(<a class="code" href="src_2main_8cpp.html#abf5d4571e49256d0c9d862dfe4936e55">file_path</a>);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">// 오브젝트를 구성하는 정점 개수.</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Mesh 1 vertex size : &quot;</span> &lt;&lt; model.<a class="code" href="struct_model.html#a205a97a1dfd9e39aaa71021359b7baef">meshes</a>[0]-&gt;vertex.size() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="comment">// 오브젝트를 구성하는 삼각형 개수.</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Mesh 1 triangle size : &quot;</span> &lt;&lt; model.<a class="code" href="struct_model.html#a205a97a1dfd9e39aaa71021359b7baef">meshes</a>[0]-&gt;index.size() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="class_serial_segmenter.html">SerialSegmenter</a> serial_segmenter(model.<a class="code" href="struct_model.html#a205a97a1dfd9e39aaa71021359b7baef">meshes</a>[0], 15.f);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">auto</span> seg = serial_segmenter.<a class="code" href="class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e">do_segmentation</a>();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">// 구분된 부분별 출력.</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Segmentation result &quot;</span> &lt;&lt; seg.size() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; s : seg) {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        std::cout &lt;&lt; s-&gt;name &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        std::cout &lt;&lt; s-&gt;vertex.size() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">// 구분된 부분별 .obj 저장. 각 부분별 명칭으로 저장됨. (i.e., cube_seg0.obj)</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="objutils_8h.html#ab675714cd506a42f93600f3bfa89c93a">write_obj</a>(seg, <a class="code" href="src_2main_8cpp.html#a439b971847d11167bdaf27e28812c063">folder_path</a>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment">// 한꺼번에 .obj 저장.</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="objutils_8h.html#ab675714cd506a42f93600f3bfa89c93a">write_obj</a>(seg, <a class="code" href="src_2main_8cpp.html#a439b971847d11167bdaf27e28812c063">folder_path</a> + <span class="stringliteral">&quot;Segmented_&quot;</span> + <a class="code" href="src_2main_8cpp.html#ae80f820219e45772366a2a68de6a54c4">filename</a>, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
 <div class="ttc" id="aclass_serial_segmenter_html"><div class="ttname"><a href="class_serial_segmenter.html">SerialSegmenter</a></div><div class="ttdef"><b>Definition:</b> <a href="serialsegmenter_8h_source.html#l00024">serialsegmenter.h:24</a></div></div>
 <div class="ttc" id="aclass_serial_segmenter_html_a4d1276590a3f053bc5440c0e7b92aa4e"><div class="ttname"><a href="class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e">SerialSegmenter::do_segmentation</a></div><div class="ttdeci">virtual std::vector&lt; TriangleMesh * &gt; do_segmentation()</div><div class="ttdoc">세그멘테이션 수행.</div><div class="ttdef"><b>Definition:</b> <a href="serialsegmenter_8cpp_source.html#l00028">serialsegmenter.cpp:28</a></div></div>
 <div class="ttc" id="aconsoleutils_8h_html"><div class="ttname"><a href="consoleutils_8h.html">consoleutils.h</a></div></div>
@@ -139,7 +158,11 @@ $(document).ready(function(){initNavTree('src_2main_8cpp_source.html',''); initR
 <div class="ttc" id="aobjutils_8h_html_ab675714cd506a42f93600f3bfa89c93a"><div class="ttname"><a href="objutils_8h.html#ab675714cd506a42f93600f3bfa89c93a">write_obj</a></div><div class="ttdeci">bool write_obj(std::vector&lt; TriangleMesh * &gt; meshes, std::string path, bool is_one_file)</div><div class="ttdef"><b>Definition:</b> <a href="objutils_8h_source.html#l00010">objutils.h:10</a></div></div>
 <div class="ttc" id="aoriginalsegmenter_8h_html"><div class="ttname"><a href="originalsegmenter_8h.html">originalsegmenter.h</a></div></div>
 <div class="ttc" id="aserialsegmenter_8h_html"><div class="ttname"><a href="serialsegmenter_8h.html">serialsegmenter.h</a></div></div>
-<div class="ttc" id="asrc_2main_8cpp_html_a0ddf1224851353fc92bfbff6f499fa97"><div class="ttname"><a href="src_2main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main</a></div><div class="ttdeci">int main(int argc, char *argv[])</div><div class="ttdef"><b>Definition:</b> <a href="src_2main_8cpp_source.html#l00008">main.cpp:8</a></div></div>
+<div class="ttc" id="asrc_2main_8cpp_html_a0ddf1224851353fc92bfbff6f499fa97"><div class="ttname"><a href="src_2main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main</a></div><div class="ttdeci">int main(int argc, char *argv[])</div><div class="ttdef"><b>Definition:</b> <a href="src_2main_8cpp_source.html#l00028">main.cpp:28</a></div></div>
+<div class="ttc" id="asrc_2main_8cpp_html_a439b971847d11167bdaf27e28812c063"><div class="ttname"><a href="src_2main_8cpp.html#a439b971847d11167bdaf27e28812c063">folder_path</a></div><div class="ttdeci">std::string folder_path</div><div class="ttdef"><b>Definition:</b> <a href="src_2main_8cpp_source.html#l00009">main.cpp:9</a></div></div>
+<div class="ttc" id="asrc_2main_8cpp_html_a6760ea4a941f8953f0ba84f62368a8f9"><div class="ttname"><a href="src_2main_8cpp.html#a6760ea4a941f8953f0ba84f62368a8f9">init_file_path</a></div><div class="ttdeci">void init_file_path(int argc, char *argv[])</div><div class="ttdef"><b>Definition:</b> <a href="src_2main_8cpp_source.html#l00012">main.cpp:12</a></div></div>
+<div class="ttc" id="asrc_2main_8cpp_html_abf5d4571e49256d0c9d862dfe4936e55"><div class="ttname"><a href="src_2main_8cpp.html#abf5d4571e49256d0c9d862dfe4936e55">file_path</a></div><div class="ttdeci">std::string file_path</div><div class="ttdef"><b>Definition:</b> <a href="src_2main_8cpp_source.html#l00008">main.cpp:8</a></div></div>
+<div class="ttc" id="asrc_2main_8cpp_html_ae80f820219e45772366a2a68de6a54c4"><div class="ttname"><a href="src_2main_8cpp.html#ae80f820219e45772366a2a68de6a54c4">filename</a></div><div class="ttdeci">std::string filename</div><div class="ttdef"><b>Definition:</b> <a href="src_2main_8cpp_source.html#l00010">main.cpp:10</a></div></div>
 <div class="ttc" id="astruct_model_html"><div class="ttname"><a href="struct_model.html">Model</a></div><div class="ttdoc">하나의 .obj 파일을 저장하는 내부 자료형.</div><div class="ttdef"><b>Definition:</b> <a href="model_8h_source.html#l00017">model.h:17</a></div></div>
 <div class="ttc" id="astruct_model_html_a1dee6172f89b27a20de52a8c835e5fe7"><div class="ttname"><a href="struct_model.html#a1dee6172f89b27a20de52a8c835e5fe7">Model::read_obj</a></div><div class="ttdeci">void read_obj(std::string obj_file_path)</div><div class="ttdoc">경로에 있는 .obj 파일 로드.</div><div class="ttdef"><b>Definition:</b> <a href="model_8cpp_source.html#l00011">model.cpp:11</a></div></div>
 <div class="ttc" id="astruct_model_html_a205a97a1dfd9e39aaa71021359b7baef"><div class="ttname"><a href="struct_model.html#a205a97a1dfd9e39aaa71021359b7baef">Model::meshes</a></div><div class="ttdeci">std::vector&lt; TriangleMesh * &gt; meshes</div><div class="ttdef"><b>Definition:</b> <a href="model_8h_source.html#l00023">model.h:23</a></div></div>

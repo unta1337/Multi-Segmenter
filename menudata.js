@@ -86,6 +86,7 @@ var menudata={children:[
 {text:"v",url:"globals.html#index_v"},
 {text:"w",url:"globals.html#index_w"}]},
 {text:"함수",url:"globals_func.html"},
+{text:"변수",url:"globals_vars.html"},
 {text:"타입정의",url:"globals_type.html"},
 {text:"매크로",url:"globals_defs.html",children:[
 {text:"_",url:"globals_defs.html#index__5F"},

@@ -48,6 +48,7 @@ var NAVTREE =
       [ "파일 멤버", "globals.html", [
         [ "모두", "globals.html", null ],
         [ "함수", "globals_func.html", null ],
+        [ "변수", "globals_vars.html", null ],
         [ "타입정의", "globals_type.html", null ],
         [ "매크로", "globals_defs.html", null ]
       ] ]

@@ -7,7 +7,7 @@ var dir_bfccd401955b95cf8c75461437045ac0 =
       [ "FaceGraph", "class_face_graph.html", "class_face_graph" ]
     ] ],
     [ "facegraphutils.h", "facegraphutils_8h.html", "facegraphutils_8h" ],
-    [ "logutil.hpp", "logutil_8hpp.html", "logutil_8hpp" ],
+    [ "logutils.h", "logutils_8h.html", "logutils_8h" ],
     [ "material.h", "material_8h.html", [
       [ "Material", "class_material.html", "class_material" ]
     ] ],
