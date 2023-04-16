@@ -42,10 +42,9 @@ os.makedirs(output_dir, exist_ok=True) # 디렉토리가 없으면 생성
 # 모든 오브젝트 가져오기
 objects = bpy.context.selected_objects
 
-# Cube 객체 제거하기
+# 기본 객체 제거하기
 for obj in objects:
-    if obj.name == "Cube" or obj.name == "Light":
-        bpy.data.objects.remove(obj, do_unlink=True)
+    bpy.data.objects.remove(obj, do_unlink=True)
 
 # obj 파일 가져 오기
 bpy.ops.import_scene.obj(filepath=filepath)
