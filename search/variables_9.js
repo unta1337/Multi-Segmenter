@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['obj_359',['obj',['../namespacerenderer.html#a98f25d5dc51029d537cbe0bea4c582d2',1,'renderer']]],
-  ['objects_360',['objects',['../namespacerenderer.html#af08e9521a5991e3b903bcfffb679c6bd',1,'renderer']]],
-  ['output_361',['output',['../structname_match.html#a9ffb42b1e361a8e06c03c8d4edbdd711',1,'nameMatch']]],
-  ['output_5fdir_362',['output_dir',['../namespacerenderer.html#ab8a9baf10101a19cee7ce9990c2b525e',1,'renderer']]]
+  ['name_364',['name',['../class_material.html#affe06990f884293d0fe2f39110f71730',1,'Material::name()'],['../class_triangle_mesh.html#ae42971a3f0133ff6a0442f0bcbfa3226',1,'TriangleMesh::name()']]],
+  ['normal_365',['normal',['../class_triangle_mesh.html#a2f6fc95f5fd415dbf76d355bddb5c7a2',1,'TriangleMesh']]]
 ];

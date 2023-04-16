@@ -129,72 +129,77 @@ $(document).ready(function(){initNavTree('renderer_8py_source.html',''); initRes
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment"># 모든 오브젝트 가져오기</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="namespacerenderer.html#af08e9521a5991e3b903bcfffb679c6bd">   43</a></span>&#160;objects = bpy.context.selected_objects</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment"># Cube 객체 제거하기</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment"># 기본 객체 제거하기</span></div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordflow">for</span> obj <span class="keywordflow">in</span> objects:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">if</span> obj.name == <span class="stringliteral">&quot;Cube&quot;</span>:</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a79d3afe101db9443b9566d38a713a796">   48</a></span>&#160;        bpy.data.objects.remove(obj, do_unlink=<span class="keyword">True</span>)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"># obj 파일 가져 오기</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;bpy.ops.import_scene.obj(filepath=filepath)</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"># 뷰어 설정 및 렌더링</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a2d48a17f10d1dd9947820c8fe4e12998">   54</a></span>&#160;bpy.context.scene.render.engine = <span class="stringliteral">&#39;BLENDER_EEVEE&#39;</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a3a656b19bd4e6b4d5657289ee863119b">   55</a></span>&#160;bpy.context.scene.render.image_settings.file_format = <span class="stringliteral">&#39;PNG&#39;</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a73c96c598048034e8c92500d889f3c27">   56</a></span>&#160;bpy.context.scene.render.resolution_percentage = scale</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"># 모든 오브젝트 가져오기</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;objects = bpy.context.selected_objects</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"># 모든 오브젝트를 Collection에 넣기</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a14d98639c5c95c976ebfe9484ee672d0">   62</a></span>&#160;collection_name = <span class="stringliteral">&quot;AllObjects&quot;</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> bpy.data.collections.get(collection_name):</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    bpy.data.collections.new(collection_name)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;bpy.context.scene.collection.children.link(bpy.data.collections[collection_name])</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keywordflow">for</span> obj <span class="keywordflow">in</span> objects:</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    bpy.data.collections[collection_name].objects.link(obj)</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"># 모든 오브젝트를 선택</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keywordflow">for</span> obj <span class="keywordflow">in</span> bpy.context.scene.objects:</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    obj.select_set(<span class="keyword">True</span>)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment"># 카메라를 선택한 상태에서 선택한 오브젝트가 모두 보이도록 이동</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;bpy.ops.view3d.camera_to_view_selected()</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a79d3afe101db9443b9566d38a713a796">   47</a></span>&#160;    bpy.data.objects.remove(obj, do_unlink=<span class="keyword">True</span>)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"># obj 파일 가져 오기</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;bpy.ops.import_scene.obj(filepath=filepath)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"># 뷰어 설정 및 렌더링</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a2d48a17f10d1dd9947820c8fe4e12998">   53</a></span>&#160;bpy.context.scene.render.engine = <span class="stringliteral">&#39;BLENDER_EEVEE&#39;</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a3a656b19bd4e6b4d5657289ee863119b">   54</a></span>&#160;bpy.context.scene.render.image_settings.file_format = <span class="stringliteral">&#39;PNG&#39;</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a73c96c598048034e8c92500d889f3c27">   55</a></span>&#160;bpy.context.scene.render.resolution_percentage = scale</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"># 모든 오브젝트 가져오기</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;objects = bpy.context.selected_objects</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"># 카메라를 원점(0, 0, 0)을 중심으로 회전시키기 위해 새로운 빈 객체(empty object) 생성</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a92fb34044fa41514719f032c7d7d3037">   61</a></span>&#160;bpy.ops.object.empty_add(type=<span class="stringliteral">&#39;PLAIN_AXES&#39;</span>, align=<span class="stringliteral">&#39;WORLD&#39;</span>, location=(0, 0, 0))</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"># 카메라를 빈 객체에 부착하고 위치 조정</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a67fe81010024959a87d5272213c12598">   64</a></span>&#160;camera = bpy.data.objects[<span class="stringliteral">&#39;Camera&#39;</span>]</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a2c834267a67d6626e199340f46e6c27b">   65</a></span>&#160;camera.parent = bpy.context.active_object</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"># 전역 광원을 장면에 추가</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;bpy.ops.object.light_add(type=<span class="stringliteral">&#39;SUN&#39;</span>, align=<span class="stringliteral">&#39;WORLD&#39;</span>, location=(0, 0, 10))</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a7b9539418b1f4c134081550487966c76">   69</a></span>&#160;sun_light = bpy.context.active_object</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"># 전역 광원 설정</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="namespacerenderer.html#ada471c574ec9bbc87e0d87361d8a10f1">   72</a></span>&#160;sun_light.data.energy = 1</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a7c5a2a01f5df19811dd85a16b8db6a45">   73</a></span>&#160;sun_light.data.specular_factor = 0.5</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a4ba8db7442576a16aa4e2d654e4bdc71">   74</a></span>&#160;sun_light.rotation_euler = (math.radians(90), 0, 0)</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment"># 회전 애니메이션 만들기</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="namespacerenderer.html#ae9130bf008515a77c04c2f051cffcd19">   77</a></span>&#160;axes = [<span class="stringliteral">&#39;x&#39;</span>, <span class="stringliteral">&#39;y&#39;</span>, <span class="stringliteral">&#39;z&#39;</span>];</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keywordflow">for</span> axis <span class="keywordflow">in</span> range(3):</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">for</span> obj <span class="keywordflow">in</span> objects:</div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a4ba8db7442576a16aa4e2d654e4bdc71">   80</a></span>&#160;        obj.rotation_euler = (0, 0, 0)</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(frame):</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        filepath = os.path.join(output_dir, f<span class="stringliteral">&quot;{file_name}_{axes[axis]}_{i:04d}.png&quot;</span>)</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        bpy.context.scene.render.filepath = filepath</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="comment"># 모든 오브젝트 회전 설정</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">for</span> obj <span class="keywordflow">in</span> objects:</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            obj.rotation_euler[axis] = i * 2 * math.pi / frame <span class="comment"># z축 기준으로 회전</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keywordflow">if</span> align:</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="comment"># 모든 오브젝트를 선택</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keywordflow">for</span> obj <span class="keywordflow">in</span> bpy.context.scene.objects:</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                obj.select_set(<span class="keyword">True</span>)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment"># 모든 오브젝트를 선택</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keywordflow">for</span> obj <span class="keywordflow">in</span> bpy.context.scene.objects:</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    obj.select_set(<span class="keyword">True</span>)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment"># 카메라를 선택한 상태에서 선택한 오브젝트가 모두 보이도록 이동</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;bpy.ops.view3d.camera_to_view_selected()</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment"># 회전 애니메이션 만들기</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="namespacerenderer.html#ae9130bf008515a77c04c2f051cffcd19">   84</a></span>&#160;axes = [<span class="stringliteral">&#39;x&#39;</span>, <span class="stringliteral">&#39;y&#39;</span>, <span class="stringliteral">&#39;z&#39;</span>];</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keywordflow">for</span> axis <span class="keywordflow">in</span> range(3):</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    camera.parent.rotation_euler = [0, 0, 0]</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(frame):</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        filepath = os.path.join(output_dir, f<span class="stringliteral">&quot;{file_name}_{axes[axis]}_{i:04d}.png&quot;</span>)</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        bpy.context.scene.render.filepath = filepath</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="comment"># 카메라가 객체를 중심으로 회전</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        camera.parent.rotation_euler[axis] = i * 2 * math.pi / frame</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="comment"># 카메라를 선택한 상태에서 선택한 오브젝트가 모두 보이도록 이동</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            bpy.ops.view3d.camera_to_view_selected()</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="comment"># 렌더링 실행</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a4dc8f802142d3f2c6cc7525b7aa39773">   99</a></span>&#160;        bpy.ops.render.render(write_still=<span class="keyword">True</span>)</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="keywordflow">for</span> axis <span class="keywordflow">in</span> axes:</div>
-<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a8ac683e98830b1b27fb24ed66706ea18">  102</a></span>&#160;    writer = imageio.get_writer(f<span class="stringliteral">&quot;{dir_path}/{file_name}_{axis}_axis.mp4&quot;</span>, fps=fps, quality=quality)</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(frame):</div>
-<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="namespacerenderer.html#ac3c42dc9988375fe84fd0cd91ae4834d">  104</a></span>&#160;        file = os.path.join(output_dir, f<span class="stringliteral">&quot;{file_name}_{axis}_{i:04d}.png&quot;</span>)</div>
-<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="namespacerenderer.html#aeb0aceacb82451a4a0ea4dd6e3d0dc83">  105</a></span>&#160;        im = imageio.imread(file)</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        writer.append_data(im)</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    writer.close()</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="keywordflow">if</span> videoonly:</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    shutil.rmtree(output_dir)</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordflow">if</span> align:</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="comment"># 모든 오브젝트를 선택</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordflow">for</span> obj <span class="keywordflow">in</span> bpy.context.scene.objects:</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                obj.select_set(<span class="keyword">True</span>)</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="comment"># 카메라를 선택한 상태에서 선택한 오브젝트가 모두 보이도록 이동</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            bpy.ops.view3d.camera_to_view_selected()</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="comment"># 렌더링 실행</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a4dc8f802142d3f2c6cc7525b7aa39773">  104</a></span>&#160;        bpy.ops.render.render(write_still=<span class="keyword">True</span>)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="keywordflow">for</span> axis <span class="keywordflow">in</span> axes:</div>
+<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="namespacerenderer.html#a8ac683e98830b1b27fb24ed66706ea18">  107</a></span>&#160;    writer = imageio.get_writer(f<span class="stringliteral">&quot;{dir_path}/{file_name}_{axis}_axis.mp4&quot;</span>, fps=fps, quality=quality)</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(frame):</div>
+<div class="line"><a name="l00109"></a><span class="lineno"><a class="line" href="namespacerenderer.html#ac3c42dc9988375fe84fd0cd91ae4834d">  109</a></span>&#160;        file = os.path.join(output_dir, f<span class="stringliteral">&quot;{file_name}_{axis}_{i:04d}.png&quot;</span>)</div>
+<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="namespacerenderer.html#aeb0aceacb82451a4a0ea4dd6e3d0dc83">  110</a></span>&#160;        im = imageio.imread(file)</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        writer.append_data(im)</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    writer.close()</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="keywordflow">if</span> videoonly:</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    shutil.rmtree(output_dir)</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['resolution_366',['resolution',['../struct_texture.html#ae2e64acebcf53bd3f142fe49533678f9',1,'Texture']]],
-  ['resolution_5fpercentage_367',['resolution_percentage',['../namespacerenderer.html#a73c96c598048034e8c92500d889f3c27',1,'renderer']]],
-  ['rotation_5feuler_368',['rotation_euler',['../namespacerenderer.html#a4ba8db7442576a16aa4e2d654e4bdc71',1,'renderer']]]
+  ['quality_373',['quality',['../namespacerenderer.html#a5667b788e434cce6f064b405c7973a49',1,'renderer']]]
 ];

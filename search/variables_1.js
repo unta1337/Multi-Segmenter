@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['collection_5fname_324',['collection_name',['../namespacerenderer.html#a14d98639c5c95c976ebfe9484ee672d0',1,'renderer']]]
+  ['camera_329',['camera',['../namespacerenderer.html#a67fe81010024959a87d5272213c12598',1,'renderer']]]
 ];

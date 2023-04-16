@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['scale_369',['scale',['../namespacerenderer.html#abbe733831ef4439938c0c1d1259a7f95',1,'renderer']]],
-  ['shininess_370',['shininess',['../class_material.html#a9dc184c883ec135ace28c1917af3fe84',1,'Material']]],
-  ['specular_371',['specular',['../class_material.html#aac1c499923ff99564cdd97a4b5e504a9',1,'Material']]]
+  ['resolution_374',['resolution',['../struct_texture.html#ae2e64acebcf53bd3f142fe49533678f9',1,'Texture']]],
+  ['resolution_5fpercentage_375',['resolution_percentage',['../namespacerenderer.html#a73c96c598048034e8c92500d889f3c27',1,'renderer']]],
+  ['rotation_5feuler_376',['rotation_euler',['../namespacerenderer.html#a4ba8db7442576a16aa4e2d654e4bdc71',1,'renderer']]]
 ];
