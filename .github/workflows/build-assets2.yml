@@ -21,7 +21,7 @@ jobs:
 
       - name: Launch renderer
         shell: bash
-        run: apt-get install libegl1:i38
+        run: sudo apt-get install libegl1:i38
 
       - name: Launch renderer
         shell: bash
