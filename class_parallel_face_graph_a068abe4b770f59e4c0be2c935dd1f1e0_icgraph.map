@@ -1,0 +1,5 @@
+<map id="ParallelFaceGraph::traverse_dfs" name="ParallelFaceGraph::traverse_dfs">
+<area shape="rect" id="node1" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="397,5,544,47"/>
+<area shape="rect" id="node2" href="$class_parallel_face_graph.html#a84fc8f30e23495df7a8c8fd3dad43cb1" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="203,5,349,47"/>
+<area shape="rect" id="node3" href="$class_parallel_segmenter.html#a30f2e417a8656119ce7f8f9e9e50e9f9" title="세그멘테이션 수행." alt="" coords="5,5,155,47"/>
+</map>

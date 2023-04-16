@@ -1,7 +1,8 @@
 <map id="src/parallelfacegraph.cpp" name="src/parallelfacegraph.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="363,5,550,32"/>
-<area shape="rect" id="node2" href="$parallelfacegraph_8h.html" title=" " alt="" coords="383,80,531,107"/>
+<area shape="rect" id="node1" title=" " alt="" coords="419,5,606,32"/>
+<area shape="rect" id="node2" href="$parallelfacegraph_8h.html" title=" " alt="" coords="439,80,587,107"/>
 <area shape="rect" id="node3" href="$facegraph_8hpp.html" title=" " alt="" coords="399,155,514,181"/>
+<area shape="rect" id="node15" title=" " alt="" coords="539,155,601,181"/>
 <area shape="rect" id="node4" href="$facegraphutils_8h.html" title=" " alt="" coords="343,229,469,256"/>
 <area shape="rect" id="node5" title=" " alt="" coords="167,304,357,331"/>
 <area shape="rect" id="node6" href="$triangle_8h.html" title=" " alt="" coords="59,304,143,331"/>

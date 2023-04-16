@@ -87,21 +87,69 @@ $(document).ready(function(){initNavTree('parallelsegmenter_8h.html',''); initRe
 <div class="title">parallelsegmenter.h 파일 참조</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="segmenter_8hpp_source.html">segmenter.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="color_8hpp_source.html">color.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="dstimer_8h_source.html">dstimer.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="facegraph_8hpp_source.html">facegraph.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="logutils_8h_source.html">logutils.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="model_8h_source.html">model.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="segmenter_8hpp_source.html">segmenter.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="trianglemesh_8hpp_source.html">trianglemesh.hpp</a>&quot;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;glm/gtc/quaternion.hpp&gt;</code><br />
+<code>#include &lt;glm/gtx/normal.hpp&gt;</code><br />
+<code>#include &lt;glm/gtx/quaternion.hpp&gt;</code><br />
+<code>#include &lt;glm/gtx/string_cast.hpp&gt;</code><br />
+<code>#include &lt;glm/gtx/vector_angle.hpp&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;omp.h&gt;</code><br />
+<code>#include &lt;stack&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 parallelsegmenter.h에 대한 include 의존 그래프</div>
 <div class="dyncontent">
 <div class="center"><img src="parallelsegmenter_8h__incl.png" border="0" usemap="#ainc_2parallelsegmenter_8h" alt=""/></div>
 <map name="ainc_2parallelsegmenter_8h" id="ainc_2parallelsegmenter_8h">
-<area shape="rect" title=" " alt="" coords="123,5,298,32"/>
-<area shape="rect" href="segmenter_8hpp.html" title=" " alt="" coords="151,80,270,107"/>
-<area shape="rect" href="trianglemesh_8hpp.html" title=" " alt="" coords="56,155,192,181"/>
-<area shape="rect" title=" " alt="" coords="231,229,294,256"/>
-<area shape="rect" href="material_8h.html" title=" " alt="" coords="66,229,155,256"/>
-<area shape="rect" title=" " alt="" coords="5,304,109,331"/>
-<area shape="rect" title=" " alt="" coords="148,304,207,331"/>
+<area shape="rect" title=" " alt="" coords="1589,5,1764,32"/>
+<area shape="rect" href="color_8hpp.html" title=" " alt="" coords="1715,80,1796,107"/>
+<area shape="rect" title=" " alt="" coords="1875,155,1961,181"/>
+<area shape="rect" href="dstimer_8h.html" title=" " alt="" coords="1531,155,1614,181"/>
+<area shape="rect" title=" " alt="" coords="2149,229,2229,256"/>
+<area shape="rect" href="facegraph_8hpp.html" title=" " alt="" coords="401,80,515,107"/>
+<area shape="rect" href="trianglemesh_8hpp.html" title=" " alt="" coords="781,229,917,256"/>
+<area shape="rect" title=" " alt="" coords="687,304,749,331"/>
+<area shape="rect" title=" " alt="" coords="5,229,129,256"/>
+<area shape="rect" title=" " alt="" coords="597,155,655,181"/>
+<area shape="rect" href="logutils_8h.html" title=" " alt="" coords="1557,80,1639,107"/>
+<area shape="rect" href="model_8h.html" title=" " alt="" coords="1217,155,1291,181"/>
+<area shape="rect" href="segmenter_8hpp.html" title=" " alt="" coords="789,155,908,181"/>
+<area shape="rect" title=" " alt="" coords="1871,80,1938,107"/>
+<area shape="rect" title=" " alt="" coords="1962,80,2135,107"/>
+<area shape="rect" title=" " alt="" coords="2160,80,2311,107"/>
+<area shape="rect" title=" " alt="" coords="2335,80,2509,107"/>
+<area shape="rect" title=" " alt="" coords="2533,80,2708,107"/>
+<area shape="rect" title=" " alt="" coords="2732,80,2920,107"/>
+<area shape="rect" title=" " alt="" coords="2944,80,3007,107"/>
+<area shape="rect" title=" " alt="" coords="192,304,303,331"/>
+<area shape="rect" title=" " alt="" coords="1740,155,1851,181"/>
+<area shape="rect" title=" " alt="" coords="1586,229,1653,256"/>
+<area shape="rect" title=" " alt="" coords="2003,229,2073,256"/>
+<area shape="rect" title=" " alt="" coords="1491,229,1561,256"/>
+<area shape="rect" title=" " alt="" coords="1677,229,1751,256"/>
+<area shape="rect" title=" " alt="" coords="1776,229,1863,256"/>
+<area shape="rect" title=" " alt="" coords="1247,379,1306,405"/>
+<area shape="rect" title=" " alt="" coords="1887,229,1978,256"/>
+<area shape="rect" href="facegraphutils_8h.html" title=" " alt="" coords="289,155,416,181"/>
+<area shape="rect" title=" " alt="" coords="365,229,554,256"/>
+<area shape="rect" href="triangle_8h.html" title=" " alt="" coords="205,229,289,256"/>
+<area shape="rect" href="material_8h.html" title=" " alt="" coords="1033,304,1123,331"/>
+<area shape="rect" title=" " alt="" coords="943,379,1047,405"/>
+<area shape="rect" href="texture_8hpp.html" title=" " alt="" coords="1317,229,1415,256"/>
+<area shape="rect" title=" " alt="" coords="991,229,1034,256"/>
+<area shape="rect" title=" " alt="" coords="1058,229,1191,256"/>
+<area shape="rect" title=" " alt="" coords="1147,304,1324,331"/>
+<area shape="rect" title=" " alt="" coords="1349,304,1415,331"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
