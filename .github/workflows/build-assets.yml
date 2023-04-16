@@ -2,10 +2,10 @@ name: Build Assets
 on: [push]
 jobs:
   listing:
-    name: Listing asset files
+    name: Listing assets
     runs-on: ubuntu-22.04
     outputs:
-      ASSETS: ${{ steps.save_assets_list.outputs.ASSETS }}
+      MATRIX: ${{ steps.save_assets_list.outputs.MATRIX }}
     steps:
       - name: Get latest code
         uses: actions/checkout@v3
@@ -17,14 +17,14 @@ jobs:
       - name: Save assets list
         shell: bash
         id: save_assets_list
-        run: echo ASSETS=$(find assets -name '*.obj' -type f | jq -R -s 'split("\n")[:-1]' -c) >> $GITHUB_OUTPUT
+        run: echo MATRIX=$(find assets -name '*.obj' -type f | jq -R -s 'split("\n")[:-1]|{files:.}' -c) >> $GITHUB_OUTPUT
 
   build_asset:
     name: Build Artifacts
     needs: listing
     strategy:
       matrix:
-          assets: ${{ join(fromJSON(needs.listing.outputs.ASSETS), '\n') }}
+          assets: ${{ join(fromJSON(needs.listing.outputs.MATRIX), '\n') }}
     runs-on: ubuntu-22.04
     steps:
       - name: Get latest code
