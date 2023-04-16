@@ -22,8 +22,9 @@ jobs:
   build_asset:
     name: Build Artifacts
     needs: listing
-    matrix:
-      assets: ${{ join(fromJSON(jobs.listing.outputs.ASSETS), '\n') }}
+    strategy:
+      matrix:
+          assets: ${{ join(fromJSON(jobs.listing.outputs.ASSETS), '\n') }}
     runs-on: ubuntu-22.04
     steps:
       - name: Get latest code
