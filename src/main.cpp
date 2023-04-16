@@ -5,6 +5,7 @@
 #include "parallelsegmenter.h"
 #include "serialsegmenter.h"
 #include <iostream>
+#include <memory>
 
 std::string mode;
 std::string file_path;
