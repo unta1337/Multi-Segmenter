@@ -58,14 +58,6 @@ bpy.context.scene.render.resolution_percentage = scale
 # 모든 오브젝트 가져오기
 objects = bpy.context.selected_objects
 
-# 모든 오브젝트를 Collection에 넣기
-collection_name = "AllObjects"
-if not bpy.data.collections.get(collection_name):
-    bpy.data.collections.new(collection_name)
-bpy.context.scene.collection.children.link(bpy.data.collections[collection_name])
-for obj in objects:
-    bpy.data.collections[collection_name].objects.link(obj)
-
 # 카메라를 원점(0, 0, 0)을 중심으로 회전시키기 위해 새로운 빈 객체(empty object) 생성
 bpy.ops.object.empty_add(type='PLAIN_AXES', align='WORLD', location=(0, 0, 0))
 
