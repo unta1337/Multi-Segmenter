@@ -22,6 +22,8 @@ jobs:
   build_asset:
     name: Build Artifacts
     needs: listing
+    matrix:
+      assets: ${{ join(fromJSON(jobs.listing.outputs.ASSETS), '\n') }}
     runs-on: ubuntu-22.04
     steps:
       - name: Get latest code
@@ -29,7 +31,7 @@ jobs:
 
       - name: echo test
         shell: bash
-        run: echo ${{jobs.listing.outputs.ASSETS}}
+        run: echo ${{ matrix.file }}
 
 
 #  build_asset3:
