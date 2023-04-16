@@ -66,6 +66,13 @@ bpy.context.scene.collection.children.link(bpy.data.collections[collection_name]
 for obj in objects:
     bpy.data.collections[collection_name].objects.link(obj)
 
+# 카메라를 원점(0, 0, 0)을 중심으로 회전시키기 위해 새로운 빈 객체(empty object) 생성
+bpy.ops.object.empty_add(type='PLAIN_AXES', align='WORLD', location=(0, 0, 0))
+
+# 카메라를 빈 객체에 부착하고 위치 조정
+camera = bpy.data.objects['Camera']
+camera.parent = bpy.context.active_object
+
 # 모든 오브젝트를 선택
 for obj in bpy.context.scene.objects:
     obj.select_set(True)
@@ -83,9 +90,8 @@ for axis in range(3):
         filepath = os.path.join(output_dir, f"{file_name}_{axes[axis]}_{i:04d}.png")
         bpy.context.scene.render.filepath = filepath
 
-        # 모든 오브젝트 회전 설정
-        for obj in objects:
-            obj.rotation_euler[axis] = i * 2 * math.pi / frame # z축 기준으로 회전
+        # 카메라가 객체를 중심으로 회전
+        camera.parent.rotation_euler[axis] = i * 2 * math.pi / frame
 
         if align:
             # 모든 오브젝트를 선택
