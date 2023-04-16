@@ -14,13 +14,13 @@ jobs:
 
       - name: Build x64
         shell: pwsh
-        run: cmake --build x64 --target Multi-Segmenter Multi-Segmenter-Test --config Release && mv x64/Release/* x64
+        run: cmake --build x64 --target Multi-Segmenter --config Release && mv x64/Release/* x64
 
       - name: Setup python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
           cache: 'pip'
+          python-version: '3.10'
 
       - name: Install requirements
         shell: pwsh
@@ -31,11 +31,7 @@ jobs:
         shell: pwsh
         run: x64/Multi-Segmenter.exe assets/Cube_noised.obj
 
-      - name: Test launch
-        shell: pwsh
-        run: pwd && ls && ls assets
-
-      - name: Imdnstall requirements
+      - name: Launch renderer
         shell: pwsh
         run: python utils/SimpleRenderer/renderer.py assets/Segmented_Cube_noised.obj
 
