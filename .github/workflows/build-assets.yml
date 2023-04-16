@@ -23,8 +23,8 @@ jobs:
     name: Build Artifacts
     needs: listing
     strategy:
-      matrix:
-          assets: ${{ fromJSON(needs.listing.outputs.MATRIX) }}
+      matrix: ${{ fromJSON(needs.listing.outputs.MATRIX) }}
+
     runs-on: ubuntu-22.04
     steps:
       - name: Get latest code
