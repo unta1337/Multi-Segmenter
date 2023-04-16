@@ -44,7 +44,7 @@ objects = bpy.context.selected_objects
 
 # Cube 객체 제거하기
 for obj in objects:
-    if obj.name == "Cube":
+    if obj.name == "Cube" or obj.name == "Light":
         bpy.data.objects.remove(obj, do_unlink=True)
 
 # obj 파일 가져 오기
@@ -64,6 +64,15 @@ bpy.ops.object.empty_add(type='PLAIN_AXES', align='WORLD', location=(0, 0, 0))
 # 카메라를 빈 객체에 부착하고 위치 조정
 camera = bpy.data.objects['Camera']
 camera.parent = bpy.context.active_object
+
+# 전역 광원을 장면에 추가
+bpy.ops.object.light_add(type='SUN', align='WORLD', location=(0, 0, 10))
+sun_light = bpy.context.active_object
+
+# 전역 광원 설정
+sun_light.data.energy = 1
+sun_light.data.specular_factor = 0.5
+sun_light.rotation_euler = (math.radians(90), 0, 0)
 
 # 모든 오브젝트를 선택
 for obj in bpy.context.scene.objects:
