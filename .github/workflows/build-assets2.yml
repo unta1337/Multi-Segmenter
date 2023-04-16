@@ -8,19 +8,23 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
+      - name: Launch renderer
+        shell: bash
+        run: sudo apt-get install libegl1-mesa libegl1 ninja-build -y
+
+      - name: CMake x64
+        shell: bash
+        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR=x86-64 -B x64
+
+      - name: Build x64
+        shell: bash
+        run: cmake --build x64 --target Multi-Segmenter --config Release
+
       - name: Setup python
         uses: actions/setup-python@v4
         with:
           cache: 'pip'
           python-version: '3.10'
-
-      - name: CMake x64
-        shell: pwsh
-        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR=x86-64 -B x64
-
-      - name: Build x64
-        shell: pwsh
-        run: cmake --build x64 --target Multi-Segmenter --config Release
 
       - name: Install requirements
         shell: bash
@@ -30,10 +34,6 @@ jobs:
       - name: Test launch
         shell: bash
         run: ./x64/Multi-Segmenter assets/Cube_noised.obj
-
-      - name: Launch renderer
-        shell: bash
-        run: sudo apt-get install libegl1-mesa libegl1
 
       - name: Launch renderer
         shell: bash
