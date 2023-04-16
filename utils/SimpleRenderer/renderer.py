@@ -24,7 +24,7 @@ frame = args.frame
 quality = args.quality
 align = args.align
 videoonly = args.videoonly
-filepath = args.filepath
+filepath = os.path.abspath(args.filepath)
 
 dir_path = os.path.dirname(filepath)
 file_name, file_ext = os.path.splitext(os.path.basename(filepath))
