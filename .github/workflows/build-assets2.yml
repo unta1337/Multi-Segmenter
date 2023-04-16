@@ -21,7 +21,7 @@ jobs:
 
       - name: Launch renderer
         shell: bash
-        run: sudo apt-get install libegl1-mesa libegl1
+        run: sudo apt-get update && apt-get install libegl1-mesa libegl1
 
       - name: Launch renderer
         shell: bash
