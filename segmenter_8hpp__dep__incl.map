@@ -1,10 +1,10 @@
 <map id="inc/segmenter.hpp" name="inc/segmenter.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="367,5,509,32"/>
-<area shape="rect" id="node2" href="$originalsegmenter_8h.html" title=" " alt="" coords="157,80,332,107"/>
-<area shape="rect" id="node5" href="$parallelsegmenter_8h.html" title=" " alt="" coords="551,80,725,107"/>
-<area shape="rect" id="node7" href="$serialsegmenter_8h.html" title=" " alt="" coords="357,80,519,107"/>
+<area shape="rect" id="node1" title=" " alt="" coords="295,5,437,32"/>
+<area shape="rect" id="node2" href="$originalsegmenter_8h.html" title=" " alt="" coords="472,80,647,107"/>
+<area shape="rect" id="node5" href="$parallelsegmenter_8h.html" title=" " alt="" coords="85,80,260,107"/>
+<area shape="rect" id="node7" href="$serialsegmenter_8h.html" title=" " alt="" coords="285,80,447,107"/>
 <area shape="rect" id="node3" href="$src_2main_8cpp.html" title=" " alt="" coords="220,155,325,181"/>
-<area shape="rect" id="node4" href="$originalsegmenter_8cpp.html" title=" " alt="" coords="5,155,196,181"/>
-<area shape="rect" id="node6" href="$parallelsegmenter_8cpp.html" title=" " alt="" coords="551,155,741,181"/>
+<area shape="rect" id="node4" href="$originalsegmenter_8cpp.html" title=" " alt="" coords="551,155,741,181"/>
+<area shape="rect" id="node6" href="$parallelsegmenter_8cpp.html" title=" " alt="" coords="5,155,196,181"/>
 <area shape="rect" id="node8" href="$serialsegmenter_8cpp.html" title=" " alt="" coords="349,155,527,181"/>
 </map>

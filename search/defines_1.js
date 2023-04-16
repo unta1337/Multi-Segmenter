@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['char_5fstring_5fsize_400',['CHAR_STRING_SIZE',['../dstimer_8h.html#a90be576399d400d484c9140ccde09949',1,'dstimer.h']]]
+  ['char_5fstring_5fsize_404',['CHAR_STRING_SIZE',['../dstimer_8h.html#a90be576399d400d484c9140ccde09949',1,'dstimer.h']]]
 ];
