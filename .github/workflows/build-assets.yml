@@ -24,7 +24,7 @@ jobs:
     needs: listing
     strategy:
       matrix:
-          assets: ${{ jobs.listing.outputs.ASSETS }}
+          assets: ${{ join(fromJSON(needs.listing.outputs.ASSETS), '\n') }}
     runs-on: ubuntu-22.04
     steps:
       - name: Get latest code
