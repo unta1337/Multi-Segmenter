@@ -42,10 +42,9 @@ os.makedirs(output_dir, exist_ok=True) # 디렉토리가 없으면 생성
 # 모든 오브젝트 가져오기
 objects = bpy.context.selected_objects
 
-# Cube 객체 제거하기
+# 기본 객체 제거하기
 for obj in objects:
-    if obj.name == "Cube":
-        bpy.data.objects.remove(obj, do_unlink=True)
+    bpy.data.objects.remove(obj, do_unlink=True)
 
 # obj 파일 가져 오기
 bpy.ops.import_scene.obj(filepath=filepath)
@@ -58,13 +57,21 @@ bpy.context.scene.render.resolution_percentage = scale
 # 모든 오브젝트 가져오기
 objects = bpy.context.selected_objects
 
-# 모든 오브젝트를 Collection에 넣기
-collection_name = "AllObjects"
-if not bpy.data.collections.get(collection_name):
-    bpy.data.collections.new(collection_name)
-bpy.context.scene.collection.children.link(bpy.data.collections[collection_name])
-for obj in objects:
-    bpy.data.collections[collection_name].objects.link(obj)
+# 카메라를 원점(0, 0, 0)을 중심으로 회전시키기 위해 새로운 빈 객체(empty object) 생성
+bpy.ops.object.empty_add(type='PLAIN_AXES', align='WORLD', location=(0, 0, 0))
+
+# 카메라를 빈 객체에 부착하고 위치 조정
+camera = bpy.data.objects['Camera']
+camera.parent = bpy.context.active_object
+
+# 전역 광원을 장면에 추가
+bpy.ops.object.light_add(type='SUN', align='WORLD', location=(0, 0, 10))
+sun_light = bpy.context.active_object
+
+# 전역 광원 설정
+sun_light.data.energy = 1
+sun_light.data.specular_factor = 0.5
+sun_light.rotation_euler = (math.radians(90), 0, 0)
 
 # 모든 오브젝트를 선택
 for obj in bpy.context.scene.objects:
@@ -76,16 +83,14 @@ bpy.ops.view3d.camera_to_view_selected()
 # 회전 애니메이션 만들기
 axes = ['x', 'y', 'z'];
 for axis in range(3):
-    for obj in objects:
-        obj.rotation_euler = (0, 0, 0)
+    camera.parent.rotation_euler = [0, 0, 0]
 
     for i in range(frame):
         filepath = os.path.join(output_dir, f"{file_name}_{axes[axis]}_{i:04d}.png")
         bpy.context.scene.render.filepath = filepath
 
-        # 모든 오브젝트 회전 설정
-        for obj in objects:
-            obj.rotation_euler[axis] = i * 2 * math.pi / frame # z축 기준으로 회전
+        # 카메라가 객체를 중심으로 회전
+        camera.parent.rotation_euler[axis] = i * 2 * math.pi / frame
 
         if align:
             # 모든 오브젝트를 선택
