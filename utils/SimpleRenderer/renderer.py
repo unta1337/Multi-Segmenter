@@ -75,8 +75,7 @@ bpy.ops.view3d.camera_to_view_selected()
 # 회전 애니메이션 만들기
 axes = ['x', 'y', 'z'];
 for axis in range(3):
-    for obj in objects:
-        obj.rotation_euler = (0, 0, 0)
+    camera.parent.rotation_euler = [0, 0, 0]
 
     for i in range(frame):
         filepath = os.path.join(output_dir, f"{file_name}_{axes[axis]}_{i:04d}.png")
