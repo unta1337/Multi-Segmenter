@@ -1,49 +1,77 @@
 name: Build Assets
 on: [push]
 jobs:
-  build_artifacts:
+  listing:
+    name: Listing asset files
+    runs-on: ubuntu-22.04
+    outputs:
+      ASSETS: ${{ steps.save_assets_list.outputs.ASSETS }}
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v3
+
+      - name: Install jq
+        shell: bash
+        run: sudo apt-get install jq -y
+
+      - name: Save assets list
+        shell: bash
+        id: save_assets_list
+        run: echo ASSETS=$(find assets -name '*.obj' -type f | jq -R -s '[split("\n")[:-1]]' -c) >> $GITHUB_OUTPUT
+
+  build_asset:
     name: Build Artifacts
+    needs: listing
     runs-on: ubuntu-22.04
     steps:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      - name: Launch renderer
+      - name: echo test
         shell: bash
-        run: sudo apt-get install libegl1-mesa libegl1 ninja-build -y
+        run: echo ${{jobs.listing.outputs.ASSETS}}
 
-      - name: CMake x64
-        shell: bash
-        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR=x86-64 -B x64
 
-      - name: Build x64
-        shell: bash
-        run: cmake --build x64 --target Multi-Segmenter --config Release
-
-      - name: Setup python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Install requirements
-        shell: bash
-        working-directory: utils/SimpleRenderer
-        run: pip install -r requirements.txt
-
-      - name: Test launch
-        shell: bash
-        run: ./x64/Multi-Segmenter assets/Cube_noised.obj
-
-      - name: Launch renderer
-        shell: bash
-        run: python utils/SimpleRenderer/renderer.py assets/Segmented_Cube_noised.obj --scale 10 --align --videoonly
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: build
-          path: |
-            assets/Segmented_Cube_noised_x_axis.mp4
-            assets/Segmented_Cube_noised_y_axis.mp4
-            assets/Segmented_Cube_noised_z_axis.mp4
-
+#  build_asset3:
+#    name: Build Artifacts
+#    runs-on: ubuntu-22.04
+#    steps:
+#      - name: Get latest code
+#        uses: actions/checkout@v3
+#
+#      - name: Launch renderer
+#        shell: bash
+#        run: sudo apt-get install libegl1-mesa libegl1 ninja-build -y
+#
+#      - name: CMake x64
+#        shell: bash
+#        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR=x86-64 -B x64
+#
+#      - name: Build x64
+#        shell: bash
+#        run: cmake --build x64 --target Multi-Segmenter --config Release
+#
+#      - name: Setup python
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: '3.10'
+#
+#      - name: Install requirements
+#        shell: bash
+#        working-directory: utils/SimpleRenderer
+#        run: pip install -r requirements.txt
+#
+#      - name: Test launch
+#        shell: bash
+#        run: ./x64/Multi-Segmenter assets/Cube_noised.obj
+#
+#      - name: Launch renderer
+#        shell: bash
+#        run: python utils/SimpleRenderer/renderer.py assets/Segmented_Cube_noised.obj --scale 10 --align --videoonly --frame 5
+#
+#      - name: Upload artifact
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: build
+#          path: |
+#            assets/*.mp4
