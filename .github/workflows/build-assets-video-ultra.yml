@@ -17,7 +17,7 @@ jobs:
       - name: Generate assets matrix
         shell: bash
         id: generate_matrix
-        run: echo MATRIX=$(find assets -name '*.obj' -maxdepth 1 -printf '%P\n' -type f | jq -R -s 'split("\n")[:-1]|{assets:.}' -c) >> $GITHUB_OUTPUT
+        run: echo MATRIX=$(find assets -maxdepth 1 -name '*.obj' -printf '%P\n' -type f | jq -R -s 'split("\n")[:-1]|{assets:.,mode:["serial","parallel"]}' -c) >> $GITHUB_OUTPUT
 
   build_asset:
     name: Build Assets Video (Ultra)
@@ -49,7 +49,7 @@ jobs:
 
       - name: Launch segmenter
         shell: bash
-        run: ./x64/Multi-Segmenter assets/${{ matrix.assets }}
+        run: ./x64/Multi-Segmenter ${{ matrix.mode }} assets/${{ matrix.assets }}
 
       - name: Install requirements.txt
         shell: bash
