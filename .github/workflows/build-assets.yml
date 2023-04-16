@@ -16,13 +16,10 @@ jobs:
         shell: pwsh
         run: cmake --build x64 --target Multi-Segmenter Multi-Segmenter-Test --config Release && mv x64/Release/* x64
 
-      - name: Setup python
+      - name: Install requirements
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-
-      - name: Install requirements
-        shell: pwsh
         working-directory: utils/SimpleRenderer
         run: pip install -r requirements.txt
 
@@ -30,8 +27,10 @@ jobs:
         shell: pwsh
         run: x64/Multi-Segmenter.exe assets/Cube_noised.obj
 
-      - name: Install requirements
-        shell: pwsh
+      - name: Run
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
         run: python utils/SimpleRenderer/renderer.py assets/Segmented_Cube_noised.obj
 
       - name: Upload artifact
