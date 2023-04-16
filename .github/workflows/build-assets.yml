@@ -2,10 +2,10 @@ name: Build Assets
 on: [push]
 jobs:
   listing:
-    name: Listing assets
+    name: Generate assets matrix
     runs-on: ubuntu-22.04
     outputs:
-      MATRIX: ${{ steps.save_assets_list.outputs.MATRIX }}
+      MATRIX: ${{ steps.generate_matrix.outputs.MATRIX }}
     steps:
       - name: Get latest code
         uses: actions/checkout@v3
@@ -14,10 +14,10 @@ jobs:
         shell: bash
         run: sudo apt-get install jq -y
 
-      - name: Save assets list
+      - name: Generate assets matrix
         shell: bash
-        id: save_assets_list
-        run: echo MATRIX=$(find assets -name '*.obj' -type f | jq -R -s 'split("\n")[:-1]|{files:.}' -c) >> $GITHUB_OUTPUT
+        id: generate_matrix
+        run: echo MATRIX=$(find assets -name '*.obj' -type f | jq -R -s 'split("\n")[:-1]|{assets:.}' -c) >> $GITHUB_OUTPUT
 
   build_asset:
     name: Build Artifacts
