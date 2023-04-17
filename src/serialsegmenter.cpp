@@ -86,19 +86,11 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
     std::vector<TriangleMesh*> result;
     int number = 0;
     for (auto iter : normal_triangle_list_map) {
-        timer.initTimer(4);
-        timer.onTimer(4);
-        SerialFaceGraph fg(&iter.second);
-        timer.offTimer(4);
+        SerialFaceGraph fg(&iter.second, &timer);
         STEP_LOG(std::cout << "[Step] Face Graph Generating.\n");
-        TIME_LOG(std::cout << "[Time] Face Graph Generating: " << timer.getTimer_ms(4) << " ms.\n");
 
-        timer.initTimer(5);
-        timer.onTimer(5);
         std::vector<std::vector<Triangle>> temp = fg.get_segments();
-        timer.offTimer(5);
         STEP_LOG(std::cout << "[Step] Connectivity Checking.\n");
-        TIME_LOG(std::cout << "[Time] Connectivity Checking: " << timer.getTimer_ms(5) << " ms.\n");
 
         for (auto subs : temp) {
             TriangleMesh* sub_object = triangle_list_to_obj(subs);
