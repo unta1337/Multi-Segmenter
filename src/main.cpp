@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
     STEP_LOG(std::cout << "[Begin] Saving Resuilt.\n");
 
     // 구분된 부분별 .obj 저장. 각 부분별 명칭으로 저장됨. (i.e., cube_seg0.obj)
-    write_obj(seg, folder_path, false);
+    // write_obj(seg, folder_path, false);
 
     // 한꺼번에 .obj 저장.
     write_obj(seg, folder_path + "Segmented_" + filename, true);
