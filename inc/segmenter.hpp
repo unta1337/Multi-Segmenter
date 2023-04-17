@@ -34,8 +34,8 @@ class Segmenter {
     }
     virtual ~Segmenter(){};
 
-    virtual DS_timer get_timer() {
-      return timer;
+    virtual void print_timer() {
+        timer.printTimer();
     }
 
     /**

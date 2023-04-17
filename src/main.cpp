@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
         std::cout << s->vertex.size() << std::endl;
     }
 
-    TIME_LOG(segmenter->get_timer().printTimer());
+    TIME_LOG(segmenter->print_timer());
 
     STEP_LOG(std::cout << "[Begin] Saving Resuilt.\n");
 
