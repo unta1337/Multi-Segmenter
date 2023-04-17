@@ -159,7 +159,7 @@ $(document).ready(function(){initNavTree('src_2main_8cpp_source.html',''); initR
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="logutils_8h.html#a9eac7ad0e24fc410bae2b90cb9520fd3">STEP_LOG</a>(std::cout &lt;&lt; <span class="stringliteral">&quot;[Begin] Saving Resuilt.\n&quot;</span>);</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="comment">// 구분된 부분별 .obj 저장. 각 부분별 명칭으로 저장됨. (i.e., cube_seg0.obj)</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="objutils_8h.html#ab675714cd506a42f93600f3bfa89c93a">write_obj</a>(seg, <a class="code" href="src_2main_8cpp.html#a439b971847d11167bdaf27e28812c063">folder_path</a>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="comment">// write_obj(seg, folder_path, false);</span></div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="comment">// 한꺼번에 .obj 저장.</span></div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <a class="code" href="objutils_8h.html#ab675714cd506a42f93600f3bfa89c93a">write_obj</a>(seg, <a class="code" href="src_2main_8cpp.html#a439b971847d11167bdaf27e28812c063">folder_path</a> + <span class="stringliteral">&quot;Segmented_&quot;</span> + <a class="code" href="src_2main_8cpp.html#ae80f820219e45772366a2a68de6a54c4">filename</a>, <span class="keyword">true</span>);</div>
