@@ -26,12 +26,14 @@ inline void SerialSegmenter::init_count_map(std::unordered_map<glm::vec3, size_t
 }
 
 std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
-    DS_timer timer(4);
+    DS_timer timer(6);
 
     timer.setTimerName(0, (char*)"Normal Vector Computation                         ");
     timer.setTimerName(1, (char*)"Map Count                                         ");
     timer.setTimerName(2, (char*)"Normal Map Insertion                              ");
     timer.setTimerName(3, (char*)"Connectivity Checking and Triangle Mesh Generating");
+    timer.setTimerName(4, (char*)"temp1                                             ");
+    timer.setTimerName(5, (char*)"temp2                                             ");
 
     STEP_LOG(std::cout << "[Begin] Normal Vector Computation.\n");
     timer.onTimer(0);
@@ -93,10 +95,19 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
     std::vector<TriangleMesh*> result;
     int number = 0;
     for (auto iter : normal_triangle_list_map) {
+        timer.initTimer(4);
+        timer.onTimer(4);
         SerialFaceGraph fg(&iter.second);
+        timer.offTimer(4);
         STEP_LOG(std::cout << "[Step] Face Graph Generating.\n");
+        TIME_LOG(std::cout << "[Time] Face Graph Generating: " << timer.getTimer_ms(4) << " ms.\n");
+
+        timer.initTimer(5);
+        timer.onTimer(5);
         std::vector<std::vector<Triangle>> temp = fg.get_segments();
+        timer.offTimer(5);
         STEP_LOG(std::cout << "[Step] Connectivity Checking.\n");
+        TIME_LOG(std::cout << "[Time] Connectivity Checking: " << timer.getTimer_ms(5) << " ms.\n");
 
         for (auto subs : temp) {
             TriangleMesh* sub_object = triangle_list_to_obj(subs);
