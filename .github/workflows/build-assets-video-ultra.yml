@@ -17,7 +17,7 @@ jobs:
       - name: Generate assets matrix
         shell: bash
         id: generate_matrix
-        run: echo MATRIX=$(find assets -maxdepth 1 -name '*.obj' -printf '%P\n' -type f | jq -R -s 'split("\n")[:-1]|{assets:.,mode:["serial","parallel"]}' -c) >> $GITHUB_OUTPUT
+        run: echo MATRIX=$(find assets -maxdepth 1 -name '*.obj' -printf '%P\n' -type f | jq -R -s 'split("\n")[:-1]|{assets:.,mode:["parallel"]}' -c) >> $GITHUB_OUTPUT
 
   build_asset:
     name: Build Assets Video (Ultra)
@@ -58,7 +58,7 @@ jobs:
 
       - name: Launch renderer
         shell: bash
-        run: python utils/SimpleRenderer/renderer.py assets/Segmented_${{ matrix.assets }} --frame 30 --fps 10 --scale 100 --quality 6 --align
+        run: python utils/SimpleRenderer/renderer.py assets/Segmented_${{ matrix.assets }} --frame 30 --fps 6 --scale 100 --quality 6 --align
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
