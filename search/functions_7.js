@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['offtimer_295',['offTimer',['../class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca',1,'DS_timer']]],
-  ['ontimer_296',['onTimer',['../class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0',1,'DS_timer']]],
-  ['operator_28_29_297',['operator()',['../struct_vec3_hash.html#a9962452774507296000c5371633834c0',1,'Vec3Hash']]],
-  ['originalsegmenter_298',['OriginalSegmenter',['../class_original_segmenter.html#ad6bc5e6e8bb8ca3780a052afea12e1e0',1,'OriginalSegmenter']]]
+  ['main_309',['main',['../src_2main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;main.cpp'],['../tests_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627',1,'main(int argc, char **argv):&#160;main.cpp']]],
+  ['memsetzero_310',['memsetZero',['../dstimer_8h.html#aaff2bc03ff63e029e6e4d79fffca9c8c',1,'dstimer.h']]]
 ];

@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Multi-Segmenter: utils/Subdivider/subdivider.py 소스 파일</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Multi-Segmenter
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 다음에 의해 생성됨 :  Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'검색','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','검색');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('subdivider_8py_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">subdivider.py</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="subdivider_8py.html">이 파일의 문서화 페이지로 가기</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespacesubdivider.html">    1</a></span>&#160;<span class="keyword">import</span> bpy</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">import</span> os</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> argparse</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># parser 객체 생성</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="namespacesubdivider.html#a5591c112356cbc5d2e039d441beda83e">    6</a></span>&#160;parser = argparse.ArgumentParser()</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"># 인자 추가</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="namespacesubdivider.html#a300fdd50fcc7846766d84287d02e0ba2">    9</a></span>&#160;parser.add_argument(<span class="stringliteral">&quot;--cuts&quot;</span>, type=int, default=1, help=<span class="stringliteral">&quot;Cuts argument&quot;</span>)</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;parser.add_argument(<span class="stringliteral">&quot;--min&quot;</span>, type=int, default=0, help=<span class="stringliteral">&quot;Min argument&quot;</span>)</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;parser.add_argument(<span class="stringliteral">&quot;--max&quot;</span>, type=int, default=0, help=<span class="stringliteral">&quot;Max argument&quot;</span>)</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;parser.add_argument(<span class="stringliteral">&quot;filepath&quot;</span>, help=<span class="stringliteral">&quot;Filepath argument&quot;</span>)</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"># 인자 파싱</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="namespacesubdivider.html#a9be6b7fc9fb0651dd2989fe5b9cb2fb5">   15</a></span>&#160;args = parser.parse_args()</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="namespacesubdivider.html#a40699bd02b390ac3f6a7bcb26d2e5d1f">   17</a></span>&#160;cuts = args.cuts</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="namespacesubdivider.html#aebe213085da8abf6bfc713bc3954f045">   18</a></span>&#160;min = args.min</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="namespacesubdivider.html#a7fef6904b734d7111ed26a196ec9f5f0">   19</a></span>&#160;max = args.max + 1</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keywordflow">if</span> min == 0 <span class="keywordflow">and</span> max == 1:</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    min = cuts</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    max = cuts + 1</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="namespacesubdivider.html#a379a15b884b48a37c737f82adc81d025">   24</a></span>&#160;filepath = os.path.abspath(args.filepath)</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="namespacesubdivider.html#aeed9f117ddc6bbf9bb6cf59c7e3d637a">   26</a></span>&#160;dir_path = os.path.dirname(filepath)</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="namespacesubdivider.html#a538af7e53363b41654267f6a8c750513">   27</a></span>&#160;file_name, file_ext = os.path.splitext(os.path.basename(filepath))</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment"># 작업 디렉토리 설정</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="namespacesubdivider.html#a3692403a739927469866b9df49dc95eb">   30</a></span>&#160;directory = dir_path</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;os.chdir(directory)</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="namespacesubdivider.html#ae31faffce18ac5f1b816637e9e14544d">   34</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacesubdivider.html#ae31faffce18ac5f1b816637e9e14544d">load_obj</a>(filepath):</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="comment"># 기존 오브젝트 삭제</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    bpy.ops.object.select_all(action=<span class="stringliteral">&#39;DESELECT&#39;</span>)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    bpy.ops.object.select_by_type(type=<span class="stringliteral">&#39;MESH&#39;</span>)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    bpy.ops.object.delete()</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment"># OBJ 파일 로드</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    bpy.ops.import_scene.obj(filepath=filepath)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment"># Subdivide 함수</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="namespacesubdivider.html#a3cae229e2a5b6bcd34edceeaa935c1c0">   45</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacesubdivider.html#a3cae229e2a5b6bcd34edceeaa935c1c0">apply_subdivide</a>(cuts):</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">for</span> obj <span class="keywordflow">in</span> bpy.context.selected_objects:</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordflow">if</span> obj.type == <span class="stringliteral">&#39;MESH&#39;</span>:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            bpy.context.view_layer.objects.active = obj</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            bpy.ops.object.mode_set(mode=<span class="stringliteral">&#39;EDIT&#39;</span>)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            bpy.ops.mesh.subdivide(number_cuts=cuts)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            bpy.ops.object.mode_set(mode=<span class="stringliteral">&#39;OBJECT&#39;</span>)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"># OBJ 저장 함수</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="namespacesubdivider.html#aba5c2449b915fb338f3bc60f3a8d50ac">   55</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacesubdivider.html#aba5c2449b915fb338f3bc60f3a8d50ac">save_obj</a>(filepath):</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    bpy.ops.export_scene.obj(filepath=filepath, use_selection=<span class="keyword">True</span>)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"># OBJ 파일 경로</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="namespacesubdivider.html#a67de51dcd49de71b26572b85ba2a6593">   60</a></span>&#160;source_obj_path = filepath</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"># 저장할 경로 설정</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="namespacesubdivider.html#abce049c07614f3c6af68fd522124db73">   63</a></span>&#160;output_folder = dir_path</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.exists(output_folder):</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    os.makedirs(output_folder)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keywordflow">for</span> c <span class="keywordflow">in</span> range(min, max):</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment"># OBJ 파일 로드</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="namespacesubdivider.html#ae31faffce18ac5f1b816637e9e14544d">load_obj</a>(source_obj_path)</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="namespacesubdivider.html#a3cae229e2a5b6bcd34edceeaa935c1c0">apply_subdivide</a>(c)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="comment"># 파일명에 subdivide 횟수를 포함시킴</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="namespacesubdivider.html#aa35ed6699da12b0f466e8627f8a119a0">   72</a></span>&#160;    output_file_name = f<span class="stringliteral">&quot;{file_name}_subdivided_{c}{file_ext}&quot;</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="namespacesubdivider.html#ab79e99e930b4c08daf7dcc1cbed37ecf">   73</a></span>&#160;    output_file_path = os.path.join(output_folder, output_file_name)</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <a class="code" href="namespacesubdivider.html#aba5c2449b915fb338f3bc60f3a8d50ac">save_obj</a>(output_file_path)</div>
+<div class="ttc" id="anamespacesubdivider_html_a3cae229e2a5b6bcd34edceeaa935c1c0"><div class="ttname"><a href="namespacesubdivider.html#a3cae229e2a5b6bcd34edceeaa935c1c0">subdivider.apply_subdivide</a></div><div class="ttdeci">def apply_subdivide(cuts)</div><div class="ttdef"><b>Definition:</b> <a href="subdivider_8py_source.html#l00045">subdivider.py:45</a></div></div>
+<div class="ttc" id="anamespacesubdivider_html_aba5c2449b915fb338f3bc60f3a8d50ac"><div class="ttname"><a href="namespacesubdivider.html#aba5c2449b915fb338f3bc60f3a8d50ac">subdivider.save_obj</a></div><div class="ttdeci">def save_obj(filepath)</div><div class="ttdef"><b>Definition:</b> <a href="subdivider_8py_source.html#l00055">subdivider.py:55</a></div></div>
+<div class="ttc" id="anamespacesubdivider_html_ae31faffce18ac5f1b816637e9e14544d"><div class="ttname"><a href="namespacesubdivider.html#ae31faffce18ac5f1b816637e9e14544d">subdivider.load_obj</a></div><div class="ttdeci">def load_obj(filepath)</div><div class="ttdef"><b>Definition:</b> <a href="subdivider_8py_source.html#l00034">subdivider.py:34</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_cbdb8362360e11eafe2fa3bc74cf0ffd.html">utils</a></li><li class="navelem"><a class="el" href="dir_2e97de7695abb3ee6fe4c12c487fcd5c.html">Subdivider</a></li><li class="navelem"><a class="el" href="subdivider_8py.html">subdivider.py</a></li>
+    <li class="footer">다음에 의해 생성됨 :  <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

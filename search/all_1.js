@@ -7,6 +7,7 @@ var searchData=
   ['align_10',['align',['../namespacerenderer.html#ad32c4b19ee2f147b42fce13982ff96e0',1,'renderer']]],
   ['allocninitmem_11',['allocNinitMem',['../dstimer_8h.html#a993155ca2fc177dd7b167f21db889f65',1,'dstimer.h']]],
   ['ambient_12',['ambient',['../class_material.html#af99c823542e497c98a35d1aac5fc9012',1,'Material']]],
-  ['args_13',['args',['../namespacerenderer.html#a60648bafec2c038e04d991961c982d0a',1,'renderer']]],
-  ['axes_14',['axes',['../namespacerenderer.html#ae9130bf008515a77c04c2f051cffcd19',1,'renderer']]]
+  ['apply_5fsubdivide_13',['apply_subdivide',['../namespacesubdivider.html#a3cae229e2a5b6bcd34edceeaa935c1c0',1,'subdivider']]],
+  ['args_14',['args',['../namespacerenderer.html#a60648bafec2c038e04d991961c982d0a',1,'renderer.args()'],['../namespacesubdivider.html#a9be6b7fc9fb0651dd2989fe5b9cb2fb5',1,'subdivider.args()']]],
+  ['axes_15',['axes',['../namespacerenderer.html#ae9130bf008515a77c04c2f051cffcd19',1,'renderer']]]
 ];
