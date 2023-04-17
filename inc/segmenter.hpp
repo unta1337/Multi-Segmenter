@@ -29,8 +29,8 @@ class Segmenter {
       timer.setTimerName(1, (char*)"Map Count                                         ");
       timer.setTimerName(2, (char*)"Normal Map Insertion                              ");
       timer.setTimerName(3, (char*)"Connectivity Checking and Triangle Mesh Generating");
-      timer.setTimerName(4, (char*)"temp1                                             ");
-      timer.setTimerName(5, (char*)"temp2                                             ");
+      timer.setTimerName(4, (char*)"FaceGraph: Constructor                            ");
+      timer.setTimerName(5, (char*)"FaceGraph: Do Segmentation                        ");
     }
     virtual ~Segmenter(){};
 
