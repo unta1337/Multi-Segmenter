@@ -1,6 +1,7 @@
 ﻿#include "consoleutils.h"
 #include "model.h"
 #include "objutils.h"
+#include "logutils.h"
 #include "originalsegmenter.h"
 #include "parallelsegmenter.h"
 #include "serialsegmenter.h"
@@ -65,6 +66,8 @@ int main(int argc, char* argv[]) {
         std::cout << s->name << std::endl;
         std::cout << s->vertex.size() << std::endl;
     }
+
+    TIME_LOG(segmenter->get_timer().printTimer());
 
     // 구분된 부분별 .obj 저장. 각 부분별 명칭으로 저장됨. (i.e., cube_seg0.obj)
     write_obj(seg, folder_path, false);

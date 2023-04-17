@@ -2,6 +2,7 @@
 #define __SEGMENTER_H
 
 #include "trianglemesh.hpp"
+#include "dstimer.h"
 #include <vector>
 
 /**
@@ -20,10 +21,22 @@ class Segmenter {
      */
     float tolerance;
 
+    DS_timer timer;
+
   public:
-    Segmenter(TriangleMesh* mesh, float tolerance = 0.0f) : mesh(mesh), tolerance(tolerance) {
+    Segmenter(TriangleMesh* mesh, float tolerance = 0.0f) : mesh(mesh), tolerance(tolerance), timer(DS_timer(6)) {
+      timer.setTimerName(0, (char*)"Normal Vector Computation                         ");
+      timer.setTimerName(1, (char*)"Map Count                                         ");
+      timer.setTimerName(2, (char*)"Normal Map Insertion                              ");
+      timer.setTimerName(3, (char*)"Connectivity Checking and Triangle Mesh Generating");
+      timer.setTimerName(4, (char*)"temp1                                             ");
+      timer.setTimerName(5, (char*)"temp2                                             ");
     }
     virtual ~Segmenter(){};
+
+    virtual DS_timer get_timer() {
+      return timer;
+    }
 
     /**
      * @brief 세그멘테이션 수행.
