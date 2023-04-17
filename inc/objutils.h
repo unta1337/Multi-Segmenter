@@ -74,7 +74,7 @@ inline bool write_obj(std::vector<TriangleMesh*> meshes, std::string path,
     } else {
         for (int i = 0; i < meshes.size(); i++) {
             TriangleMesh* mesh = meshes[i];
-            std::ofstream mtl_file(mesh->material->name + ".mtl");
+            std::ofstream mtl_file(path + mesh->material->name + ".mtl");
 
             if (!mtl_file.is_open())
                 return false;
@@ -94,7 +94,7 @@ inline bool write_obj(std::vector<TriangleMesh*> meshes, std::string path,
 
             mtl_file.close();
 
-            std::ofstream obj_file(mesh->name + ".obj");
+            std::ofstream obj_file(path + mesh->name + ".obj");
 
             if (!obj_file.is_open())
                 return false;
