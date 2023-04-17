@@ -29,10 +29,12 @@ add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/DNOMINMAX>")
 # 단계별 디버그 출력 활성화.
 add_compile_options("$<$<C_COMPILER_ID:MSVC>:/DDO_STEP_LOG>")
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/DDO_STEP_LOG>")
+add_compile_options("$<$<NOT:$<C_COMPILER_ID:MSVC>>:-DDO_STEP_LOG>")
 
 # 타이머 결과 출력 활성화.
 add_compile_options("$<$<C_COMPILER_ID:MSVC>:/DDO_TIME_LOG>")
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/DDO_TIME_LOG>")
+add_compile_options("$<$<NOT:$<C_COMPILER_ID:MSVC>>:-DDO_TIME_LOG>")
 
 find_package(OpenMP REQUIRED)
 
