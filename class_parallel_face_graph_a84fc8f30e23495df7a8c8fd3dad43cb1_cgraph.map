@@ -1,4 +1,6 @@
 <map id="ParallelFaceGraph::get_segments" name="ParallelFaceGraph::get_segments">
-<area shape="rect" id="node1" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="5,5,152,47"/>
-<area shape="rect" id="node2" href="$class_parallel_face_graph.html#a068abe4b770f59e4c0be2c935dd1f1e0" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="200,5,347,47"/>
+<area shape="rect" id="node1" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="5,49,152,90"/>
+<area shape="rect" id="node2" href="$class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca" title=" " alt="" coords="201,5,346,32"/>
+<area shape="rect" id="node3" href="$class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0" title=" " alt="" coords="201,56,345,83"/>
+<area shape="rect" id="node4" href="$class_parallel_face_graph.html#a068abe4b770f59e4c0be2c935dd1f1e0" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="200,107,347,149"/>
 </map>

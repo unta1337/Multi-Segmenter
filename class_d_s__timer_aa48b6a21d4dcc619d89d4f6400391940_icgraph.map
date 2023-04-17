@@ -1,6 +1,4 @@
 <map id="DS_timer::initTimer" name="DS_timer::initTimer">
-<area shape="rect" id="node1" title=" " alt="" coords="209,78,359,105"/>
-<area shape="rect" id="node2" href="$class_parallel_segmenter.html#a30f2e417a8656119ce7f8f9e9e50e9f9" title="세그멘테이션 수행." alt="" coords="9,5,158,47"/>
-<area shape="rect" id="node3" href="$class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e" title="세그멘테이션 수행." alt="" coords="6,71,161,112"/>
-<area shape="rect" id="node4" href="$class_d_s__timer.html#a4bfe682cdf9e8dfb0160dea92149b024" title=" " alt="" coords="5,137,161,163"/>
+<area shape="rect" id="node1" title=" " alt="" coords="209,5,359,32"/>
+<area shape="rect" id="node2" href="$class_d_s__timer.html#a4bfe682cdf9e8dfb0160dea92149b024" title=" " alt="" coords="5,5,161,32"/>
 </map>

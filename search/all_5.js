@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['facegraph_44',['FaceGraph',['../class_face_graph.html',1,'FaceGraph'],['../class_face_graph.html#a09a3f698103ffe04965079d8b28bcba7',1,'FaceGraph::FaceGraph()']]],
+  ['facegraph_44',['FaceGraph',['../class_face_graph.html',1,'FaceGraph'],['../class_face_graph.html#abebdc8a498ddad3de8f6badee324c952',1,'FaceGraph::FaceGraph(std::vector&lt; Triangle &gt; *triangles, DS_timer *timer)'],['../class_face_graph.html#a09a3f698103ffe04965079d8b28bcba7',1,'FaceGraph::FaceGraph(std::vector&lt; Triangle &gt; *triangles)']]],
   ['facegraph_2ehpp_45',['facegraph.hpp',['../facegraph_8hpp.html',1,'']]],
   ['facegraphutils_2eh_46',['facegraphutils.h',['../facegraphutils_8h.html',1,'']]],
   ['file_47',['file',['../namespacerenderer.html#ac3c42dc9988375fe84fd0cd91ae4834d',1,'renderer']]],

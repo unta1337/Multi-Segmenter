@@ -104,10 +104,11 @@ OriginalSegmenter에 대한 협력 다이어그램:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_original_segmenter__coll__graph.png" border="0" usemap="#a_original_segmenter_coll__map" alt="Collaboration graph"/></div>
 <map name="a_original_segmenter_coll__map" id="a_original_segmenter_coll__map">
-<area shape="rect" title=" " alt="" coords="5,260,149,287"/>
-<area shape="rect" href="class_segmenter.html" title="하나의 메시 그룹에 대한 세그멘테이션을 수행." alt="" coords="31,184,124,211"/>
-<area shape="rect" href="class_triangle_mesh.html" title="오브젝트에서 하나의 속성을 공유하는 삼각형의 집합." alt="" coords="23,95,131,121"/>
-<area shape="rect" href="class_material.html" title="mtl 파일에 대한 자료형." alt="" coords="39,5,115,32"/>
+<area shape="rect" title=" " alt="" coords="9,260,153,287"/>
+<area shape="rect" href="class_segmenter.html" title="하나의 메시 그룹에 대한 세그멘테이션을 수행." alt="" coords="35,184,128,211"/>
+<area shape="rect" href="class_d_s__timer.html" title=" " alt="" coords="5,95,88,121"/>
+<area shape="rect" href="class_triangle_mesh.html" title="오브젝트에서 하나의 속성을 공유하는 삼각형의 집합." alt="" coords="113,95,221,121"/>
+<area shape="rect" href="class_material.html" title="mtl 파일에 대한 자료형." alt="" coords="129,5,205,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">범례</a>]</span></center></div>
 <table class="memberdecls">
@@ -123,6 +124,8 @@ Public 멤버 함수</h2></td></tr>
 <tr class="separator:a83d6c41b949e32ab7bea1cdb9902caa9 inherit pub_methods_class_segmenter"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa226c7f46d3731fa0472229c7f55509f inherit pub_methods_class_segmenter"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_segmenter.html#aa226c7f46d3731fa0472229c7f55509f">~Segmenter</a> ()</td></tr>
 <tr class="separator:aa226c7f46d3731fa0472229c7f55509f inherit pub_methods_class_segmenter"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af69338c3142a7b394dcc07db78f302fd inherit pub_methods_class_segmenter"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_segmenter.html#af69338c3142a7b394dcc07db78f302fd">print_timer</a> ()</td></tr>
+<tr class="separator:af69338c3142a7b394dcc07db78f302fd inherit pub_methods_class_segmenter"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 추가로 상속된 멤버들</h2></td></tr>
@@ -131,6 +134,8 @@ Public 멤버 함수</h2></td></tr>
 <tr class="separator:af70ce8086c5555cd761b5bb17f4655b4 inherit pro_attribs_class_segmenter"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acaee9dc87096699359a51bcc6dcf169c inherit pro_attribs_class_segmenter"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_segmenter.html#acaee9dc87096699359a51bcc6dcf169c">tolerance</a></td></tr>
 <tr class="separator:acaee9dc87096699359a51bcc6dcf169c inherit pro_attribs_class_segmenter"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a864bcf33cb3162c47686da978b364d18 inherit pro_attribs_class_segmenter"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d_s__timer.html">DS_timer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_segmenter.html#a864bcf33cb3162c47686da978b364d18">timer</a></td></tr>
+<tr class="separator:a864bcf33cb3162c47686da978b364d18 inherit pro_attribs_class_segmenter"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">상세한 설명</h2>
 <div class="textblock">
@@ -204,7 +209,9 @@ Public 멤버 함수</h2></td></tr>
 <area shape="rect" href="namespace_color.html#a63c419ad75758acc7b685dfb62bbf6d2" title=" " alt="" coords="205,5,392,32"/>
 <area shape="rect" href="class_serial_face_graph.html#a84e0345d2436ad9b1a6320606b403c94" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="221,57,377,98"/>
 <area shape="rect" href="facegraphutils_8h.html#af3ee9a8b50f8cf032310abb89ed48784" title=" " alt="" coords="225,123,372,149"/>
-<area shape="rect" href="class_serial_face_graph.html#a1a4eb94112e060ea88349a2dd84b5f0d" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="440,64,656,91"/>
+<area shape="rect" href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca" title=" " alt="" coords="475,13,621,40"/>
+<area shape="rect" href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0" title=" " alt="" coords="476,64,620,91"/>
+<area shape="rect" href="class_serial_face_graph.html#a1a4eb94112e060ea88349a2dd84b5f0d" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="440,115,656,141"/>
 </map>
 </div>
 

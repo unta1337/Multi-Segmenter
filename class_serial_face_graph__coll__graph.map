@@ -1,4 +1,5 @@
 <map id="SerialFaceGraph" name="SerialFaceGraph">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,132,107"/>
-<area shape="rect" id="node2" href="$class_face_graph.html" title="삼각형에 대한 인접 리스트를 유지." alt="" coords="23,5,114,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,171,132,197"/>
+<area shape="rect" id="node2" href="$class_face_graph.html" title="삼각형에 대한 인접 리스트를 유지." alt="" coords="23,95,114,121"/>
+<area shape="rect" id="node3" href="$class_d_s__timer.html" title=" " alt="" coords="27,5,110,32"/>
 </map>
