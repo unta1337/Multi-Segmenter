@@ -1,12 +1,13 @@
 <map id="SerialSegmenter::do_segmentation" name="SerialSegmenter::do_segmentation">
-<area shape="rect" id="node1" title="세그멘테이션 수행." alt="" coords="5,166,160,207"/>
+<area shape="rect" id="node1" title="세그멘테이션 수행." alt="" coords="5,217,160,258"/>
 <area shape="rect" id="node2" href="$namespace_color.html#a63c419ad75758acc7b685dfb62bbf6d2" title=" " alt="" coords="208,5,395,32"/>
 <area shape="rect" id="node3" href="$class_serial_face_graph.html#a84e0345d2436ad9b1a6320606b403c94" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="223,57,379,98"/>
-<area shape="rect" id="node5" href="$class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca" title=" " alt="" coords="229,123,374,149"/>
-<area shape="rect" id="node6" href="$class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0" title=" " alt="" coords="229,173,373,200"/>
-<area shape="rect" id="node7" href="$class_d_s__timer.html#a99853e6082d53cc6c166be5df5d34c66" title=" " alt="" coords="222,224,381,251"/>
-<area shape="rect" id="node9" href="$class_d_s__timer.html#a946d1441acb6f150c5720f68db0dead3" title=" " alt="" coords="208,275,395,301"/>
-<area shape="rect" id="node10" href="$facegraphutils_8h.html#af3ee9a8b50f8cf032310abb89ed48784" title=" " alt="" coords="228,325,375,352"/>
+<area shape="rect" id="node5" href="$class_d_s__timer.html#a6f0e6e82ecd8c8d34949c81b7c5c8143" title=" " alt="" coords="463,224,639,251"/>
+<area shape="rect" id="node6" href="$class_d_s__timer.html#aa48b6a21d4dcc619d89d4f6400391940" title=" " alt="" coords="227,173,376,200"/>
+<area shape="rect" id="node7" href="$class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca" title=" " alt="" coords="229,224,374,251"/>
+<area shape="rect" id="node8" href="$class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0" title=" " alt="" coords="229,275,373,301"/>
+<area shape="rect" id="node9" href="$class_d_s__timer.html#a99853e6082d53cc6c166be5df5d34c66" title=" " alt="" coords="222,325,381,352"/>
+<area shape="rect" id="node10" href="$class_d_s__timer.html#a946d1441acb6f150c5720f68db0dead3" title=" " alt="" coords="208,376,395,403"/>
+<area shape="rect" id="node11" href="$facegraphutils_8h.html#af3ee9a8b50f8cf032310abb89ed48784" title=" " alt="" coords="228,427,375,453"/>
 <area shape="rect" id="node4" href="$class_serial_face_graph.html#a1a4eb94112e060ea88349a2dd84b5f0d" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="443,64,659,91"/>
-<area shape="rect" id="node8" href="$class_d_s__timer.html#a6f0e6e82ecd8c8d34949c81b7c5c8143" title=" " alt="" coords="463,224,639,251"/>
 </map>

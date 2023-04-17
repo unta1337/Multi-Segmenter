@@ -1,7 +1,7 @@
 <map id="DS_timer::getTimer_ms" name="DS_timer::getTimer_ms">
-<area shape="rect" id="node1" title=" " alt="" coords="415,70,591,97"/>
-<area shape="rect" id="node2" href="$class_d_s__timer.html#a99853e6082d53cc6c166be5df5d34c66" title=" " alt="" coords="208,45,367,71"/>
-<area shape="rect" id="node5" href="$class_d_s__timer.html#a4407edd9db4a67daaf739a80792b88a5" title=" " alt="" coords="209,95,366,122"/>
-<area shape="rect" id="node3" href="$class_parallel_segmenter.html#a30f2e417a8656119ce7f8f9e9e50e9f9" title="세그멘테이션 수행." alt="" coords="8,5,157,47"/>
-<area shape="rect" id="node4" href="$class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e" title="세그멘테이션 수행." alt="" coords="5,71,160,112"/>
+<area shape="rect" id="node1" title=" " alt="" coords="415,79,591,106"/>
+<area shape="rect" id="node2" href="$class_parallel_segmenter.html#a30f2e417a8656119ce7f8f9e9e50e9f9" title="세그멘테이션 수행." alt="" coords="8,5,157,47"/>
+<area shape="rect" id="node3" href="$class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e" title="세그멘테이션 수행." alt="" coords="5,80,160,121"/>
+<area shape="rect" id="node4" href="$class_d_s__timer.html#a99853e6082d53cc6c166be5df5d34c66" title=" " alt="" coords="208,54,367,81"/>
+<area shape="rect" id="node5" href="$class_d_s__timer.html#a4407edd9db4a67daaf739a80792b88a5" title=" " alt="" coords="209,155,366,182"/>
 </map>
