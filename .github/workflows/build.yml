@@ -1,8 +1,8 @@
 name: Build Project
 on: [push]
 jobs:
-  build_artifacts:
-    name: Build Artifacts
+  build_artifacts_windows:
+    name: Build Artifacts (Windows)
     runs-on: windows-2022
     steps:
       - name: Get latest code
@@ -33,3 +33,38 @@ jobs:
             Win32/Multi-Segmenter-Test.exe
             x64/Multi-Segmenter.exe
             x64/Multi-Segmenter-Test.exe
+
+  build_artifacts_linux:
+    name: Build Artifacts (Linux)
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v3
+
+      - name: Install prerequisite
+        shell: bash
+        run: sudo apt-get install ninja-build -y
+
+      - name: CMake x86
+        shell: bash
+        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR=x86 -B x86
+
+      - name: Build x86
+        shell: bash
+        run: cmake --build x86 --target Multi-Segmenter --config Release
+
+      - name: CMake x64
+        shell: bash
+        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR=x86-64 -B x86-x64
+
+      - name: Build x64
+        shell: bash
+        run: cmake --build x86-x64 --target Multi-Segmenter --config Release
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: |
+            ./x86-x64/Multi-Segmenter
+            ./x86/Multi-Segmenter
