@@ -1,4 +1,6 @@
 ﻿#include "parallelfacegraph.h"
+#include "hashmap.hpp"
+#include <atomic>
 
 ParallelFaceGraph::ParallelFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer) : FaceGraph(triangles, timer) {
     init();
@@ -23,9 +25,10 @@ void ParallelFaceGraph::init() {
 
     timer->onTimer(TIMER_FACEGRAPH_INIT_B);
     // 각 면에 대한 인접 리스트 생성.
-    adj_triangles = std::vector<std::vector<int>>(triangles->size());
+    adj_triangles = std::vector<std::unordered_map<int, bool>>(triangles->size());
 
     // 각 삼각형에 대해서,
+    #pragma omp parallel for
     for (int i = 0; i < triangles->size(); i++) {
         // 그 삼각형에 속한 정점과,
         for (int j = 0; j < 3; j++) {
@@ -38,14 +41,16 @@ void ParallelFaceGraph::init() {
                 // 자기 자신이 아니고,
                 // 원래의 삼각형과도 맞닿아 있으면 인접 리스트에 추가.
                 if (i != adjacent_triangle && is_connected(triangles->at(i), triangles->at(adjacent_triangle))) {
-                    adj_triangles[i].push_back(adjacent_triangle);
+                    adj_triangles[i][adjacent_triangle] = true;
                 }
             }
         }
     }
     timer->offTimer(TIMER_FACEGRAPH_INIT_B);
 }
-
+int value(int va) {
+    return va;
+}
 std::vector<std::vector<Triangle>> ParallelFaceGraph::get_segments() {
     timer->onTimer(TIMER_FACEGRAPH_GET_SETMENTS_A);
 
@@ -82,8 +87,8 @@ void ParallelFaceGraph::traverse_dfs(std::vector<int>& visit, int start_vert, in
         dfs_stack.pop();
 
         visit[current_vert] = count;
-        for (int i = 0; i < adj_triangles[current_vert].size(); i++) {
-            int adjacent_triangle = adj_triangles[current_vert][i];
+        for (const auto& entry : adj_triangles[current_vert]) {
+            int adjacent_triangle = entry.first;
             if (visit[adjacent_triangle] == 0) {
                 dfs_stack.push(adjacent_triangle);
             }
