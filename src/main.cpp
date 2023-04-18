@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
     // write_obj(seg, folder_path, false);
 
     // 한꺼번에 .obj 저장.
-    write_obj(seg, folder_path + "Segmented_" + filename, true);
+    write_obj(seg, folder_path + "Segmented_" + mode + "_" + filename, true);
 
     STEP_LOG(std::cout << "[End] Saving Resuilt.\n");
 
