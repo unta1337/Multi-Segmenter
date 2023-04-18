@@ -1,5 +1,6 @@
 #include "parallelsegmenter.h"
 #include "parallelfacegraph.h"
+#include <unordered_set>
 
 #include <chrono>
 #include <color.hpp>
@@ -32,8 +33,49 @@ inline glm::vec3 ParallelSegmenter::get_normal_key(std::unordered_map<glm::vec3,
 
 inline void ParallelSegmenter::init_count_map(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map,
                                               std::vector<glm::vec3>& face_normals) {
-    for (auto& normal : face_normals) {
-        count_map[get_normal_key(count_map, normal)]++;
+    std::vector<std::unordered_map<glm::vec3, size_t, Vec3Hash>*> tmp(20);
+    #pragma omp parallel
+    {
+        std::unordered_map<glm::vec3, size_t, Vec3Hash> sub_count_map;
+        float tol = tolerance / 2;
+        #pragma omp for
+        for (int i = 0; i < face_normals.size(); i++) {
+            glm::vec3 normal = face_normals[i];
+            for (const auto& entry : count_map) {
+                glm::vec3 compare = entry.first;
+                float norm_angle = glm::degrees(glm::angle(compare, normal));
+                if (norm_angle < tol) {
+                    normal = compare;
+                    break;
+                }
+            }
+            sub_count_map[normal]++;
+
+            //sub_count_map[get_normal_key(sub_count_map, face_normals[i])]++;
+        }
+        tmp[omp_get_thread_num()] = &sub_count_map;
+
+        #pragma omp barrier
+        #pragma omp single
+        {
+            int end = omp_get_num_threads();
+            for (int i = 0; i < end; i++) {
+
+                for (auto it = tmp[i]->begin(); it != tmp[i]->end(); it++) {
+                    glm::vec3 normal = it->first;
+                    for (const auto& entry : count_map) {
+                        glm::vec3 compare = entry.first;
+                        float norm_angle = glm::degrees(glm::angle(compare, normal));
+
+                        if (norm_angle < tolerance) {
+                            normal = compare;
+                            break;
+                        }
+                    }
+                    count_map[normal] += it->second;
+                }
+            }
+        }
     }
 }
 
@@ -71,6 +113,7 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
     // 법선 벡터 -> 삼각형(면).
     // 특정 법선 벡터와 비슷한 방향성을 갖는 벡터를 법선 벡터로 갖는 면.
     std::unordered_map<glm::vec3, std::vector<Triangle>, Vec3Hash> normal_triangle_list_map;
+
     for (const auto& entry : count_map) {
         normal_triangle_list_map.insert({entry.first, std::vector<Triangle>()});
     }
@@ -81,16 +124,12 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
     STEP_LOG(std::cout << "[Begin] Normal Map Insertion.\n");
     timer.onTimer(TIMER_NORMAL_MAP_INSERTION);
 
-    std::unordered_set<glm::vec3, Vec3Hash> normal_list;
     std::unordered_map<glm::vec3, omp_lock_t, Vec3Hash> lock_list;
     for (auto& it : count_map) {
-        normal_list.insert(it.first);
+        lock_list.emplace(it.first, omp_lock_t());
+        omp_init_lock(&lock_list[it.first]);
     }
-    for (auto& it : normal_list) {
-        lock_list.emplace(it, omp_lock_t());
-        omp_init_lock(&lock_list[it]);
-    }
-    double total_time = 0.0;
+
     #pragma omp parallel for
     for (int i = 0; i < face_normals_count; i++) {
         glm::vec3 target_norm = get_normal_key(count_map, face_normals[i]);
@@ -124,9 +163,10 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
         STEP_LOG(std::cout << "[Step] FaceGraph: Get Segments.\n");
         std::vector<std::vector<Triangle>> temp = fg.get_segments();
 
-        #pragma omp parallel for
+        #pragma omp parallel for num_threads(2)
         for (int i = 0; i < temp.size(); i++) {
-            TriangleMesh* sub_object = triangle_list_to_obj(temp[i]);
+            auto subs = temp[i];
+            TriangleMesh* sub_object = triangle_list_to_obj(subs);
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
             sub_object->material->name = "sub_materials_" + std::to_string(number);
             sub_object->name = mesh->name + "_seg_" + std::to_string(number++);
@@ -152,6 +192,10 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
     timer.offTimer(TIMER_SEGMENT_COLORING);
 
     normal_triangle_list_map.clear();
+    
+    for (auto& it : lock_list) {
+        omp_destroy_lock(&it.second);
+    }
 
     timer.offTimer(TIMER_TOTAL);
     return result;
