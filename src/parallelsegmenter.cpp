@@ -28,16 +28,16 @@ inline void ParallelSegmenter::init_count_map(std::unordered_map<glm::vec3, size
         float tol = tolerance / 2;
 #pragma omp for
         for (int i = 0; i < face_normals.size(); i++) {
-                      glm::vec3 normal = face_normals[i];
-                      for (const auto& entry : count_map) {
-                          glm::vec3 compare = entry.first;
-                          float norm_angle = glm::degrees(glm::angle(compare, normal));
-                          if (norm_angle < tol) {
-                              normal = compare;
-                              break;
-                          }
-                      }
-                      sub_count_map[normal]++;
+            glm::vec3 normal = face_normals[i];
+            for (const auto& entry : count_map) {
+                glm::vec3 compare = entry.first;
+                float norm_angle = glm::degrees(glm::angle(compare, normal));
+                if (norm_angle < tol) {
+                    normal = compare;
+                    break;
+                }
+            }
+            sub_count_map[normal]++;
 
             //sub_count_map[get_normal_key(sub_count_map, face_normals[i])]++;
         }
