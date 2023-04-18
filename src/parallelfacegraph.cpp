@@ -1,6 +1,4 @@
 ﻿#include "parallelfacegraph.h"
-#include "hashmap.hpp"
-#include <atomic>
 
 ParallelFaceGraph::ParallelFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer) : FaceGraph(triangles, timer) {
     init();
