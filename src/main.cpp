@@ -5,6 +5,7 @@
 #include "originalsegmenter.h"
 #include "parallelsegmenter.h"
 #include "serialsegmenter.h"
+#include "parallelsegmenter.h"
 #include <iostream>
 #include <memory>
 
