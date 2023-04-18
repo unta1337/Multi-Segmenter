@@ -1,6 +1,6 @@
 $folderPath = "assets/tests"
 Get-ChildItem -Path $folderPath -Include Segmented_* -Recurse | Remove-Item
-Remove-Item report.txt
+Remove-Item report.txt -ErrorAction SilentlyContinue
 $files = Get-ChildItem -Path $folderPath -Filter *.obj
 
 foreach ($file in $files) {
