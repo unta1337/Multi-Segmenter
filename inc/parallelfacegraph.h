@@ -1,4 +1,4 @@
-#ifndef __PARALLELFACEGRAPH_H
+﻿#ifndef __PARALLELFACEGRAPH_H
 #define __PARALLELFACEGRAPH_H
 
 #include "facegraph.hpp"
@@ -6,7 +6,13 @@
 
 class ParallelFaceGraph : public FaceGraph {
   public:
-    ParallelFaceGraph(std::vector<Triangle>* list);
+    /**
+     * 삼각형에 대한 인접 리스트
+     */
+    std::vector<std::unordered_map<int, bool>> adj_triangles;
+    ParallelFaceGraph(std::vector<Triangle>* triangles);
+    ParallelFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer);
+    virtual void init();
     virtual std::vector<std::vector<Triangle>> get_segments();
     virtual void traverse_dfs(std::vector<int>& visit, int start_vert, int count);
 };

@@ -6,6 +6,7 @@
 #include "glm/vector_relational.hpp"
 #include "triangle.h"
 #include "trianglemesh.hpp"
+#include "dstimer.h"
 #include <stack>
 #include <unordered_map>
 #include <vector>
@@ -24,9 +25,21 @@ class FaceGraph {
      */
     std::vector<Triangle>* triangles;
 
-    FaceGraph(std::vector<Triangle>* triangles) {
-        this->triangles = triangles;
+    DS_timer* timer;
+
+    FaceGraph(std::vector<Triangle>* triangles, DS_timer* timer) : triangles(triangles), timer(timer) {
     }
+
+    FaceGraph(std::vector<Triangle>* triangles) : FaceGraph(triangles, new DS_timer(16)) {
+    }
+
+    virtual ~FaceGraph() {
+      if (timer->getNumCounter() == 16) {
+        delete timer;
+      }
+    }
+
+    virtual void init() = 0;
 
     /**
      * @brief 인접 리스트에 있는 면을 인접한 면끼리 분류.

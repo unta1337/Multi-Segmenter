@@ -26,13 +26,6 @@ inline void SerialSegmenter::init_count_map(std::unordered_map<glm::vec3, size_t
 }
 
 std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
-    DS_timer timer(4);
-
-    timer.setTimerName(0, (char*)"Normal Vector Computation                         ");
-    timer.setTimerName(1, (char*)"Map Count                                         ");
-    timer.setTimerName(2, (char*)"Normal Map Insertion                              ");
-    timer.setTimerName(3, (char*)"Connectivity Checking and Triangle Mesh Generating");
-
     STEP_LOG(std::cout << "[Begin] Normal Vector Computation.\n");
     timer.onTimer(0);
 
@@ -93,8 +86,9 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
     std::vector<TriangleMesh*> result;
     int number = 0;
     for (auto iter : normal_triangle_list_map) {
-        SerialFaceGraph fg(&iter.second);
+        SerialFaceGraph fg(&iter.second, &timer);
         STEP_LOG(std::cout << "[Step] Face Graph Generating.\n");
+
         std::vector<std::vector<Triangle>> temp = fg.get_segments();
         STEP_LOG(std::cout << "[Step] Connectivity Checking.\n");
 
@@ -110,8 +104,6 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
 
     timer.offTimer(3);
     STEP_LOG(std::cout << "[End] Connectivity Checking and Triangle Mesh Generating.\n");
-
-    TIME_LOG(timer.printTimer());
 
     for (int i = 0; i < result.size(); i++) {
         result[i]->material->diffuse = Color::get_color_from_jet((float)i, 0, (float)result.size());

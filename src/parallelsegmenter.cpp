@@ -1,4 +1,4 @@
-﻿#include "parallelsegmenter.h"
+#include "parallelsegmenter.h"
 #include "parallelfacegraph.h"
 
 #include <chrono>
@@ -38,13 +38,6 @@ inline void ParallelSegmenter::init_count_map(std::unordered_map<glm::vec3, size
 }
 
 std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
-    DS_timer timer(4);
-
-    timer.setTimerName(0, (char*)"Normal Vector Computation                         ");
-    timer.setTimerName(1, (char*)"Map Count                                         ");
-    timer.setTimerName(2, (char*)"Normal Map Insertion                              ");
-    timer.setTimerName(3, (char*)"Connectivity Checking and Triangle Mesh Generating");
-
     STEP_LOG(std::cout << "[Begin] Normal Vector Computation.\n");
     timer.onTimer(0);
 
@@ -52,7 +45,7 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
     std::vector<glm::vec3> face_normals(mesh->index.size());
 
     // 오브젝트에 포함된 면에 대한 법선 벡터 계산.
-#pragma omp parallel for
+    #pragma omp parallel for
     for (int i = 0; i < mesh->index.size(); i++) {
         glm::ivec3& index = mesh->index[i];
         face_normals[i] = glm::triangleNormal(mesh->vertex[index[0]], mesh->vertex[index[1]], mesh->vertex[index[2]]);
@@ -95,7 +88,7 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
         omp_init_lock(&lock_list[it]);
     }
     double total_time = 0.0;
-#pragma omp parallel for
+    #pragma omp parallel for
     for (int i = 0; i < face_normals_count; i++) {
         glm::vec3 target_norm = get_normal_key(count_map, face_normals[i]);
 
@@ -119,18 +112,19 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
     std::vector<TriangleMesh*> result;
     int number = 0;
     for (auto iter : normal_triangle_list_map) {
-        ParallelFaceGraph fg(&iter.second);
+        ParallelFaceGraph fg(&iter.second, &timer);
         STEP_LOG(std::cout << "[Step] Face Graph Generating.\n");
+
         std::vector<std::vector<Triangle>> temp = fg.get_segments();
         STEP_LOG(std::cout << "[Step] Connectivity Checking.\n");
 
-#pragma omp parallel for
+        #pragma omp parallel for
         for (int i = 0; i < temp.size(); i++) {
             TriangleMesh* sub_object = triangle_list_to_obj(temp[i]);
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
             sub_object->material->name = "sub_materials_" + std::to_string(number);
             sub_object->name = mesh->name + "_seg_" + std::to_string(number++);
-#pragma omp critical
+            #pragma omp critical
             result.push_back(sub_object);
         }
     }
@@ -138,8 +132,7 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
     timer.offTimer(3);
     STEP_LOG(std::cout << "[End] Connectivity Checking and Triangle Mesh Generating.\n");
 
-    TIME_LOG(timer.printTimer());
-#pragma omp parallel for
+    #pragma omp parallel for
     for (int i = 0; i < result.size(); i++) {
         result[i]->material->diffuse = Color::get_color_from_jet((float)i, 0, (float)result.size());
         result[i]->material->ambient = glm::vec3(1.0f, 1.0f, 1.0f);
