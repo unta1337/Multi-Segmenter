@@ -82,6 +82,9 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
     timer.offTimer(TIMER_NORMAL_MAP_INSERTION);
     STEP_LOG(std::cout << "[End] Normal Map Insertion. (Total: " << normal_triangle_list_map.size() << ")\n");
 
+    timer.offTimer(TIMER_PREPROCESSING);
+    STEP_LOG(std::cout << "[End] Preprocessing.\n");
+
     STEP_LOG(std::cout << "[Begin] Connectivity Checking and Triangle Mesh Generating.\n");
     timer.onTimer(TIMER_CC_N_TMG);
 

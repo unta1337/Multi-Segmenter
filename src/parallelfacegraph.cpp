@@ -19,7 +19,7 @@ void ParallelFaceGraph::init() {
         }
     }
 
-    timer->onTimer(TIMER_FACEGRAPH_INIT_A);
+    timer->offTimer(TIMER_FACEGRAPH_INIT_A);
 
     timer->onTimer(TIMER_FACEGRAPH_INIT_B);
     // 각 면에 대한 인접 리스트 생성.
@@ -43,7 +43,7 @@ void ParallelFaceGraph::init() {
             }
         }
     }
-    timer->onTimer(TIMER_FACEGRAPH_INIT_B);
+    timer->offTimer(TIMER_FACEGRAPH_INIT_B);
 }
 
 std::vector<std::vector<Triangle>> ParallelFaceGraph::get_segments() {
@@ -59,7 +59,7 @@ std::vector<std::vector<Triangle>> ParallelFaceGraph::get_segments() {
         }
     }
 
-    timer->onTimer(TIMER_FACEGRAPH_GET_SETMENTS_A);
+    timer->offTimer(TIMER_FACEGRAPH_GET_SETMENTS_A);
 
     timer->onTimer(TIMER_FACEGRAPH_GET_SETMENTS_B);
     std::vector<std::vector<Triangle>> component_list(count);
@@ -68,7 +68,7 @@ std::vector<std::vector<Triangle>> ParallelFaceGraph::get_segments() {
         component_list[is_visit[i] - 1].push_back(triangles->data()[i]);
     }
 
-    timer->onTimer(TIMER_FACEGRAPH_GET_SETMENTS_B);
+    timer->offTimer(TIMER_FACEGRAPH_GET_SETMENTS_B);
 
     return component_list;
 }
