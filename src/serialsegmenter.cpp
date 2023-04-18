@@ -97,6 +97,8 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
         STEP_LOG(std::cout << "[Step] FaceGraph: Get Segments.\n");
         std::vector<std::vector<Triangle>> temp = fg.get_segments();
 
+        STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
+        timer.onTimer(TIMER_TRIANGLE_MESH_GENERATING);
         for (auto subs : temp) {
             TriangleMesh* sub_object = triangle_list_to_obj(subs);
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
@@ -105,12 +107,13 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
 
             result.push_back(sub_object);
         }
+        timer.offTimer(TIMER_TRIANGLE_MESH_GENERATING);
     }
 
     timer.offTimer(TIMER_CC_N_TMG);
     STEP_LOG(std::cout << "[End] Connectivity Checking and Triangle Mesh Generating.\n");
 
-    STEP_LOG(std::cout << "[Begin] Segment coloring.\n");
+    STEP_LOG(std::cout << "[Begin] Segment Coloring.\n");
     timer.onTimer(TIMER_SEGMENT_COLORING);
 
     for (int i = 0; i < result.size(); i++) {
@@ -119,7 +122,7 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
         result[i]->material->specular = glm::vec3(0.5f, 0.5f, 0.5f);
     }
 
-    STEP_LOG(std::cout << "[End] Segment coloring.\n");
+    STEP_LOG(std::cout << "[End] Segment Coloring.\n");
     timer.offTimer(TIMER_SEGMENT_COLORING);
 
     normal_triangle_list_map.clear();

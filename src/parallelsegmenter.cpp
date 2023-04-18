@@ -163,6 +163,8 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
         STEP_LOG(std::cout << "[Step] FaceGraph: Get Segments.\n");
         std::vector<std::vector<Triangle>> temp = fg.get_segments();
 
+        STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
+        timer.onTimer(TIMER_TRIANGLE_MESH_GENERATING);
         #pragma omp parallel for num_threads(2)
         for (int i = 0; i < temp.size(); i++) {
             auto subs = temp[i];
@@ -173,12 +175,13 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
             #pragma omp critical
             result.push_back(sub_object);
         }
+        timer.offTimer(TIMER_TRIANGLE_MESH_GENERATING);
     }
 
     timer.offTimer(TIMER_CC_N_TMG);
     STEP_LOG(std::cout << "[End] Connectivity Checking and Triangle Mesh Generating.\n");
 
-    STEP_LOG(std::cout << "[Begin] Segment coloring.\n");
+    STEP_LOG(std::cout << "[Begin] Segment Coloring.\n");
     timer.onTimer(TIMER_SEGMENT_COLORING);
 
     #pragma omp parallel for
@@ -188,7 +191,7 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
         result[i]->material->specular = glm::vec3(0.5f, 0.5f, 0.5f);
     }
 
-    STEP_LOG(std::cout << "[End] Segment coloring.\n");
+    STEP_LOG(std::cout << "[End] Segment Coloring.\n");
     timer.offTimer(TIMER_SEGMENT_COLORING);
 
     normal_triangle_list_map.clear();
