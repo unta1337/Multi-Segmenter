@@ -7,6 +7,7 @@
 #include "logutils.h"
 #include "model.h"
 #include "segmenter.hpp"
+#include "serialfacegraph.h"
 #include "trianglemesh.hpp"
 #include <algorithm>
 #include <chrono>
@@ -19,7 +20,6 @@
 #include <stack>
 #include <unordered_map>
 #include <vector>
-#include "serialfacegraph.h"
 
 class SerialSegmenter : public Segmenter {
   public:

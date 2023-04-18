@@ -1,4 +1,4 @@
-#ifndef __LOGUTIL_H
+﻿#ifndef __LOGUTIL_H
 #define __LOGUTIL_H
 
 #include <iostream>

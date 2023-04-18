@@ -1,16 +1,14 @@
 ﻿#include "originalsegmenter.h"
 #include "serialfacegraph.h"
 
-OriginalSegmenter::OriginalSegmenter(TriangleMesh* mesh, float tolerance)
-    : Segmenter(mesh, tolerance) {
+OriginalSegmenter::OriginalSegmenter(TriangleMesh* mesh, float tolerance) : Segmenter(mesh, tolerance) {
 }
 
 std::vector<TriangleMesh*> OriginalSegmenter::do_segmentation() {
     std::vector<glm::vec3> face_normals(mesh->index.size());
 
     for (int i = 0; i < mesh->index.size(); i++) {
-        face_normals[i] = glm::triangleNormal(mesh->vertex[mesh->index[i].x],
-                                              mesh->vertex[mesh->index[i].y],
+        face_normals[i] = glm::triangleNormal(mesh->vertex[mesh->index[i].x], mesh->vertex[mesh->index[i].y],
                                               mesh->vertex[mesh->index[i].z]);
     }
 
@@ -79,16 +77,14 @@ std::vector<TriangleMesh*> OriginalSegmenter::do_segmentation() {
         }
 
         if (iter.second == 0) {
-            std::cout << "Removed map : " << glm::to_string(iter.first) << " "
-                      << iter.second << std::endl;
+            std::cout << "Removed map : " << glm::to_string(iter.first) << " " << iter.second << std::endl;
             my_map.erase(iter.first);
             count_map.erase(iter.first);
         }
 
         iter.second = 0;
     }
-    std::cout << "Map compaction complete (map size : " << count_map.size()
-              << ")" << std::endl;
+    std::cout << "Map compaction complete (map size : " << count_map.size() << ")" << std::endl;
 
     double total_time = 0.0;
     for (int i = 0; i < count; i++) {
@@ -115,8 +111,7 @@ std::vector<TriangleMesh*> OriginalSegmenter::do_segmentation() {
         item->second[indexes->second++] = tri;
     }
 
-    std::cout << "Normal map insert done total (" << my_map.size()
-              << ") size map" << std::endl;
+    std::cout << "Normal map insert done total (" << my_map.size() << ") size map" << std::endl;
 
     // std::cout << "map size : " << my_map.size() << std::endl;
 
@@ -136,27 +131,22 @@ std::vector<TriangleMesh*> OriginalSegmenter::do_segmentation() {
         for (auto subs : temp) {
             TriangleMesh* sub_object = triangle_list_to_obj(subs);
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
-            sub_object->material->name =
-                "sub_materials_" + std::to_string(number);
+            sub_object->material->name = "sub_materials_" + std::to_string(number);
             sub_object->name = mesh->name + "_seg_" + std::to_string(number++);
 
             result.push_back(sub_object);
         }
 
         auto end_time = std::chrono::system_clock::now();
-        auto ms = std::chrono::duration_cast<std::chrono::microseconds>(
-                      end_time - start_time)
-                      .count();
+        auto ms = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
 
         total_time += (ms / 1000.);
-        std::cout << "Spend : " << total_time << " ms (" << (ms / 1000.)
-                  << " ms)" << std::endl;
+        std::cout << "Spend : " << total_time << " ms (" << (ms / 1000.) << " ms)" << std::endl;
     }
     std::cout << "Check connectivity and Make triangle mesh done" << std::endl;
 
     for (int i = 0; i < result.size(); i++) {
-        result[i]->material->diffuse =
-            Color::get_color_from_jet((float)i, 0, (float)result.size());
+        result[i]->material->diffuse = Color::get_color_from_jet((float)i, 0, (float)result.size());
         result[i]->material->ambient = glm::vec3(1.0f, 1.0f, 1.0f);
         result[i]->material->specular = glm::vec3(0.5f, 0.5f, 0.5f);
     }

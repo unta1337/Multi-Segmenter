@@ -1,4 +1,4 @@
-#include "parallelsegmenter.h"
+﻿#include "parallelsegmenter.h"
 #include "parallelfacegraph.h"
 #include <unordered_set>
 
@@ -51,7 +51,7 @@ inline void ParallelSegmenter::init_count_map(std::unordered_map<glm::vec3, size
             }
             sub_count_map[normal]++;
 
-            //sub_count_map[get_normal_key(sub_count_map, face_normals[i])]++;
+            // sub_count_map[get_normal_key(sub_count_map, face_normals[i])]++;
         }
         tmp[omp_get_thread_num()] = &sub_count_map;
 
@@ -195,7 +195,7 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
     timer.offTimer(TIMER_SEGMENT_COLORING);
 
     normal_triangle_list_map.clear();
-    
+
     for (auto& it : lock_list) {
         omp_destroy_lock(&it.second);
     }
