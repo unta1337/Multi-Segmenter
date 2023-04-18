@@ -19,6 +19,7 @@
 #include <stack>
 #include <unordered_map>
 #include <vector>
+#include "serialfacegraph.h"
 
 class SerialSegmenter : public Segmenter {
   public:

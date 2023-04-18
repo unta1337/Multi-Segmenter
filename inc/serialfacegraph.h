@@ -2,6 +2,7 @@
 #define __SERIALFACEGRAPH_H
 
 #include "facegraph.hpp"
+#include "segmenter.hpp"
 
 class SerialFaceGraph : public FaceGraph {
   public:
