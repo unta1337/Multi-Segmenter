@@ -7,6 +7,7 @@
 #include "logutils.h"
 #include "model.h"
 #include "segmenter.hpp"
+#include "serialfacegraph.h"
 #include "trianglemesh.hpp"
 #include <algorithm>
 #include <chrono>

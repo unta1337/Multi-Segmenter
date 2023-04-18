@@ -1,23 +1,23 @@
-/* dsdefinitions.h */
+﻿/* dsdefinitions.h */
 #ifndef _DS_TIMER_H
 #define _DS_TIMER_H
-//#pragma once
+// #pragma once
 
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <iostream>
 
-#define	OS_WINDOWS	0
-#define OS_LINUX	1
+#define OS_WINDOWS 0
+#define OS_LINUX 1
 
 #ifdef _WIN32
-#define _TARGET_OS	OS_WINDOWS
+#define _TARGET_OS OS_WINDOWS
 #else
 #ifndef nullptr
 #define nullptr NULL
 #endif
-#define _TARGET_OS	OS_LINUX
+#define _TARGET_OS OS_LINUX
 #endif
 
 /************************************************************************/
@@ -25,27 +25,35 @@
 /************************************************************************/
 #if _TARGET_OS == OS_WINDOWS
 //	#define	_SPRINT	sprintf_s
-#define	_STRTOK strtok_s
+#define _STRTOK strtok_s
 
-#define EXIT_WIHT_KEYPRESS {std::cout << "Press any key to exit..."; getchar(); exit(0);}
+#define EXIT_WIHT_KEYPRESS                                                                                             \
+    {                                                                                                                  \
+        std::cout << "Press any key to exit...";                                                                       \
+        getchar();                                                                                                     \
+        exit(0);                                                                                                       \
+    }
 
-#define SPLIT_PATH(_path,_result)	\
-	_splitpath_s(_path, _result.drive, 255, _result.dir, 255, _result.filename, 255, _result.ext, 255)
-
+#define SPLIT_PATH(_path, _result)                                                                                     \
+    _splitpath_s(_path, _result.drive, 255, _result.dir, 255, _result.filename, 255, _result.ext, 255)
 
 #elif _TARGET_OS == OS_LINUX
-#include <libgen.h>
 #include <inttypes.h>
+#include <libgen.h>
 
-#define	_STRTOK strtok_r
+#define _STRTOK strtok_r
 
-#define EXIT_WIHT_KEYPRESS {std::cout << "Program was terminated!"; exit(0);}
+#define EXIT_WIHT_KEYPRESS                                                                                             \
+    {                                                                                                                  \
+        std::cout << "Program was terminated!";                                                                        \
+        exit(0);                                                                                                       \
+    }
 
-#define sprintf_s	sprintf
-#define scanf_s		scanf
-#define fprintf_s	fprintf
+#define sprintf_s sprintf
+#define scanf_s scanf
+#define fprintf_s fprintf
 
-#define __int64		int64_t
+#define __int64 int64_t
 
 #define fopen_s(fp, name, mode) (*fp = fopen(name, mode))
 
@@ -56,31 +64,31 @@
 /************************************************************************/
 
 // *********** data rangeSize
-#define	_1K_	1024
-#define _1M_	(_1K_*_1K_)
-#define _1G_	(_1M_*_1K_)
+#define _1K_ 1024
+#define _1M_ (_1K_ * _1K_)
+#define _1G_ (_1M_ * _1K_)
 
-#define CHAR_STRING_SIZE	255
+#define CHAR_STRING_SIZE 255
 
 /************************************************************************/
 /* Type definitions                                                     */
 /************************************************************************/
-typedef unsigned int UINT ;
+typedef unsigned int UINT;
 
 /************************************************************************/
 /* Macro functions                                                      */
 /************************************************************************/
-#define DS_MEM_DELETE(a)	\
-	if (a != NULL) {		\
-		delete a ;			\
-		a = NULL ;			\
-	}
+#define DS_MEM_DELETE(a)                                                                                               \
+    if (a != NULL) {                                                                                                   \
+        delete a;                                                                                                      \
+        a = NULL;                                                                                                      \
+    }
 
-#define DS_MEM_DELETE_ARRAY(a)	\
-	if (a != NULL) {		\
-	delete [] a ;			\
-	a = NULL ;			\
-	}
+#define DS_MEM_DELETE_ARRAY(a)                                                                                         \
+    if (a != NULL) {                                                                                                   \
+        delete[] a;                                                                                                    \
+        a = NULL;                                                                                                      \
+    }
 
 #define RANGE_MIN 0
 #define RANGE_MAX 1
@@ -88,29 +96,35 @@ typedef unsigned int UINT ;
 #define MATCHED_STRING 0
 
 #ifndef VTK_RANGE_MIN
-#define VTK_RANGE_MIN	0
-#define VTK_RANGE_MAX	1
+#define VTK_RANGE_MIN 0
+#define VTK_RANGE_MAX 1
 #endif
 
 // Print
 #define PRINT_LINE_INFO printf("%s, line %d", __FILE__, __LINE__)
-#define PRINT_ERROR_MSG(_msg) {PRINT_LINE_INFO; printf(" at "); printf(_msg);}
+#define PRINT_ERROR_MSG(_msg)                                                                                          \
+    {                                                                                                                  \
+        PRINT_LINE_INFO;                                                                                               \
+        printf(" at ");                                                                                                \
+        printf(_msg);                                                                                                  \
+    }
 
 // Single loops
-#define LOOP_I(a) for(int i=0; i<a; i++)
-#define LOOP_J(a) for(int j=0; j<a; j++)
-#define LOOP_K(a) for(int k=0; k<a; k++)
-#define LOOP_INDEX(index, end) for (int index = 0 ; index < end ; index++)
-#define LOOP_INDEX_START_END(index, start, end) for (int index = start ; index < end ; index++)
+#define LOOP_I(a) for (int i = 0; i < a; i++)
+#define LOOP_J(a) for (int j = 0; j < a; j++)
+#define LOOP_K(a) for (int k = 0; k < a; k++)
+#define LOOP_INDEX(index, end) for (int index = 0; index < end; index++)
+#define LOOP_INDEX_START_END(index, start, end) for (int index = start; index < end; index++)
 
 // Multiple loops
 #define LOOP_J_I(b, a) LOOP_J(b) LOOP_I(a)
-#define LOOP_K_J_I(c,b,a) for(int k=0; k<c; k++) LOOP_J_I(b,a)
+#define LOOP_K_J_I(c, b, a)                                                                                            \
+    for (int k = 0; k < c; k++)                                                                                        \
+    LOOP_J_I(b, a)
 
 //
 #ifndef SWAP
-template<class T>
-void SWAP(T &a, T &b){
+template <class T> void SWAP(T& a, T& b) {
     T tmp = a;
     a = b;
     b = tmp;
@@ -119,69 +133,91 @@ void SWAP(T &a, T &b){
 
 //
 #ifndef MIN
-#define MIN(a,b) (a > b ? b : a)
+#define MIN(a, b) (a > b ? b : a)
 #endif
 
 #ifndef MAX
-#define MAX(a,b) (a > b ? a : b)
+#define MAX(a, b) (a > b ? a : b)
 #endif
 
 // Index converter
 
-#define INDEX2X(_ID,_W) (_ID%_W)
-#define INDEX2Y(_ID,_W) (_ID/_W)
-#define INDEX2ID(_ID,_X,_Y,_W) {_X=INDEX2X(_ID,_W);_Y=INDEX2Y(_ID_,_W);}
-#define ID2INDEX(_W,_X,_Y) (_Y*_W+_X)
+#define INDEX2X(_ID, _W) (_ID % _W)
+#define INDEX2Y(_ID, _W) (_ID / _W)
+#define INDEX2ID(_ID, _X, _Y, _W)                                                                                      \
+    {                                                                                                                  \
+        _X = INDEX2X(_ID, _W);                                                                                         \
+        _Y = INDEX2Y(_ID_, _W);                                                                                        \
+    }
+#define ID2INDEX(_W, _X, _Y) (_Y * _W + _X)
 #define PTR2ID(_type, _target, _base) ((_type*)_target - (_type*)_base)
 
 // Memory allocation and release
 #ifndef SAFE_DELETE
-#define	SAFE_DELETE(p) {if(p!=NULL) delete p; p=NULL;}
+#define SAFE_DELETE(p)                                                                                                 \
+    {                                                                                                                  \
+        if (p != NULL)                                                                                                 \
+            delete p;                                                                                                  \
+        p = NULL;                                                                                                      \
+    }
 #endif
 
 #ifndef SAFE_DELETE_ARR
-#define	SAFE_DELETE_ARR(p) {if(p!=NULL) delete [] p; p=NULL;}
+#define SAFE_DELETE_ARR(p)                                                                                             \
+    {                                                                                                                  \
+        if (p != NULL)                                                                                                 \
+            delete[] p;                                                                                                \
+        p = NULL;                                                                                                      \
+    }
 #endif
 
-#define SAFE_NEW(p, type, size) {\
-	try {p = new type[size];}	\
-	catch(std::bad_alloc& exc) \
-	{ printf("[%s, line %d] fail to memory allocation - %.2f MB requested\n", __FILE__, __LINE__, (float)(sizeof(type)*size)/_1M_);	\
-	EXIT_WIHT_KEYPRESS }\
-	}
+#define SAFE_NEW(p, type, size)                                                                                        \
+    {                                                                                                                  \
+        try {                                                                                                          \
+            p = new type[size];                                                                                        \
+        } catch (std::bad_alloc & exc) {                                                                               \
+            printf("[%s, line %d] fail to memory allocation - %.2f MB requested\n", __FILE__, __LINE__,                \
+                   (float)(sizeof(type) * size) / _1M_);                                                               \
+            EXIT_WIHT_KEYPRESS                                                                                         \
+        }                                                                                                              \
+    }
 
-template<class T>
-void memsetZero(T** p, long long size = 0) {
+template <class T> void memsetZero(T** p, long long size = 0) {
     if (*p != NULL)
-        memset(*p, 0, sizeof(T)*size);
+        memset(*p, 0, sizeof(T) * size);
 }
 
-template<class T>
-void allocNinitMem(T** p, long long size, double *memUsage = NULL) {
+template <class T> void allocNinitMem(T** p, long long size, double* memUsage = NULL) {
     *p = new T[size];
-    //SAFE_NEW(*p, T, rangeSize);
-    memset(*p, 0, sizeof(T)*size);
+    // SAFE_NEW(*p, T, rangeSize);
+    memset(*p, 0, sizeof(T) * size);
 
     if (memUsage != NULL) {
-        *memUsage += sizeof(T)*size;
+        *memUsage += sizeof(T) * size;
     }
 }
 
-#define SAFE_MEMCPY(_dst, _src, _type, _size){ \
-	if(_dst == nullptr || _src == nullptr ) \
-		printf("[%s, line %d] fail to memcpy (dst = %x, src = %x)\n", __FILE__, __LINE__, _dst, _src);	\
-		exit(-1);	\
-	memcpy(_dst, _src, sizeof(_type)*_size);\
-}
+#define SAFE_MEMCPY(_dst, _src, _type, _size)                                                                          \
+    {                                                                                                                  \
+        if (_dst == nullptr || _src == nullptr)                                                                        \
+            printf("[%s, line %d] fail to memcpy (dst = %x, src = %x)\n", __FILE__, __LINE__, _dst, _src);             \
+        exit(-1);                                                                                                      \
+        memcpy(_dst, _src, sizeof(_type) * _size);                                                                     \
+    }
 
 // VTK related
 #ifndef SAFE_DELETE_VTK
-#define SAFE_DELETE_VTK(p) {if(p!=NULL) p->Delete(); p=NULL;}
+#define SAFE_DELETE_VTK(p)                                                                                             \
+    {                                                                                                                  \
+        if (p != NULL)                                                                                                 \
+            p->Delete();                                                                                               \
+        p = NULL;                                                                                                      \
+    }
 #endif
 
 #ifndef VTK_IS_NOERROR
-//#include "DS_common_def.h"
-#define VTK_IS_NOERROR(p) (p->GetErrorCode()==vtkErrorCode::NoError ? true : false)
+// #include "DS_common_def.h"
+#define VTK_IS_NOERROR(p) (p->GetErrorCode() == vtkErrorCode::NoError ? true : false)
 #endif
 
 /************************************************************************/
@@ -200,9 +236,9 @@ typedef struct {
 } filePathSplit;
 
 /* dstimer.h */
-//#pragma once
-//#ifndef _DS_TIMER_H
-//#define _DS_TIMER_H
+// #pragma once
+// #ifndef _DS_TIMER_H
+// #define _DS_TIMER_H
 
 #include <string> // std string
 
@@ -211,87 +247,96 @@ typedef unsigned int UINT;
 #endif
 
 #ifdef _WIN32
-	// For windows
-	#include <Windows.h>
-	typedef LARGE_INTEGER	TIME_VAL;
+// For windows
+#include <Windows.h>
+typedef LARGE_INTEGER TIME_VAL;
 #else
-	// For Unix/Linux
-	#include <stdio.h>
-	#include <stdlib.h>
-	#include <sys/time.h>
-	#include <string.h>	// c string
-	typedef struct timeval	TIME_VAL;
+// For Unix/Linux
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/time.h>
+#include <string.h> // c string
+typedef struct timeval TIME_VAL;
 #endif
 
-#define TIMER_ON	true
-#define TIMER_OFF	false
+#define TIMER_ON true
+#define TIMER_OFF false
 
-class DS_timer
-{
-private :
+class DS_timer {
+  private:
+    bool turnOn;
 
-	bool turnOn	;
+    UINT numTimer;
+    UINT numCounter;
 
-	UINT numTimer	;
-	UINT numCounter ;
+    // For timers
+    bool* timerStates;
+    TIME_VAL ticksPerSecond;
+    TIME_VAL* start_ticks;
+    TIME_VAL* end_ticks;
+    TIME_VAL* totalTicks;
 
-	// For timers
-	bool*			timerStates ;
-	TIME_VAL	ticksPerSecond;
-	TIME_VAL	*start_ticks;
-	TIME_VAL	*end_ticks;
-	TIME_VAL	*totalTicks;
+    char timerTitle[255];
+    std::string* timerName;
 
-	char		timerTitle[255] ;
-	std::string *timerName ;
+    // For counters
+    UINT* counters;
 
-	// For counters
-	UINT *counters ;
+    void memAllocCounters(void);
+    void memAllocTimers(void);
+    void releaseCounters(void);
+    void releaseTimers(void);
 
-	void memAllocCounters ( void ) ;
-	void memAllocTimers ( void ) ;
-	void releaseCounters ( void ) ;
-	void releaseTimers ( void ) ;
+  public:
+    DS_timer(int _numTimer = 1, int _numCount = 1, bool _trunOn = true);
+    ~DS_timer(void);
 
-public:
-	DS_timer(int _numTimer = 1, int _numCount = 1, bool _trunOn = true );
-	~DS_timer(void);
+    // For configurations
+    inline void timerOn(void) {
+        turnOn = TIMER_ON;
+    }
+    inline void timerOff(void) {
+        turnOn = TIMER_OFF;
+    }
 
-	// For configurations
-	inline void timerOn ( void ) { turnOn = TIMER_ON ; }
-	inline void timerOff ( void ) { turnOn = TIMER_OFF ; }
+    UINT getNumTimer(void);
+    UINT getNumCounter(void);
+    UINT setTimer(UINT _numTimer);
+    UINT setCounter(UINT _numCounter);
 
-	UINT getNumTimer( void ) ;
-	UINT getNumCounter ( void ) ;
-	UINT setTimer ( UINT _numTimer ) ;
-	UINT setCounter ( UINT _numCounter ) ;
+    // For timers
 
-	// For timers
+    void initTimer(UINT id);
+    void initTimers(void);
+    void onTimer(UINT id);
+    void offTimer(UINT id);
+    double getTimer_ms(UINT id);
 
-	void initTimer(UINT id) ;
-	void initTimers ( void );
-	void onTimer(UINT id) ;
-	void offTimer(UINT id ) ;
-	double getTimer_ms(UINT id) ;
+    void setTimerTitle(char* _name) {
+        memset(timerTitle, 0, sizeof(char) * 255);
+        memcpy(timerTitle, _name, strlen(_name));
+    }
 
-	void setTimerTitle ( char* _name ) { memset(timerTitle, 0, sizeof(char)*255) ; memcpy(timerTitle, _name, strlen(_name)) ; }
+    void setTimerName(UINT id, std::string& _name) {
+        timerName[id] = _name;
+    }
+    void setTimerName(UINT id, char* _name) {
+        timerName[id] = _name;
+    }
 
-	void setTimerName (UINT id, std::string &_name) { timerName[id] = _name ; }
-	void setTimerName (UINT id, char* _name) { timerName[id] = _name ;}
+    // For counters
 
-	// For counters
+    void incCounter(UINT id);
+    void initCounters(void);
+    void initCounter(UINT id);
+    void add2Counter(UINT id, UINT num);
+    UINT getCounter(UINT id);
 
-	void incCounter(UINT id) ;
-	void initCounters( void ) ;
-	void initCounter(UINT id) ;
-	void add2Counter( UINT id, UINT num ) ;
-	UINT getCounter ( UINT id ) ;
+    // For reports
 
-	// For reports
-
-	void printTimer ( float _denominator = 1 ) ;
-	void printToFile ( char* fileName, int _id = -1 ) ;
-	void printTimerNameToFile ( char* fileName ) ;
-} ;
+    void printTimer(float _denominator = 1);
+    void printToFile(char* fileName, int _id = -1);
+    void printTimerNameToFile(char* fileName);
+};
 
 #endif

@@ -1,11 +1,16 @@
-#ifndef __PARALLELFACEGRAPH_H
+﻿#ifndef __PARALLELFACEGRAPH_H
 #define __PARALLELFACEGRAPH_H
 
 #include "facegraph.hpp"
+#include "segmenter.hpp"
 #include <omp.h>
 
 class ParallelFaceGraph : public FaceGraph {
   public:
+    /**
+     * 삼각형에 대한 인접 리스트
+     */
+    std::vector<std::unordered_map<int, bool>> adj_triangles;
     ParallelFaceGraph(std::vector<Triangle>* triangles);
     ParallelFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer);
     virtual void init();

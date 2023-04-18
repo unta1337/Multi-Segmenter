@@ -58,5 +58,7 @@ jobs:
           path: |
             assets/Segmented_*.obj
             assets/Segmented_*.mtl
+            assets/Segmented_*.txt
             assets/complex_models/Segmented_*.obj
             assets/complex_models/Segmented_*.mtl
+            assets/complex_models/Segmented_*.txt
