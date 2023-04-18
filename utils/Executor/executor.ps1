@@ -1,13 +1,14 @@
 $folderPath = "assets/tests"
+$exe = $args[0]
 Get-ChildItem -Path $folderPath -Include Segmented_* -Recurse | Remove-Item
 Remove-Item report.txt -ErrorAction SilentlyContinue
 $files = Get-ChildItem -Path $folderPath -Filter *.obj
 
 foreach ($file in $files) {
 	echo serial $file.Name
-    cmake-build-release/Release/Multi-Segmenter.exe serial $file
+    & $exe serial $file
 	echo parallel $file.Name
-    cmake-build-release/Release/Multi-Segmenter.exe parallel $file
+    & $exe parallel $file
 }
 
 $serials = Get-ChildItem -Path $folderPath -Filter *serial*.txt
