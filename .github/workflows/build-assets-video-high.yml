@@ -58,7 +58,7 @@ jobs:
 
       - name: Launch renderer
         shell: bash
-        run: python utils/SimpleRenderer/renderer.py assets/Segmented_${{ matrix.assets }} --frame 10 --fps 2 --scale 50 --quality 7 --align
+        run: python utils/SimpleRenderer/renderer.py assets/Segmented_${{ matrix.mode }}_${{ matrix.assets }} --frame 10 --fps 2 --scale 50 --quality 7 --align
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
