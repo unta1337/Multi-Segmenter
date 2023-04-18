@@ -111,11 +111,17 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
     timer.offTimer(TIMER_CC_N_TMG);
     STEP_LOG(std::cout << "[End] Connectivity Checking and Triangle Mesh Generating.\n");
 
+    STEP_LOG(std::cout << "[Begin] Segment coloring.\n");
+    timer.onTimer(TIMER_SEGMENT_COLORING);
+
     for (int i = 0; i < result.size(); i++) {
         result[i]->material->diffuse = Color::get_color_from_jet((float)i, 0, (float)result.size());
         result[i]->material->ambient = glm::vec3(1.0f, 1.0f, 1.0f);
         result[i]->material->specular = glm::vec3(0.5f, 0.5f, 0.5f);
     }
+
+    STEP_LOG(std::cout << "[End] Segment coloring.\n");
+    timer.offTimer(TIMER_SEGMENT_COLORING);
 
     normal_triangle_list_map.clear();
 

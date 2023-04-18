@@ -11,7 +11,8 @@
 #define TIMER_FACEGRAPH_INIT_B 6
 #define TIMER_FACEGRAPH_GET_SETMENTS_A 7
 #define TIMER_FACEGRAPH_GET_SETMENTS_B 8
-#define TIMER_TOTAL 9
+#define TIMER_SEGMENT_COLORING 9
+#define TIMER_TOTAL 10
 #define TIMER_SIZE (TIMER_TOTAL + 1)
 
 #include "dstimer.h"
@@ -57,6 +58,8 @@ class Segmenter {
                            (char*)"  - FaceGraph: Get Segments A                     ");
         timer.setTimerName(TIMER_FACEGRAPH_GET_SETMENTS_B,
                            (char*)"  - FaceGraph: Get Segments B                     ");
+        timer.setTimerName(TIMER_SEGMENT_COLORING,
+                           (char*)"Segment coloring                     ");
         timer.setTimerName(TIMER_TOTAL,
                            (char*)"Total (Preprocessing + CC & TMG)                  ");
     }
