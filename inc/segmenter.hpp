@@ -1,14 +1,30 @@
 ﻿#ifndef __SEGMENTER_H
 #define __SEGMENTER_H
 
-#include "trianglemesh.hpp"
-#include "dstimer.h"
-#include <vector>
+// TODO: 타이머 정보를 분리했으면 좋겠음, 생성자에 있는 것도 마찬가지임
+#define TIMER_PREPROCESSING 0
+#define TIMER_NORMAL_VECTOR_COMPUTATION 1
+#define TIMER_MAP_COUNT 2
+#define TIMER_NORMAL_MAP_INSERTION 3
+#define TIMER_CC_N_TMG 4
+#define TIMER_FACEGRAPH_INIT_A 5
+#define TIMER_FACEGRAPH_INIT_B 6
+#define TIMER_FACEGRAPH_GET_SETMENTS_A 7
+#define TIMER_FACEGRAPH_GET_SETMENTS_B 8
+#define TIMER_SEGMENT_COLORING 9
+#define TIMER_TOTAL 10
+#define TIMER_SIZE (TIMER_TOTAL + 1)
 
+#include "dstimer.h"
+#include "trianglemesh.hpp"
+#include <vector>
 /**
  * @brief 하나의 메시 그룹에 대한 세그멘테이션을 수행.
  */
 class Segmenter {
+  public:
+    DS_timer timer;
+
   protected:
     /**
      * 세그멘테이션을 수행할 대상 메시 그룹.
@@ -21,22 +37,33 @@ class Segmenter {
      */
     float tolerance;
 
-    DS_timer timer;
-
   public:
-    Segmenter(TriangleMesh* mesh, float tolerance = 0.0f) : mesh(mesh), tolerance(tolerance), timer(DS_timer(6)) {
-      timer.setTimerName(0, (char*)"Normal Vector Computation                         ");
-      timer.setTimerName(1, (char*)"Map Count                                         ");
-      timer.setTimerName(2, (char*)"Normal Map Insertion                              ");
-      timer.setTimerName(3, (char*)"Connectivity Checking and Triangle Mesh Generating");
-      timer.setTimerName(4, (char*)"FaceGraph: Init                                   ");
-      timer.setTimerName(5, (char*)"FaceGraph: Get Segments                           ");
+    Segmenter(TriangleMesh* mesh, float tolerance = 0.0f)
+        : mesh(mesh), tolerance(tolerance), timer(DS_timer(TIMER_SIZE)) {
+        timer.setTimerName(TIMER_PREPROCESSING,
+                           (char*)"Preprocessing                                     ");
+        timer.setTimerName(TIMER_NORMAL_VECTOR_COMPUTATION,
+                           (char*)"  - Normal Vector Computation                     ");
+        timer.setTimerName(TIMER_MAP_COUNT,
+                           (char*)"  - Map Count                                     ");
+        timer.setTimerName(TIMER_NORMAL_MAP_INSERTION,
+                           (char*)"  - Normal Map Insertion                          ");
+        timer.setTimerName(TIMER_CC_N_TMG,
+                           (char*)"Connectivity Checking and Triangle Mesh Generating");
+        timer.setTimerName(TIMER_FACEGRAPH_INIT_A,
+                           (char*)"  - FaceGraph: Init A                             ");
+        timer.setTimerName(TIMER_FACEGRAPH_INIT_B,
+                           (char*)"  - FaceGraph: Init B                             ");
+        timer.setTimerName(TIMER_FACEGRAPH_GET_SETMENTS_A,
+                           (char*)"  - FaceGraph: Get Segments A                     ");
+        timer.setTimerName(TIMER_FACEGRAPH_GET_SETMENTS_B,
+                           (char*)"  - FaceGraph: Get Segments B                     ");
+        timer.setTimerName(TIMER_SEGMENT_COLORING,
+                           (char*)"Segment coloring                                  ");
+        timer.setTimerName(TIMER_TOTAL,
+                           (char*)"Total (Preprocessing + CC & TMG)                  ");
     }
     virtual ~Segmenter(){};
-
-    virtual void print_timer() {
-        timer.printTimer();
-    }
 
     /**
      * @brief 세그멘테이션 수행.
