@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
     }
 
     TIME_LOG(segmenter->timer.printTimer());
-    std::string log_path = folder_path + "Segmented_" + filename + ".txt";
+    std::string log_path = folder_path + "Segmented_" + mode + "_" + filename + ".txt";
     segmenter->timer.printToFile((char*)log_path.c_str());
 
     STEP_LOG(std::cout << "[Begin] Saving Resuilt.\n");
