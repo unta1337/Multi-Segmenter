@@ -25,9 +25,7 @@ var dir_bfccd401955b95cf8c75461437045ac0 =
     [ "parallelsegmenter.h", "parallelsegmenter_8h.html", [
       [ "ParallelSegmenter", "class_parallel_segmenter.html", "class_parallel_segmenter" ]
     ] ],
-    [ "segmenter.hpp", "segmenter_8hpp.html", [
-      [ "Segmenter", "class_segmenter.html", "class_segmenter" ]
-    ] ],
+    [ "segmenter.hpp", "segmenter_8hpp.html", "segmenter_8hpp" ],
     [ "serialfacegraph.h", "serialfacegraph_8h.html", [
       [ "SerialFaceGraph", "class_serial_face_graph.html", "class_serial_face_graph" ]
     ] ],

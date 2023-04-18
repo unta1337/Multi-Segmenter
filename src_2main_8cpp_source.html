@@ -86,9 +86,9 @@ $(document).ready(function(){initNavTree('src_2main_8cpp_source.html',''); initR
 </div><!--header-->
 <div class="contents">
 <a href="src_2main_8cpp.html">이 파일의 문서화 페이지로 가기</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="consoleutils_8h.html">consoleutils.h</a>&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="model_8h.html">model.h</a>&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="objutils_8h.html">objutils.h</a>&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="logutils_8h.html">logutils.h</a>&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="logutils_8h.html">logutils.h</a>&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="model_8h.html">model.h</a>&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="objutils_8h.html">objutils.h</a>&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="originalsegmenter_8h.html">originalsegmenter.h</a>&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="parallelsegmenter_8h.html">parallelsegmenter.h</a>&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="serialsegmenter_8h.html">serialsegmenter.h</a>&quot;</span></div>
@@ -154,20 +154,22 @@ $(document).ready(function(){initNavTree('src_2main_8cpp_source.html',''); initR
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        std::cout &lt;&lt; s-&gt;vertex.size() &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="logutils_8h.html#a9bee8f25537fc64fd6a746ee85aaffe1">TIME_LOG</a>(segmenter-&gt;print_timer());</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="logutils_8h.html#a9eac7ad0e24fc410bae2b90cb9520fd3">STEP_LOG</a>(std::cout &lt;&lt; <span class="stringliteral">&quot;[Begin] Saving Resuilt.\n&quot;</span>);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="logutils_8h.html#a9bee8f25537fc64fd6a746ee85aaffe1">TIME_LOG</a>(segmenter-&gt;timer.printTimer());</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    std::string log_path = <a class="code" href="src_2main_8cpp.html#a439b971847d11167bdaf27e28812c063">folder_path</a> + <span class="stringliteral">&quot;Segmented_&quot;</span> + <a class="code" href="src_2main_8cpp.html#a6c71000b535e65812d96eee3386307c4">mode</a> + <span class="stringliteral">&quot;_&quot;</span> + <a class="code" href="src_2main_8cpp.html#ae80f820219e45772366a2a68de6a54c4">filename</a> + <span class="stringliteral">&quot;.txt&quot;</span>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    segmenter-&gt;timer.printToFile((<span class="keywordtype">char</span>*)log_path.c_str());</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="comment">// 구분된 부분별 .obj 저장. 각 부분별 명칭으로 저장됨. (i.e., cube_seg0.obj)</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="comment">// write_obj(seg, folder_path, false);</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="comment">// 한꺼번에 .obj 저장.</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <a class="code" href="objutils_8h.html#ab675714cd506a42f93600f3bfa89c93a">write_obj</a>(seg, <a class="code" href="src_2main_8cpp.html#a439b971847d11167bdaf27e28812c063">folder_path</a> + <span class="stringliteral">&quot;Segmented_&quot;</span> + <a class="code" href="src_2main_8cpp.html#ae80f820219e45772366a2a68de6a54c4">filename</a>, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="logutils_8h.html#a9eac7ad0e24fc410bae2b90cb9520fd3">STEP_LOG</a>(std::cout &lt;&lt; <span class="stringliteral">&quot;[End] Saving Resuilt.\n&quot;</span>);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <a class="code" href="logutils_8h.html#a9eac7ad0e24fc410bae2b90cb9520fd3">STEP_LOG</a>(std::cout &lt;&lt; <span class="stringliteral">&quot;[Begin] Saving Resuilt.\n&quot;</span>);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment">// 구분된 부분별 .obj 저장. 각 부분별 명칭으로 저장됨. (i.e., cube_seg0.obj)</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="comment">// write_obj(seg, folder_path, false);</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="comment">// 한꺼번에 .obj 저장.</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="objutils_8h.html#ab675714cd506a42f93600f3bfa89c93a">write_obj</a>(seg, <a class="code" href="src_2main_8cpp.html#a439b971847d11167bdaf27e28812c063">folder_path</a> + <span class="stringliteral">&quot;Segmented_&quot;</span> + <a class="code" href="src_2main_8cpp.html#a6c71000b535e65812d96eee3386307c4">mode</a> + <span class="stringliteral">&quot;_&quot;</span> + <a class="code" href="src_2main_8cpp.html#ae80f820219e45772366a2a68de6a54c4">filename</a>, <span class="keyword">true</span>);</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <a class="code" href="logutils_8h.html#a9eac7ad0e24fc410bae2b90cb9520fd3">STEP_LOG</a>(std::cout &lt;&lt; <span class="stringliteral">&quot;[End] Saving Resuilt.\n&quot;</span>);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
 <div class="ttc" id="aconsoleutils_8h_html"><div class="ttname"><a href="consoleutils_8h.html">consoleutils.h</a></div></div>
 <div class="ttc" id="aconsoleutils_8h_html_afd96c84e8a8852e762ebc070825be7c7"><div class="ttname"><a href="consoleutils_8h.html#afd96c84e8a8852e762ebc070825be7c7">INIT_CONSOLE</a></div><div class="ttdeci">#define INIT_CONSOLE()</div><div class="ttdef"><b>Definition:</b> <a href="consoleutils_8h_source.html#l00008">consoleutils.h:8</a></div></div>
 <div class="ttc" id="alogutils_8h_html"><div class="ttname"><a href="logutils_8h.html">logutils.h</a></div></div>

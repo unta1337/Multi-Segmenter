@@ -83,6 +83,7 @@ $(document).ready(function(){initNavTree('class_segmenter.html',''); initResizab
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public 멤버 함수</a> &#124;
+<a href="#pub-attribs">Public 속성</a> &#124;
 <a href="#pro-attribs">Protected 속성</a> &#124;
 <a href="class_segmenter-members.html">모든 멤버 목록</a>  </div>
   <div class="headertitle">
@@ -123,11 +124,14 @@ Public 멤버 함수</h2></td></tr>
 <tr class="separator:a83d6c41b949e32ab7bea1cdb9902caa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa226c7f46d3731fa0472229c7f55509f"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_segmenter.html#aa226c7f46d3731fa0472229c7f55509f">~Segmenter</a> ()</td></tr>
 <tr class="separator:aa226c7f46d3731fa0472229c7f55509f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af69338c3142a7b394dcc07db78f302fd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_segmenter.html#af69338c3142a7b394dcc07db78f302fd">print_timer</a> ()</td></tr>
-<tr class="separator:af69338c3142a7b394dcc07db78f302fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a553a7c299bfd1d6595b57d0d328f77a4"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; <a class="el" href="class_triangle_mesh.html">TriangleMesh</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_segmenter.html#a553a7c299bfd1d6595b57d0d328f77a4">do_segmentation</a> ()=0</td></tr>
 <tr class="memdesc:a553a7c299bfd1d6595b57d0d328f77a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">세그멘테이션 수행.  <a href="class_segmenter.html#a553a7c299bfd1d6595b57d0d328f77a4">더 자세히 ...</a><br /></td></tr>
 <tr class="separator:a553a7c299bfd1d6595b57d0d328f77a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public 속성</h2></td></tr>
+<tr class="memitem:a864bcf33cb3162c47686da978b364d18"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d_s__timer.html">DS_timer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_segmenter.html#a864bcf33cb3162c47686da978b364d18">timer</a></td></tr>
+<tr class="separator:a864bcf33cb3162c47686da978b364d18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected 속성</h2></td></tr>
@@ -135,13 +139,11 @@ Protected 속성</h2></td></tr>
 <tr class="separator:af70ce8086c5555cd761b5bb17f4655b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acaee9dc87096699359a51bcc6dcf169c"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_segmenter.html#acaee9dc87096699359a51bcc6dcf169c">tolerance</a></td></tr>
 <tr class="separator:acaee9dc87096699359a51bcc6dcf169c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a864bcf33cb3162c47686da978b364d18"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_d_s__timer.html">DS_timer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_segmenter.html#a864bcf33cb3162c47686da978b364d18">timer</a></td></tr>
-<tr class="separator:a864bcf33cb3162c47686da978b364d18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">상세한 설명</h2>
 <div class="textblock"><p>하나의 메시 그룹에 대한 세그멘테이션을 수행. </p>
 
-<p class="definition"><a class="el" href="segmenter_8hpp_source.html">segmenter.hpp</a> 파일의 <a class="el" href="segmenter_8hpp_source.html#l00011">11</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="segmenter_8hpp_source.html">segmenter.hpp</a> 파일의 <a class="el" href="segmenter_8hpp_source.html#l00025">25</a> 번째 라인에서 정의되었습니다.</p>
 </div><h2 class="groupheader">생성자 &amp; 소멸자 문서화</h2>
 <a id="a83d6c41b949e32ab7bea1cdb9902caa9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a83d6c41b949e32ab7bea1cdb9902caa9">&#9670;&nbsp;</a></span>Segmenter()</h2>
@@ -177,7 +179,7 @@ Protected 속성</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition"><a class="el" href="segmenter_8hpp_source.html">segmenter.hpp</a> 파일의 <a class="el" href="segmenter_8hpp_source.html#l00027">27</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="segmenter_8hpp_source.html">segmenter.hpp</a> 파일의 <a class="el" href="segmenter_8hpp_source.html#l00042">42</a> 번째 라인에서 정의되었습니다.</p>
 <div class="dynheader">
 이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
@@ -213,7 +215,7 @@ Protected 속성</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition"><a class="el" href="segmenter_8hpp_source.html">segmenter.hpp</a> 파일의 <a class="el" href="segmenter_8hpp_source.html#l00035">35</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="segmenter_8hpp_source.html">segmenter.hpp</a> 파일의 <a class="el" href="segmenter_8hpp_source.html#l00069">69</a> 번째 라인에서 정의되었습니다.</p>
 
 </div>
 </div>
@@ -247,43 +249,6 @@ Protected 속성</h2></td></tr>
 
 </div>
 </div>
-<a id="af69338c3142a7b394dcc07db78f302fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af69338c3142a7b394dcc07db78f302fd">&#9670;&nbsp;</a></span>print_timer()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void Segmenter::print_timer </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition"><a class="el" href="segmenter_8hpp_source.html">segmenter.hpp</a> 파일의 <a class="el" href="segmenter_8hpp_source.html#l00037">37</a> 번째 라인에서 정의되었습니다.</p>
-<div class="dynheader">
-이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_segmenter_af69338c3142a7b394dcc07db78f302fd_cgraph.png" border="0" usemap="#aclass_segmenter_af69338c3142a7b394dcc07db78f302fd_cgraph" alt=""/></div>
-<map name="aclass_segmenter_af69338c3142a7b394dcc07db78f302fd_cgraph" id="aclass_segmenter_af69338c3142a7b394dcc07db78f302fd_cgraph">
-<area shape="rect" title=" " alt="" coords="5,5,179,32"/>
-<area shape="rect" href="class_d_s__timer.html#a99853e6082d53cc6c166be5df5d34c66" title=" " alt="" coords="227,5,385,32"/>
-<area shape="rect" href="class_d_s__timer.html#a6f0e6e82ecd8c8d34949c81b7c5c8143" title=" " alt="" coords="433,5,609,32"/>
-</map>
-</div>
-
-</div>
-</div>
 <h2 class="groupheader">멤버 데이터 문서화</h2>
 <a id="af70ce8086c5555cd761b5bb17f4655b4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af70ce8086c5555cd761b5bb17f4655b4">&#9670;&nbsp;</a></span>mesh</h2>
@@ -306,7 +271,7 @@ Protected 속성</h2></td></tr>
 </div><div class="memdoc">
 <p>세그멘테이션을 수행할 대상 메시 그룹. </p>
 
-<p class="definition"><a class="el" href="segmenter_8hpp_source.html">segmenter.hpp</a> 파일의 <a class="el" href="segmenter_8hpp_source.html#l00016">16</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="segmenter_8hpp_source.html">segmenter.hpp</a> 파일의 <a class="el" href="segmenter_8hpp_source.html#l00033">33</a> 번째 라인에서 정의되었습니다.</p>
 
 </div>
 </div>
@@ -315,22 +280,14 @@ Protected 속성</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_d_s__timer.html">DS_timer</a> Segmenter::timer</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p class="definition"><a class="el" href="segmenter_8hpp_source.html">segmenter.hpp</a> 파일의 <a class="el" href="segmenter_8hpp_source.html#l00024">24</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="segmenter_8hpp_source.html">segmenter.hpp</a> 파일의 <a class="el" href="segmenter_8hpp_source.html#l00027">27</a> 번째 라인에서 정의되었습니다.</p>
 
 </div>
 </div>
@@ -355,7 +312,7 @@ Protected 속성</h2></td></tr>
 </div><div class="memdoc">
 <p>세그멘테이션의 기준이 되는 각도. 메시 그룹에 속한 면에 대한 법선 벡터의 각도를 이용해 세그멘테이션을 수행한다. </p>
 
-<p class="definition"><a class="el" href="segmenter_8hpp_source.html">segmenter.hpp</a> 파일의 <a class="el" href="segmenter_8hpp_source.html#l00022">22</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="segmenter_8hpp_source.html">segmenter.hpp</a> 파일의 <a class="el" href="segmenter_8hpp_source.html#l00039">39</a> 번째 라인에서 정의되었습니다.</p>
 
 </div>
 </div>

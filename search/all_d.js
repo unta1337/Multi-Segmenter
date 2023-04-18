@@ -11,9 +11,8 @@ var searchData=
   ['pixel_144',['pixel',['../struct_texture.html#a34d6de3c4dff559a1adad442604c4c48',1,'Texture']]],
   ['print_5ferror_5fmsg_145',['PRINT_ERROR_MSG',['../dstimer_8h.html#afd700cdff1f975eaa415dc94132556eb',1,'dstimer.h']]],
   ['print_5fline_5finfo_146',['PRINT_LINE_INFO',['../dstimer_8h.html#a8d7b7560d526809d22c1bb098cfda4c6',1,'dstimer.h']]],
-  ['print_5ftimer_147',['print_timer',['../class_segmenter.html#af69338c3142a7b394dcc07db78f302fd',1,'Segmenter']]],
-  ['printtimer_148',['printTimer',['../class_d_s__timer.html#a99853e6082d53cc6c166be5df5d34c66',1,'DS_timer']]],
-  ['printtimernametofile_149',['printTimerNameToFile',['../class_d_s__timer.html#a0aa9f23045646fbb018c234ec40e2c58',1,'DS_timer']]],
-  ['printtofile_150',['printToFile',['../class_d_s__timer.html#a4407edd9db4a67daaf739a80792b88a5',1,'DS_timer']]],
-  ['ptr2id_151',['PTR2ID',['../dstimer_8h.html#a99cb27fd1fcc39f8fc48ab7a5bbc23d9',1,'dstimer.h']]]
+  ['printtimer_147',['printTimer',['../class_d_s__timer.html#a99853e6082d53cc6c166be5df5d34c66',1,'DS_timer']]],
+  ['printtimernametofile_148',['printTimerNameToFile',['../class_d_s__timer.html#a0aa9f23045646fbb018c234ec40e2c58',1,'DS_timer']]],
+  ['printtofile_149',['printToFile',['../class_d_s__timer.html#a4407edd9db4a67daaf739a80792b88a5',1,'DS_timer']]],
+  ['ptr2id_150',['PTR2ID',['../dstimer_8h.html#a99cb27fd1fcc39f8fc48ab7a5bbc23d9',1,'dstimer.h']]]
 ];

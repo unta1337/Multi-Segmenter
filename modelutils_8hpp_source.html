@@ -91,27 +91,24 @@ $(document).ready(function(){initNavTree('modelutils_8hpp_source.html',''); init
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="trianglemesh_8hpp.html">trianglemesh.hpp</a>&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;tiny_obj_loader.h&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="modelutils_8hpp.html#a6e27044316dfa8ead81ff31aa71f2392">    7</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="modelutils_8hpp.html#a6e27044316dfa8ead81ff31aa71f2392">add_vertex</a>(<a class="code" href="class_triangle_mesh.html">TriangleMesh</a>* mesh, tinyobj::attrib_t&amp; attributes,</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;               <span class="keyword">const</span> tinyobj::index_t&amp; idx,</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;               std::map&lt;int, int&gt;&amp; known_vertices) {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keywordflow">if</span> (known_vertices.find(idx.vertex_index) != known_vertices.end())</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keywordflow">return</span> known_vertices[idx.vertex_index];</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">const</span> glm::vec3* vertex_array =</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        (<span class="keyword">const</span> glm::vec3*)attributes.vertices.data();</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">const</span> glm::vec3* normal_array = (<span class="keyword">const</span> glm::vec3*)attributes.normals.data();</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">const</span> glm::vec2* texcoord_array =</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        (<span class="keyword">const</span> glm::vec2*)attributes.texcoords.data();</div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="modelutils_8hpp.html#a6e27044316dfa8ead81ff31aa71f2392">    7</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="modelutils_8hpp.html#a6e27044316dfa8ead81ff31aa71f2392">add_vertex</a>(<a class="code" href="class_triangle_mesh.html">TriangleMesh</a>* mesh, tinyobj::attrib_t&amp; attributes, <span class="keyword">const</span> tinyobj::index_t&amp; idx,</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;               std::map&lt;int, int&gt;&amp; known_vertices) {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keywordflow">if</span> (known_vertices.find(idx.vertex_index) != known_vertices.end())</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keywordflow">return</span> known_vertices[idx.vertex_index];</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">const</span> glm::vec3* vertex_array = (<span class="keyword">const</span> glm::vec3*)attributes.vertices.data();</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">const</span> glm::vec3* normal_array = (<span class="keyword">const</span> glm::vec3*)attributes.normals.data();</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">const</span> glm::vec2* texcoord_array = (<span class="keyword">const</span> glm::vec2*)attributes.texcoords.data();</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">int</span> new_id = (<a class="code" href="namespacerenderer.html#aeaf7d094374e21f8c27e4d27377a8613">int</a>)mesh-&gt;<a class="code" href="class_triangle_mesh.html#a3bbd116b4f498879d8e28ebc3349401d">vertex</a>.size();</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    known_vertices[idx.vertex_index] = new_id;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">int</span> new_id = (<a class="code" href="namespacerenderer.html#aeaf7d094374e21f8c27e4d27377a8613">int</a>)mesh-&gt;<a class="code" href="class_triangle_mesh.html#a3bbd116b4f498879d8e28ebc3349401d">vertex</a>.size();</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    known_vertices[idx.vertex_index] = new_id;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    mesh-&gt;<a class="code" href="class_triangle_mesh.html#a3bbd116b4f498879d8e28ebc3349401d">vertex</a>.push_back(vertex_array[idx.vertex_index]);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    mesh-&gt;<a class="code" href="class_triangle_mesh.html#a3bbd116b4f498879d8e28ebc3349401d">vertex</a>.push_back(vertex_array[idx.vertex_index]);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">return</span> new_id;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;}</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">return</span> new_id;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclass_triangle_mesh_html"><div class="ttname"><a href="class_triangle_mesh.html">TriangleMesh</a></div><div class="ttdoc">오브젝트에서 하나의 속성을 공유하는 삼각형의 집합.</div><div class="ttdef"><b>Definition:</b> <a href="trianglemesh_8hpp_source.html#l00016">trianglemesh.hpp:16</a></div></div>
 <div class="ttc" id="aclass_triangle_mesh_html_a3bbd116b4f498879d8e28ebc3349401d"><div class="ttname"><a href="class_triangle_mesh.html#a3bbd116b4f498879d8e28ebc3349401d">TriangleMesh::vertex</a></div><div class="ttdeci">std::vector&lt; glm::vec3 &gt; vertex</div><div class="ttdef"><b>Definition:</b> <a href="trianglemesh_8hpp_source.html#l00028">trianglemesh.hpp:28</a></div></div>
 <div class="ttc" id="amodelutils_8hpp_html_a6e27044316dfa8ead81ff31aa71f2392"><div class="ttname"><a href="modelutils_8hpp.html#a6e27044316dfa8ead81ff31aa71f2392">add_vertex</a></div><div class="ttdeci">int add_vertex(TriangleMesh *mesh, tinyobj::attrib_t &amp;attributes, const tinyobj::index_t &amp;idx, std::map&lt; int, int &gt; &amp;known_vertices)</div><div class="ttdef"><b>Definition:</b> <a href="modelutils_8hpp_source.html#l00007">modelutils.hpp:7</a></div></div>
