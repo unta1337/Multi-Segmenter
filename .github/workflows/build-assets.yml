@@ -51,18 +51,14 @@ jobs:
         shell: bash
         run: ./x64/Multi-Segmenter ${{ matrix.mode }} assets/${{ matrix.assets }}
 
-      - name: Fix path
-        shell: bash
-        run: mkdir ${{ matrix.mode }}_assets && mv assets/* ${{ matrix.mode }}_assets
-
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: build
           path: |
-            ${{ matrix.mode }}_assets/Segmented_*.obj
-            ${{ matrix.mode }}_assets/Segmented_*.mtl
-            ${{ matrix.mode }}_assets/Segmented_*.txt
-            ${{ matrix.mode }}_assets/complex_models/Segmented_*.obj
-            ${{ matrix.mode }}_assets/complex_models/Segmented_*.mtl
-            ${{ matrix.mode }}_assets/complex_models/Segmented_*.txt
+            assets/Segmented_*.obj
+            assets/Segmented_*.mtl
+            assets/Segmented_*.txt
+            assets/complex_models/Segmented_*.obj
+            assets/complex_models/Segmented_*.mtl
+            assets/complex_models/Segmented_*.txt
