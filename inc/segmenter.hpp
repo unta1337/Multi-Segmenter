@@ -59,7 +59,7 @@ class Segmenter {
         timer.setTimerName(TIMER_FACEGRAPH_GET_SETMENTS_B,
                            (char*)"  - FaceGraph: Get Segments B                     ");
         timer.setTimerName(TIMER_SEGMENT_COLORING,
-                           (char*)"Segment coloring                     ");
+                           (char*)"Segment coloring                                  ");
         timer.setTimerName(TIMER_TOTAL,
                            (char*)"Total (Preprocessing + CC & TMG)                  ");
     }
