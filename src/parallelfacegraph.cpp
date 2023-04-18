@@ -1,4 +1,6 @@
 ﻿#include "parallelfacegraph.h"
+#include "hashmap.hpp"
+#include <atomic>
 
 ParallelFaceGraph::ParallelFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer) : FaceGraph(triangles, timer) {
     init();
@@ -11,12 +13,46 @@ ParallelFaceGraph::ParallelFaceGraph(std::vector<Triangle>* triangles) : FaceGra
 void ParallelFaceGraph::init() {
     timer->onTimer(4);
 
-    // 정점 -> 정점과 인접한 삼각형 매핑.
+   /*// 정점 -> 정점과 인접한 삼각형 매핑.
     std::unordered_map<glm::vec3, std::vector<int>, Vec3Hash> vertex_adjacent_map;
     for (int i = 0; i < triangles->size(); i++) {
         for (int j = 0; j < 3; j++) {
             glm::vec3 vertex = triangles->at(i).vertex[j];
             vertex_adjacent_map[vertex].push_back(i);
+        }
+    }*/
+
+    HashMap<glm::vec3, int, Vec3Hash> vertex_adjacent_count_map((int) triangles->size() * 3);
+    std::unordered_map<glm::vec3, int, Vec3Hash> vertex_adjacent_count_map_valid;
+    std::unordered_map<glm::vec3, std::vector<int>, Vec3Hash> vertex_adjacent_map;
+
+    perror("LV1");
+    for (int i = 0; i < triangles->size(); i++){
+        for (int j = 0; j < 3; j++) {
+            glm::vec3 vertex = triangles->at(i).vertex[j];
+            PairNode<glm::vec3, int> * pair;
+            vertex_adjacent_count_map.get(vertex, pair);
+            perror("GO ATOMIC?\n");
+            pair->value++;
+        }
+    }
+
+    perror("LV2");
+
+    #pragma omp parallel for
+    for(int i = 0; i < vertex_adjacent_count_map.table_size; i ++){
+        glm::vec3& vertex = vertex_adjacent_count_map.table[i]->key;
+        int& count = vertex_adjacent_count_map.table[i]->value;
+        vertex_adjacent_map[vertex] = std::vector<int>(count);
+    }
+
+    for (int i = 0; i < triangles->size(); i++){
+        for (int j = 0; j < 3; j++) {
+            glm::vec3 vertex = triangles->at(i).vertex[j];
+            PairNode<glm::vec3, int> * pair;
+            vertex_adjacent_count_map.get(vertex, pair);
+            int index = pair->value--;
+            vertex_adjacent_map[vertex][index] = i;
         }
     }
 
@@ -44,7 +80,9 @@ void ParallelFaceGraph::init() {
 
     timer->offTimer(4);
 }
-
+int value(int va){
+    return va;
+}
 std::vector<std::vector<Triangle>> ParallelFaceGraph::get_segments() {
     timer->onTimer(5);
 
