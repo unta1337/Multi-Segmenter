@@ -13,53 +13,20 @@ ParallelFaceGraph::ParallelFaceGraph(std::vector<Triangle>* triangles) : FaceGra
 void ParallelFaceGraph::init() {
     timer->onTimer(4);
 
-   /*// 정점 -> 정점과 인접한 삼각형 매핑.
+    // 정점 -> 정점과 인접한 삼각형 매핑.
     std::unordered_map<glm::vec3, std::vector<int>, Vec3Hash> vertex_adjacent_map;
     for (int i = 0; i < triangles->size(); i++) {
         for (int j = 0; j < 3; j++) {
             glm::vec3 vertex = triangles->at(i).vertex[j];
             vertex_adjacent_map[vertex].push_back(i);
         }
-    }*/
-
-    HashMap<glm::vec3, int, Vec3Hash> vertex_adjacent_count_map((int) triangles->size() * 3);
-    std::unordered_map<glm::vec3, int, Vec3Hash> vertex_adjacent_count_map_valid;
-    std::unordered_map<glm::vec3, std::vector<int>, Vec3Hash> vertex_adjacent_map;
-
-    perror("LV1");
-    for (int i = 0; i < triangles->size(); i++){
-        for (int j = 0; j < 3; j++) {
-            glm::vec3 vertex = triangles->at(i).vertex[j];
-            PairNode<glm::vec3, int> * pair;
-            vertex_adjacent_count_map.get(vertex, pair);
-            perror("GO ATOMIC?\n");
-            pair->value++;
-        }
-    }
-
-    perror("LV2");
-
-    #pragma omp parallel for
-    for(int i = 0; i < vertex_adjacent_count_map.table_size; i ++){
-        glm::vec3& vertex = vertex_adjacent_count_map.table[i]->key;
-        int& count = vertex_adjacent_count_map.table[i]->value;
-        vertex_adjacent_map[vertex] = std::vector<int>(count);
-    }
-
-    for (int i = 0; i < triangles->size(); i++){
-        for (int j = 0; j < 3; j++) {
-            glm::vec3 vertex = triangles->at(i).vertex[j];
-            PairNode<glm::vec3, int> * pair;
-            vertex_adjacent_count_map.get(vertex, pair);
-            int index = pair->value--;
-            vertex_adjacent_map[vertex][index] = i;
-        }
     }
 
     // 각 면에 대한 인접 리스트 생성.
-    adj_triangles = std::vector<std::vector<int>>(triangles->size());
+    adj_triangles = std::vector<std::unordered_map<int, bool>>(triangles->size());
 
     // 각 삼각형에 대해서,
+    #pragma omp parallel for
     for (int i = 0; i < triangles->size(); i++) {
         // 그 삼각형에 속한 정점과,
         for (int j = 0; j < 3; j++) {
@@ -72,7 +39,7 @@ void ParallelFaceGraph::init() {
                 // 자기 자신이 아니고,
                 // 원래의 삼각형과도 맞닿아 있으면 인접 리스트에 추가.
                 if (i != adjacent_triangle && is_connected(triangles->at(i), triangles->at(adjacent_triangle))) {
-                    adj_triangles[i].push_back(adjacent_triangle);
+                    adj_triangles[i][adjacent_triangle] = true;
                 }
             }
         }
@@ -80,7 +47,7 @@ void ParallelFaceGraph::init() {
 
     timer->offTimer(4);
 }
-int value(int va){
+int value(int va) {
     return va;
 }
 std::vector<std::vector<Triangle>> ParallelFaceGraph::get_segments() {
@@ -116,8 +83,8 @@ void ParallelFaceGraph::traverse_dfs(std::vector<int>& visit, int start_vert, in
         dfs_stack.pop();
 
         visit[current_vert] = count;
-        for (int i = 0; i < adj_triangles[current_vert].size(); i++) {
-            int adjacent_triangle = adj_triangles[current_vert][i];
+        for (const auto& entry : adj_triangles[current_vert]) {
+            int adjacent_triangle = entry.first;
             if (visit[adjacent_triangle] == 0) {
                 dfs_stack.push(adjacent_triangle);
             }
