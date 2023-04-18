@@ -1,7 +1,7 @@
 ﻿#include "consoleutils.h"
+#include "logutils.h"
 #include "model.h"
 #include "objutils.h"
-#include "logutils.h"
 #include "originalsegmenter.h"
 #include "parallelsegmenter.h"
 #include "serialsegmenter.h"
@@ -67,7 +67,9 @@ int main(int argc, char* argv[]) {
         std::cout << s->vertex.size() << std::endl;
     }
 
-    TIME_LOG(segmenter->print_timer());
+    TIME_LOG(segmenter->timer.printTimer());
+    std::string log_path = folder_path + "Segmented_" + filename + ".txt";
+    segmenter->timer.printToFile((char*)log_path.c_str());
 
     STEP_LOG(std::cout << "[Begin] Saving Resuilt.\n");
 
