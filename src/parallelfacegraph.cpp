@@ -11,8 +11,7 @@ ParallelFaceGraph::ParallelFaceGraph(std::vector<Triangle>* triangles) : FaceGra
 }
 
 void ParallelFaceGraph::init() {
-    timer->onTimer(4);
-
+    timer->onTimer(TIMER_FACEGRAPH_INIT_A);
     // 정점 -> 정점과 인접한 삼각형 매핑.
     std::unordered_map<glm::vec3, std::vector<int>, Vec3Hash> vertex_adjacent_map;
     for (int i = 0; i < triangles->size(); i++) {
@@ -22,6 +21,9 @@ void ParallelFaceGraph::init() {
         }
     }
 
+    timer->offTimer(TIMER_FACEGRAPH_INIT_A);
+
+    timer->onTimer(TIMER_FACEGRAPH_INIT_B);
     // 각 면에 대한 인접 리스트 생성.
     adj_triangles = std::vector<std::unordered_map<int, bool>>(triangles->size());
 
@@ -44,14 +46,13 @@ void ParallelFaceGraph::init() {
             }
         }
     }
-
-    timer->offTimer(4);
+    timer->offTimer(TIMER_FACEGRAPH_INIT_B);
 }
 int value(int va) {
     return va;
 }
 std::vector<std::vector<Triangle>> ParallelFaceGraph::get_segments() {
-    timer->onTimer(5);
+    timer->onTimer(TIMER_FACEGRAPH_GET_SETMENTS_A);
 
     std::vector<int> is_visit(adj_triangles.size());
     // 방문했다면 정점이 속한 그룹의 카운트 + 1.
@@ -63,13 +64,16 @@ std::vector<std::vector<Triangle>> ParallelFaceGraph::get_segments() {
         }
     }
 
+    timer->offTimer(TIMER_FACEGRAPH_GET_SETMENTS_A);
+
+    timer->onTimer(TIMER_FACEGRAPH_GET_SETMENTS_B);
     std::vector<std::vector<Triangle>> component_list(count);
 
     for (int i = 0; i < is_visit.size(); i++) {
         component_list[is_visit[i] - 1].push_back(triangles->data()[i]);
     }
 
-    timer->offTimer(5);
+    timer->offTimer(TIMER_FACEGRAPH_GET_SETMENTS_B);
 
     return component_list;
 }

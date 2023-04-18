@@ -2,6 +2,7 @@
 #define __PARALLELFACEGRAPH_H
 
 #include "facegraph.hpp"
+#include "segmenter.hpp"
 #include <omp.h>
 
 class ParallelFaceGraph : public FaceGraph {

@@ -38,8 +38,11 @@ inline void ParallelSegmenter::init_count_map(std::unordered_map<glm::vec3, size
 }
 
 std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
+    timer.onTimer(TIMER_TOTAL);
+    STEP_LOG(std::cout << "[Begin] Preprocessing.\n");
+    timer.onTimer(TIMER_PREPROCESSING);
     STEP_LOG(std::cout << "[Begin] Normal Vector Computation.\n");
-    timer.onTimer(0);
+    timer.onTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
 
     // obj에 포함된 면의 개수만큼 법선 벡터 계산 필요.
     std::vector<glm::vec3> face_normals(mesh->index.size());
@@ -51,11 +54,11 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
         face_normals[i] = glm::triangleNormal(mesh->vertex[index[0]], mesh->vertex[index[1]], mesh->vertex[index[2]]);
     }
 
-    timer.offTimer(0);
+    timer.offTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
     STEP_LOG(std::cout << "[End] Normal Vector Computation.\n");
 
     STEP_LOG(std::cout << "[Begin] Map Count.\n");
-    timer.onTimer(1);
+    timer.onTimer(TIMER_MAP_COUNT);
 
     size_t face_normals_count = face_normals.size();
 
@@ -72,11 +75,11 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
         normal_triangle_list_map.insert({entry.first, std::vector<Triangle>()});
     }
 
-    timer.offTimer(1);
+    timer.offTimer(TIMER_MAP_COUNT);
     STEP_LOG(std::cout << "[End] Map Count. (Map size: " << count_map.size() << ")\n");
 
     STEP_LOG(std::cout << "[Begin] Normal Map Insertion.\n");
-    timer.onTimer(2);
+    timer.onTimer(TIMER_NORMAL_MAP_INSERTION);
 
     std::unordered_set<glm::vec3, Vec3Hash> normal_list;
     std::unordered_map<glm::vec3, omp_lock_t, Vec3Hash> lock_list;
@@ -103,20 +106,23 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
         omp_unset_lock(&lock_list[target_norm]);
     }
 
-    timer.offTimer(2);
+    timer.offTimer(TIMER_NORMAL_MAP_INSERTION);
     STEP_LOG(std::cout << "[End] Normal Map Insertion. (Total: " << normal_triangle_list_map.size() << ")\n");
 
+    timer.offTimer(TIMER_PREPROCESSING);
+    STEP_LOG(std::cout << "[End] Preprocessing.\n");
+
     STEP_LOG(std::cout << "[Begin] Connectivity Checking and Triangle Mesh Generating.\n");
-    timer.onTimer(3);
+    timer.onTimer(TIMER_CC_N_TMG);
 
     std::vector<TriangleMesh*> result;
     int number = 0;
     for (auto iter : normal_triangle_list_map) {
+        STEP_LOG(std::cout << "[Step] FaceGraph: Init.\n");
         ParallelFaceGraph fg(&iter.second, &timer);
-        STEP_LOG(std::cout << "[Step] Face Graph Generating.\n");
 
+        STEP_LOG(std::cout << "[Step] FaceGraph: Get Segments.\n");
         std::vector<std::vector<Triangle>> temp = fg.get_segments();
-        STEP_LOG(std::cout << "[Step] Connectivity Checking.\n");
 
         #pragma omp parallel for
         for (int i = 0; i < temp.size(); i++) {
@@ -129,8 +135,11 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
         }
     }
 
-    timer.offTimer(3);
+    timer.offTimer(TIMER_CC_N_TMG);
     STEP_LOG(std::cout << "[End] Connectivity Checking and Triangle Mesh Generating.\n");
+
+    STEP_LOG(std::cout << "[Begin] Segment coloring.\n");
+    timer.onTimer(TIMER_SEGMENT_COLORING);
 
     #pragma omp parallel for
     for (int i = 0; i < result.size(); i++) {
@@ -139,7 +148,11 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
         result[i]->material->specular = glm::vec3(0.5f, 0.5f, 0.5f);
     }
 
+    STEP_LOG(std::cout << "[End] Segment coloring.\n");
+    timer.offTimer(TIMER_SEGMENT_COLORING);
+
     normal_triangle_list_map.clear();
 
+    timer.offTimer(TIMER_TOTAL);
     return result;
 };
