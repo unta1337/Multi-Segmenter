@@ -286,9 +286,9 @@ void DS_timer::printToFile( char* fileName, int _id )
 	FILE *fp ;
 
 	if ( fileName == NULL)
-		fopen_s(&fp, "DS_timer_report.txt", "a") ;
+		fopen_s(&fp, "DS_timer_report.txt", "w") ;
 	else {
-		fopen_s(&fp, fileName, "a") ;
+		fopen_s(&fp, fileName, "w") ;
 	}
 
 	if ( _id >= 0 )
@@ -319,9 +319,9 @@ void DS_timer::printTimerNameToFile( char* fileName )
 	FILE *fp ;
 
 	if ( fileName == NULL)
-		fopen_s(&fp, "DS_timer_name.txt", "a") ;
+		fopen_s(&fp, "DS_timer_name.txt", "w") ;
 	else {
-		fopen_s(&fp, fileName, "a") ;
+		fopen_s(&fp, fileName, "w") ;
 	}
 
 
