@@ -17,7 +17,6 @@ struct AdjacentNode {
 
 void ParallelFaceGraph::init() {
     timer->onTimer(TIMER_FACEGRAPH_INIT_A);
-    printf("Init A: %zu %zu\n", triangles->size(), triangles->size() * 10);
     std::unordered_map<glm::vec3, std::vector<int>, Vec3Hash> vertex_adjacent_map;
 
     /* 변수 선언 */
@@ -49,25 +48,24 @@ void ParallelFaceGraph::init() {
     }
 
     int max_count = 0;
-    //    #pragma omp parallel for reduction(max:max_count)
+    // #pragma omp parallel for reduction(max:max_count)
     for (int i = 0; i < vertex_size; i++) {
         if (over_count_map[i] > max_count) {
             max_count = over_count_map[i];
         }
     }
-    printf("Max count: %d\n", max_count);
-    // Triangle [i, triangles->size()] => Vertex [j, 3]
-    // vertex_hash_list[i][j] = hash(vertex)
-    // adjacent_nodes[vertex_hash]
+
     AdjacentNode* adjacent_nodes = new AdjacentNode[vertex_size];
+    #pragma omp parallel for
     for (int i = 0; i < triangles->size(); i++) {
         for (int j = 0; j < 3; j++) {
-            glm::vec3 &vertex = triangles->at(i).vertex[j];
+            glm::vec3& vertex = triangles->at(i).vertex[j];
             size_t vertex_hash = vertex_hash_list[i][j];
             bool is_exist = false;
             AdjacentNode* node = &adjacent_nodes[vertex_hash];
 
-            //  omp_set_lock(&locks[vertex_hash]);
+            size_t locked_hash = vertex_hash;
+            omp_set_lock(&locks[locked_hash]);
             while (node->vertex != nullptr) {
                 glm::vec3* target = node->vertex;
                 if (vertex == *target) {
@@ -75,25 +73,19 @@ void ParallelFaceGraph::init() {
                     break;
                 }
                 vertex_hash = (vertex_hash + 1) % vertex_size;
-//                vertex_hash_list[i][j] = vertex_hash;
                 node = &adjacent_nodes[vertex_hash];
             }
-            // omp_unset_lock(&locks[vertex_hash]);
+            vertex_hash_list[i][j] = vertex_hash;
+            omp_unset_lock(&locks[locked_hash]);
 
-            // omp_set_lock(&locks[vertex_hash]);
+            omp_set_lock(&locks[vertex_hash]);
             if (!is_exist) {
                 node->vertex = &vertex;
-                printf("vected allocated: %p\n", vertex);
                 node->adjacents = new int[max_count];
-                // = vector<int>
-                // node->adjacents: max_count로 초기화해서 i 넣어주기
-                // std::unordered_map<glm:vec3, vector<int>>
                 std::fill_n(node->adjacents, max_count, false);
             }
             node->adjacents[node->filled_index++] = i;
-            printf("UP :: Triangle: %d, Vertex: %d (%.2f %.2f %.2f), vertex_hash: %zd, fix: %d\n", i, j,vertex.x,vertex.y,vertex.z, vertex_hash, node->filled_index);
-            //            printf("filled_index: %d\n", node->filled_index);
-            //  omp_unset_lock(&locks[vertex_hash]);
+            omp_unset_lock(&locks[vertex_hash]);
         }
     }
 
@@ -104,6 +96,7 @@ void ParallelFaceGraph::init() {
     adj_triangles = std::vector<std::vector<int>>(triangles->size());
 
     // 각 삼각형에 대해서,
+    #pragma omp parallel for
     for (int i = 0; i < triangles->size(); i++) {
         // 그 삼각형에 속한 정점과,
         for (int j = 0; j < 3; j++) {
@@ -112,35 +105,11 @@ void ParallelFaceGraph::init() {
             size_t vertex_hash = vertex_hash_list[i][j];
             AdjacentNode* node = &adjacent_nodes[vertex_hash];
 
-            printf("PRE_BOTTOM :: Triangle: %d, Vertex: %d (%.2f %.2f %.2f), vertex_hash: %zd, fix: %d\n", i, j,vertex.x,vertex.y,vertex.z, vertex_hash, node->filled_index);
-            if(*node->vertex == vertex){
-                printf("EQUALS!");
-            }
-            printf("vertex view: %p\n", vertex);
-
-            while (node->vertex != nullptr) {
-                glm::vec3* target = node->vertex;
-
-                printf("\tCOMPARE target :: Triangle: %d, Vertex: %d (%.2f %.2f %.2f), vertex_hash: %zd, fix: %d\n", i, j,target->x,target->y,target->z, vertex_hash, node->filled_index);
-
-                if (vertex == *target) {
-                    printf("\t\t BREAKED!\n");
-                    break;
-                } else {
-                    printf("\t\t GO!\n");
-                }
-                vertex_hash = (vertex_hash + 1) % vertex_size;
-                node = &adjacent_nodes[vertex_hash];
-            }
-            printf("POST_BOTTOM :: Triangle: %d, Vertex: %d (%.2f %.2f %.2f), vertex_hash: %zd, fix: %d\n", i, j,vertex.x,vertex.y,vertex.z, vertex_hash, node->filled_index);
-
-
             int* adjacents = node->adjacents;
 
             // 맞닿아 있는 삼각형이,
             for (int k = 0; k < node->filled_index; k++) {
                 int adjacent_triangle = adjacents[k];
-                printf("Triangle: %d, Vertex: %d, vertex_hash: %zd\n", i, j, vertex_hash);
                 // 자기 자신이 아니고,
                 // 원래의 삼각형과도 맞닿아 있으면 인접 리스트에 추가.
                 if (i != adjacent_triangle && is_connected(triangles->at(i), triangles->at(adjacent_triangle))) {
