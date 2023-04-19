@@ -33,7 +33,7 @@ inline glm::vec3 ParallelSegmenter::get_normal_key(std::unordered_map<glm::vec3,
 
 inline void ParallelSegmenter::init_count_map(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map,
                                               std::vector<glm::vec3>& face_normals) {
-    std::vector<std::unordered_map<glm::vec3, size_t, Vec3Hash>*> tmp(20);
+    std::vector<std::unordered_map<glm::vec3, size_t, Vec3Hash>*> tmp(omp_get_max_threads());
     #pragma omp parallel
     {
         std::unordered_map<glm::vec3, size_t, Vec3Hash> sub_count_map;
