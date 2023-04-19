@@ -56,11 +56,13 @@ void ParallelFaceGraph::init() {
         }
     }
     printf("Max count: %d\n", max_count);
-
+    // Triangle [i, triangles->size()] => Vertex [j, 3]
+    // vertex_hash_list[i][j] = hash(vertex)
+    // adjacent_nodes[vertex_hash]
     AdjacentNode* adjacent_nodes = new AdjacentNode[vertex_size];
     for (int i = 0; i < triangles->size(); i++) {
         for (int j = 0; j < 3; j++) {
-            glm::vec3 vertex = triangles->at(i).vertex[j];
+            glm::vec3 &vertex = triangles->at(i).vertex[j];
             size_t vertex_hash = vertex_hash_list[i][j];
             bool is_exist = false;
             AdjacentNode* node = &adjacent_nodes[vertex_hash];
@@ -73,6 +75,7 @@ void ParallelFaceGraph::init() {
                     break;
                 }
                 vertex_hash = (vertex_hash + 1) % vertex_size;
+//                vertex_hash_list[i][j] = vertex_hash;
                 node = &adjacent_nodes[vertex_hash];
             }
             // omp_unset_lock(&locks[vertex_hash]);
@@ -80,11 +83,16 @@ void ParallelFaceGraph::init() {
             // omp_set_lock(&locks[vertex_hash]);
             if (!is_exist) {
                 node->vertex = &vertex;
+                printf("vected allocated: %p\n", vertex);
                 node->adjacents = new int[max_count];
+                // = vector<int>
+                // node->adjacents: max_count로 초기화해서 i 넣어주기
+                // std::unordered_map<glm:vec3, vector<int>>
                 std::fill_n(node->adjacents, max_count, false);
             }
             node->adjacents[node->filled_index++] = i;
-
+            printf("UP :: Triangle: %d, Vertex: %d (%.2f %.2f %.2f), vertex_hash: %zd, fix: %d\n", i, j,vertex.x,vertex.y,vertex.z, vertex_hash, node->filled_index);
+            //            printf("filled_index: %d\n", node->filled_index);
             //  omp_unset_lock(&locks[vertex_hash]);
         }
     }
@@ -103,21 +111,32 @@ void ParallelFaceGraph::init() {
 
             size_t vertex_hash = vertex_hash_list[i][j];
             AdjacentNode* node = &adjacent_nodes[vertex_hash];
+
+            printf("PRE_BOTTOM :: Triangle: %d, Vertex: %d (%.2f %.2f %.2f), vertex_hash: %zd, fix: %d\n", i, j,vertex.x,vertex.y,vertex.z, vertex_hash, node->filled_index);
+            if(*node->vertex == vertex){
+                printf("EQUALS!");
+            }
+            printf("vertex view: %p\n", vertex);
+
             while (node->vertex != nullptr) {
-                if (vertex == *node->vertex) {
+                glm::vec3* target = node->vertex;
+
+                printf("\tCOMPARE target :: Triangle: %d, Vertex: %d (%.2f %.2f %.2f), vertex_hash: %zd, fix: %d\n", i, j,target->x,target->y,target->z, vertex_hash, node->filled_index);
+
+                if (vertex == *target) {
+                    printf("\t\t BREAKED!\n");
                     break;
+                } else {
+                    printf("\t\t GO!\n");
                 }
                 vertex_hash = (vertex_hash + 1) % vertex_size;
                 node = &adjacent_nodes[vertex_hash];
             }
+            printf("POST_BOTTOM :: Triangle: %d, Vertex: %d (%.2f %.2f %.2f), vertex_hash: %zd, fix: %d\n", i, j,vertex.x,vertex.y,vertex.z, vertex_hash, node->filled_index);
+
 
             int* adjacents = node->adjacents;
-            if(node->filled_index == 0){
-                printf("Nanum Up Er %zd\n", vertex_hash);
-                exit(123);
-            } else {
-                printf("Nanum It Er\n");
-            }
+
             // 맞닿아 있는 삼각형이,
             for (int k = 0; k < node->filled_index; k++) {
                 int adjacent_triangle = adjacents[k];
