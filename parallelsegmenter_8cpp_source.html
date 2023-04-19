@@ -120,7 +120,7 @@ $(document).ready(function(){initNavTree('parallelsegmenter_8cpp_source.html',''
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> ParallelSegmenter::init_count_map(std::unordered_map&lt;glm::vec3, size_t, Vec3Hash&gt;&amp; count_map,</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                                              std::vector&lt;glm::vec3&gt;&amp; face_normals) {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    std::vector&lt;std::unordered_map&lt;glm::vec3, size_t, Vec3Hash&gt;*&gt; tmp(20);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    std::vector&lt;std::unordered_map&lt;glm::vec3, size_t, Vec3Hash&gt;*&gt; tmp(omp_get_max_threads());</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">    #pragma omp parallel</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    {</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        std::unordered_map&lt;glm::vec3, size_t, Vec3Hash&gt; sub_count_map;</div>
