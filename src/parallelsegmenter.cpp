@@ -106,29 +106,19 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
     STEP_LOG(std::cout << "[Begin] Normal Map Insertion.\n");
     timer.onTimer(TIMER_NORMAL_MAP_INSERTION);
 
-/*    std::unordered_map<glm::vec3, omp_lock_t, Vec3Hash> lock_map;
-    for (auto& it : count_map) {
-        lock_map.emplace(it.first, omp_lock_t());
-        omp_init_lock(&lock_map[it.first]);
-    }*/
-
     Vec3Hash hash_function;
     omp_lock_t* locks = new_locks(face_normals_count);
 
     #pragma omp parallel for
     for (int i = 0; i < face_normals_count; i++) {
         glm::vec3 target_normal = get_normal_key(count_map, face_normals[i]);
-        size_t normal_hash = hash_function(target_normal);
+        size_t normal_hash = hash_function(target_normal) % face_normals_count;
 
         Triangle triangle;
         glm::ivec3 indexes = mesh->index[i];
         for (int d = 0; d < 3; d++) {
             triangle.vertex[d] = mesh->vertex[indexes[d]];
         }
-
-/*        omp_set_lock(&lock_map[target_normal]);
-        normal_triangle_list_map[target_normal].push_back(triangle);
-        omp_unset_lock(&lock_map[target_normal]);*/
 
         LOCK(locks, normal_hash, normal_triangle_list_map[target_normal].push_back(triangle));
     }
@@ -155,7 +145,6 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
         timer.onTimer(TIMER_TRIANGLE_MESH_GENERATING);
         #pragma omp parallel for
         for (int i = 0; i < segments.size(); i++) {
-            printf("Start %d\n", i);
             auto subs = segments[i];
             TriangleMesh* sub_object = triangle_list_to_obj(subs);
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
@@ -184,10 +173,6 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
     timer.offTimer(TIMER_SEGMENT_COLORING);
 
     normal_triangle_list_map.clear();
-
-/*    for (auto& it : lock_map) {
-        omp_destroy_lock(&it.second);
-    }*/
 
     destroy_locks(locks, face_normals_count);
 
