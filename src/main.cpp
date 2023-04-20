@@ -13,6 +13,7 @@ std::string file_path;
 std::string folder_path;
 std::string filename;
 float tolerance = 15.f;
+std::string tolerance_string;
 
 void init_file_path(int argc, char* argv[]) {
     mode = argv[1];
@@ -23,6 +24,10 @@ void init_file_path(int argc, char* argv[]) {
     } catch (...) {
         is_tolerance_exist = false;
     }
+
+    std::stringstream stream;
+    stream << std::fixed << std::setprecision(1) << tolerance;
+    tolerance_string = stream.str();
 
     for (int i = 2 + is_tolerance_exist; i < argc; ++i) {
         file_path += std::string(argv[i]) + " ";
@@ -78,13 +83,16 @@ int main(int argc, char* argv[]) {
     std::cout << "==================================================" << std::endl;
 
     TIME_LOG(segmenter->timer.printTimer());
-    std::string log_path = folder_path + "Segmented_" + mode + "_" + filename + ".txt";
+
+
+
+    std::string log_path =
+        folder_path + "Segmented_" + mode + "_" + tolerance_string + "_" + filename + ".txt";
     segmenter->timer.printToFile((char*)log_path.c_str());
 
     STEP_LOG(std::cout << "[Begin] Saving Result.\n");
-
     // 한꺼번에 .obj 저장.
-    write_obj(segments, folder_path + "Segmented_" + mode + "_" + filename, true);
+    write_obj(segments, folder_path + "Segmented_" + mode + "_" + tolerance_string + "_" + filename, true);
 
     STEP_LOG(std::cout << "[End] Saving Resuilt.\n");
 

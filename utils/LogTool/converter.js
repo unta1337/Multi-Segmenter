@@ -7,13 +7,14 @@ let files = args;
 files = files.map(f => ({name: f, content: fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : null}));
 
 let file = files[0];
-let modelFile = file.name.replace('.txt', '.obj');
-let modelFileSize = fs.statSync(modelFile).size / 1024 / 1024;
 let createdRawTime = fs.statSync(file.name).birthtime;
 const createdTime = `${createdRawTime.getFullYear()}-${(createdRawTime.getMonth() + 1).toString().padStart(2, '0')}-${createdRawTime.getDate().toString().padStart(2, '0')} ${createdRawTime.getHours().toString().padStart(2, '0')}:${createdRawTime.getMinutes().toString().padStart(2, '0')}:${createdRawTime.getSeconds().toString().padStart(2, '0')}`;
 let output = files[1];
 let mode = file.name.match(/(?<=Segmented_)[a-zA-Z]+(?=_)/)[0];
-let model = file.name.match(/(?<=Segmented_.+_).+(?=\.)/)[0];
+let model = file.name.match(/(?<=Segmented_.+_\d{1,4}.\d_).+(?=\.)/)[0];
+let tolerance = parseFloat(file.name.match(/(?<=Segmented_.+_).+(?=_)/)[0]);
+let modelFile = file.name.split(/[\\/]/g).slice(0, -1).join('/') + '/' + model + '.obj';
+let modelFileSize = fs.statSync(modelFile).size / 1024 / 1024;
 let cpu = cpus[0].model.trim();
 let threads = cpus.length;
 
@@ -27,11 +28,11 @@ for (let routineNumber = 0; routineNumber < fileSplit.length; routineNumber++) {
     }
     let time = parseFloat(lineSplit.pop().trim());
     let routine = lineSplit.join().replace(/  - /gi, '').trim();
-    text += [mode, model, modelFileSize, routine, routineNumber + 1, cpu, threads, memory, time, createdTime].map(e => typeof e == 'string' ? JSON.stringify(e) : e).join(',') + '\n';
+    text += [mode, tolerance, model, modelFileSize, routine, routineNumber + 1, cpu, threads, memory, time, createdTime].map(e => typeof e == 'string' ? JSON.stringify(e) : e).join(',') + '\n';
 }
 if (output.content) {
     output.content += text;
 } else {
-    output.content = 'Mode,Model,ModelFileSize(MB),Routine,RoutineNumber,CPU,Threads,Memory(GB),Time(MS),CreatedTime\n' + text;
+    output.content = 'Mode,Tolerance,Model,ModelFileSize(MB),Routine,RoutineNumber,CPU,Threads,Memory(GB),Time(MS),CreatedTime\n' + text;
 }
 fs.writeFileSync(output.name, output.content, 'utf8');
