@@ -32,6 +32,6 @@ for (let routineNumber = 0; routineNumber < fileSplit.length; routineNumber++) {
 if (output.content) {
     output.content += text;
 } else {
-    output.content = 'Mode,Model,ModelFileSize(MB),Routine,RoutineNumber,CPU,Threads,Memory(GB),Time,CreatedTime\n' + text;
+    output.content = 'Mode,Model,ModelFileSize(MB),Routine,RoutineNumber,CPU,Threads,Memory(GB),Time(MS),CreatedTime\n' + text;
 }
 fs.writeFileSync(output.name, output.content, 'utf8');
