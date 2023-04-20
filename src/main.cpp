@@ -7,6 +7,7 @@
 #include "serialsegmenter.h"
 #include <iostream>
 #include <memory>
+#include <sstream>
 
 std::string mode;
 std::string file_path;
