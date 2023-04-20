@@ -62,7 +62,7 @@ class Segmenter {
         timer.setTimerName(TIMER_TRIANGLE_MESH_GENERATING,
                            (char*)"  - Triangle Mesh Generating                      ");
         timer.setTimerName(TIMER_SEGMENT_COLORING,
-                           (char*)"Segment coloring                                  ");
+                           (char*)"Segment Coloring                                  ");
         timer.setTimerName(TIMER_TOTAL,
                            (char*)"Total (Preprocessing + CC & TMG)                  ");
     }
