@@ -1,7 +1,6 @@
 ﻿#ifndef __SEGMENTER_H
 #define __SEGMENTER_H
 
-// TODO: 타이머 정보를 분리했으면 좋겠음, 생성자에 있는 것도 마찬가지임
 #define TIMER_PREPROCESSING 0
 #define TIMER_NORMAL_VECTOR_COMPUTATION 1
 #define TIMER_MAP_COUNT 2
@@ -62,7 +61,7 @@ class Segmenter {
         timer.setTimerName(TIMER_TRIANGLE_MESH_GENERATING,
                            (char*)"  - Triangle Mesh Generating                      ");
         timer.setTimerName(TIMER_SEGMENT_COLORING,
-                           (char*)"Segment coloring                                  ");
+                           (char*)"Segment Coloring                                  ");
         timer.setTimerName(TIMER_TOTAL,
                            (char*)"Total (Preprocessing + CC & TMG)                  ");
     }

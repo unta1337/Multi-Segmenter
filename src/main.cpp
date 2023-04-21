@@ -2,20 +2,35 @@
 #include "logutils.h"
 #include "model.h"
 #include "objutils.h"
-#include "originalsegmenter.h"
 #include "parallelsegmenter.h"
 #include "serialsegmenter.h"
 #include <iostream>
 #include <memory>
+#include <sstream>
+#include <iomanip>
 
 std::string mode;
 std::string file_path;
 std::string folder_path;
 std::string filename;
+float tolerance = 15.f;
+std::string tolerance_string;
 
 void init_file_path(int argc, char* argv[]) {
     mode = argv[1];
-    for (int i = 2; i < argc; ++i) {
+
+    bool is_tolerance_exist = true;
+    try {
+        tolerance = std::stof(argv[2]);
+    } catch (...) {
+        is_tolerance_exist = false;
+    }
+
+    std::stringstream stream;
+    stream << std::fixed << std::setprecision(1) << tolerance;
+    tolerance_string = stream.str();
+
+    for (int i = 2 + is_tolerance_exist; i < argc; ++i) {
         file_path += std::string(argv[i]) + " ";
     }
 
@@ -36,7 +51,7 @@ int main(int argc, char* argv[]) {
     if (argc < 3) {
         std::cout << "Usage:\n";
         std::cout << "\t" << argv[0] << " "
-                  << "[mode (serial/parallel)] [obj_file_path]\n";
+                  << "[Mode (serial or parallel)] [Tolerance (Float, Optional)] [ObjFilePath]\n";
 
         return 1;
     }
@@ -53,31 +68,32 @@ int main(int argc, char* argv[]) {
     std::unique_ptr<Segmenter> segmenter;
 
     if (mode == "serial") {
-        segmenter = std::make_unique<SerialSegmenter>(model.meshes[0], 15.f);
+        segmenter = std::make_unique<SerialSegmenter>(model.meshes[0], tolerance);
     } else if (mode == "parallel") {
-        segmenter = std::make_unique<ParallelSegmenter>(model.meshes[0], 15.f);
+        segmenter = std::make_unique<ParallelSegmenter>(model.meshes[0], tolerance);
     } else if (mode == "cuda") {
     }
-    auto seg = segmenter->do_segmentation();
+    auto segments = segmenter->do_segmentation();
 
     // 구분된 부분별 출력.
-    std::cout << "Segmentation result " << seg.size() << std::endl;
-    for (auto& s : seg) {
-        std::cout << s->name << std::endl;
-        std::cout << s->vertex.size() << std::endl;
+    std::cout << "==================================================" << std::endl;
+    std::cout << "Number of Segments: " << segments.size() << std::endl;
+    for (auto& s : segments) {
+        std::cout << "  - Segment: " << s->name << ", Size: " << s->vertex.size() << std::endl;
     }
+    std::cout << "==================================================" << std::endl;
 
     TIME_LOG(segmenter->timer.printTimer());
-    std::string log_path = folder_path + "Segmented_" + mode + "_" + filename + ".txt";
+
+
+
+    std::string log_path =
+        folder_path + "Segmented_" + mode + "_" + tolerance_string + "_" + filename + ".txt";
     segmenter->timer.printToFile((char*)log_path.c_str());
 
-    STEP_LOG(std::cout << "[Begin] Saving Resuilt.\n");
-
-    // 구분된 부분별 .obj 저장. 각 부분별 명칭으로 저장됨. (i.e., cube_seg0.obj)
-    // write_obj(seg, folder_path, false);
-
+    STEP_LOG(std::cout << "[Begin] Saving Result.\n");
     // 한꺼번에 .obj 저장.
-    write_obj(seg, folder_path + "Segmented_" + mode + "_" + filename, true);
+    write_obj(segments, folder_path + "Segmented_" + mode + "_" + tolerance_string + "_" + filename, true);
 
     STEP_LOG(std::cout << "[End] Saving Resuilt.\n");
 

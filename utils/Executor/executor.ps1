@@ -5,10 +5,10 @@ Remove-Item report.txt -ErrorAction SilentlyContinue
 $files = Get-ChildItem -Path $folderPath -Filter *.obj
 
 foreach ($file in $files) {
-	echo serial $file.Name
-    & $exe serial $file
-	echo parallel $file.Name
-    & $exe parallel $file
+    echo serial $tolerance $file.Name
+    & $exe serial $tolerance $file
+    echo parallel $tolerance $file.Name
+    & $exe parallel $tolerance $file
 }
 
 $serials = Get-ChildItem -Path $folderPath -Filter *serial*.txt

@@ -1,4 +1,5 @@
 ﻿#include "parallelsegmenter.h"
+#include "lockutils.hpp"
 #include "parallelfacegraph.h"
 #include <unordered_set>
 
@@ -18,7 +19,8 @@ ParallelSegmenter::ParallelSegmenter(TriangleMesh* mesh, float tolerance) : Segm
 }
 
 inline glm::vec3 ParallelSegmenter::get_normal_key(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map,
-                                                   glm::vec3& normal) {
+                                                   glm::vec3& normal, float tolerance) {
+    tolerance = tolerance <= 0 ? this->tolerance : tolerance;
     for (const auto& entry : count_map) {
         glm::vec3 compare = entry.first;
         float norm_angle = glm::degrees(glm::angle(compare, normal));
@@ -33,46 +35,26 @@ inline glm::vec3 ParallelSegmenter::get_normal_key(std::unordered_map<glm::vec3,
 
 inline void ParallelSegmenter::init_count_map(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map,
                                               std::vector<glm::vec3>& face_normals) {
-    std::vector<std::unordered_map<glm::vec3, size_t, Vec3Hash>*> tmp(omp_get_max_threads());
+    std::vector<std::unordered_map<glm::vec3, size_t, Vec3Hash>*> sub_count_map_list(omp_get_max_threads());
     #pragma omp parallel
     {
         std::unordered_map<glm::vec3, size_t, Vec3Hash> sub_count_map;
-        float tol = tolerance / 2;
+        float half_tolerance = tolerance / 2;
         #pragma omp for
         for (int i = 0; i < face_normals.size(); i++) {
-            glm::vec3 normal = face_normals[i];
-            for (const auto& entry : count_map) {
-                glm::vec3 compare = entry.first;
-                float norm_angle = glm::degrees(glm::angle(compare, normal));
-                if (norm_angle < tol) {
-                    normal = compare;
-                    break;
-                }
-            }
+            glm::vec3 normal = get_normal_key(count_map, face_normals[i], half_tolerance);
             sub_count_map[normal]++;
-
-            // sub_count_map[get_normal_key(sub_count_map, face_normals[i])]++;
         }
-        tmp[omp_get_thread_num()] = &sub_count_map;
+        sub_count_map_list[omp_get_thread_num()] = &sub_count_map;
 
         #pragma omp barrier
         #pragma omp single
         {
             int end = omp_get_num_threads();
             for (int i = 0; i < end; i++) {
-
-                for (auto it = tmp[i]->begin(); it != tmp[i]->end(); it++) {
+                for (auto it = sub_count_map_list[i]->begin(); it != sub_count_map_list[i]->end(); it++) {
                     glm::vec3 normal = it->first;
-                    for (const auto& entry : count_map) {
-                        glm::vec3 compare = entry.first;
-                        float norm_angle = glm::degrees(glm::angle(compare, normal));
-
-                        if (norm_angle < tolerance) {
-                            normal = compare;
-                            break;
-                        }
-                    }
-                    count_map[normal] += it->second;
+                    count_map[get_normal_key(count_map, normal)] += it->second;
                 }
             }
         }
@@ -124,15 +106,13 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
     STEP_LOG(std::cout << "[Begin] Normal Map Insertion.\n");
     timer.onTimer(TIMER_NORMAL_MAP_INSERTION);
 
-    std::unordered_map<glm::vec3, omp_lock_t, Vec3Hash> lock_list;
-    for (auto& it : count_map) {
-        lock_list.emplace(it.first, omp_lock_t());
-        omp_init_lock(&lock_list[it.first]);
-    }
+    Vec3Hash hash_function;
+    omp_lock_t* locks = new_locks(face_normals_count);
 
     #pragma omp parallel for
     for (int i = 0; i < face_normals_count; i++) {
-        glm::vec3 target_norm = get_normal_key(count_map, face_normals[i]);
+        glm::vec3 target_normal = get_normal_key(count_map, face_normals[i]);
+        size_t normal_hash = hash_function(target_normal) % face_normals_count;
 
         Triangle triangle;
         glm::ivec3 indexes = mesh->index[i];
@@ -140,9 +120,7 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
             triangle.vertex[d] = mesh->vertex[indexes[d]];
         }
 
-        omp_set_lock(&lock_list[target_norm]);
-        normal_triangle_list_map[target_norm].push_back(triangle);
-        omp_unset_lock(&lock_list[target_norm]);
+        LOCK(locks, normal_hash, normal_triangle_list_map[target_normal].push_back(triangle));
     }
 
     timer.offTimer(TIMER_NORMAL_MAP_INSERTION);
@@ -161,13 +139,13 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
         ParallelFaceGraph fg(&iter.second, &timer);
 
         STEP_LOG(std::cout << "[Step] FaceGraph: Get Segments.\n");
-        std::vector<std::vector<Triangle>> temp = fg.get_segments();
+        std::vector<std::vector<Triangle>> segments = fg.get_segments();
 
         STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
         timer.onTimer(TIMER_TRIANGLE_MESH_GENERATING);
-        #pragma omp parallel for num_threads(2)
-        for (int i = 0; i < temp.size(); i++) {
-            auto subs = temp[i];
+        #pragma omp parallel for
+        for (int i = 0; i < segments.size(); i++) {
+            auto subs = segments[i];
             TriangleMesh* sub_object = triangle_list_to_obj(subs);
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
             sub_object->material->name = "sub_materials_" + std::to_string(number);
@@ -196,9 +174,7 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
 
     normal_triangle_list_map.clear();
 
-    for (auto& it : lock_list) {
-        omp_destroy_lock(&it.second);
-    }
+    destroy_locks(locks, face_normals_count);
 
     timer.offTimer(TIMER_TOTAL);
     return result;

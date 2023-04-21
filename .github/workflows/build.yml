@@ -67,4 +67,4 @@ jobs:
           name: build
           path: |
             ./x86-x64/Multi-Segmenter
-            ./x86/Multi-Segmenter
+#            ./x86/Multi-Segmenter

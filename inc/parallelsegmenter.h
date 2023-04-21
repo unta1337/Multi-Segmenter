@@ -27,7 +27,7 @@ class ParallelSegmenter : public Segmenter {
     virtual std::vector<TriangleMesh*> do_segmentation();
 
   private:
-    inline glm::vec3 get_normal_key(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map, glm::vec3& normal);
+    inline glm::vec3 get_normal_key(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map, glm::vec3& normal, float tolerance = 0.0);
 
     inline void init_count_map(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map,
                                std::vector<glm::vec3>& face_normals);
