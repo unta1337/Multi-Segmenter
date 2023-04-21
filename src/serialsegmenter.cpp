@@ -66,9 +66,8 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
     STEP_LOG(std::cout << "[Begin] Normal Map Insertion.\n");
     timer.onTimer(TIMER_NORMAL_MAP_INSERTION);
 
-    double total_time = 0.0;
     for (int i = 0; i < face_normals_count; i++) {
-        glm::vec3 target_norm = get_normal_key(count_map, face_normals[i]);
+        glm::vec3 target_normal = get_normal_key(count_map, face_normals[i]);
 
         Triangle triangle;
         glm::ivec3 indexes = mesh->index[i];
@@ -76,7 +75,7 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
             triangle.vertex[d] = mesh->vertex[indexes[d]];
         }
 
-        normal_triangle_list_map[target_norm].push_back(triangle);
+        normal_triangle_list_map[target_normal].push_back(triangle);
     }
 
     timer.offTimer(TIMER_NORMAL_MAP_INSERTION);
@@ -90,17 +89,17 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
 
     std::vector<TriangleMesh*> result;
     int number = 0;
-    for (auto iter : normal_triangle_list_map) {
+    for (auto& entry : normal_triangle_list_map) {
         STEP_LOG(std::cout << "[Step] FaceGraph: Init.\n");
-        SerialFaceGraph fg(&iter.second, &timer);
+        SerialFaceGraph fg(&entry.second, &timer);
 
         STEP_LOG(std::cout << "[Step] FaceGraph: Get Segments.\n");
-        std::vector<std::vector<Triangle>> temp = fg.get_segments();
+        std::vector<std::vector<Triangle>> segments = fg.get_segments();
 
         STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
         timer.onTimer(TIMER_TRIANGLE_MESH_GENERATING);
-        for (auto subs : temp) {
-            TriangleMesh* sub_object = triangle_list_to_obj(subs);
+        for (const auto& segment : segments) {
+            TriangleMesh* sub_object = triangle_list_to_obj(segment);
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
             sub_object->material->name = "sub_materials_" + std::to_string(number);
             sub_object->name = mesh->name + "_seg_" + std::to_string(number++);
