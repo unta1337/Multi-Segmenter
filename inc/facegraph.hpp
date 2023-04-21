@@ -1,12 +1,12 @@
 ﻿#ifndef __FACEGRAPH_H
 #define __FACEGRAPH_H
 
+#include "dstimer.hpp"
 #include "facegraphutils.h"
 #include "glm/vec3.hpp"
 #include "glm/vector_relational.hpp"
 #include "triangle.h"
 #include "trianglemesh.hpp"
-#include "dstimer.h"
 #include <stack>
 #include <unordered_map>
 #include <vector>

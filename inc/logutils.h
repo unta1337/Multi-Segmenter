@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "dstimer.h"
+#include "dstimer.hpp"
 
 #ifdef DO_STEP_LOG
 #define STEP_LOG(expression) expression

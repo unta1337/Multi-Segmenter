@@ -1,4 +1,4 @@
-﻿#include "dstimer.h"
+﻿#include "dstimer.hpp"
 #include <iostream>
 
 // #ifndef _WIN32

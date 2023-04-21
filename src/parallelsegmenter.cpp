@@ -5,7 +5,7 @@
 
 #include <chrono>
 #include <color.hpp>
-#include <dstimer.h>
+#include <dstimer.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/normal.hpp>
 #include <glm/gtx/quaternion.hpp>
