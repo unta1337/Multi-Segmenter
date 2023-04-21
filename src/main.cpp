@@ -2,7 +2,6 @@
 #include "logutils.h"
 #include "model.h"
 #include "objutils.h"
-#include "originalsegmenter.h"
 #include "parallelsegmenter.h"
 #include "serialsegmenter.h"
 #include <iostream>
