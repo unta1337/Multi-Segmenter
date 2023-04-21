@@ -9,6 +9,8 @@ cmake -G "Visual Studio 17 2022" -A x64 CMakeLists.txt -B x64
 cmake --build x64 --target Multi-Segmenter Multi-Segmenter-Test --config Release
 ```
 
+`x64\Release\Multi-Segmenter.exe` 경로에 실행 파일이 생성된다.
+
 # 실행 방법
 
 ```pwsh
