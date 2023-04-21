@@ -15,7 +15,7 @@
 #define TIMER_TOTAL 11
 #define TIMER_SIZE (TIMER_TOTAL + 1)
 
-#include "dstimer.h"
+#include "dstimer.hpp"
 #include "trianglemesh.hpp"
 #include <vector>
 /**

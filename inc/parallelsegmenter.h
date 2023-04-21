@@ -2,7 +2,7 @@
 #define __PARALLELSEGMENTER_H
 
 #include "color.hpp"
-#include "dstimer.h"
+#include "dstimer.hpp"
 #include "facegraph.hpp"
 #include "logutils.h"
 #include "model.h"
