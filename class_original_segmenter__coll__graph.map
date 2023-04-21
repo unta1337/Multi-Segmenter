@@ -1,7 +1,0 @@
-<map id="OriginalSegmenter" name="OriginalSegmenter">
-<area shape="rect" id="node1" title=" " alt="" coords="9,260,153,287"/>
-<area shape="rect" id="node2" href="$class_segmenter.html" title="하나의 메시 그룹에 대한 세그멘테이션을 수행." alt="" coords="35,184,128,211"/>
-<area shape="rect" id="node3" href="$class_d_s__timer.html" title=" " alt="" coords="5,95,88,121"/>
-<area shape="rect" id="node4" href="$class_triangle_mesh.html" title="오브젝트에서 하나의 속성을 공유하는 삼각형의 집합." alt="" coords="113,95,221,121"/>
-<area shape="rect" id="node5" href="$class_material.html" title="mtl 파일에 대한 자료형." alt="" coords="129,5,205,32"/>
-</map>

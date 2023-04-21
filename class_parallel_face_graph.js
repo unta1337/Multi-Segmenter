@@ -5,5 +5,5 @@ var class_parallel_face_graph =
     [ "get_segments", "class_parallel_face_graph.html#a84fc8f30e23495df7a8c8fd3dad43cb1", null ],
     [ "init", "class_parallel_face_graph.html#a870f5051a4376e1974353153e7e7f1d4", null ],
     [ "traverse_dfs", "class_parallel_face_graph.html#a068abe4b770f59e4c0be2c935dd1f1e0", null ],
-    [ "adj_triangles", "class_parallel_face_graph.html#a9bea10a4533db93bca0cf29427bbc15a", null ]
+    [ "adj_triangles", "class_parallel_face_graph.html#a1bda31d535269f210379a8ff7daf3390", null ]
 ];

@@ -5,5 +5,7 @@ var src_2main_8cpp =
     [ "file_path", "src_2main_8cpp.html#abf5d4571e49256d0c9d862dfe4936e55", null ],
     [ "filename", "src_2main_8cpp.html#ae80f820219e45772366a2a68de6a54c4", null ],
     [ "folder_path", "src_2main_8cpp.html#a439b971847d11167bdaf27e28812c063", null ],
-    [ "mode", "src_2main_8cpp.html#a6c71000b535e65812d96eee3386307c4", null ]
+    [ "mode", "src_2main_8cpp.html#a6c71000b535e65812d96eee3386307c4", null ],
+    [ "tolerance", "src_2main_8cpp.html#ab93b9f6442e61e2a8cfbe045b0641127", null ],
+    [ "tolerance_string", "src_2main_8cpp.html#a7a9e90c47aad92d9dba41ff7a6122836", null ]
 ];

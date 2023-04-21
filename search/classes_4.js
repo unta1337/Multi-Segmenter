@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['originalsegmenter_255',['OriginalSegmenter',['../class_original_segmenter.html',1,'']]]
+  ['namematch_260',['nameMatch',['../structname_match.html',1,'']]]
 ];

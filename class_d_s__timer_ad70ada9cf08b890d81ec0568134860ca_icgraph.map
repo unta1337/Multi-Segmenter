@@ -1,12 +1,11 @@
 <map id="DS_timer::offTimer" name="DS_timer::offTimer">
-<area shape="rect" id="node1" title=" " alt="" coords="469,139,615,165"/>
-<area shape="rect" id="node2" href="$class_parallel_segmenter.html#a30f2e417a8656119ce7f8f9e9e50e9f9" title="세그멘테이션 수행." alt="" coords="31,7,181,49"/>
-<area shape="rect" id="node3" href="$class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e" title="세그멘테이션 수행." alt="" coords="29,95,183,137"/>
-<area shape="rect" id="node4" href="$class_parallel_face_graph.html#a84fc8f30e23495df7a8c8fd3dad43cb1" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="265,43,411,85"/>
-<area shape="rect" id="node5" href="$class_serial_face_graph.html#a84e0345d2436ad9b1a6320606b403c94" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="260,161,416,202"/>
-<area shape="rect" id="node7" href="$class_parallel_face_graph.html#a870f5051a4376e1974353153e7e7f1d4" title=" " alt="" coords="255,231,421,257"/>
-<area shape="rect" id="node9" href="$class_serial_face_graph.html#a86f1868ddcfed199b15d60da5f87c93d" title=" " alt="" coords="260,288,416,315"/>
-<area shape="rect" id="node6" href="$class_original_segmenter.html#ab275d076428cbd8c59115d13ddbb94fa" title="세그멘테이션 수행." alt="" coords="30,161,182,202"/>
-<area shape="rect" id="node8" href="$class_parallel_face_graph.html#a46383fd8808c7ae05e961ab00610f2a8" title=" " alt="" coords="33,226,179,267"/>
-<area shape="rect" id="node10" href="$class_serial_face_graph.html#a02cbda1df0461bb5097cd2e2608f1f72" title=" " alt="" coords="5,291,207,333"/>
+<area shape="rect" id="node1" title=" " alt="" coords="469,134,615,160"/>
+<area shape="rect" id="node2" href="$class_parallel_segmenter.html#a30f2e417a8656119ce7f8f9e9e50e9f9" title="세그멘테이션 수행." alt="" coords="31,25,181,66"/>
+<area shape="rect" id="node3" href="$class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e" title="세그멘테이션 수행." alt="" coords="29,110,183,152"/>
+<area shape="rect" id="node4" href="$class_parallel_face_graph.html#a84fc8f30e23495df7a8c8fd3dad43cb1" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="265,38,411,80"/>
+<area shape="rect" id="node5" href="$class_serial_face_graph.html#a84e0345d2436ad9b1a6320606b403c94" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="260,156,416,197"/>
+<area shape="rect" id="node6" href="$class_parallel_face_graph.html#a870f5051a4376e1974353153e7e7f1d4" title=" " alt="" coords="255,222,421,248"/>
+<area shape="rect" id="node8" href="$class_serial_face_graph.html#a86f1868ddcfed199b15d60da5f87c93d" title=" " alt="" coords="260,276,416,303"/>
+<area shape="rect" id="node7" href="$class_parallel_face_graph.html#a46383fd8808c7ae05e961ab00610f2a8" title=" " alt="" coords="33,210,179,252"/>
+<area shape="rect" id="node9" href="$class_serial_face_graph.html#a02cbda1df0461bb5097cd2e2608f1f72" title=" " alt="" coords="5,276,207,317"/>
 </map>

@@ -1,6 +1,5 @@
 <map id="Color::get_color_from_jet" name="Color::get_color_from_jet">
-<area shape="rect" id="node1" title=" " alt="" coords="208,78,395,105"/>
-<area shape="rect" id="node2" href="$class_original_segmenter.html#ab275d076428cbd8c59115d13ddbb94fa" title="세그멘테이션 수행." alt="" coords="7,5,159,47"/>
-<area shape="rect" id="node3" href="$class_parallel_segmenter.html#a30f2e417a8656119ce7f8f9e9e50e9f9" title="세그멘테이션 수행." alt="" coords="8,71,157,112"/>
-<area shape="rect" id="node4" href="$class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e" title="세그멘테이션 수행." alt="" coords="5,136,160,177"/>
+<area shape="rect" id="node1" title=" " alt="" coords="208,46,395,73"/>
+<area shape="rect" id="node2" href="$class_parallel_segmenter.html#a30f2e417a8656119ce7f8f9e9e50e9f9" title="세그멘테이션 수행." alt="" coords="8,5,157,47"/>
+<area shape="rect" id="node3" href="$class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e" title="세그멘테이션 수행." alt="" coords="5,71,160,112"/>
 </map>

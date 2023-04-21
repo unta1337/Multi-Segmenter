@@ -7,6 +7,7 @@ var dir_bfccd401955b95cf8c75461437045ac0 =
       [ "FaceGraph", "class_face_graph.html", "class_face_graph" ]
     ] ],
     [ "facegraphutils.h", "facegraphutils_8h.html", "facegraphutils_8h" ],
+    [ "lockutils.hpp", "lockutils_8hpp.html", "lockutils_8hpp" ],
     [ "logutils.h", "logutils_8h.html", "logutils_8h" ],
     [ "material.h", "material_8h.html", [
       [ "Material", "class_material.html", "class_material" ]
@@ -16,9 +17,6 @@ var dir_bfccd401955b95cf8c75461437045ac0 =
     ] ],
     [ "modelutils.hpp", "modelutils_8hpp.html", "modelutils_8hpp" ],
     [ "objutils.h", "objutils_8h.html", "objutils_8h" ],
-    [ "originalsegmenter.h", "originalsegmenter_8h.html", [
-      [ "OriginalSegmenter", "class_original_segmenter.html", "class_original_segmenter" ]
-    ] ],
     [ "parallelfacegraph.h", "parallelfacegraph_8h.html", [
       [ "ParallelFaceGraph", "class_parallel_face_graph.html", "class_parallel_face_graph" ]
     ] ],

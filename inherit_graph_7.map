@@ -1,3 +1,5 @@
 <map id="그래픽컬한 클래스 계통도" name="그래픽컬한 클래스 계통도">
-<area shape="rect" id="node1" href="$struct_texture.html" title="형식적인 텍스쳐 자료형." alt="" coords="5,5,76,32"/>
+<area shape="rect" id="node1" href="$class_segmenter.html" title="하나의 메시 그룹에 대한 세그멘테이션을 수행." alt="" coords="5,31,99,57"/>
+<area shape="rect" id="node2" href="$class_parallel_segmenter.html" title=" " alt="" coords="147,5,288,32"/>
+<area shape="rect" id="node3" href="$class_serial_segmenter.html" title=" " alt="" coords="152,56,283,83"/>
 </map>

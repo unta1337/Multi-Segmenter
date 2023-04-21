@@ -1,9 +1,13 @@
 var searchData=
 [
-  ['test_349',['TEST',['../test_8cpp.html#a4d0bc75d9219d03c0ba2fa265b5014aa',1,'test.cpp']]],
-  ['test_5ffunc1_350',['test_func1',['../testlib_8cpp.html#a881d717ace3bfc6b8f4c957dc10f8fcf',1,'test_func1(int i):&#160;testlib.cpp'],['../testlib_8h.html#a881d717ace3bfc6b8f4c957dc10f8fcf',1,'test_func1(int i):&#160;testlib.cpp']]],
-  ['timeroff_351',['timerOff',['../class_d_s__timer.html#a1f5723e82032878cfc9ad9b25745ec99',1,'DS_timer']]],
-  ['timeron_352',['timerOn',['../class_d_s__timer.html#aec59c1fe08148cd6957a3610f45daab7',1,'DS_timer']]],
-  ['traverse_5fdfs_353',['traverse_dfs',['../class_face_graph.html#a7f355a34195446a27b03f3f1af6738b9',1,'FaceGraph::traverse_dfs()'],['../class_parallel_face_graph.html#a068abe4b770f59e4c0be2c935dd1f1e0',1,'ParallelFaceGraph::traverse_dfs()'],['../class_serial_face_graph.html#a1a4eb94112e060ea88349a2dd84b5f0d',1,'SerialFaceGraph::traverse_dfs()']]],
-  ['triangle_5flist_5fto_5fobj_354',['triangle_list_to_obj',['../facegraphutils_8h.html#af3ee9a8b50f8cf032310abb89ed48784',1,'facegraphutils.h']]]
+  ['save_5fobj_344',['save_obj',['../namespacesubdivider.html#aba5c2449b915fb338f3bc60f3a8d50ac',1,'subdivider']]],
+  ['segmenter_345',['Segmenter',['../class_segmenter.html#a83d6c41b949e32ab7bea1cdb9902caa9',1,'Segmenter']]],
+  ['serialfacegraph_346',['SerialFaceGraph',['../class_serial_face_graph.html#ad5ac73c5a4c7c978db427716e3f06ac8',1,'SerialFaceGraph::SerialFaceGraph(std::vector&lt; Triangle &gt; *triangles)'],['../class_serial_face_graph.html#a02cbda1df0461bb5097cd2e2608f1f72',1,'SerialFaceGraph::SerialFaceGraph(std::vector&lt; Triangle &gt; *triangles, DS_timer *timer)']]],
+  ['serialsegmenter_347',['SerialSegmenter',['../class_serial_segmenter.html#a64348ce26ea54bec8d9ce8321793ec46',1,'SerialSegmenter']]],
+  ['set_348',['set',['../_c_make_lists_8txt.html#a5eedd2b4c807e1d30faf8b2b6d8cac71',1,'CMakeLists.txt']]],
+  ['setcounter_349',['setCounter',['../class_d_s__timer.html#a6c7ef25816212f7e5ca740540162bbd3',1,'DS_timer']]],
+  ['settimer_350',['setTimer',['../class_d_s__timer.html#a0dcf18b726452e86349dd1c2a840ee21',1,'DS_timer']]],
+  ['settimername_351',['setTimerName',['../class_d_s__timer.html#a946d1441acb6f150c5720f68db0dead3',1,'DS_timer::setTimerName(UINT id, std::string &amp;_name)'],['../class_d_s__timer.html#a03feb15b230e7395c5dd7c03242a7bc6',1,'DS_timer::setTimerName(UINT id, char *_name)']]],
+  ['settimertitle_352',['setTimerTitle',['../class_d_s__timer.html#a3743d3ae9b90a99a8813d866c93232aa',1,'DS_timer']]],
+  ['swap_353',['SWAP',['../dstimer_8h.html#a7c47ab41142fb494373b0b511cfe219b',1,'dstimer.h']]]
 ];
