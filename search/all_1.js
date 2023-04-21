@@ -7,7 +7,7 @@ var searchData=
   ['adjacentnode_10',['AdjacentNode',['../struct_adjacent_node.html',1,'']]],
   ['adjacents_11',['adjacents',['../struct_adjacent_node.html#abaa98170832bb564325ef6036d816b1f',1,'AdjacentNode']]],
   ['align_12',['align',['../namespacerenderer.html#ad32c4b19ee2f147b42fce13982ff96e0',1,'renderer']]],
-  ['allocninitmem_13',['allocNinitMem',['../dstimer_8h.html#a993155ca2fc177dd7b167f21db889f65',1,'dstimer.h']]],
+  ['allocninitmem_13',['allocNinitMem',['../dstimer_8hpp.html#a993155ca2fc177dd7b167f21db889f65',1,'dstimer.hpp']]],
   ['ambient_14',['ambient',['../class_material.html#af99c823542e497c98a35d1aac5fc9012',1,'Material']]],
   ['apply_5fsubdivide_15',['apply_subdivide',['../namespacesubdivider.html#a3cae229e2a5b6bcd34edceeaa935c1c0',1,'subdivider']]],
   ['args_16',['args',['../namespacerenderer.html#a60648bafec2c038e04d991961c982d0a',1,'renderer.args()'],['../namespacesubdivider.html#a9be6b7fc9fb0651dd2989fe5b9cb2fb5',1,'subdivider.args()']]],

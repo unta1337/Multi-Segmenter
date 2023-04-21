@@ -10,9 +10,9 @@ var searchData=
   ['do_5fsegmentation_33',['do_segmentation',['../class_parallel_segmenter.html#a30f2e417a8656119ce7f8f9e9e50e9f9',1,'ParallelSegmenter::do_segmentation()'],['../class_segmenter.html#a553a7c299bfd1d6595b57d0d328f77a4',1,'Segmenter::do_segmentation()'],['../class_serial_segmenter.html#a4d1276590a3f053bc5440c0e7b92aa4e',1,'SerialSegmenter::do_segmentation()']]],
   ['do_5funlink_34',['do_unlink',['../namespacerenderer.html#a79d3afe101db9443b9566d38a713a796',1,'renderer']]],
   ['drive_35',['drive',['../structfile_path_split.html#afadad2bef3a3fb811ff555865fc3c5a7',1,'filePathSplit']]],
-  ['ds_5fmem_5fdelete_36',['DS_MEM_DELETE',['../dstimer_8h.html#ac444cf4106ce63b42ed91b6de5a50eb0',1,'dstimer.h']]],
-  ['ds_5fmem_5fdelete_5farray_37',['DS_MEM_DELETE_ARRAY',['../dstimer_8h.html#a98396fab0514a285e63985bfca01507f',1,'dstimer.h']]],
+  ['ds_5fmem_5fdelete_36',['DS_MEM_DELETE',['../dstimer_8hpp.html#ac444cf4106ce63b42ed91b6de5a50eb0',1,'dstimer.hpp']]],
+  ['ds_5fmem_5fdelete_5farray_37',['DS_MEM_DELETE_ARRAY',['../dstimer_8hpp.html#a98396fab0514a285e63985bfca01507f',1,'dstimer.hpp']]],
   ['ds_5ftimer_38',['DS_timer',['../class_d_s__timer.html#a71164ec2c484594338396672371523a3',1,'DS_timer::DS_timer()'],['../class_d_s__timer.html',1,'DS_timer']]],
   ['dstimer_2ecpp_39',['dstimer.cpp',['../dstimer_8cpp.html',1,'']]],
-  ['dstimer_2eh_40',['dstimer.h',['../dstimer_8h.html',1,'']]]
+  ['dstimer_2ehpp_40',['dstimer.hpp',['../dstimer_8hpp.html',1,'']]]
 ];

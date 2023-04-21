@@ -9,5 +9,5 @@ var searchData=
   ['settimer_350',['setTimer',['../class_d_s__timer.html#a0dcf18b726452e86349dd1c2a840ee21',1,'DS_timer']]],
   ['settimername_351',['setTimerName',['../class_d_s__timer.html#a946d1441acb6f150c5720f68db0dead3',1,'DS_timer::setTimerName(UINT id, std::string &amp;_name)'],['../class_d_s__timer.html#a03feb15b230e7395c5dd7c03242a7bc6',1,'DS_timer::setTimerName(UINT id, char *_name)']]],
   ['settimertitle_352',['setTimerTitle',['../class_d_s__timer.html#a3743d3ae9b90a99a8813d866c93232aa',1,'DS_timer']]],
-  ['swap_353',['SWAP',['../dstimer_8h.html#a7c47ab41142fb494373b0b511cfe219b',1,'dstimer.h']]]
+  ['swap_353',['SWAP',['../dstimer_8hpp.html#a7c47ab41142fb494373b0b511cfe219b',1,'dstimer.hpp']]]
 ];

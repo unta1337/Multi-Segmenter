@@ -2,7 +2,7 @@ var dir_bfccd401955b95cf8c75461437045ac0 =
 [
     [ "color.hpp", "color_8hpp.html", "color_8hpp" ],
     [ "consoleutils.h", "consoleutils_8h.html", "consoleutils_8h" ],
-    [ "dstimer.h", "dstimer_8h.html", "dstimer_8h" ],
+    [ "dstimer.hpp", "dstimer_8hpp.html", "dstimer_8hpp" ],
     [ "facegraph.hpp", "facegraph_8hpp.html", [
       [ "FaceGraph", "class_face_graph.html", "class_face_graph" ]
     ] ],

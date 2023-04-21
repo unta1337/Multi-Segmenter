@@ -13,8 +13,8 @@ var searchData=
   ['filepathsplit_57',['filePathSplit',['../structfile_path_split.html',1,'']]],
   ['filled_5findex_58',['filled_index',['../struct_adjacent_node.html#a88ee6e2247a29274b6cf38fedd364aa3',1,'AdjacentNode']]],
   ['folder_5fpath_59',['folder_path',['../src_2main_8cpp.html#a439b971847d11167bdaf27e28812c063',1,'main.cpp']]],
-  ['fopen_5fs_60',['fopen_s',['../dstimer_8h.html#a4862dbb7a498e311b97725aafffce231',1,'dstimer.h']]],
-  ['fprintf_5fs_61',['fprintf_s',['../dstimer_8h.html#ab585170ee7f44400249814a0787014bc',1,'dstimer.h']]],
+  ['fopen_5fs_60',['fopen_s',['../dstimer_8hpp.html#a4862dbb7a498e311b97725aafffce231',1,'dstimer.hpp']]],
+  ['fprintf_5fs_61',['fprintf_s',['../dstimer_8hpp.html#ab585170ee7f44400249814a0787014bc',1,'dstimer.hpp']]],
   ['fps_62',['fps',['../namespacerenderer.html#a8df899c2167436d63d6d981e39f84851',1,'renderer']]],
   ['frame_63',['frame',['../namespacerenderer.html#a640c2f3b97df901d16e4de327515f6e4',1,'renderer']]]
 ];

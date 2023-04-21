@@ -1,10 +1,10 @@
 <map id="src/parallelsegmenter.cpp" name="src/parallelsegmenter.cpp">
 <area shape="rect" id="node1" title=" " alt="" coords="1606,5,1796,32"/>
 <area shape="rect" id="node2" href="$parallelsegmenter_8h.html" title=" " alt="" coords="1168,80,1320,107"/>
-<area shape="rect" id="node3" href="$color_8hpp.html" title=" " alt="" coords="552,155,634,181"/>
-<area shape="rect" id="node7" href="$dstimer_8h.html" title=" " alt="" coords="761,229,844,256"/>
+<area shape="rect" id="node3" href="$color_8hpp.html" title=" " alt="" coords="548,155,630,181"/>
+<area shape="rect" id="node7" href="$dstimer_8hpp.html" title=" " alt="" coords="753,229,852,256"/>
 <area shape="rect" id="node8" title=" " alt="" coords="78,304,158,331"/>
-<area shape="rect" id="node34" title=" " alt="" coords="461,155,528,181"/>
+<area shape="rect" id="node34" title=" " alt="" coords="457,155,524,181"/>
 <area shape="rect" id="node35" title=" " alt="" coords="1589,155,1762,181"/>
 <area shape="rect" id="node36" title=" " alt="" coords="1787,155,1938,181"/>
 <area shape="rect" id="node37" title=" " alt="" coords="1962,155,2136,181"/>
@@ -14,7 +14,7 @@
 <area shape="rect" id="node41" href="$lockutils_8hpp.html" title=" " alt="" coords="1966,80,2070,107"/>
 <area shape="rect" id="node42" href="$parallelfacegraph_8h.html" title=" " alt="" coords="1462,80,1610,107"/>
 <area shape="rect" id="node43" title=" " alt="" coords="2094,80,2209,107"/>
-<area shape="rect" id="node6" title=" " alt="" coords="550,229,636,256"/>
+<area shape="rect" id="node6" title=" " alt="" coords="542,229,628,256"/>
 <area shape="rect" id="node16" href="$facegraph_8hpp.html" title=" " alt="" coords="1450,155,1565,181"/>
 <area shape="rect" id="node20" href="$trianglemesh_8hpp.html" title=" " alt="" coords="1440,304,1576,331"/>
 <area shape="rect" id="node23" title=" " alt="" coords="1738,379,1800,405"/>
