@@ -17,8 +17,6 @@ struct AdjacentNode {
 
 void ParallelFaceGraph::init() {
     timer->onTimer(TIMER_FACEGRAPH_INIT_A);
-    std::unordered_map<glm::vec3, std::vector<int>, Vec3Hash> vertex_adjacent_map;
-
     /* 변수 선언 */
     Vec3Hash hash_function;
     size_t vertex_size = triangles->size() * 3;
