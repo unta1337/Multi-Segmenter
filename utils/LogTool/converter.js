@@ -28,11 +28,11 @@ for (let routineNumber = 0; routineNumber < fileSplit.length; routineNumber++) {
     }
     let time = parseFloat(lineSplit.pop().trim());
     let routine = lineSplit.join().replace(/  - /gi, '').trim();
-    text += [mode, tolerance, model, modelFileSize, routine, cpu, threads, memory, time, createdTime].map(e => typeof e == 'string' ? JSON.stringify(e) : e).join(',') + '\n';
+    text += [mode, tolerance, model, modelFileSize, routine, routineNumber + 1, cpu, threads, memory, time, createdTime].map(e => typeof e == 'string' ? JSON.stringify(e) : e).join(',') + '\n';
 }
 if (output.content) {
     output.content += text;
 } else {
-    output.content = 'Mode,Tolerance,Model,ModelFileSize(MB),Routine,CPU,Threads,Memory(GB),Time(MS),CreatedTime\n' + text;
+    output.content = 'Mode,Tolerance,Model,ModelFileSize(MB),Routine,RoutineNumber,CPU,Threads,Memory(GB),Time(MS),CreatedTime\n' + text;
 }
 fs.writeFileSync(output.name, output.content, 'utf8');

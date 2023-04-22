@@ -301,8 +301,8 @@ void DS_timer::printToFile(char* fileName, int _id) {
         fprintf_s(fp, "%d\t", _id);
 
     for (UINT i = 0; i < numTimer; i++) {
-        if (getTimer_ms(i) == 0)
-            continue;
+        /*if (getTimer_ms(i) == 0)
+            continue;*/
         fprintf_s(fp, "%s: %.9f\n", timerName[i].c_str(), getTimer_ms(i));
     }
 
