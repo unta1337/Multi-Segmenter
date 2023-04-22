@@ -388,8 +388,8 @@ $(document).ready(function(){initNavTree('dstimer_8cpp_source.html',''); initRes
 <div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        <a class="code" href="dstimer_8hpp.html#ab585170ee7f44400249814a0787014bc">fprintf_s</a>(fp, <span class="stringliteral">&quot;%d\t&quot;</span>, _id);</div>
 <div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160; </div>
 <div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="dstimer_8hpp.html#a36cb3b01d81ffd844bbbfb54003e06ec">UINT</a> i = 0; i &lt; numTimer; i++) {</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="class_d_s__timer.html#a6f0e6e82ecd8c8d34949c81b7c5c8143">getTimer_ms</a>(i) == 0)</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        <span class="comment">/*if (getTimer_ms(i) == 0)</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;<span class="comment">            continue;*/</span></div>
 <div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        <a class="code" href="dstimer_8hpp.html#ab585170ee7f44400249814a0787014bc">fprintf_s</a>(fp, <span class="stringliteral">&quot;%s: %.9f\n&quot;</span>, timerName[i].c_str(), <a class="code" href="class_d_s__timer.html#a6f0e6e82ecd8c8d34949c81b7c5c8143">getTimer_ms</a>(i));</div>
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    }</div>
 <div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160; </div>
