@@ -18,21 +18,21 @@ file(COPY ../assets DESTINATION ${CMAKE_BINARY_DIR})
 list(FILTER PROJECT_SRC EXCLUDE REGEX .*${MAIN_FILE})
 include_directories(${ROOT_DIR}/inc)
 
-# add_compile_options("$<$<C_COMPILER_ID:MSVC>:-Xcompiler=\"-utf-8\">")
-# add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:-Xcompiler=\"-utf-8\">")
+add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:-utf-8>")
+add_compile_options("$<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=\"-utf-8\">")
 
 # MSVC에서 min/max를 매크로 상수로 정의하여 헤더 파일 포함 시 문제 발생.
 # 참고: https://cimple.tistory.com/254
-# add_compile_options("$<$<C_COMPILER_ID:MSVC>:-DNOMINMAX>")
-# add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:-DNOMINMAX")
+add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:-DNOMINMAX>")
+add_compile_options("$<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=\"-DNOMINMAX\">")
 
 # 단계별 디버그 출력 활성화.
-# add_compile_options("$<$<C_COMPILER_ID:MSVC>:-DDO_STEP_LOG>")
-# add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:-DDO_STEP_LOG")
+add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:-DDO_STEP_LOG>")
+add_compile_options("$<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=\"-DDO_STEP_LOG\">")
 
 # 타이머 결과 출력 활성화.
-# add_compile_options("$<$<C_COMPILER_ID:MSVC>:-DDO_TIME_LOG>")
-# add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:-DDO_TIME_LOG")
+add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:-DDO_TIME_LOG>")
+add_compile_options("$<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=\"-DDO_TIME_LOG\">")
 
 find_package(OpenMP REQUIRED)
 
