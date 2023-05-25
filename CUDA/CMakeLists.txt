@@ -45,6 +45,19 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(tinyobjloader)
 
+FetchContent_Declare(
+        glm
+        GIT_REPOSITORY https://github.com/g-truc/glm.git
+        GIT_TAG		   0.9.9.8
+)
+
+FetchContent_GetProperties(glm)
+if(NOT glm_POPULATED)
+    FetchContent_Populate(glm)
+    set(GLM_TEST_ENABLE OFF CACHE BOOL "" FORCE)
+    add_subdirectory(${glm_SOURCE_DIR} ${glm_BINARY_DIR})
+endif()
+
 add_executable(Multi-Segmenter-CUDA ${MAIN_FILE} ${PROJECT_SRC} ${PROJECT_HEADERS})
 target_include_directories(Multi-Segmenter-CUDA PRIVATE ${glm_SOURCE_DIR})
 target_link_libraries(Multi-Segmenter-CUDA PRIVATE OpenMP::OpenMP_CXX tinyobjloader)
