@@ -66,5 +66,5 @@ jobs:
         with:
           name: build
           path: |
-            .OpenMP/x86-x64/Multi-Segmenter
-#            .OpenMP/x86/Multi-Segmenter
+            ./OpenMP/x86-x64/Multi-Segmenter
+#            ./OpenMP/x86/Multi-Segmenter
