@@ -32,19 +32,19 @@ jobs:
 
       - name: Install prerequisite
         shell: bash
-        run: sudo apt-get install libegl1-mesa libegl1 ninja-build -y
+        run: sudo apt-get install libegl1-mesa libegl1 ninja-build -y --fix-missing
 
       - name: CMake x64
         shell: bash
-        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR=x86-64 -B x64
+        run: cmake OpenMP -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR=x86-64 -B OpenMP/x64
 
       - name: Build x64
         shell: bash
-        run: cmake --build x64 --target Multi-Segmenter --config Release
+        run: cmake --build OpenMP/x64 --target Multi-Segmenter --config Release
 
       - name: Launch segmenter
         shell: bash
-        run: ./x64/Multi-Segmenter ${{ matrix.mode }} assets/${{ matrix.assets }}
+        run: .OpenMP/x64/Multi-Segmenter ${{ matrix.mode }} assets/${{ matrix.assets }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
