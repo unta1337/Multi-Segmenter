@@ -1,4 +1,4 @@
-name: Build Assets Video (Low)
+name: OpenMP Build Assets
 on: [push]
 jobs:
   listing:
@@ -17,10 +17,10 @@ jobs:
       - name: Generate assets matrix
         shell: bash
         id: generate_matrix
-        run: echo MATRIX=$(find assets -maxdepth 1 -name '*.obj' -printf '%P\n' -type f | jq -R -s 'split("\n")[:-1]|{assets:.,mode:["parallel"]}' -c) >> $GITHUB_OUTPUT
+        run: echo MATRIX=$(find assets -name '*.obj' -printf '%P\n' -type f | jq -R -s 'split("\n")[:-1]|{assets:.,mode:["serial","parallel"]}' -c) >> $GITHUB_OUTPUT
 
   build_asset:
-    name: Build Assets Video (Low)
+    name: OpenMP Build Assets
     needs: listing
     strategy:
       matrix: ${{ fromJSON(needs.listing.outputs.MATRIX) }}
@@ -42,27 +42,18 @@ jobs:
         shell: bash
         run: cmake --build OpenMP/x64 --target Multi-Segmenter --config Release
 
-      - name: Setup python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
       - name: Launch segmenter
         shell: bash
         run: ./OpenMP/x64/Multi-Segmenter ${{ matrix.mode }} assets/${{ matrix.assets }}
-
-      - name: Install requirements.txt
-        shell: bash
-        working-directory: utils/SimpleRenderer
-        run: pip install -r requirements.txt
-
-      - name: Launch renderer
-        shell: bash
-        run: python utils/SimpleRenderer/renderer.py assets/Segmented_${{ matrix.mode }}_15.0_${{ matrix.assets }} --frame 5 --fps 1 --scale 10 --quality 10 --align
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: build
           path: |
-            assets/*.mp4
+            assets/Segmented_*.obj
+            assets/Segmented_*.mtl
+            assets/Segmented_*.txt
+            assets/complex_models/Segmented_*.obj
+            assets/complex_models/Segmented_*.mtl
+            assets/complex_models/Segmented_*.txt

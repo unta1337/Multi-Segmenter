@@ -1,4 +1,4 @@
-name: Build Assets Video (High)
+name: OpenMP Build Assets Video (High)
 on: [push]
 jobs:
   listing:
@@ -20,7 +20,7 @@ jobs:
         run: echo MATRIX=$(find assets -maxdepth 1 -name '*.obj' -printf '%P\n' -type f | jq -R -s 'split("\n")[:-1]|{assets:.,mode:["parallel"]}' -c) >> $GITHUB_OUTPUT
 
   build_asset:
-    name: Build Assets Video (High)
+    name: OpenMP Build Assets Video (High)
     needs: listing
     strategy:
       matrix: ${{ fromJSON(needs.listing.outputs.MATRIX) }}
