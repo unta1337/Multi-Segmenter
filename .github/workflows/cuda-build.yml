@@ -36,15 +36,15 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      # - name: Install CUDA Toolkit
-      #   uses: Jimver/cuda-toolkit@v0.2.10
-      #   id: cuda-toolkit
-      #   with:
-      #     cuda: '12.1.0'
-
-      - name: Install CUDA Toolkit
+      - name: Install CUDA Toolkit with apt
         shell: bash
         run: sudo apt update && sudo apt install nvidia-cuda-toolkit
+
+      - name: Install CUDA Toolkit
+        uses: Jimver/cuda-toolkit@v0.2.10
+        id: cuda-toolkit
+        with:
+          cuda: '12.1.0'
 
       - name: Install prerequisite
         shell: bash
