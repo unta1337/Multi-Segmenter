@@ -1,5 +1,5 @@
 name: OpenMP Build Assets Video (Low)
-# on: [push]
+on: [push]
 jobs:
   listing:
     name: Generate assets matrix

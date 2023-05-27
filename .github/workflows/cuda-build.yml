@@ -1,8 +1,8 @@
-name: <Test> CUDA Build Project
+name: CUDA Build Project
 on: [push]
 jobs:
   build_artifacts_windows:
-    name: <Test> CUDA Build (Windows)
+    name: CUDA Build Artifacts (Windows)
     runs-on: windows-2022
     steps:
       - name: Get latest code
@@ -30,7 +30,7 @@ jobs:
             ./CUDA/x64/Multi-Segmenter-CUDA.exe
 
   build_artifacts_linux:
-    name: <Test> CUDA Build Artifacts (Linux)
+    name: CUDA Build Artifacts (Linux)
     runs-on: ubuntu-22.04
     steps:
       - name: Get latest code
