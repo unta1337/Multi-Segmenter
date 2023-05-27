@@ -52,7 +52,7 @@ jobs:
 
       - name: Build x64
         shell: bash
-        run: cmake --build CUDA/x86-x64 --target Multi-Segmenter --config Release
+        run: cmake --build CUDA/x86-x64 --target Multi-Segmenter-CUDA --config Release
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
