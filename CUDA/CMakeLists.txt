@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.15)
 
 project(
         Multi-Segmenter-CUDA
@@ -35,6 +35,8 @@ add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:-DDO_TIME_LOG>")
 add_compile_options("$<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=\"-DDO_TIME_LOG\">")
 
 find_package(OpenMP REQUIRED)
+find_package(Thrust REQUIRED)
+thrust_create_target(Thrust)
 
 include(FetchContent)
 
@@ -47,7 +49,7 @@ FetchContent_MakeAvailable(tinyobjloader)
 
 add_executable(Multi-Segmenter-CUDA ${MAIN_FILE} ${PROJECT_SRC} ${PROJECT_HEADERS})
 target_include_directories(Multi-Segmenter-CUDA PRIVATE ${glm_SOURCE_DIR})
-target_link_libraries(Multi-Segmenter-CUDA PRIVATE OpenMP::OpenMP_CXX tinyobjloader)
+target_link_libraries(Multi-Segmenter-CUDA PRIVATE OpenMP::OpenMP_CXX Thrust tinyobjloader)
 
 set_target_properties(Multi-Segmenter-CUDA PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 set_property(TARGET Multi-Segmenter-CUDA PROPERTY CUDA_ARCHITECTURES 86)
