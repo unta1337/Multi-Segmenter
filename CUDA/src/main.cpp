@@ -1,22 +1,32 @@
 #include <stdio.h>
 
-#include "matrixutil.h"
+#include "dtypes.h"
+#include "objloader.h"
+#include "objutils.h"
 
 int main() {
-    size_t rows = 3;
-    size_t cols = 4;
-    size_t stride = 4;
-    int* elems = new int[rows * cols];
-    for (size_t i = 0; i < rows * cols; i++)
-        elems[i] = i;
+    std::string file_path = "";
+    object_t obj = load_obj(file_path);
 
-    void* argv[] = {
-        to_dev_new(&rows, sizeof(rows)),
-        to_dev_new(&cols, sizeof(cols)),
-        to_dev_new(&stride, sizeof(stride)),
-        to_dev_new(elems, rows * cols * sizeof(*elems)),
-    };
-    matrix_print_k(dim3(1, 1, 1), dim3(1, 1, 1), sizeof(argv) / sizeof(argv[0]), (void**)argv);
+#if 1
+    calc_face_normals(obj);
+#else
+    calc_face_normals_cu(obj);
+#endif
+
+#if 0
+    printf("Vertices info:\n");
+    for (vertex_t& vertex : obj.vertices) {
+        printf("%f, %f, %f\n", vertex.x, vertex.y, vertex.z);
+    }
+    printf("\n");
+
+    printf("Faces info:\n");
+    for (face_t& face : obj.faces) {
+        printf("%2zu, %2zu, %2zu  |  ", face.pi,  face.qi, face.ri );
+        printf("%f, %f, %f\n", face.nx, face.ny, face.nz );
+    }
+#endif
 
     return 0;
 }
