@@ -1,3 +1,6 @@
+#ifndef __TIMER_H
+#define __TIMER_H
+
 #define TIMER_ENTRY(key, name) key,
 
 #define TIMER_LIST \
@@ -25,3 +28,5 @@ char* TIMER_NAME_LIST[] = {
     for (int i = 0; i < TIMER_LIST_SIZE; i++) \
         timer.setTimerName(i, TIMER_NAME_LIST[i]); \
     timer.initTimers();
+
+#endif
