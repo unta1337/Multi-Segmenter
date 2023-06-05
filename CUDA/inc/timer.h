@@ -27,6 +27,6 @@ char* TIMER_NAME_LIST[] = {
 #define INIT_TIMER(timer) \
     for (int i = 0; i < TIMER_LIST_SIZE; i++) \
         timer.setTimerName(i, TIMER_NAME_LIST[i]); \
-    timer.initTimers();
+    timer.initTimers()
 
 #endif
