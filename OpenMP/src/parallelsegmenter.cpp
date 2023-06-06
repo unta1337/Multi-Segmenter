@@ -5,15 +5,10 @@
 
 #include <chrono>
 #include <color.hpp>
-#include <dstimer.hpp>
-#include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/normal.hpp>
-#include <glm/gtx/quaternion.hpp>
-#include <glm/gtx/string_cast.hpp>
 #include <glm/gtx/vector_angle.hpp>
 #include <iostream>
 #include <omp.h>
-#include <unordered_set>
 
 ParallelSegmenter::ParallelSegmenter(TriangleMesh* mesh, float tolerance) : Segmenter(mesh, tolerance) {
 }
