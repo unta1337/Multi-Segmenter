@@ -3,8 +3,4 @@
 
 ## Multi-Segmentor
 중간 텀프로젝트.  
-OpenMP를 활용한 3D 오브젝트 세그멘테이션의 병렬 처리.  
-
-## Multi-Segmentor-CUDA
-기말 텀프로젝트.  
-OpenMP와 CUDA를 활용한 3D 오브젝트 세그멘테이션의 병렬 처리.  
+OpenMP를 활용한 3D 오브젝트 세그멘테이션의 병렬 처리.
