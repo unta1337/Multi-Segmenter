@@ -33,11 +33,19 @@ object_t load_obj(std::string file_path) {
                 std::string inner_token;
                 std::stringstream token_ss;
 
-                faces.push_back({
-                    (std::getline(line_ss, token, ' '), token_ss.str(token), std::getline(token_ss, inner_token, '/'), std::stoull(inner_token)),
-                    (std::getline(line_ss, token, ' '), token_ss.str(token), std::getline(token_ss, inner_token, '/'), std::stoull(inner_token)),
-                    (std::getline(line_ss, token, ' '), token_ss.str(token), std::getline(token_ss, inner_token, '/'), std::stoull(inner_token))
-                });
+                if (line_ss.str().find("/") != std::string::npos) {
+                    faces.push_back({
+                        (std::getline(line_ss, token, ' '), token_ss.str(token), std::getline(token_ss, inner_token, '/'), std::stoull(inner_token)),
+                        (std::getline(line_ss, token, ' '), token_ss.str(token), std::getline(token_ss, inner_token, '/'), std::stoull(inner_token)),
+                        (std::getline(line_ss, token, ' '), token_ss.str(token), std::getline(token_ss, inner_token, '/'), std::stoull(inner_token))
+                    });
+                } else {
+                    faces.push_back({
+                        (std::getline(line_ss, token, ' '), std::stoull(token)),
+                        (std::getline(line_ss, token, ' '), std::stoull(token)),
+                        (std::getline(line_ss, token, ' '), std::stoull(token))
+                    });
+                }
             }
         }
         file.close();
