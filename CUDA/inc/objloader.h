@@ -6,15 +6,14 @@
 #include <string>
 #include <vector>
 
-#include "dtypes.h"
+#include "object.h"
+#include "vectex.h"
 
-object_t load_obj(std::string file_path) {
+Object load_obj(const std::string& file_path) {
     std::ifstream file(file_path);
 
-    std::vector<vertex_t> vertices;
-    std::vector<face_t> faces;
-
-    vertices.push_back({});     // .obj 파일의 1-based 인덱싱을 위한 더미 정점.
+    std::vector<Vertex> vertices;
+    std::vector<Face> faces;
 
     if (file.is_open()) {
         std::string line, token;
@@ -23,27 +22,27 @@ object_t load_obj(std::string file_path) {
             std::stringstream line_ss(line);
             std::getline(line_ss, token, ' ');
 
-            if (token.compare("v") == 0) {
+            if (token == "v") {
                 vertices.push_back({
                     (std::getline(line_ss, token, ' '), std::stof(token)),
                     (std::getline(line_ss, token, ' '), std::stof(token)),
                     (std::getline(line_ss, token, ' '), std::stof(token))
                 });
-            } else if (token.compare("f") == 0) {
+            } else if (token == "f") {
                 std::string inner_token;
                 std::stringstream token_ss;
 
-                if (line_ss.str().find("/") != std::string::npos) {
+                if (line_ss.str().find('/') != std::string::npos) {
                     faces.push_back({
-                        (std::getline(line_ss, token, ' '), token_ss.str(token), std::getline(token_ss, inner_token, '/'), std::stoull(inner_token)),
-                        (std::getline(line_ss, token, ' '), token_ss.str(token), std::getline(token_ss, inner_token, '/'), std::stoull(inner_token)),
-                        (std::getline(line_ss, token, ' '), token_ss.str(token), std::getline(token_ss, inner_token, '/'), std::stoull(inner_token))
+                        (std::getline(line_ss, token, ' '), token_ss.str(token), std::getline(token_ss, inner_token, '/'), std::stoull(inner_token)) - 1,
+                        (std::getline(line_ss, token, ' '), token_ss.str(token), std::getline(token_ss, inner_token, '/'), std::stoull(inner_token)) - 1,
+                        (std::getline(line_ss, token, ' '), token_ss.str(token), std::getline(token_ss, inner_token, '/'), std::stoull(inner_token)) - 1
                     });
                 } else {
                     faces.push_back({
-                        (std::getline(line_ss, token, ' '), std::stoull(token)),
-                        (std::getline(line_ss, token, ' '), std::stoull(token)),
-                        (std::getline(line_ss, token, ' '), std::stoull(token))
+                        (std::getline(line_ss, token, ' '), std::stoull(token)) - 1,
+                        (std::getline(line_ss, token, ' '), std::stoull(token)) - 1,
+                        (std::getline(line_ss, token, ' '), std::stoull(token)) - 1
                     });
                 }
             }

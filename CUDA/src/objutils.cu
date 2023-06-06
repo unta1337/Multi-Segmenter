@@ -1,14 +1,14 @@
 #include "objutils.h"
 
-__host__ __device__ void __calc_normal(face_t& face, vertex_t* vertices) {
+__host__ __device__ void __calc_normal(Face& face, Vector3f* vertices) {
     // 대응하는 정점 설정.
-    vertex_t* v1 = &vertices[face.pi];
-    vertex_t* v2 = &vertices[face.qi];
-    vertex_t* v3 = &vertices[face.ri];
+    Vector3f* v1 = &vertices[face.pi];
+    Vector3f* v2 = &vertices[face.qi];
+    Vector3f* v3 = &vertices[face.ri];
 
     // v2를 중심으로 한 방향 벡터 계산.
-    vertex_t l1 = { v1->x - v2->x, v1->y - v2->y, v1->z - v2->z };
-    vertex_t l2 = { v3->x - v2->x, v3->y - v2->y, v3->z - v2->z };
+    Vector3f l1 = {v1->x - v2->x, v1->y - v2->y, v1->z - v2->z };
+    Vector3f l2 = {v3->x - v2->x, v3->y - v2->y, v3->z - v2->z };
 
     // 외적을 통한 법선 벡터 계산.
     face.nx = l1.y * l2.z - l1.z * l2.y;
@@ -24,7 +24,7 @@ __host__ __device__ void __calc_normal(face_t& face, vertex_t* vertices) {
     face.nz /= norm;
 }
 
-__global__ void __calc_face_normals_cu(face_t* faces, vertex_t* vertices, size_t count) {
+__global__ void __calc_face_normals_cu(Face* faces, Vector3f* vertices, size_t count) {
     size_t index = blockIdx.x * blockDim.x + threadIdx.x;
 
     if (index >= count)
@@ -33,16 +33,16 @@ __global__ void __calc_face_normals_cu(face_t* faces, vertex_t* vertices, size_t
     __calc_normal(faces[index], vertices);
 }
 
-void calc_face_normals(object_t& obj) {
-    for (face_t& face : obj.faces) {
+void calc_face_normals(Object& obj) {
+    for (Face& face : obj.faces) {
         __calc_normal(face, obj.vertices.data());
     }
 }
 
-void calc_face_normals_cu(object_t& obj) {
-    object_dt d_obj = {
-        thrust::device_vector<vertex_t>(obj.vertices),
-        thrust::device_vector<face_t>(obj.faces)
+void calc_face_normals_cu(Object& obj) {
+    DeviceObject d_obj = {
+        thrust::device_vector<Vector3f>(obj.vertices),
+        thrust::device_vector<Face>(obj.faces)
     };
 
     size_t len_block = 1024;
