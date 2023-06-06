@@ -9,7 +9,7 @@ project(
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CUDA_STANDARD 23)
 set(ROOT_DIR ${PROJECT_SOURCE_DIR})
-set(MAIN_FILE src/main.cu)
+set(MAIN_FILE src/main.cpp)
 
 file(GLOB PROJECT_SRC ${ROOT_DIR}/src/*)
 file(GLOB PROJECT_HEADERS ${ROOT_DIR}/inc/*)
