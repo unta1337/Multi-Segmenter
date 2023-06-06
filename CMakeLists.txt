@@ -13,7 +13,7 @@ set(MAIN_FILE src/main.cu)
 
 file(GLOB PROJECT_SRC ${ROOT_DIR}/src/*)
 file(GLOB PROJECT_HEADERS ${ROOT_DIR}/inc/*)
-file(COPY ../assets DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 
 list(FILTER PROJECT_SRC EXCLUDE REGEX .*${MAIN_FILE})
 include_directories(${ROOT_DIR}/inc)
