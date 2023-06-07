@@ -88,17 +88,21 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     STEP_LOG(std::cout << "[Begin] Connectivity Checking and Triangle Mesh Generating.\n");
     timer.onTimer(TIMER_CC_N_TMG);
 
-    std::vector<TriangleMesh*> result;
-    int number = 0;
+    std::vector<std::vector<std::vector<Triangle>>> segments_collection;
     for (auto& entry : normal_triangle_list_map) {
         STEP_LOG(std::cout << "[Step] FaceGraph: Init.\n");
         CUDAFaceGraph fg(&entry.second, &timer);
 
         STEP_LOG(std::cout << "[Step] FaceGraph: Get Segments.\n");
-        std::vector<std::vector<Triangle>> segments = fg.get_segments();
+        segments_collection.push_back(fg.get_segments());
+    }
 
-        STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
-        timer.onTimer(TIMER_TRIANGLE_MESH_GENERATING);
+    STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
+    std::vector<TriangleMesh*> result;
+    int number = 0;
+
+    timer.onTimer(TIMER_TRIANGLE_MESH_GENERATING);
+    for (const auto& segments : segments_collection) {
         for (const auto& segment : segments) {
             TriangleMesh* sub_object = triangle_list_to_obj(segment);
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
@@ -107,8 +111,8 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
 
             result.push_back(sub_object);
         }
-        timer.offTimer(TIMER_TRIANGLE_MESH_GENERATING);
     }
+    timer.offTimer(TIMER_TRIANGLE_MESH_GENERATING);
 
     timer.offTimer(TIMER_CC_N_TMG);
     STEP_LOG(std::cout << "[End] Connectivity Checking and Triangle Mesh Generating.\n");
