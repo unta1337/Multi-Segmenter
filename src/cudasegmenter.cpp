@@ -74,6 +74,7 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
         glm::ivec3 indexes = mesh->index[i];
         for (int d = 0; d < 3; d++) {
             triangle.vertex[d] = mesh->vertex[indexes[d]];
+            triangle.id[d] = indexes[d];
         }
 
         normal_triangle_list_map[target_normal].push_back(triangle);
@@ -98,9 +99,13 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     }
 
     STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
+    timer.onTimer(TIMER_TRIANGLE_MESH_GENERATING);
+
+    std::vector<std::vector<int>> vertex_to_id(segments_collection.size(), std::vector<int>(mesh->vertex.size(), -1));
     std::vector<TriangleMesh*> result;
-    for (auto& [segments, triangles] : segments_collection) {
-        std::vector<TriangleMesh*> sub_obj = segment_union_to_obj(segments, triangles);
+    for (int i = 0; i < segments_collection.size(); i++) {
+        auto& [segments, triangles] = segments_collection[i];
+        std::vector<TriangleMesh*> sub_obj = segment_union_to_obj(segments, triangles, vertex_to_id[i]);
         result.insert(result.end(), sub_obj.begin(), sub_obj.end());
     }
 
