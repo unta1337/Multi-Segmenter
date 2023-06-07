@@ -5,7 +5,7 @@ CUDASegmenter::CUDASegmenter(TriangleMesh* mesh, float tolerance) : Segmenter(me
 }
 
 inline glm::vec3 CUDASegmenter::get_normal_key(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map,
-                                                 glm::vec3& normal) {
+                                               glm::vec3& normal) {
     for (const auto& entry : count_map) {
         glm::vec3 compare = entry.first;
         float norm_angle = glm::degrees(glm::angle(compare, normal));
@@ -19,7 +19,7 @@ inline glm::vec3 CUDASegmenter::get_normal_key(std::unordered_map<glm::vec3, siz
 }
 
 inline void CUDASegmenter::init_count_map(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map,
-                                            std::vector<glm::vec3>& face_normals) {
+                                          std::vector<glm::vec3>& face_normals) {
     for (auto& normal : face_normals) {
         count_map[get_normal_key(count_map, normal)]++;
     }
@@ -88,30 +88,29 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     STEP_LOG(std::cout << "[Begin] Connectivity Checking and Triangle Mesh Generating.\n");
     timer.onTimer(TIMER_CC_N_TMG);
 
-    std::vector<std::vector<std::vector<Triangle>>> segments_collection;
+    std::vector<std::pair<std::vector<int>, std::vector<Triangle>*>> segments_collection;
     for (auto& entry : normal_triangle_list_map) {
         STEP_LOG(std::cout << "[Step] FaceGraph: Init.\n");
         CUDAFaceGraph fg(&entry.second, &timer);
 
         STEP_LOG(std::cout << "[Step] FaceGraph: Get Segments.\n");
-        segments_collection.push_back(fg.get_segments());
+        segments_collection.push_back(std::make_pair(fg.get_segments_as_union(), fg.triangles));
     }
 
     STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
     std::vector<TriangleMesh*> result;
-    int number = 0;
-
-    timer.onTimer(TIMER_TRIANGLE_MESH_GENERATING);
-    for (const auto& segments : segments_collection) {
-        for (const auto& segment : segments) {
-            TriangleMesh* sub_object = triangle_list_to_obj(segment);
-            sub_object->material->diffuse = glm::vec3(1, 0, 0);
-            sub_object->material->name = "sub_materials_" + std::to_string(number);
-            sub_object->name = mesh->name + "_seg_" + std::to_string(number++);
-
-            result.push_back(sub_object);
-        }
+    for (auto& [segments, triangles] : segments_collection) {
+        std::vector<TriangleMesh*> sub_obj = segment_union_to_obj(segments, triangles);
+        result.insert(result.end(), sub_obj.begin(), sub_obj.end());
     }
+
+    for (int i = 0; i < result.size(); i++) {
+        TriangleMesh* sub_object = result[i];
+        sub_object->material->diffuse = glm::vec3(1, 0, 0);
+        sub_object->material->name = "sub_materials_" + std::to_string(i);
+        sub_object->name = mesh->name + "_seg_" + std::to_string(i);
+    }
+
     timer.offTimer(TIMER_TRIANGLE_MESH_GENERATING);
 
     timer.offTimer(TIMER_CC_N_TMG);

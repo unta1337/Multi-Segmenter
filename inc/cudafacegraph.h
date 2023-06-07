@@ -14,6 +14,7 @@ class CUDAFaceGraph : public FaceGraph {
     CUDAFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer);
     virtual void init();
     virtual std::vector<std::vector<Triangle>> get_segments();
+    virtual std::vector<int> get_segments_as_union();
     virtual void traverse_dfs(std::vector<int>& visit, int start_vert, int count);
 };
 

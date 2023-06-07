@@ -46,29 +46,26 @@ void CUDAFaceGraph::init() {
 }
 
 std::vector<std::vector<Triangle>> CUDAFaceGraph::get_segments() {
+    return std::vector<std::vector<Triangle>>();
+}
+
+std::vector<int> CUDAFaceGraph::get_segments_as_union() {
     timer->onTimer(TIMER_FACEGRAPH_GET_SETMENTS_A);
 
-    std::vector<int> is_visit(adj_triangles.size());
+    std::vector<int> dfs_union(adj_triangles.size(), -1);
     // 방문했다면 정점이 속한 그룹의 카운트 + 1.
 
-    int count = 0;
     for (int i = 0; i < adj_triangles.size(); i++) {
-        if (is_visit[i] == 0) {
-            traverse_dfs(is_visit, i, ++count);
+        if (dfs_union[i] == -1) {
+            traverse_dfs(dfs_union, i, 0);
         }
     }
     timer->offTimer(TIMER_FACEGRAPH_GET_SETMENTS_A);
 
     timer->onTimer(TIMER_FACEGRAPH_GET_SETMENTS_B);
-    std::vector<std::vector<Triangle>> component_list(count);
-
-    for (int i = 0; i < is_visit.size(); i++) {
-        component_list[is_visit[i] - 1].push_back(triangles->data()[i]);
-    }
-
     timer->offTimer(TIMER_FACEGRAPH_GET_SETMENTS_B);
 
-    return component_list;
+    return dfs_union;
 }
 
 void CUDAFaceGraph::traverse_dfs(std::vector<int>& visit, int start_vert, int count) {
@@ -79,10 +76,10 @@ void CUDAFaceGraph::traverse_dfs(std::vector<int>& visit, int start_vert, int co
         int current_vert = dfs_stack.top();
         dfs_stack.pop();
 
-        visit[current_vert] = count;
+        visit[current_vert] = start_vert;
         for (int i = 0; i < adj_triangles[current_vert].size(); i++) {
             int adjacent_triangle = adj_triangles[current_vert][i];
-            if (visit[adjacent_triangle] == 0) {
+            if (visit[adjacent_triangle] == -1) {
                 dfs_stack.push(adjacent_triangle);
             }
         }

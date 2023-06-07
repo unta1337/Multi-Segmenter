@@ -75,4 +75,57 @@ inline TriangleMesh* triangle_list_to_obj(const std::vector<Triangle>& list) {
 
     return sub_object;
 }
+
+inline std::vector<TriangleMesh*> segment_union_to_obj(const std::vector<int> segment_union,
+                                                                  const std::vector<Triangle>* triangles) {
+    std::vector<int> group_id(segment_union.size(), -1);
+    std::vector<TriangleMesh*> result;
+
+    int group_index = 0;
+    for (int group_root : segment_union) {
+        if (group_id[group_root] == -1) {
+            result.push_back(new TriangleMesh);
+            group_id[group_root] = group_index++;
+            result[group_id[group_root]]->material = new Material;
+        }
+    }
+
+    std::vector<int> vertex_index(group_index, 1);
+    std::vector<std::unordered_map<glm::vec3, size_t, Vec3Hash>> vertex_map(group_index);
+
+    for (int i = 0; i < segment_union.size(); i++) {
+        int group_root = segment_union[i];
+        int g_id = group_id[group_root];
+
+        TriangleMesh* sub_object = result[g_id];
+
+        int __index = (sub_object->index.push_back({-1, -1, -1}), sub_object->index.size() - 1);
+
+        glm::ivec3 index;
+        for (int j = 0; j < 3; j++) {
+            auto vertex_item = vertex_map[g_id].find(triangles->at(i).vertex[j]);
+
+            if (vertex_item != vertex_map[g_id].end()) {
+                index[j] = (int)vertex_item->second;
+            } else {
+                vertex_map[g_id].insert({triangles->at(i).vertex[j], vertex_index[g_id]});
+                index[j] = (int)vertex_index[g_id]++;
+            }
+        }
+        sub_object->index[__index] = index;
+    }
+
+    for (int group_root : segment_union) {
+        int g_id = group_id[group_root];
+        TriangleMesh* sub_object = result[g_id];
+
+        sub_object->vertex.resize(vertex_index[g_id]);
+        for (auto v_item : vertex_map[g_id]) {
+            sub_object->vertex[v_item.second - 1] = v_item.first;
+        }
+    }
+
+    return result;
+}
+
 #endif
