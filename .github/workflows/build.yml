@@ -3,16 +3,10 @@ on: [push]
 jobs:
   build_artifacts_windows:
     name: Build Artifacts (Windows)
-    runs-on: windows-2022
+    runs-on: windows-lab
     steps:
       - name: Get latest code
         uses: actions/checkout@v3
-
-      - name: Install CUDA Toolkit
-        uses: Jimver/cuda-toolkit@v0.2.10
-        id: cuda-toolkit
-        with:
-          cuda: '12.1.0'
 
       - name: CMake x64
         shell: pwsh
@@ -32,20 +26,10 @@ jobs:
 
   build_artifacts_linux:
     name: Build Artifacts (Linux)
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-lab
     steps:
       - name: Get latest code
         uses: actions/checkout@v3
-
-      - name: Install prerequisite
-        shell: bash
-        run: sudo apt-get install ninja-build nvidia-cuda-toolkit -y
-
-      - name: Install CUDA Toolkit
-        uses: Jimver/cuda-toolkit@v0.2.10
-        id: cuda-toolkit
-        with:
-          cuda: '12.1.0'
 
       - name: CMake x64
         shell: bash
