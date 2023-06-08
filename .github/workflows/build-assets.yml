@@ -41,7 +41,7 @@ jobs:
 
       - name: Launch segmenter
         shell: bash
-        run: ./Multi-Segmenter ${{ matrix.mode }} assets/${{ matrix.assets }}
+        run: chmod 777 Multi-Segmenter && ./Multi-Segmenter ${{ matrix.mode }} assets/${{ matrix.assets }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
