@@ -1,0 +1,25 @@
+on:
+  workflow_call:
+jobs:
+  build:
+    name: Build Project (Linux)
+    runs-on: ubuntu-lab
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v3
+
+      - name: CMake x64
+        shell: bash
+        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -B Linux
+
+      - name: Build x64
+        shell: bash
+        run: cmake --build Linux --target Multi-Segmenter Multi-Segmenter-Test --config Release
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: |
+            ./Linux/Multi-Segmenter
+            ./Linux/Multi-Segmenter-Test

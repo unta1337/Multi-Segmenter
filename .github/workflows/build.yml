@@ -1,48 +1,8 @@
 name: Build Project
 on: [push]
 jobs:
-  build_artifacts_windows:
-    name: Build Artifacts (Windows)
-    runs-on: windows-lab
-    steps:
-      - name: Get latest code
-        uses: actions/checkout@v3
+  build_windows:
+    uses: ./.github/workflows/build-windows.yml
 
-      - name: CMake x64
-        shell: pwsh
-        run: cmake -G "Visual Studio 17 2022" -A x64 CMakeLists.txt -B Windows
-
-      - name: Build x64
-        shell: pwsh
-        run: cmake --build Windows --target Multi-Segmenter Multi-Segmenter-Test --config Release && mv Windows/Release/* Windows
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: build
-          path: |
-            Windows/Multi-Segmenter.exe
-            Windows/Multi-Segmenter-Test.exe
-
-  build_artifacts_linux:
-    name: Build Artifacts (Linux)
-    runs-on: ubuntu-lab
-    steps:
-      - name: Get latest code
-        uses: actions/checkout@v3
-
-      - name: CMake x64
-        shell: bash
-        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -B Linux
-
-      - name: Build x64
-        shell: bash
-        run: cmake --build Linux --target Multi-Segmenter Multi-Segmenter-Test --config Release
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: build
-          path: |
-            ./Linux/Multi-Segmenter
-            ./Linux/Multi-Segmenter-Test
+  build_linux:
+    uses: ./.github/workflows/build-linux.yml
