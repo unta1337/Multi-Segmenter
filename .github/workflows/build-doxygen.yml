@@ -1,5 +1,5 @@
 name: Build Doxygen Document
-# on: [push]
+on: [push]
 
 jobs:
   build_artifacts:
