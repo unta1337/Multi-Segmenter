@@ -32,15 +32,15 @@ jobs:
 
       - name: Install prerequisite
         shell: bash
-        run: sudo apt-get update && sudo apt-get install libegl1-mesa libegl1 ninja-build -y
+        run: sudo apt-get install libegl1-mesa libegl1 ninja-build -y
 
       - name: CMake x64
         shell: bash
-        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR=x86-64 -B OpenMP/x64
+        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR=x86-64 -B x64
 
       - name: Build x64
         shell: bash
-        run: cmake --build OpenMP/x64 --target Multi-Segmenter --config Release
+        run: cmake --build x64 --target Multi-Segmenter --config Release
 
       - name: Setup python
         uses: actions/setup-python@v4
@@ -49,7 +49,7 @@ jobs:
 
       - name: Launch segmenter
         shell: bash
-        run: ./OpenMP/x64/Multi-Segmenter ${{ matrix.mode }} assets/${{ matrix.assets }}
+        run: ./x64/Multi-Segmenter ${{ matrix.mode }} assets/${{ matrix.assets }}
 
       - name: Install requirements.txt
         shell: bash
