@@ -78,13 +78,11 @@ inline TriangleMesh* triangle_list_to_obj(const std::vector<Triangle>& list) {
 
 inline std::vector<TriangleMesh*> segment_union_to_obj(const std::vector<int> segment_union,
                                                        const std::vector<Triangle>* triangles,
-                                                       std::vector<int>& vertex_to_id) {
+                                                       size_t total_vertex_count) {
     std::vector<TriangleMesh*> result;
     std::vector<int> group_id(segment_union.size(), -1); // 특정 요소가 속한 그룹 id.
 
     int group_index = 0;
-    int vertex_index = 1;
-
     for (int i = 0; i < segment_union.size(); i++) {
         int group_root = segment_union[i];
         int& g_id = group_id[group_root];
@@ -94,12 +92,20 @@ inline std::vector<TriangleMesh*> segment_union_to_obj(const std::vector<int> se
             g_id = group_index++;
             result[g_id]->material = new Material;
         }
+    }
+
+    std::vector<std::vector<int>> vector_lookup(group_index, std::vector<int>(total_vertex_count, -1));
+    std::vector<int> vertex_index(group_index, 1);
+
+    for (int i = 0; i < segment_union.size(); i++) {
+        int group_root = segment_union[i];
+        int g_id = group_id[group_root];
 
         int* temp;
         result[g_id]->index.push_back({
-            *(temp = &vertex_to_id[triangles->at(i).id[0]]) != -1 ? *temp : (result[g_id]->vertex.push_back(triangles->at(i).vertex[0]), *temp = vertex_index++),
-            *(temp = &vertex_to_id[triangles->at(i).id[1]]) != -1 ? *temp : (result[g_id]->vertex.push_back(triangles->at(i).vertex[1]), *temp = vertex_index++),
-            *(temp = &vertex_to_id[triangles->at(i).id[2]]) != -1 ? *temp : (result[g_id]->vertex.push_back(triangles->at(i).vertex[2]), *temp = vertex_index++),
+            *(temp = &vector_lookup[g_id][triangles->at(i).id[0]]) != -1 ? *temp : (result[g_id]->vertex.push_back(triangles->at(i).vertex[0]), *temp = (vertex_index[g_id])++),
+            *(temp = &vector_lookup[g_id][triangles->at(i).id[1]]) != -1 ? *temp : (result[g_id]->vertex.push_back(triangles->at(i).vertex[1]), *temp = (vertex_index[g_id])++),
+            *(temp = &vector_lookup[g_id][triangles->at(i).id[2]]) != -1 ? *temp : (result[g_id]->vertex.push_back(triangles->at(i).vertex[2]), *temp = (vertex_index[g_id])++),
         });
     }
 
