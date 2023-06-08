@@ -32,7 +32,7 @@ jobs:
 
       - name: Install prerequisite
         shell: bash
-        run: sudo apt-get update && sudo apt-get install libegl1-mesa libegl1 ninja-build -y
+        run: sudo apt-get install libegl1-mesa libegl1 ninja-build -y --fix-missing
 
       - name: CMake x64
         shell: bash
