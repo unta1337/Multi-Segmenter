@@ -37,7 +37,7 @@ jobs:
 
       - name: Build x64
         shell: bash
-        run: cmake --build Linux --target Multi-Segmenter --config Release
+        run: cmake --build Linux --target Multi-Segmenter Multi-Segmenter-Test --config Release
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
@@ -45,3 +45,4 @@ jobs:
           name: build
           path: |
             ./Linux/Multi-Segmenter
+            ./Linux/Multi-Segmenter-Test
