@@ -1,9 +1,5 @@
 ﻿#include "cudafacegraph.h"
 
-CUDAFaceGraph::CUDAFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer, std::vector<std::vector<int>>& vertex_to_adj) : FaceGraph(triangles, timer) {
-    init(vertex_to_adj);
-}
-
 CUDAFaceGraph::CUDAFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer) : FaceGraph(triangles, timer) {
     init();
 }
@@ -12,17 +8,20 @@ CUDAFaceGraph::CUDAFaceGraph(std::vector<Triangle>* triangles) : FaceGraph(trian
     init();
 }
 
-void CUDAFaceGraph::init(std::vector<std::vector<int>>& vertex_to_adj) {
+void CUDAFaceGraph::init() {
     timer->onTimer(TIMER_FACEGRAPH_INIT_A);
+    // 정점 -> 정점과 인접한 삼각형 매핑.
+    std::unordered_map<glm::vec3, std::vector<int>, Vec3Hash> vertex_adjacent_map;
     for (int i = 0; i < triangles->size(); i++) {
         for (int j = 0; j < 3; j++) {
             glm::vec3 vertex = triangles->at(i).vertex[j];
-            vertex_to_adj[triangles->at(i).id[j]].push_back(i);
+            vertex_adjacent_map[vertex].push_back(i);
         }
     }
     timer->offTimer(TIMER_FACEGRAPH_INIT_A);
 
     timer->onTimer(TIMER_FACEGRAPH_INIT_B);
+    // 각 면에 대한 인접 리스트 생성.
     adj_triangles = std::vector<std::vector<int>>(triangles->size());
 
     // 각 삼각형에 대해서,
@@ -30,7 +29,7 @@ void CUDAFaceGraph::init(std::vector<std::vector<int>>& vertex_to_adj) {
         // 그 삼각형에 속한 정점과,
         for (int j = 0; j < 3; j++) {
             glm::vec3 vertex = triangles->at(i).vertex[j];
-            std::vector<int> adjacent_triangles = vertex_to_adj[triangles->at(i).id[j]];
+            std::vector<int> adjacent_triangles = vertex_adjacent_map[vertex];
             // 맞닿아 있는 삼각형이,
             for (int k = 0; k < adjacent_triangles.size(); k++) {
                 int adjacent_triangle = adjacent_triangles[k];
@@ -44,9 +43,6 @@ void CUDAFaceGraph::init(std::vector<std::vector<int>>& vertex_to_adj) {
         }
     }
     timer->offTimer(TIMER_FACEGRAPH_INIT_B);
-}
-
-void CUDAFaceGraph::init() {
 }
 
 std::vector<std::vector<Triangle>> CUDAFaceGraph::get_segments() {

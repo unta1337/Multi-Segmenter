@@ -89,25 +89,23 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     STEP_LOG(std::cout << "[Begin] Connectivity Checking and Triangle Mesh Generating.\n");
     timer.onTimer(TIMER_CC_N_TMG);
 
-    std::vector<std::pair<std::vector<int>, std::vector<Triangle>*>> segment_collections;
-    std::vector<std::vector<std::vector<int>>> vertex_to_adj(normal_triangle_list_map.size(), std::vector<std::vector<int>>(mesh->vertex.size(), std::vector<int>()));
-    int temp_idx = 0;
+    std::vector<std::pair<std::vector<int>, std::vector<Triangle>*>> segments_collection;
     for (auto& entry : normal_triangle_list_map) {
         STEP_LOG(std::cout << "[Step] FaceGraph: Init.\n");
-        CUDAFaceGraph fg(&entry.second, &timer, vertex_to_adj[temp_idx++]);
+        CUDAFaceGraph fg(&entry.second, &timer);
 
         STEP_LOG(std::cout << "[Step] FaceGraph: Get Segments.\n");
-        segment_collections.push_back(std::make_pair(fg.get_segments_as_union(), fg.triangles));
+        segments_collection.push_back(std::make_pair(fg.get_segments_as_union(), fg.triangles));
     }
 
     STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
     timer.onTimer(TIMER_TRIANGLE_MESH_GENERATING);
 
-    std::vector<std::vector<int>> vertex_to_id(segment_collections.size(), std::vector<int>(mesh->vertex.size(), -1));
+    std::vector<std::vector<int>> vertex_to_id(segments_collection.size(), std::vector<int>(mesh->vertex.size(), -1));
     std::vector<TriangleMesh*> result;
-    for (int i = 0; i < segment_collections.size(); i++) {
-        auto& [segment_union, triangles] = segment_collections[i];
-        std::vector<TriangleMesh*> sub_obj = segment_union_to_obj(segment_union, triangles, vertex_to_id[i]);
+    for (int i = 0; i < segments_collection.size(); i++) {
+        auto& [segments, triangles] = segments_collection[i];
+        std::vector<TriangleMesh*> sub_obj = segment_union_to_obj(segments, triangles, vertex_to_id[i]);
         result.insert(result.end(), sub_obj.begin(), sub_obj.end());
     }
 
