@@ -1,8 +1,8 @@
-name: OpenMP Build Project
+name: Build Project
 on: [push]
 jobs:
   build_artifacts_windows:
-    name: OpenMP Build Artifacts (Windows)
+    name: Build Artifacts (Windows)
     runs-on: windows-2022
     steps:
       - name: Get latest code
@@ -35,7 +35,7 @@ jobs:
             OpenMP/x64/Multi-Segmenter-Test.exe
 
   build_artifacts_linux:
-    name: OpenMP Build Artifacts (Linux)
+    name: Build Artifacts (Linux)
     runs-on: ubuntu-22.04
     steps:
       - name: Get latest code
