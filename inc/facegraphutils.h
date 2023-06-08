@@ -96,25 +96,29 @@ inline std::vector<TriangleMesh*> segment_union_to_obj(const std::vector<int> se
         group_id[i] = g_id;
     }
 
-    std::vector<std::vector<int>> vector_lookup(group_index, std::vector<int>(total_vertex_count, -1));
-    std::vector<int> vertex_index(group_index, 1);
+    // 각 그룹을 하나의 블록이 담당.
+    for (int g_id = 0; g_id < group_index; g_id++) {
+        std::vector<int> index_lookup(total_vertex_count, -1);
 
-    for (int i = 0; i < segment_union.size(); i++) {
-        int g_id = group_id[i];
+        // 블록의 쓰레드가 각 요소를 돌며 연산 수행.
+        for (int i = 0; i < segment_union.size(); i++) {
+            if (group_id[i] != g_id)
+                continue;
 
-        glm::ivec3 new_index;
-        for (int j = 0; j < 3; j++) {
-            int index_if_exist = vector_lookup[g_id][triangles->at(i).id[0]];
+            glm::ivec3 new_index;
+            for (int j = 0; j < 3; j++) {
+                int& index_if_exist = index_lookup[triangles->at(i).id[j]];
 
-            if (index_if_exist != -1) {
+                if (index_if_exist == -1) {
+                    result[g_id]->vertex.push_back(triangles->at(i).vertex[j]);
+                    index_if_exist = result[g_id]->vertex.size();
+                }
+
                 new_index[j] = index_if_exist;
-            } else {
-                result[g_id]->vertex.push_back(triangles->at(i).vertex[j]);
-                new_index[j] = vertex_index[g_id]++;
             }
-        }
 
-        result[g_id]->index.push_back(new_index);
+            result[g_id]->index.push_back(new_index);
+        }
     }
 
     return result;
