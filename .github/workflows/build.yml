@@ -8,10 +8,6 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      - name: Set Location
-        shell: pwsh
-        run: Set-Location OpenMP
-
       - name: CMake Win32
         shell: pwsh
         run: cmake -G "Visual Studio 17 2022" -A Win32 CMakeLists.txt -B Win32
@@ -33,10 +29,10 @@ jobs:
         with:
           name: build
           path: |
-            OpenMP/Win32/Multi-Segmenter.exe
-            OpenMP/Win32/Multi-Segmenter-Test.exe
-            OpenMP/x64/Multi-Segmenter.exe
-            OpenMP/x64/Multi-Segmenter-Test.exe
+            Win32/Multi-Segmenter.exe
+            Win32/Multi-Segmenter-Test.exe
+            x64/Multi-Segmenter.exe
+            x64/Multi-Segmenter-Test.exe
 
   build_artifacts_linux:
     name: Build Artifacts (Linux)
@@ -48,10 +44,6 @@ jobs:
       - name: Install prerequisite
         shell: bash
         run: sudo apt-get install ninja-build -y
-
-      - name: Set Location
-        shell: pwsh
-        run: cd OpenMP
 
       - name: CMake x86
         shell: bash
@@ -74,5 +66,5 @@ jobs:
         with:
           name: build
           path: |
-            .OpenMP/x86-x64/Multi-Segmenter
+            ./x86-x64/Multi-Segmenter
 #            ./x86/Multi-Segmenter
