@@ -36,7 +36,7 @@ jobs:
 
       - name: CMake x64
         shell: bash
-        run: cmake OpenMP -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR=x86-64 -B OpenMP/x64
+        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR=x86-64 -B OpenMP/x64
 
       - name: Build x64
         shell: bash
