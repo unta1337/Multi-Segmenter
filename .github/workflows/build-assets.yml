@@ -12,9 +12,6 @@ jobs:
     outputs:
       MATRIX: ${{ steps.generate_matrix.outputs.MATRIX }}
     steps:
-      - name: Get latest code
-        uses: actions/checkout@v3
-
       - name: Install jq
         shell: bash
         run: sudo apt-get install jq -y
@@ -41,7 +38,7 @@ jobs:
 
       - name: Launch segmenter
         shell: bash
-        run: ./Multi-Segmenter ${{ matrix.mode }} assets/${{ matrix.assets }}
+        run: ls && chmod 777 Multi-Segmenter && ./Multi-Segmenter ${{ matrix.mode }} assets/${{ matrix.assets }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
