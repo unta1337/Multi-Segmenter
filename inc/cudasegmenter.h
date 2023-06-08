@@ -2,6 +2,7 @@
 #define __CUDASEGMENTER_H
 
 #include "color.hpp"
+#include "cudafacegraphutils.h"
 #include "dstimer.hpp"
 #include "facegraph.hpp"
 #include "logutils.h"
@@ -31,4 +32,5 @@ class CUDASegmenter : public Segmenter {
     inline void init_count_map(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map,
                                std::vector<glm::vec3>& face_normals);
 };
+
 #endif
