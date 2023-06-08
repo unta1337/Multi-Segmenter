@@ -8,31 +8,27 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      - name: CMake Win32
-        shell: pwsh
-        run: cmake -G "Visual Studio 17 2022" -A Win32 CMakeLists.txt -B Win32
-
-      - name: Build Win32
-        shell: pwsh
-        run: cmake --build Win32 --target Multi-Segmenter Multi-Segmenter-Test --config Release && mv Win32/Release/* Win32
+      - name: Install CUDA Toolkit
+        uses: Jimver/cuda-toolkit@v0.2.10
+        id: cuda-toolkit
+        with:
+          cuda: '12.1.0'
 
       - name: CMake x64
         shell: pwsh
-        run: cmake -G "Visual Studio 17 2022" -A x64 CMakeLists.txt -B x64
+        run: cmake -G "Visual Studio 17 2022" -A x64 CMakeLists.txt -B Windows
 
       - name: Build x64
         shell: pwsh
-        run: cmake --build x64 --target Multi-Segmenter Multi-Segmenter-Test --config Release && mv x64/Release/* x64
+        run: cmake --build Windows --target Multi-Segmenter Multi-Segmenter-Test --config Release && mv x64/Release/* Windows
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: build
           path: |
-            Win32/Multi-Segmenter.exe
-            Win32/Multi-Segmenter-Test.exe
-            x64/Multi-Segmenter.exe
-            x64/Multi-Segmenter-Test.exe
+            Windows/Multi-Segmenter.exe
+            Windows/Multi-Segmenter-Test.exe
 
   build_artifacts_linux:
     name: Build Artifacts (Linux)
@@ -43,28 +39,25 @@ jobs:
 
       - name: Install prerequisite
         shell: bash
-        run: sudo apt-get install ninja-build -y
+        run: sudo apt-get install ninja-build nvidia-cuda-toolkit -y
 
-      - name: CMake x86
-        shell: bash
-        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR=x86 -B x86
-
-      - name: Build x86
-        shell: bash
-        run: cmake --build x86 --target Multi-Segmenter --config Release
+      - name: Install CUDA Toolkit
+        uses: Jimver/cuda-toolkit@v0.2.10
+        id: cuda-toolkit
+        with:
+          cuda: '12.1.0'
 
       - name: CMake x64
         shell: bash
-        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR=x86-64 -B x86-x64
+        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -B Linux
 
       - name: Build x64
         shell: bash
-        run: cmake --build x86-x64 --target Multi-Segmenter --config Release
+        run: cmake --build Linux --target Multi-Segmenter --config Release
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: build
           path: |
-            ./x86-x64/Multi-Segmenter
-#            ./x86/Multi-Segmenter
+            ./Linux/Multi-Segmenter
