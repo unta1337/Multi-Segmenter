@@ -14,7 +14,7 @@ jobs:
 
       - name: Build Win32
         shell: pwsh
-        run: cmake --build OpenMP/Win32 --target Multi-Segmenter Multi-Segmenter-Test --config Release && mv OpenMP/Win32/Release/* OpenMp/Win32
+        run: cmake OpenMP --build OpenMP/Win32 --target Multi-Segmenter Multi-Segmenter-Test --config Release && mv OpenMP/Win32/Release/* OpenMp/Win32
 
       - name: CMake x64
         shell: pwsh
@@ -22,7 +22,7 @@ jobs:
 
       - name: Build x64
         shell: pwsh
-        run: cmake --build OpenMP/x64 --target Multi-Segmenter Multi-Segmenter-Test --config Release && mv OpenMP/x64/Release/* OpenMP/x64
+        run: cmake OpenMP --build OpenMP/x64 --target Multi-Segmenter Multi-Segmenter-Test --config Release && mv OpenMP/x64/Release/* OpenMP/x64
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
@@ -51,7 +51,7 @@ jobs:
 
       - name: Build x86
         shell: bash
-        run: cmake --build OpenMP/x86 --target Multi-Segmenter --config Release
+        run: cmake OpenMP --build OpenMP/x86 --target Multi-Segmenter --config Release
 
       - name: CMake x64
         shell: bash
@@ -59,7 +59,7 @@ jobs:
 
       - name: Build x64
         shell: bash
-        run: cmake --build OpenMP/x86-x64 --target Multi-Segmenter --config Release
+        run: cmake OpenMP --build OpenMP/x86-x64 --target Multi-Segmenter --config Release
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
