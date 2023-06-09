@@ -8,9 +8,9 @@ modes=("serial" "parallel" "cuda")
 tolerances=("15.0" "30.0")
 obj_files=(assets/tests/*.obj)
 
-for mode in "${modes[@]}"; do
+for obj_file in "${obj_files[@]}"; do
   for tolerance in "${tolerances[@]}"; do
-    for obj_file in "${obj_files[@]}"; do
+    for mode in "${modes[@]}"; do
       $execute "$mode" "$tolerance" "$obj_file"
       filename=$(basename -- "$obj_file")
       filename="${filename%.*}"
