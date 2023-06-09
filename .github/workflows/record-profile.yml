@@ -1,0 +1,46 @@
+name: Record Profile
+on: [ push ]
+jobs:
+  build_linux:
+    name: Build Project (Linux)
+    uses: ./.github/workflows/build-linux.yml
+
+  performance_record:
+    name: Record Profile
+    needs: build_linux
+    runs-on: ubuntu-lab-high
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@master
+        with:
+          name: build
+
+      - name: Fix permission
+        shell: bash
+        run: chmod 777 Multi-Segmenter
+
+      - name: Copy test assets
+        shell: bash
+        run: cp /opt/actions-cluster/tests ./assets/ -r
+
+      - name: Launch record script
+        shell: bash
+        run: bash utils/Executor/profile.sh ./Multi-Segmenter
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: profiles
+          path: |
+            assets/Profile*.ncu-rep
+
+  remove_artifact:
+    name: Remove Build Artifacts
+    needs: performance_record
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: build
