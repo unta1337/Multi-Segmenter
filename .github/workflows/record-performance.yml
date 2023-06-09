@@ -21,13 +21,13 @@ jobs:
         shell: bash
         run: chmod 777 Multi-Segmenter
 
-      - name: Launch record script
-        shell: bash
-        run: bash utils/Executor/record.sh ./Multi-Segmenter ${{ secrets.GS_CLIENT_EMAIL }} ${{ secrets.GS_KEY }} ${{ secrets.GS_DOC }}
-
       - name: Copy test assets
         shell: bash
         run: cp /opt/actions-cluster/tests ./assets/ -r
+
+      - name: Launch record script
+        shell: bash
+        run: bash utils/Executor/record.sh ./Multi-Segmenter ${{ secrets.GS_CLIENT_EMAIL }} ${{ secrets.GS_KEY }} ${{ secrets.GS_DOC }}
 
   remove_artifact:
     name: Remove Build Artifacts
