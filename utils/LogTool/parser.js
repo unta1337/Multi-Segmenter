@@ -88,7 +88,6 @@ const args = parser.parse_args();
         await doc.loadInfo();
         const sheet = doc.sheetsByIndex[0];
         await sheet.loadHeaderRow();
-        console.log(doc.title);
         const headers = sheet.headerValues;
         const list = data.routines.map((r, i) => ({
             ...data, ...r,
