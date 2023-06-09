@@ -1,4 +1,4 @@
-name: Build Assets
+name: Build Assets Video
 on: [push]
 jobs:
   build_linux:
@@ -22,15 +22,15 @@ jobs:
       - name: Generate assets matrix
         shell: bash
         id: generate_matrix
-        run: echo MATRIX=$(find assets -name '*.obj' -printf '%P\n' -type f | jq -R -s 'split("\n")[:-1]|{assets:.,mode:["serial","parallel","cuda"]}' -c) >> $GITHUB_OUTPUT
+        run: echo MATRIX=$(find assets -maxdepth 1 -name '*.obj' -printf '%P\n' -type f | jq -R -s 'split("\n")[:-1]|{assets:.,mode:["parallel", "cuda"]}' -c) >> $GITHUB_OUTPUT
 
   build_asset:
-    name: Build Assets
+    name: Build Assets Video (Ultra)
     needs: listing
     strategy:
       matrix: ${{ fromJSON(needs.listing.outputs.MATRIX) }}
 
-    runs-on: ubuntu-lab
+    runs-on: ubuntu-22.04
     steps:
       - name: Get latest code
         uses: actions/checkout@v3
@@ -43,23 +43,13 @@ jobs:
         shell: bash
         run: chmod 777 Multi-Segmenter && ./Multi-Segmenter ${{ matrix.mode }} assets/${{ matrix.assets }}
 
+      - name: Launch renderer
+        shell: bash
+        run: python3 utils/SimpleRenderer/renderer.py assets/Segmented_${{ matrix.mode }}_15.0_${{ matrix.assets }} --frame 30 --fps 6 --scale 100 --quality 6 --align
+
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: build-assets
-          path: |
-            assets/Segmented_*.obj
-            assets/Segmented_*.mtl
-            assets/Segmented_*.txt
-            assets/complex_models/Segmented_*.obj
-            assets/complex_models/Segmented_*.mtl
-            assets/complex_models/Segmented_*.txt
-
-  remove_artifact:
-    name: Build Assets
-    needs: build_asset
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: geekyeggo/delete-artifact@v2
-        with:
           name: build
+          path: |
+            assets/*.mp4
