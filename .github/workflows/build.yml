@@ -1,0 +1,10 @@
+name: Build Project
+on: [push]
+jobs:
+  build_windows:
+    name: Build Project (Windows)
+    uses: ./.github/workflows/build-windows.yml
+
+  build_linux:
+    name: Build Project (Linux)
+    uses: ./.github/workflows/build-linux.yml

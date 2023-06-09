@@ -1,0 +1,64 @@
+name: Build Assets Video
+on: [push]
+jobs:
+  build_linux:
+    name: Build Project (Linux)
+    uses: ./.github/workflows/build-linux.yml
+
+  listing:
+    name: Generate assets matrix
+    needs: build_linux
+    runs-on: ubuntu-22.04
+    outputs:
+      MATRIX: ${{ steps.generate_matrix.outputs.MATRIX }}
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v3
+
+      - name: Install jq
+        shell: bash
+        run: sudo apt-get install jq -y
+
+      - name: Generate assets matrix
+        shell: bash
+        id: generate_matrix
+        run: echo MATRIX=$(find assets -maxdepth 1 -name '*.obj' -printf '%P\n' -type f | jq -R -s 'split("\n")[:-1]|{assets:.,mode:["parallel", "cuda"]}' -c) >> $GITHUB_OUTPUT
+
+  build_asset:
+    name: Build Assets Video (Ultra)
+    needs: listing
+    strategy:
+      matrix: ${{ fromJSON(needs.listing.outputs.MATRIX) }}
+
+    runs-on: ubuntu-lab
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@master
+        with:
+          name: build
+
+      - name: Launch segmenter
+        shell: bash
+        run: chmod 777 Multi-Segmenter && ./Multi-Segmenter ${{ matrix.mode }} assets/${{ matrix.assets }}
+
+      - name: Launch renderer
+        shell: bash
+        run: python3 utils/SimpleRenderer/renderer.py assets/Segmented_${{ matrix.mode }}_15.0_${{ matrix.assets }} --frame 30 --fps 6 --scale 100 --quality 6 --align
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-assets-video
+          path: |
+            assets/*.mp4
+
+  remove_artifact:
+    name: Remove Build Artifacts
+    needs: build_asset
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: build
