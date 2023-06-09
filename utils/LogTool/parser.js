@@ -80,6 +80,7 @@ const args = parser.parse_args();
     console.log(JSON.stringify(data, null, 4));
     // if (args.gsemail && args.gskey && args.gsdoc) {
     if (args.gsemail && args.gskey) { args.gsdoc = '1fK7uAQMxsjX4UtLPL1mI0lYvO0wkGfea600J0O4dFb4';
+        console.log(args);
         const doc = new GoogleSpreadsheet(args.gsdoc);
         await doc.useServiceAccountAuth({
             client_email: args.gsemail,
@@ -88,8 +89,8 @@ const args = parser.parse_args();
         await doc.loadInfo();
         const sheet = doc.sheetsByIndex[0];
         await sheet.loadHeaderRow();
+        console.log(doc.title);
         const headers = sheet.headerValues;
-        const rows = await sheet.getRows();
         const list = data.routines.map((r, i) => ({
             ...data, ...r,
             routineNumber: i + 1,
