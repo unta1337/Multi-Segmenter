@@ -13,7 +13,7 @@ for mode in "${modes[@]}"; do
     for obj_file in "${obj_files[@]}"; do
       $execute "$mode" "$tolerance" "$obj_file"
       segmented_file="assets/tests/Segmented_${mode}_${tolerance}_${obj_file}.txt"
-      node utils/LogTools/parser.js --f "$segmented_file" -e "$email" -k "$key" -d "$doc"
+      node utils/LogTool/parser.js --f "$segmented_file" -e "$email" -k "$key" -d "$doc"
     done
   done
 done

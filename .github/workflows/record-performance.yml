@@ -28,7 +28,7 @@ jobs:
       - name: Install LogTools dependencies
         shell: bash
         run: npm install
-        working-directory: utils/LogTools/
+        working-directory: utils/LogTool/
 
       - name: Launch record script
         shell: bash
