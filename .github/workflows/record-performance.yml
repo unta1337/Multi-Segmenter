@@ -1,5 +1,5 @@
 name: Performance Record
-on: [push]
+on: [ push ]
 jobs:
   build_linux:
     name: Build Project (Linux)
@@ -24,6 +24,11 @@ jobs:
       - name: Copy test assets
         shell: bash
         run: cp /opt/actions-cluster/tests ./assets/ -r
+
+      - name: Install LogTools dependencies
+        shell: bash
+        run: npm install
+        working-directory: utils/LogTools/
 
       - name: Launch record script
         shell: bash
