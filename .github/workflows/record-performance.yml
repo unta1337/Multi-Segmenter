@@ -32,7 +32,7 @@ jobs:
 
       - name: Launch record script
         shell: bash
-        run: bash utils/Executor/record.sh ./Multi-Segmenter ${{ secrets.GS_CLIENT_EMAIL }} ${{ secrets.GS_KEY }} ${{ secrets.GS_DOC }}
+        run: bash utils/Executor/record.sh ./Multi-Segmenter ${{ secrets.GS_CLIENT_EMAIL }} ${{ secrets.GS_PRIVATE_KEY }} ${{ secrets.GS_DOC }}
 
   remove_artifact:
     name: Remove Build Artifacts
