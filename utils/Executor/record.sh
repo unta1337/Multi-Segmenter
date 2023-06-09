@@ -5,7 +5,7 @@ email=$2
 key=$3
 doc=$4
 modes=("serial" "parallel" "cuda")
-tolerances=("15.0" "30.0")
+tolerances=("15.0")
 obj_files=(assets/tests/*.obj)
 
 for obj_file in "${obj_files[@]}"; do

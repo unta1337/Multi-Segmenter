@@ -1,4 +1,4 @@
-name: Performance Record
+name: Record Performance
 on: [ push ]
 jobs:
   build_linux:
@@ -6,7 +6,7 @@ jobs:
     uses: ./.github/workflows/build-linux.yml
 
   performance_record:
-    name: Performance Record
+    name: Record Performance
     needs: build_linux
     runs-on: ubuntu-lab-high
     steps:
