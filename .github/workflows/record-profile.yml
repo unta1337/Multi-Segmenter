@@ -25,7 +25,7 @@ jobs:
         shell: bash
         run: cp /opt/actions-cluster/tests ./assets/ -r
 
-      - name: Launch record script
+      - name: Launch profile script
         shell: bash
         run: bash utils/Executor/profile.sh ./Multi-Segmenter
 
