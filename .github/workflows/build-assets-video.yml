@@ -43,6 +43,11 @@ jobs:
         shell: bash
         run: chmod 777 Multi-Segmenter && ./Multi-Segmenter ${{ matrix.mode }} assets/${{ matrix.assets }}
 
+      - name: Install requirements.txt
+        shell: bash
+        working-directory: utils/SimpleRenderer
+        run: pip install -r requirements.txt
+
       - name: Launch renderer
         shell: bash
         run: python3 utils/SimpleRenderer/renderer.py assets/Segmented_${{ matrix.mode }}_15.0_${{ matrix.assets }} --frame 30 --fps 6 --scale 100 --quality 6 --align
