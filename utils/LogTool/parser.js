@@ -78,8 +78,8 @@ const args = parser.parse_args();
         version
     };
     console.log(JSON.stringify(data, null, 4));
-    console.log(args);
-    if (args.gsemail && args.gskey && args.gsdoc) {
+    // if (args.gsemail && args.gskey && args.gsdoc) {
+    if (args.gsemail && args.gskey) { args.gsdoc = '1fK7uAQMxsjX4UtLPL1mI0lYvO0wkGfea600J0O4dFb4';
         const doc = new GoogleSpreadsheet(args.gsdoc);
         await doc.useServiceAccountAuth({
             client_email: args.gsemail,
