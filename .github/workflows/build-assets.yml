@@ -6,7 +6,7 @@ jobs:
     uses: ./.github/workflows/build-linux.yml
 
   listing:
-    name: Generate assets matrix
+    name: Generate Assets Matrix
     needs: build_linux
     runs-on: ubuntu-22.04
     outputs:
@@ -56,7 +56,7 @@ jobs:
             assets/complex_models/Segmented_*.txt
 
   remove_artifact:
-    name: Build Assets
+    name: Remove Build Artifacts
     needs: build_asset
     runs-on: ubuntu-22.04
     steps:

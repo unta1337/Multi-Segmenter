@@ -53,3 +53,12 @@ jobs:
           name: build
           path: |
             assets/*.mp4
+
+  remove_artifact:
+    name: Remove Build Artifacts
+    needs: build_asset
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: build
