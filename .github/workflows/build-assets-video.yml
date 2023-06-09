@@ -25,7 +25,7 @@ jobs:
         run: echo MATRIX=$(find assets -maxdepth 1 -name '*.obj' -printf '%P\n' -type f | jq -R -s 'split("\n")[:-1]|{assets:.,mode:["parallel", "cuda"]}' -c) >> $GITHUB_OUTPUT
 
   build_asset:
-    name: Build Assets Video (Ultra)
+    name: Build Assets Video
     needs: listing
     strategy:
       matrix: ${{ fromJSON(needs.listing.outputs.MATRIX) }}
