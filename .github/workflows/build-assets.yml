@@ -30,7 +30,7 @@ jobs:
     strategy:
       matrix: ${{ fromJSON(needs.listing.outputs.MATRIX) }}
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-lab
     steps:
       - name: Get latest code
         uses: actions/checkout@v3
