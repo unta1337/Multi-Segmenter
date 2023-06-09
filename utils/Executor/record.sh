@@ -5,7 +5,7 @@ email=$2
 key=$3
 doc=$4
 modes=("serial" "parallel" "cuda")
-tolerances=(15.0 30.0)
+tolerances=("15.0" "30.0")
 obj_files=(assets/tests/*.obj) # obj 파일 경로에 맞게 수정해주세요
 
 for mode in "${modes[@]}"; do
