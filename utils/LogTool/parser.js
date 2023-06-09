@@ -2,7 +2,21 @@ const fs = require('fs');
 const os = require('os');
 const {execSync} = require('child_process');
 const path = require('path');
-const gpuInfo = require('gpu-info');
+
+function getGPUs() {
+    const output = execSync('nvidia-smi -L', {encoding: 'utf-8'});
+    const gpuList = output.trim().split('\n');
+    const gpuNames = gpuList.map((gpu) => {
+        const regex = /GPU \d+: (.+) \(/;
+        const match = gpu.match(regex);
+        if (match && match.length > 1) {
+            return match[1];
+        }
+        return null;
+    }).filter((name) => name !== null);
+    return gpuNames;
+}
+
 const {ArgumentParser} = require('argparse');
 const {GoogleSpreadsheet} = require('google-spreadsheet');
 
@@ -46,7 +60,7 @@ const args = parser.parse_args();
     const cpu = cpus[0].model.trim();
     const threads = cpus.length;
     const memory = os.totalmem();
-    const gpus = (await gpuInfo()).filter(d => d.Status === 'OK').map(d => d.Caption).sort();
+    const gpus = getGPUs();
     const createdAtRaw = fs.statSync(filePath).birthtime;
     const createdAt = `${createdAtRaw.getFullYear()}-${(createdAtRaw.getMonth() + 1).toString().padStart(2, '0')}-${createdAtRaw.getDate().toString().padStart(2, '0')} ${createdAtRaw.getHours().toString().padStart(2, '0')}:${createdAtRaw.getMinutes().toString().padStart(2, '0')}:${createdAtRaw.getSeconds().toString().padStart(2, '0')}`;
 
