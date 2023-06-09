@@ -1,13 +1,14 @@
 ﻿#include "consoleutils.h"
+#include "cudasegmenter.h"
 #include "logutils.h"
 #include "model.h"
 #include "objutils.h"
 #include "parallelsegmenter.h"
 #include "serialsegmenter.h"
+#include <iomanip>
 #include <iostream>
 #include <memory>
 #include <sstream>
-#include <iomanip>
 
 std::string mode;
 std::string file_path;
@@ -51,7 +52,7 @@ int main(int argc, char* argv[]) {
     if (argc < 3) {
         std::cout << "Usage:\n";
         std::cout << "\t" << argv[0] << " "
-                  << "[Mode (serial or parallel)] [Tolerance (Float, Optional)] [ObjFilePath]\n";
+                  << "[Mode (serial or parallel or cuda)] [Tolerance (Float, Optional)] [ObjFilePath]\n";
 
         return 1;
     }
@@ -72,6 +73,7 @@ int main(int argc, char* argv[]) {
     } else if (mode == "parallel") {
         segmenter = std::make_unique<ParallelSegmenter>(model.meshes[0], tolerance);
     } else if (mode == "cuda") {
+        segmenter = std::make_unique<CUDASegmenter>(model.meshes[0], tolerance);
     }
     auto segments = segmenter->do_segmentation();
 
