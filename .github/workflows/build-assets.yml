@@ -46,7 +46,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: build
+          name: build-assets
           path: |
             assets/Segmented_*.obj
             assets/Segmented_*.mtl
@@ -54,3 +54,12 @@ jobs:
             assets/complex_models/Segmented_*.obj
             assets/complex_models/Segmented_*.mtl
             assets/complex_models/Segmented_*.txt
+
+    remove-artifact:
+      name: Build Assets
+      needs: build_asset
+      runs-on: ubuntu-22.04
+      steps:
+        - uses: geekyeggo/delete-artifact@v2
+          with:
+            name: build
