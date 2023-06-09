@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['ds_5ftimer_255',['DS_timer',['../class_d_s__timer.html',1,'']]]
+  ['cudafacegraph_261',['CUDAFaceGraph',['../class_c_u_d_a_face_graph.html',1,'']]],
+  ['cudasegmenter_262',['CUDASegmenter',['../class_c_u_d_a_segmenter.html',1,'']]]
 ];

@@ -1,6 +1,8 @@
 var annotated_dup =
 [
     [ "AdjacentNode", "struct_adjacent_node.html", "struct_adjacent_node" ],
+    [ "CUDAFaceGraph", "class_c_u_d_a_face_graph.html", "class_c_u_d_a_face_graph" ],
+    [ "CUDASegmenter", "class_c_u_d_a_segmenter.html", "class_c_u_d_a_segmenter" ],
     [ "DS_timer", "class_d_s__timer.html", "class_d_s__timer" ],
     [ "FaceGraph", "class_face_graph.html", "class_face_graph" ],
     [ "filePathSplit", "structfile_path_split.html", "structfile_path_split" ],

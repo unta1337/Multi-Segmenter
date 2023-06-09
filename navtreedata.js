@@ -25,7 +25,9 @@
 var NAVTREE =
 [
   [ "Multi-Segmenter", "index.html", [
-    [ "Multi-Segmentor", "index.html", null ],
+    [ "Multi-Segmentor", "index.html", [
+      [ "Multi-Segmentor", "index.html#autotoc_md1", null ]
+    ] ],
     [ "네임스페이스", "namespaces.html", [
       [ "네임스페이스 목록", "namespaces.html", "namespaces_dup" ],
       [ "네임스페이스 멤버", "namespacemembers.html", [
@@ -60,7 +62,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"namespacesubdivider.html#ae31faffce18ac5f1b816637e9e14544d"
+"namespacesubdivider.html"
 ];
 
 var SYNCONMSG = '패널 동기화를 비활성화하기 위해 클릭하십시오';

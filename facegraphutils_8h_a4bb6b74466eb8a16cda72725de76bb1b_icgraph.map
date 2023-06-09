@@ -1,7 +1,9 @@
 <map id="is_connected" name="is_connected">
-<area shape="rect" id="node1" title=" " alt="" coords="469,46,576,73"/>
-<area shape="rect" id="node2" href="$class_parallel_face_graph.html#a870f5051a4376e1974353153e7e7f1d4" title=" " alt="" coords="255,17,421,43"/>
-<area shape="rect" id="node4" href="$class_serial_face_graph.html#a86f1868ddcfed199b15d60da5f87c93d" title=" " alt="" coords="260,71,416,98"/>
-<area shape="rect" id="node3" href="$class_parallel_face_graph.html#a46383fd8808c7ae05e961ab00610f2a8" title=" " alt="" coords="33,5,179,47"/>
-<area shape="rect" id="node5" href="$class_serial_face_graph.html#a02cbda1df0461bb5097cd2e2608f1f72" title=" " alt="" coords="5,71,207,112"/>
+<area shape="rect" id="node1" title=" " alt="" coords="511,64,617,91"/>
+<area shape="rect" id="node2" href="$class_c_u_d_a_face_graph.html#a41a9fc1528267602a52df4e817654a43" title=" " alt="" coords="301,9,458,36"/>
+<area shape="rect" id="node4" href="$class_parallel_face_graph.html#a870f5051a4376e1974353153e7e7f1d4" title=" " alt="" coords="296,64,463,91"/>
+<area shape="rect" id="node6" href="$class_serial_face_graph.html#a86f1868ddcfed199b15d60da5f87c93d" title=" " alt="" coords="301,121,457,148"/>
+<area shape="rect" id="node3" href="$class_c_u_d_a_face_graph.html#abd5b2386ae92b2f210bbf7c9f83f7889" title=" " alt="" coords="5,5,248,32"/>
+<area shape="rect" id="node5" href="$class_parallel_face_graph.html#a46383fd8808c7ae05e961ab00610f2a8" title=" " alt="" coords="53,57,200,98"/>
+<area shape="rect" id="node7" href="$class_serial_face_graph.html#a02cbda1df0461bb5097cd2e2608f1f72" title=" " alt="" coords="26,122,227,163"/>
 </map>

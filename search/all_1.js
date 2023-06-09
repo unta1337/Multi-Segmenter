@@ -3,7 +3,7 @@ var searchData=
   ['action_6',['action',['../namespacerenderer.html#ac2e1f970a14888825ccf5d68e24d9472',1,'renderer']]],
   ['add2counter_7',['add2Counter',['../class_d_s__timer.html#a221a24be18f8e21fd3f96246f6275540',1,'DS_timer']]],
   ['add_5fvertex_8',['add_vertex',['../modelutils_8hpp.html#a6e27044316dfa8ead81ff31aa71f2392',1,'modelutils.hpp']]],
-  ['adj_5ftriangles_9',['adj_triangles',['../class_face_graph.html#aaf4f97b76e425612557c564eda941c8e',1,'FaceGraph::adj_triangles()'],['../class_parallel_face_graph.html#a1bda31d535269f210379a8ff7daf3390',1,'ParallelFaceGraph::adj_triangles()'],['../class_serial_face_graph.html#ab80c7965f712eabc8dfdb2d2d9453e6b',1,'SerialFaceGraph::adj_triangles()']]],
+  ['adj_5ftriangles_9',['adj_triangles',['../class_c_u_d_a_face_graph.html#a5166d29eae79676325c8f14e2fe35b9a',1,'CUDAFaceGraph::adj_triangles()'],['../class_face_graph.html#aaf4f97b76e425612557c564eda941c8e',1,'FaceGraph::adj_triangles()'],['../class_parallel_face_graph.html#a1bda31d535269f210379a8ff7daf3390',1,'ParallelFaceGraph::adj_triangles()'],['../class_serial_face_graph.html#ab80c7965f712eabc8dfdb2d2d9453e6b',1,'SerialFaceGraph::adj_triangles()']]],
   ['adjacentnode_10',['AdjacentNode',['../struct_adjacent_node.html',1,'']]],
   ['adjacents_11',['adjacents',['../struct_adjacent_node.html#abaa98170832bb564325ef6036d816b1f',1,'AdjacentNode']]],
   ['align_12',['align',['../namespacerenderer.html#ad32c4b19ee2f147b42fce13982ff96e0',1,'renderer']]],

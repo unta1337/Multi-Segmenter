@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['facegraph_256',['FaceGraph',['../class_face_graph.html',1,'']]],
-  ['filepathsplit_257',['filePathSplit',['../structfile_path_split.html',1,'']]]
+  ['ds_5ftimer_263',['DS_timer',['../class_d_s__timer.html',1,'']]]
 ];

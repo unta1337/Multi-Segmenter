@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Multi-Segmenter: src/cudafacegraph.cpp 소스 파일</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Multi-Segmenter
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 다음에 의해 생성됨 :  Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'검색','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','검색');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('cudafacegraph_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">cudafacegraph.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="cudafacegraph_8cpp.html">이 파일의 문서화 페이지로 가기</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="cudafacegraph_8h.html">cudafacegraph.h</a>&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
+<div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="class_c_u_d_a_face_graph.html#abd5b2386ae92b2f210bbf7c9f83f7889">    3</a></span>&#160;<a class="code" href="class_c_u_d_a_face_graph.html#a1273ca1b2857cc4543c306f324139902">CUDAFaceGraph::CUDAFaceGraph</a>(std::vector&lt;Triangle&gt;* triangles, <a class="code" href="class_d_s__timer.html">DS_timer</a>* timer) : <a class="code" href="class_face_graph.html">FaceGraph</a>(triangles, timer) {</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    <a class="code" href="class_c_u_d_a_face_graph.html#a41a9fc1528267602a52df4e817654a43">init</a>();</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;}</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="class_c_u_d_a_face_graph.html#a1273ca1b2857cc4543c306f324139902">    7</a></span>&#160;<a class="code" href="class_c_u_d_a_face_graph.html#a1273ca1b2857cc4543c306f324139902">CUDAFaceGraph::CUDAFaceGraph</a>(std::vector&lt;Triangle&gt;* triangles) : <a class="code" href="class_face_graph.html">FaceGraph</a>(triangles) {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <a class="code" href="class_c_u_d_a_face_graph.html#a41a9fc1528267602a52df4e817654a43">init</a>();</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="class_c_u_d_a_face_graph.html#a41a9fc1528267602a52df4e817654a43">   11</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_c_u_d_a_face_graph.html#a41a9fc1528267602a52df4e817654a43">CUDAFaceGraph::init</a>() {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="class_face_graph.html#ae2c7432085f41919413b5487b67c34ca">timer</a>-&gt;<a class="code" href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0">onTimer</a>(<a class="code" href="segmenter_8hpp.html#a9c376274b705b21144dc8711bb79b9d2">TIMER_FACEGRAPH_INIT_A</a>);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="comment">// 정점 -&gt; 정점과 인접한 삼각형 매핑.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    std::unordered_map&lt;glm::vec3, std::vector&lt;int&gt;, <a class="code" href="struct_vec3_hash.html">Vec3Hash</a>&gt; vertex_adjacent_map;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="class_face_graph.html#a673a9a5a0ee96331c71364204d599262">triangles</a>-&gt;size(); i++) {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; 3; j++) {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            glm::vec3 vertex = <a class="code" href="class_face_graph.html#a673a9a5a0ee96331c71364204d599262">triangles</a>-&gt;at(i).vertex[j];</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            vertex_adjacent_map[vertex].push_back(i);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        }</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    }</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="class_face_graph.html#ae2c7432085f41919413b5487b67c34ca">timer</a>-&gt;<a class="code" href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca">offTimer</a>(<a class="code" href="segmenter_8hpp.html#a9c376274b705b21144dc8711bb79b9d2">TIMER_FACEGRAPH_INIT_A</a>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <a class="code" href="class_face_graph.html#ae2c7432085f41919413b5487b67c34ca">timer</a>-&gt;<a class="code" href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0">onTimer</a>(<a class="code" href="segmenter_8hpp.html#a87683bd19259b722868e68950d706c17">TIMER_FACEGRAPH_INIT_B</a>);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="comment">// 각 면에 대한 인접 리스트 생성.</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <a class="code" href="class_c_u_d_a_face_graph.html#a5166d29eae79676325c8f14e2fe35b9a">adj_triangles</a> = std::vector&lt;std::vector&lt;int&gt;&gt;(<a class="code" href="class_face_graph.html#a673a9a5a0ee96331c71364204d599262">triangles</a>-&gt;size());</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="comment">// 각 삼각형에 대해서,</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="class_face_graph.html#a673a9a5a0ee96331c71364204d599262">triangles</a>-&gt;size(); i++) {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="comment">// 그 삼각형에 속한 정점과,</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; 3; j++) {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            glm::vec3 vertex = <a class="code" href="class_face_graph.html#a673a9a5a0ee96331c71364204d599262">triangles</a>-&gt;at(i).vertex[j];</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            std::vector&lt;int&gt; adjacent_triangles = vertex_adjacent_map[vertex];</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="comment">// 맞닿아 있는 삼각형이,</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> k = 0; k &lt; adjacent_triangles.size(); k++) {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                <span class="keywordtype">int</span> adjacent_triangle = adjacent_triangles[k];</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="comment">// 자기 자신이 아니고,</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                <span class="comment">// 원래의 삼각형과도 맞닿아 있으면 인접 리스트에 추가.</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="keywordflow">if</span> (i != adjacent_triangle &amp;&amp; <a class="code" href="facegraphutils_8h.html#a4bb6b74466eb8a16cda72725de76bb1b">is_connected</a>(<a class="code" href="class_face_graph.html#a673a9a5a0ee96331c71364204d599262">triangles</a>-&gt;at(i), <a class="code" href="class_face_graph.html#a673a9a5a0ee96331c71364204d599262">triangles</a>-&gt;at(adjacent_triangle))) {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                    <a class="code" href="class_c_u_d_a_face_graph.html#a5166d29eae79676325c8f14e2fe35b9a">adj_triangles</a>[i].push_back(adjacent_triangle);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                }</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            }</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="class_face_graph.html#ae2c7432085f41919413b5487b67c34ca">timer</a>-&gt;<a class="code" href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca">offTimer</a>(<a class="code" href="segmenter_8hpp.html#a87683bd19259b722868e68950d706c17">TIMER_FACEGRAPH_INIT_B</a>);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="class_c_u_d_a_face_graph.html#a66b63daa7b269a35cbd93ec6cf0947ac">   48</a></span>&#160;std::vector&lt;std::vector&lt;Triangle&gt;&gt; <a class="code" href="class_c_u_d_a_face_graph.html#a66b63daa7b269a35cbd93ec6cf0947ac">CUDAFaceGraph::get_segments</a>() {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="class_face_graph.html#ae2c7432085f41919413b5487b67c34ca">timer</a>-&gt;<a class="code" href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0">onTimer</a>(<a class="code" href="segmenter_8hpp.html#aba768e1dd33806b5c4fcb645798ffa1b">TIMER_FACEGRAPH_GET_SETMENTS_A</a>);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    std::vector&lt;int&gt; is_visit(<a class="code" href="class_c_u_d_a_face_graph.html#a5166d29eae79676325c8f14e2fe35b9a">adj_triangles</a>.size());</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">// 방문했다면 정점이 속한 그룹의 카운트 + 1.</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">int</span> count = 0;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="class_c_u_d_a_face_graph.html#a5166d29eae79676325c8f14e2fe35b9a">adj_triangles</a>.size(); i++) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">if</span> (is_visit[i] == 0) {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <a class="code" href="class_c_u_d_a_face_graph.html#ad44fd0587f4ebd2831282c1c95398f6a">traverse_dfs</a>(is_visit, i, ++count);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="class_face_graph.html#ae2c7432085f41919413b5487b67c34ca">timer</a>-&gt;<a class="code" href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca">offTimer</a>(<a class="code" href="segmenter_8hpp.html#aba768e1dd33806b5c4fcb645798ffa1b">TIMER_FACEGRAPH_GET_SETMENTS_A</a>);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="class_face_graph.html#ae2c7432085f41919413b5487b67c34ca">timer</a>-&gt;<a class="code" href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0">onTimer</a>(<a class="code" href="segmenter_8hpp.html#a07d8cacf79e675c46b912d28e6d19de3">TIMER_FACEGRAPH_GET_SETMENTS_B</a>);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    std::vector&lt;std::vector&lt;Triangle&gt;&gt; component_list(count);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; is_visit.size(); i++) {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        component_list[is_visit[i] - 1].push_back(<a class="code" href="class_face_graph.html#a673a9a5a0ee96331c71364204d599262">triangles</a>-&gt;data()[i]);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="class_face_graph.html#ae2c7432085f41919413b5487b67c34ca">timer</a>-&gt;<a class="code" href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca">offTimer</a>(<a class="code" href="segmenter_8hpp.html#a07d8cacf79e675c46b912d28e6d19de3">TIMER_FACEGRAPH_GET_SETMENTS_B</a>);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">return</span> component_list;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="class_c_u_d_a_face_graph.html#ad44fd0587f4ebd2831282c1c95398f6a">   74</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_c_u_d_a_face_graph.html#ad44fd0587f4ebd2831282c1c95398f6a">CUDAFaceGraph::traverse_dfs</a>(std::vector&lt;int&gt;&amp; visit, <span class="keywordtype">int</span> start_vert, <span class="keywordtype">int</span> count) {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    std::stack&lt;int&gt; dfs_stack;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    dfs_stack.push(start_vert);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordflow">while</span> (!dfs_stack.empty()) {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordtype">int</span> current_vert = dfs_stack.top();</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        dfs_stack.pop();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        visit[current_vert] = count;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="class_c_u_d_a_face_graph.html#a5166d29eae79676325c8f14e2fe35b9a">adj_triangles</a>[current_vert].size(); i++) {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordtype">int</span> adjacent_triangle = <a class="code" href="class_c_u_d_a_face_graph.html#a5166d29eae79676325c8f14e2fe35b9a">adj_triangles</a>[current_vert][i];</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <span class="keywordflow">if</span> (visit[adjacent_triangle] == 0) {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                dfs_stack.push(adjacent_triangle);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    }</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
+<div class="ttc" id="aclass_c_u_d_a_face_graph_html_a1273ca1b2857cc4543c306f324139902"><div class="ttname"><a href="class_c_u_d_a_face_graph.html#a1273ca1b2857cc4543c306f324139902">CUDAFaceGraph::CUDAFaceGraph</a></div><div class="ttdeci">CUDAFaceGraph(std::vector&lt; Triangle &gt; *triangles)</div><div class="ttdef"><b>Definition:</b> <a href="cudafacegraph_8cpp_source.html#l00007">cudafacegraph.cpp:7</a></div></div>
+<div class="ttc" id="aclass_c_u_d_a_face_graph_html_a41a9fc1528267602a52df4e817654a43"><div class="ttname"><a href="class_c_u_d_a_face_graph.html#a41a9fc1528267602a52df4e817654a43">CUDAFaceGraph::init</a></div><div class="ttdeci">virtual void init()</div><div class="ttdef"><b>Definition:</b> <a href="cudafacegraph_8cpp_source.html#l00011">cudafacegraph.cpp:11</a></div></div>
+<div class="ttc" id="aclass_c_u_d_a_face_graph_html_a5166d29eae79676325c8f14e2fe35b9a"><div class="ttname"><a href="class_c_u_d_a_face_graph.html#a5166d29eae79676325c8f14e2fe35b9a">CUDAFaceGraph::adj_triangles</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; int &gt; &gt; adj_triangles</div><div class="ttdef"><b>Definition:</b> <a href="cudafacegraph_8h_source.html#l00012">cudafacegraph.h:12</a></div></div>
+<div class="ttc" id="aclass_c_u_d_a_face_graph_html_a66b63daa7b269a35cbd93ec6cf0947ac"><div class="ttname"><a href="class_c_u_d_a_face_graph.html#a66b63daa7b269a35cbd93ec6cf0947ac">CUDAFaceGraph::get_segments</a></div><div class="ttdeci">virtual std::vector&lt; std::vector&lt; Triangle &gt; &gt; get_segments()</div><div class="ttdoc">인접 리스트에 있는 면을 인접한 면끼리 분류.</div><div class="ttdef"><b>Definition:</b> <a href="cudafacegraph_8cpp_source.html#l00048">cudafacegraph.cpp:48</a></div></div>
+<div class="ttc" id="aclass_c_u_d_a_face_graph_html_ad44fd0587f4ebd2831282c1c95398f6a"><div class="ttname"><a href="class_c_u_d_a_face_graph.html#ad44fd0587f4ebd2831282c1c95398f6a">CUDAFaceGraph::traverse_dfs</a></div><div class="ttdeci">virtual void traverse_dfs(std::vector&lt; int &gt; &amp;visit, int start_vert, int count)</div><div class="ttdoc">인접 리스트에 있는 면을 순회하며 인덱스 부여.</div><div class="ttdef"><b>Definition:</b> <a href="cudafacegraph_8cpp_source.html#l00074">cudafacegraph.cpp:74</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html"><div class="ttname"><a href="class_d_s__timer.html">DS_timer</a></div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8hpp_source.html#l00265">dstimer.hpp:265</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_a7dbede6331a22f58fae49f413db4b7e0"><div class="ttname"><a href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0">DS_timer::onTimer</a></div><div class="ttdeci">void onTimer(UINT id)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00173">dstimer.cpp:173</a></div></div>
+<div class="ttc" id="aclass_d_s__timer_html_ad70ada9cf08b890d81ec0568134860ca"><div class="ttname"><a href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca">DS_timer::offTimer</a></div><div class="ttdeci">void offTimer(UINT id)</div><div class="ttdef"><b>Definition:</b> <a href="dstimer_8cpp_source.html#l00188">dstimer.cpp:188</a></div></div>
+<div class="ttc" id="aclass_face_graph_html"><div class="ttname"><a href="class_face_graph.html">FaceGraph</a></div><div class="ttdoc">삼각형에 대한 인접 리스트를 유지.</div><div class="ttdef"><b>Definition:</b> <a href="facegraph_8hpp_source.html#l00017">facegraph.hpp:17</a></div></div>
+<div class="ttc" id="aclass_face_graph_html_a673a9a5a0ee96331c71364204d599262"><div class="ttname"><a href="class_face_graph.html#a673a9a5a0ee96331c71364204d599262">FaceGraph::triangles</a></div><div class="ttdeci">std::vector&lt; Triangle &gt; * triangles</div><div class="ttdef"><b>Definition:</b> <a href="facegraph_8hpp_source.html#l00026">facegraph.hpp:26</a></div></div>
+<div class="ttc" id="aclass_face_graph_html_ae2c7432085f41919413b5487b67c34ca"><div class="ttname"><a href="class_face_graph.html#ae2c7432085f41919413b5487b67c34ca">FaceGraph::timer</a></div><div class="ttdeci">DS_timer * timer</div><div class="ttdef"><b>Definition:</b> <a href="facegraph_8hpp_source.html#l00028">facegraph.hpp:28</a></div></div>
+<div class="ttc" id="acudafacegraph_8h_html"><div class="ttname"><a href="cudafacegraph_8h.html">cudafacegraph.h</a></div></div>
+<div class="ttc" id="afacegraphutils_8h_html_a4bb6b74466eb8a16cda72725de76bb1b"><div class="ttname"><a href="facegraphutils_8h.html#a4bb6b74466eb8a16cda72725de76bb1b">is_connected</a></div><div class="ttdeci">bool is_connected(const Triangle &amp;a, const Triangle &amp;b)</div><div class="ttdef"><b>Definition:</b> <a href="facegraphutils_8h_source.html#l00023">facegraphutils.h:23</a></div></div>
+<div class="ttc" id="asegmenter_8hpp_html_a07d8cacf79e675c46b912d28e6d19de3"><div class="ttname"><a href="segmenter_8hpp.html#a07d8cacf79e675c46b912d28e6d19de3">TIMER_FACEGRAPH_GET_SETMENTS_B</a></div><div class="ttdeci">#define TIMER_FACEGRAPH_GET_SETMENTS_B</div><div class="ttdef"><b>Definition:</b> <a href="segmenter_8hpp_source.html#l00012">segmenter.hpp:12</a></div></div>
+<div class="ttc" id="asegmenter_8hpp_html_a87683bd19259b722868e68950d706c17"><div class="ttname"><a href="segmenter_8hpp.html#a87683bd19259b722868e68950d706c17">TIMER_FACEGRAPH_INIT_B</a></div><div class="ttdeci">#define TIMER_FACEGRAPH_INIT_B</div><div class="ttdef"><b>Definition:</b> <a href="segmenter_8hpp_source.html#l00010">segmenter.hpp:10</a></div></div>
+<div class="ttc" id="asegmenter_8hpp_html_a9c376274b705b21144dc8711bb79b9d2"><div class="ttname"><a href="segmenter_8hpp.html#a9c376274b705b21144dc8711bb79b9d2">TIMER_FACEGRAPH_INIT_A</a></div><div class="ttdeci">#define TIMER_FACEGRAPH_INIT_A</div><div class="ttdef"><b>Definition:</b> <a href="segmenter_8hpp_source.html#l00009">segmenter.hpp:9</a></div></div>
+<div class="ttc" id="asegmenter_8hpp_html_aba768e1dd33806b5c4fcb645798ffa1b"><div class="ttname"><a href="segmenter_8hpp.html#aba768e1dd33806b5c4fcb645798ffa1b">TIMER_FACEGRAPH_GET_SETMENTS_A</a></div><div class="ttdeci">#define TIMER_FACEGRAPH_GET_SETMENTS_A</div><div class="ttdef"><b>Definition:</b> <a href="segmenter_8hpp_source.html#l00011">segmenter.hpp:11</a></div></div>
+<div class="ttc" id="astruct_vec3_hash_html"><div class="ttname"><a href="struct_vec3_hash.html">Vec3Hash</a></div><div class="ttdef"><b>Definition:</b> <a href="facegraphutils_8h_source.html#l00010">facegraphutils.h:10</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="cudafacegraph_8cpp.html">cudafacegraph.cpp</a></li>
+    <li class="footer">다음에 의해 생성됨 :  <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>
