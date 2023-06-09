@@ -55,7 +55,7 @@ jobs:
             assets/complex_models/Segmented_*.mtl
             assets/complex_models/Segmented_*.txt
 
-    remove-artifact:
+    remove_artifact:
       name: Build Assets
       needs: build_asset
       runs-on: ubuntu-22.04
