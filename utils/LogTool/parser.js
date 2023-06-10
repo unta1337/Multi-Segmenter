@@ -79,7 +79,7 @@ const args = parser.parse_args();
     };
     console.log(JSON.stringify(data, null, 4));
     if (args.gsemail && args.gskey && args.gsdoc) {
-        console.log('Uploading start');
+        console.log('Start upload...');
         const doc = new GoogleSpreadsheet(args.gsdoc);
         await doc.useServiceAccountAuth({
             client_email: args.gsemail,
@@ -96,5 +96,6 @@ const args = parser.parse_args();
             gpu: gpus[0]
         })).map(r => headers.map(k => r[k]));
         await sheet.addRows(list);
+        console.log(`End upload: ${list.length} Rows`);
     }
 }();
