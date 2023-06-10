@@ -93,7 +93,7 @@ const args = parser.parse_args();
             ...data, ...r,
             routineNumber: i + 1,
             routines: undefined,
-            gpu: gpus[0]
+            gpu: gpus.join(', ')
         })).map(r => headers.map(k => r[k]));
         await sheet.addRows(list);
         console.log(`End upload: ${list.length} Rows`);
