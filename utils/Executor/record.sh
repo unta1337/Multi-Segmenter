@@ -8,6 +8,8 @@ modes=("serial" "parallel" "cuda")
 tolerances=("15.0")
 obj_files=(assets/tests/*.obj)
 
+echo "Test: Doc: $doc"
+
 for obj_file in "${obj_files[@]}"; do
   for tolerance in "${tolerances[@]}"; do
     for mode in "${modes[@]}"; do
