@@ -1,11 +1,12 @@
 ﻿#include "cudasegmenter.h"
 #include "cudafacegraph.h"
+#include "grouping.h"
 
 CUDASegmenter::CUDASegmenter(TriangleMesh* mesh, float tolerance) : Segmenter(mesh, tolerance) {
 }
 
 inline glm::vec3 CUDASegmenter::get_normal_key(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map,
-                                                 glm::vec3& normal) {
+                                               glm::vec3& normal) {
     for (const auto& entry : count_map) {
         glm::vec3 compare = entry.first;
         float norm_angle = glm::degrees(glm::angle(compare, normal));
@@ -19,74 +20,78 @@ inline glm::vec3 CUDASegmenter::get_normal_key(std::unordered_map<glm::vec3, siz
 }
 
 inline void CUDASegmenter::init_count_map(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map,
-                                            std::vector<glm::vec3>& face_normals) {
+                                          std::vector<glm::vec3>& face_normals) {
     for (auto& normal : face_normals) {
         count_map[get_normal_key(count_map, normal)]++;
     }
 }
 
 std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
-    timer.onTimer(TIMER_TOTAL);
-    STEP_LOG(std::cout << "[Begin] Preprocessing.\n");
-    timer.onTimer(TIMER_PREPROCESSING);
-    STEP_LOG(std::cout << "[Begin] Normal Vector Computation.\n");
-    timer.onTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
 
-    // obj에 포함된 면의 개수만큼 법선 벡터 계산 필요.
-    std::vector<glm::vec3> face_normals(mesh->index.size());
+    std::unordered_map<unsigned int, std::vector<Triangle>> normal_triangle_list_map = kernelCall(mesh, tolerance);
 
-    // 오브젝트에 포함된 면에 대한 법선 벡터 계산.
-    for (int i = 0; i < mesh->index.size(); i++) {
-        glm::ivec3& index = mesh->index[i];
-        face_normals[i] = glm::triangleNormal(mesh->vertex[index[0]], mesh->vertex[index[1]], mesh->vertex[index[2]]);
-    }
+    // timer.onTimer(TIMER_TOTAL);
+    // STEP_LOG(std::cout << "[Begin] Preprocessing.\n");
+    // timer.onTimer(TIMER_PREPROCESSING);
+    // STEP_LOG(std::cout << "[Begin] Normal Vector Computation.\n");
+    // timer.onTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
 
-    timer.offTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
-    STEP_LOG(std::cout << "[End] Normal Vector Computation.\n");
+    //// obj에 포함된 면의 개수만큼 법선 벡터 계산 필요.
+    // std::vector<glm::vec3> face_normals(mesh->index.size());
 
-    STEP_LOG(std::cout << "[Begin] Map Count.\n");
-    timer.onTimer(TIMER_MAP_COUNT);
+    //// 오브젝트에 포함된 면에 대한 법선 벡터 계산.
+    // for (int i = 0; i < mesh->index.size(); i++) {
+    //     glm::ivec3& index = mesh->index[i];
+    //     face_normals[i] = glm::triangleNormal(mesh->vertex[index[0]], mesh->vertex[index[1]],
+    //     mesh->vertex[index[2]]);
+    // }
 
-    size_t face_normals_count = face_normals.size();
+    // timer.offTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
+    // STEP_LOG(std::cout << "[End] Normal Vector Computation.\n");
 
-    // 법선 벡터 -> 개수.
-    // 특정 법선 벡터와 비슷한 방향성을 갖는 법선 벡터의 개수.
-    std::unordered_map<glm::vec3, size_t, Vec3Hash> count_map;
-    init_count_map(count_map, face_normals);
+    // STEP_LOG(std::cout << "[Begin] Map Count.\n");
+    // timer.onTimer(TIMER_MAP_COUNT);
 
-    // 법선 벡터 -> 삼각형(면).
-    // 특정 법선 벡터와 비슷한 방향성을 갖는 벡터를 법선 벡터로 갖는 면.
-    std::unordered_map<glm::vec3, std::vector<Triangle>, Vec3Hash> normal_triangle_list_map;
-    for (const auto& entry : count_map) {
-        normal_triangle_list_map.insert({entry.first, std::vector<Triangle>()});
-    }
+    // size_t face_normals_count = face_normals.size();
 
-    timer.offTimer(TIMER_MAP_COUNT);
-    STEP_LOG(std::cout << "[End] Map Count. (Map size: " << count_map.size() << ")\n");
+    //// 법선 벡터 -> 개수.
+    //// 특정 법선 벡터와 비슷한 방향성을 갖는 법선 벡터의 개수.
+    // std::unordered_map<glm::vec3, size_t, Vec3Hash> count_map;
+    // init_count_map(count_map, face_normals);
 
-    STEP_LOG(std::cout << "[Begin] Normal Map Insertion.\n");
-    timer.onTimer(TIMER_NORMAL_MAP_INSERTION);
+    //// 법선 벡터 -> 삼각형(면).
+    //// 특정 법선 벡터와 비슷한 방향성을 갖는 벡터를 법선 벡터로 갖는 면.
+    // std::unordered_map<glm::vec3, std::vector<Triangle>, Vec3Hash> normal_triangle_list_map;
+    // for (const auto& entry : count_map) {
+    //     normal_triangle_list_map.insert({entry.first, std::vector<Triangle>()});
+    // }
 
-    for (int i = 0; i < face_normals_count; i++) {
-        glm::vec3 target_normal = get_normal_key(count_map, face_normals[i]);
+    // timer.offTimer(TIMER_MAP_COUNT);
+    // STEP_LOG(std::cout << "[End] Map Count. (Map size: " << count_map.size() << ")\n");
 
-        Triangle triangle;
-        glm::ivec3 indexes = mesh->index[i];
-        for (int d = 0; d < 3; d++) {
-            triangle.vertex[d] = mesh->vertex[indexes[d]];
-        }
+    // STEP_LOG(std::cout << "[Begin] Normal Map Insertion.\n");
+    // timer.onTimer(TIMER_NORMAL_MAP_INSERTION);
 
-        normal_triangle_list_map[target_normal].push_back(triangle);
-    }
+    // for (int i = 0; i < face_normals_count; i++) {
+    //     glm::vec3 target_normal = get_normal_key(count_map, face_normals[i]);
 
-    timer.offTimer(TIMER_NORMAL_MAP_INSERTION);
-    STEP_LOG(std::cout << "[End] Normal Map Insertion. (Total: " << normal_triangle_list_map.size() << ")\n");
+    //    Triangle triangle;
+    //    glm::ivec3 indexes = mesh->index[i];
+    //    for (int d = 0; d < 3; d++) {
+    //        triangle.vertex[d] = mesh->vertex[indexes[d]];
+    //    }
 
-    timer.offTimer(TIMER_PREPROCESSING);
-    STEP_LOG(std::cout << "[End] Preprocessing.\n");
+    //    normal_triangle_list_map[target_normal].push_back(triangle);
+    //}
 
-    STEP_LOG(std::cout << "[Begin] Connectivity Checking and Triangle Mesh Generating.\n");
-    timer.onTimer(TIMER_CC_N_TMG);
+    // timer.offTimer(TIMER_NORMAL_MAP_INSERTION);
+    // STEP_LOG(std::cout << "[End] Normal Map Insertion. (Total: " << normal_triangle_list_map.size() << ")\n");
+
+    // timer.offTimer(TIMER_PREPROCESSING);
+    // STEP_LOG(std::cout << "[End] Preprocessing.\n");
+
+    // STEP_LOG(std::cout << "[Begin] Connectivity Checking and Triangle Mesh Generating.\n");
+    // timer.onTimer(TIMER_CC_N_TMG);
 
     std::vector<TriangleMesh*> result;
     int number = 0;
