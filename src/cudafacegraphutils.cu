@@ -1,18 +1,25 @@
 #include "cudafacegraphutils.h"
 
-#include <thrust/host_vector.h>
+// cuda 관련 헤더를 .h 등 .cu가 아닌 파일에서 include하면 에러 발생.
+#include <cuda/semaphore>
 #include <thrust/device_vector.h>
+#include <thrust/host_vector.h>
 
 __global__ void __segment_union_to_obj(glm::vec3** vertices, glm::ivec3** faces, int* group_id, Triangle* triangles,
-                                       size_t triangles_count, size_t total_vertex_count, int* index_lookup_chunk, int* vertex_index_out) {
-    __shared__ int vertex_index;
-    __shared__ int index_index;
-    __shared__ int* index_lookup;
+                                       size_t triangles_count, size_t total_vertex_count, int* index_lookup_chunk,
+                                       int* vertex_index_out, int* index_index_out) {
+    __shared__ int vertex_index;    // push_back 대신 유지하는 정점 인덱스 추적 변수.
+    __shared__ int index_index;     // push_back 대신 유지하는 삼각형 인덱스 추적 변수.
+    __shared__ int* index_lookup;   // 기존 unordered_map을 유지하는 중복 검사용 변수.
+    __shared__ cuda::binary_semaphore<cuda::thread_scope_block> vertex_sem;     // 정점 삽입 mutex.
+    __shared__ cuda::binary_semaphore<cuda::thread_scope_block> index_sem;      // 삼각형 삽입 mutex.
 
     if (threadIdx.x == 0) {
         vertex_index = 0;
         index_index = 0;
         index_lookup = &index_lookup_chunk[blockIdx.x * total_vertex_count];
+        vertex_sem.release();
+        index_sem.release();
     }
     __syncthreads();
 
@@ -24,23 +31,27 @@ __global__ void __segment_union_to_obj(glm::vec3** vertices, glm::ivec3** faces,
         for (int j = 0; j < 3; j++) {
             int& index_if_exist = index_lookup[triangles[i].id[j]];
 
+            vertex_sem.acquire();
             if (index_if_exist == -1) {
                 vertices[blockIdx.x][vertex_index] = triangles[i].vertex[j];
-                atomicAdd(&vertex_index, 1);
-                atomicExch(&index_if_exist, vertex_index);
+                index_if_exist = ++vertex_index;
             }
+            vertex_sem.release();
 
             new_index[j] = index_if_exist;
         }
 
+        index_sem.acquire();
         faces[blockIdx.x][index_index] = new_index;
-        atomicAdd(&index_index, 1);
+        index_index++;
+        index_sem.release();
     }
 
     __syncthreads();
 
     if (threadIdx.x == 0) {
         vertex_index_out[blockIdx.x] = vertex_index;
+        index_index_out[blockIdx.x] = index_index;
     }
 }
 
@@ -66,6 +77,7 @@ std::vector<TriangleMesh*> segment_union_to_obj(const std::vector<int> segment_u
         group_count[g_id]++;
     }
 
+    // device 관련 변수 초기화.
     std::vector<thrust::device_vector<glm::vec3>> d_vertices(result.size(), thrust::device_vector<glm::vec3>());
     std::vector<thrust::device_vector<glm::ivec3>> d_faces(result.size(), thrust::device_vector<glm::ivec3>());
 
@@ -84,26 +96,30 @@ std::vector<TriangleMesh*> segment_union_to_obj(const std::vector<int> segment_u
     thrust::device_vector<Triangle> d_triangles(*triangles);
     thrust::device_vector<int> d_index_lookup_chunk(group_index * total_vertex_count, -1);
     thrust::device_vector<int> d_vertex_index_out(group_index);
+    thrust::device_vector<int> d_index_index_out(group_index);
 
-    __segment_union_to_obj<<<group_count.size(), 1>>>(thrust::raw_pointer_cast(dd_vertices.data()),
-                                                                      thrust::raw_pointer_cast(dd_faces.data()),
-                                                                      thrust::raw_pointer_cast(d_group_id.data()),
-                                                                      thrust::raw_pointer_cast(d_triangles.data()),
-                                                                      d_triangles.size(), total_vertex_count,
-                                                                      thrust::raw_pointer_cast(d_index_lookup_chunk.data()),
-                                                                      thrust::raw_pointer_cast(d_vertex_index_out.data()));
+    __segment_union_to_obj<<<group_count.size(), std::min(triangles->size(), (size_t)1024)>>>(thrust::raw_pointer_cast(dd_vertices.data()),
+                                                                                              thrust::raw_pointer_cast(dd_faces.data()),
+                                                                                              thrust::raw_pointer_cast(d_group_id.data()),
+                                                                                              thrust::raw_pointer_cast(d_triangles.data()),
+                                                                                              d_triangles.size(), total_vertex_count,
+                                                                                              thrust::raw_pointer_cast(d_index_lookup_chunk.data()),
+                                                                                              thrust::raw_pointer_cast(d_vertex_index_out.data()),
+                                                                                              thrust::raw_pointer_cast(d_index_index_out.data()));
     cudaDeviceSynchronize();
 
+    // Data Transfer: Device -> Host.
     thrust::host_vector<int> vertex_index_out(d_vertex_index_out);
+    thrust::host_vector<int> index_index_out(d_index_index_out);
 
     for (int i = 0; i < result.size(); i++) {
         result[i]->vertex.resize(vertex_index_out[i]);
-        result[i]->index.resize(triangles->size());
+        result[i]->index.resize(index_index_out[i]);
 
         thrust::copy(d_vertices[i].begin(), d_vertices[i].begin() + vertex_index_out[i], result[i]->vertex.begin());
-        thrust::copy(d_faces[i].begin(), d_faces[i].end(), result[i]->index.begin());
-        cudaDeviceSynchronize();
+        thrust::copy(d_faces[i].begin(), d_faces[i].begin() + index_index_out[i], result[i]->index.begin());
     }
+    cudaDeviceSynchronize();
 
     return result;
 }

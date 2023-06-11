@@ -3,6 +3,7 @@
 
 #include "triangle.h"
 #include "trianglemesh.hpp"
+#include <algorithm>
 #include <vector>
 
 std::vector<TriangleMesh*> segment_union_to_obj(const std::vector<int> segment_union,
