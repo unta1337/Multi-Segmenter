@@ -101,12 +101,17 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
     timer.onTimer(TIMER_TRIANGLE_MESH_GENERATING);
 
-    std::vector<TriangleMesh*> result;
+    std::vector<std::vector<TriangleMesh*>> results(segments_collection.size());
+
+    #pragma omp parallel for
     for (int i = 0; i < segments_collection.size(); i++) {
         auto& [segments, triangles] = segments_collection[i];
-        std::vector<TriangleMesh*> sub_obj = segment_union_to_obj(segments, triangles, mesh->vertex.size());
-        result.insert(result.end(), sub_obj.begin(), sub_obj.end());
+        results[i] = segment_union_to_obj(segments, triangles, mesh->vertex.size());
     }
+
+    std::vector<TriangleMesh*> result;
+    for (auto r : results)
+        result.insert(result.end(), r.begin(), r.end());
 
     for (int i = 0; i < result.size(); i++) {
         TriangleMesh* sub_object = result[i];
