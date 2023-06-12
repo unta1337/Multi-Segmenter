@@ -4,84 +4,28 @@
 #include "trianglemesh.hpp"
 #include <dstimer.hpp>
 #include <glm/gtx/normal.hpp>
-#include <iostream>
 #include <omp.h>
 #include <stdlib.h>
 
-/*
-    mesh
-std::vector<glm::vec3> vertex;
-std::vector<glm::ivec3> index;
-*/
+#include <algorithm>
+#include <thrust/device_vector.h>
+#include <thrust/execution_policy.h>
+#include <thrust/sort.h>
 
-void compare(TriangleMesh* mesh) { // 뭐가 더 좋을지 고민 용 함수.
-    DS_timer timer(8);
-    timer.setTimerName(0, (char*)"vertex malloc");
-    timer.setTimerName(1, (char*)"index malloc");
-    timer.setTimerName(2, (char*)"index transfer HtoD");
-    timer.setTimerName(3, (char*)"index transfer HtoD");
-    timer.setTimerName(4, (char*)"-------------------");
-    timer.setTimerName(5, (char*)"openMP vertex align");
-    timer.setTimerName(6, (char*)"vertex align malloc");
-    timer.setTimerName(7, (char*)"vertex align transfer HtoD");
 
-    // -------------------------------------------------------------------------------------
+struct Pair {
+    unsigned int first;  // group id
+    size_t second;       // TriangleList index
 
-    glm::vec3* dVertexList;
-    glm::ivec3* dIndexList;
-
-    timer.onTimer(0);
-    cudaMalloc(&dVertexList, mesh->vertex.size() * sizeof(glm::vec3));
-    cudaDeviceSynchronize();
-    timer.offTimer(0);
-    timer.onTimer(1);
-    cudaMalloc(&dIndexList, mesh->index.size() * sizeof(glm::ivec3));
-    cudaDeviceSynchronize();
-    timer.offTimer(1);
-
-    timer.onTimer(2);
-    cudaMemcpy(dVertexList, &mesh->vertex[0], mesh->vertex.size() * sizeof(glm::vec3), cudaMemcpyHostToDevice);
-    cudaDeviceSynchronize();
-    timer.offTimer(2);
-    timer.onTimer(3);
-    cudaMemcpy(dIndexList, &mesh->index[0], mesh->index.size() * sizeof(glm::ivec3), cudaMemcpyHostToDevice);
-    cudaDeviceSynchronize();
-    timer.offTimer(3);
-
-    cudaDeviceSynchronize();
-    // --------------------------------------------------------------------------------------------------------
-
-    glm::vec3* dVertexAlign;
-
-    timer.onTimer(5);
-    Triangle* vectorList = (Triangle*)malloc(sizeof(Triangle) * mesh->index.size());
-#pragma omp parallel for
-    for (int i = 0; i < mesh->index.size(); i++) {
-        vectorList[i].vertex[0] = mesh->vertex[mesh->index[i].x];
-        vectorList[i].vertex[1] = mesh->vertex[mesh->index[i].y];
-        vectorList[i].vertex[2] = mesh->vertex[mesh->index[i].z];
+    __device__ bool operator()(const Pair& a, const Pair& b) const {
+        if (a.first < b.first)
+            return true;
+        return false;
     }
-    timer.offTimer(5);
-
-    timer.onTimer(6);
-    cudaMalloc(&dVertexAlign, sizeof(Triangle) * mesh->index.size());
-    cudaDeviceSynchronize();
-    timer.offTimer(6);
-
-    timer.onTimer(7);
-    cudaMemcpy(dVertexAlign, vectorList, sizeof(Triangle) * mesh->index.size(), cudaMemcpyHostToDevice);
-    cudaDeviceSynchronize();
-    timer.offTimer(7);
-
-    // --------------------------------------------------------------------------------------------------------
-
-    // kernel<<<1, 1, NULL, stream>>>();
-    timer.printTimer();
-    // cudaStreamDestroy(stream);
-}
+};
 
 #define PI 3.14
-__global__ void kernel(Triangle* dVertexAlign, unsigned int* group, size_t indexSize, float tolerance) {
+__global__ void grouping(Triangle* dVertexAlign, Pair* group, size_t indexSize, float tolerance) {
 
     size_t threadId = threadIdx.x + (blockIdx.x * blockDim.x);
     if (threadId >= indexSize)
@@ -96,76 +40,101 @@ __global__ void kernel(Triangle* dVertexAlign, unsigned int* group, size_t index
     if (normal.x < 0.5f)
         ySeta = 360 - ySeta;
     float zSeta = acosf(normal.y) / PI * 180;
-    if (normal.y < 0.5f) 
+    if (normal.y < 0.5f)
         zSeta = 360 - zSeta;
 
-    xSeta += 15;
+    xSeta += 15; // 절대 각도 시작 위치 설정.
     ySeta += 15;
     zSeta += 15;
+
     unsigned int bitmap = (unsigned int)(xSeta / tolerance) % 360;
     bitmap = bitmap << 8;
     bitmap += (unsigned int)(ySeta / tolerance) % 360;
     bitmap = bitmap << 8;
     bitmap += (unsigned int)(zSeta / tolerance) % 360;
-    group[threadId] = bitmap;
+
+    group[threadId].first = bitmap;
+    group[threadId].second = threadId;
+}
+
+__global__ void splitIndex(Pair* group, size_t* posList, size_t* size, size_t indexSize) {
+
+    size_t threadId = threadIdx.x + (blockIdx.x * blockDim.x);
+    if (threadId >= indexSize || threadId == 0)
+        return;
+
+    if (group[threadId].first != group[threadId - 1].first) {
+        size_t prev = atomicAdd(size, 1);
+        posList[prev] = threadId;
+    }
 }
 
 std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh* mesh, float tolerance) {
-    // compare(mesh);
     cudaStream_t stream;
     cudaStreamCreate(&stream);
 
     DS_timer timer(1);
-
     timer.onTimer(0);
+
     Triangle* dVertexAlign;
-    unsigned int* dGroup;
-    Triangle* vectorList = (Triangle*)malloc(sizeof(Triangle) * mesh->index.size());
-    unsigned int* group = (unsigned int*)malloc(sizeof(unsigned int) * mesh->index.size());
+    Pair* dGroup;
+    Triangle* TriangleList = (Triangle*)malloc(sizeof(Triangle) * mesh->index.size());
+    Pair* group = (Pair*)malloc(sizeof(Pair) * mesh->index.size());
 #pragma omp parallel for
     for (int i = 0; i < mesh->index.size(); i++) {
-        vectorList[i].vertex[0] = mesh->vertex[mesh->index[i].x];
-        vectorList[i].vertex[1] = mesh->vertex[mesh->index[i].y];
-        vectorList[i].vertex[2] = mesh->vertex[mesh->index[i].z];
+        TriangleList[i].vertex[0] = mesh->vertex[mesh->index[i].x];
+        TriangleList[i].vertex[1] = mesh->vertex[mesh->index[i].y];
+        TriangleList[i].vertex[2] = mesh->vertex[mesh->index[i].z];
     }
-    cudaMallocAsync(&dGroup, sizeof(unsigned int) * mesh->index.size(), stream);
+    cudaMallocAsync(&dGroup, sizeof(Pair) * mesh->index.size(), stream);
+    // cudaEventRecord(async, stream);
     cudaMalloc(&dVertexAlign, sizeof(Triangle) * mesh->index.size());
-    cudaMemcpy(dVertexAlign, vectorList, sizeof(Triangle) * mesh->index.size(), cudaMemcpyHostToDevice);
+    cudaMemcpy(dVertexAlign, TriangleList, sizeof(Triangle) * mesh->index.size(), cudaMemcpyHostToDevice);
+    // cudaEventSynchronize(async);
 
-    cudaDeviceSynchronize();
 #define BLOCK_SIZE 512
-    kernel<<<ceil((float)mesh->index.size() / BLOCK_SIZE), BLOCK_SIZE>>>(dVertexAlign, dGroup, mesh->index.size(),
-                                                                         tolerance);
-
-    unsigned int size = (unsigned int)(360 / tolerance);
+    grouping<<<ceil((float)mesh->index.size() / BLOCK_SIZE), BLOCK_SIZE>>>(dVertexAlign, dGroup, mesh->index.size(),
+                                                                           tolerance);
     std::unordered_map<unsigned int, std::vector<Triangle>> normal_triangle_list_map;
-    std::unordered_map<unsigned int, omp_lock_t> lock_list;
-
-    for (size_t i = 0; i <= size; i++) {
-        unsigned int bitmap_i = (unsigned int)i;
-        bitmap_i = bitmap_i << 16;
-        for (size_t j = 0; j <= size; j++) {
-            unsigned int bitmap_j = (unsigned int)j;
-            bitmap_j = bitmap_j << 8;
-            for (size_t k = 0; k <= size; k++) {
-                unsigned int bitmap = (unsigned int)k;
-                bitmap = bitmap_i | bitmap_j | bitmap;
-                lock_list.insert({bitmap, omp_lock_t()});
-                omp_init_lock(&lock_list[bitmap]);
-            }
-        }
-    }
 
     cudaDeviceSynchronize();
-    cudaMemcpy(group, dGroup, sizeof(unsigned int) * mesh->index.size(), cudaMemcpyDeviceToHost);
+
+    thrust::device_vector<Pair> deviceData(dGroup, dGroup + mesh->index.size());
+    thrust::sort(deviceData.begin(), deviceData.end(), Pair());
+
+    size_t* dPos;
+    size_t* dPosList;
+    cudaMallocAsync(&dPos, sizeof(size_t), stream);
+    cudaMemsetAsync(dPos, 0, sizeof(size_t), stream);
+    cudaMallocAsync(&dPosList, sizeof(size_t) * pow(360.f / tolerance, 3), stream);
+    cudaMemsetAsync(dPosList, 0, sizeof(size_t) * pow(360.f / tolerance, 3), stream);
+
+    std::vector<Pair> hostData(mesh->index.size());
+    thrust::copy(deviceData.begin(), deviceData.end(), hostData.begin());
+
+    splitIndex<<<ceil((float)mesh->index.size() / BLOCK_SIZE), BLOCK_SIZE>>>(
+        thrust::raw_pointer_cast(deviceData.data()), dPosList, dPos, mesh->index.size());
+
+    size_t pos = 0;
+    size_t* posList = (size_t*)malloc(sizeof(size_t) * pow(360.f / tolerance, 3));
+
+    cudaMemcpy(posList, dPosList, sizeof(size_t) * pow(360.f / tolerance, 3), cudaMemcpyDeviceToHost);
+    cudaMemcpy(&pos, dPos, sizeof(size_t), cudaMemcpyDeviceToHost);
+    cudaDeviceSynchronize();
+    posList[pos] = 0;
+    pos++;
+    posList[pos] = mesh->index.size();
+    pos++;
+
+    std::sort(posList, posList + pos);
 
 #pragma omp parallel for
-    for (int i = 0; i < mesh->index.size(); i++) {
-        omp_set_lock(&lock_list[group[i]]);
-        if (normal_triangle_list_map.find(group[i]) == normal_triangle_list_map.end())
-            normal_triangle_list_map.insert({group[i], std::vector<Triangle>()});
-        normal_triangle_list_map[group[i]].push_back(vectorList[i]);
-        omp_unset_lock(&lock_list[group[i]]);
+    for (int i = 0; i < pos - 1; i++) {
+        int start = posList[i];
+        int end = posList[i + 1];
+        normal_triangle_list_map.insert({hostData[start].first, std::vector<Triangle>()});
+        for (int j = start; j < end; j++)
+            normal_triangle_list_map[hostData[start].first].push_back(TriangleList[hostData[j].second]);
     }
 
     timer.offTimer(0);
