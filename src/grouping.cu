@@ -31,7 +31,34 @@ struct Pair {
 
 #define PI 3.14
 __global__ void grouping(Triangle* dVertexAlign, Pair* group, unsigned int indexSize, float tolerance) {
+    unsigned int threadId = threadIdx.x + (blockIdx.x * blockDim.x);
+    if (threadId >= indexSize)
+        return;
+    glm::vec3 normal = glm::normalize(glm::triangleNormal(
+        dVertexAlign[threadId].vertex[0], dVertexAlign[threadId].vertex[1], dVertexAlign[threadId].vertex[2]));
 
+    float xSeta = acosf(normal.z) / PI * 180;
+    if (normal.z < 0.5f) // precision problem
+        xSeta = 360 - xSeta;
+    float ySeta = acosf(normal.x) / PI * 180;
+    if (normal.x < 0.5f)
+        ySeta = 360 - ySeta;
+    float zSeta = acosf(normal.y) / PI * 180;
+    if (normal.y < 0.5f)
+        zSeta = 360 - zSeta;
+
+    xSeta += 15; // 절대 각도 시작 위치 설정.
+    ySeta += 15;
+    zSeta += 15;
+
+    unsigned int bitmap = (unsigned int)(xSeta / tolerance) % 360;
+    bitmap = bitmap << 8;
+    bitmap += (unsigned int)(ySeta / tolerance) % 360;
+    bitmap = bitmap << 8;
+    bitmap += (unsigned int)(zSeta / tolerance) % 360;
+
+    group[threadId].first = bitmap;
+    group[threadId].second = threadId;
 }
 
 __global__ void splitIndex(Pair* group, unsigned int* posList, unsigned int* size, unsigned int indexSize) {
