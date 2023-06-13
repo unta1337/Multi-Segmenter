@@ -5,8 +5,8 @@
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
 
-__global__ void __segment_union_to_obj(glm::vec3** vertices, glm::ivec3** faces, int* group_id, Triangle* triangles,
-                                       size_t triangles_count, size_t total_vertex_count, int* index_lookup_chunk,
+__global__ void __segment_union_to_obj(glm::vec3* vertices, glm::ivec3* faces, int* group_id, Triangle* triangles,
+                                       size_t triangles_count, size_t total_vertex_count, int* index_lookup_chunk, int g_id,
                                        int* vertex_index_out, int* index_index_out) {
     __shared__ int vertex_index;    // push_back 대신 유지하는 정점 인덱스 추적 변수.
     __shared__ int index_index;     // push_back 대신 유지하는 삼각형 인덱스 추적 변수.
@@ -17,7 +17,7 @@ __global__ void __segment_union_to_obj(glm::vec3** vertices, glm::ivec3** faces,
     if (threadIdx.x == 0) {
         vertex_index = 0;
         index_index = 0;
-        index_lookup = &index_lookup_chunk[blockIdx.x * total_vertex_count];
+        index_lookup = index_lookup_chunk;
         vertex_sem = new cuda::binary_semaphore<cuda::thread_scope_block>();
         index_sem = new cuda::binary_semaphore<cuda::thread_scope_block>();
         vertex_sem->release();
@@ -26,7 +26,7 @@ __global__ void __segment_union_to_obj(glm::vec3** vertices, glm::ivec3** faces,
     __syncthreads();
 
     for (int i = threadIdx.x; i < triangles_count; i += blockDim.x) {
-        if (group_id[i] != blockIdx.x)
+        if (group_id[i] != g_id)
             continue;
 
         glm::ivec3 new_index;
@@ -35,7 +35,7 @@ __global__ void __segment_union_to_obj(glm::vec3** vertices, glm::ivec3** faces,
 
             vertex_sem->acquire();
             if (index_if_exist == -1) {
-                vertices[blockIdx.x][vertex_index] = triangles[i].vertex[j];
+                vertices[vertex_index] = triangles[i].vertex[j];
                 index_if_exist = ++vertex_index;
             }
             vertex_sem->release();
@@ -44,7 +44,7 @@ __global__ void __segment_union_to_obj(glm::vec3** vertices, glm::ivec3** faces,
         }
 
         index_sem->acquire();
-        faces[blockIdx.x][index_index] = new_index;
+        faces[index_index] = new_index;
         index_index++;
         index_sem->release();
     }
@@ -52,8 +52,8 @@ __global__ void __segment_union_to_obj(glm::vec3** vertices, glm::ivec3** faces,
     __syncthreads();
 
     if (threadIdx.x == 0) {
-        vertex_index_out[blockIdx.x] = vertex_index;
-        index_index_out[blockIdx.x] = index_index;
+        *vertex_index_out = vertex_index;
+        *index_index_out = index_index;
         delete vertex_sem;
         delete index_sem;
     }
@@ -81,49 +81,87 @@ std::vector<TriangleMesh*> segment_union_to_obj(const std::vector<int> segment_u
         group_count[g_id]++;
     }
 
-    // device 관련 변수 초기화.
-    std::vector<thrust::device_vector<glm::vec3>> d_vertices(result.size(), thrust::device_vector<glm::vec3>());
-    std::vector<thrust::device_vector<glm::ivec3>> d_faces(result.size(), thrust::device_vector<glm::ivec3>());
+    std::vector<cudaStream_t> streams(group_index);
 
-    thrust::device_vector<glm::vec3*> dd_vertices;
-    thrust::device_vector<glm::ivec3*> dd_faces;
+    // cuda host.
+    std::vector<glm::vec3*> vertex_out(group_index);
+    std::vector<glm::ivec3*> face_out(group_index);
+    int* vertex_index_out;
+    int* face_index_out;
 
-    for (int i = 0; i < result.size(); i++) {
-        d_vertices[i].resize(triangles->size() * 3);
-        d_faces[i].resize(triangles->size());
+    for (int i = 0; i < group_index; i++) cudaMallocHost(&vertex_out[i], triangles->size() * 3 * sizeof(glm::vec3));
+    for (int i = 0; i < group_index; i++) cudaMallocHost(&face_out[i], triangles->size() * sizeof(glm::ivec3));
+    cudaMallocHost(&vertex_index_out, group_index * sizeof(int));
+    cudaMallocHost(&face_index_out, group_index * sizeof(int));
 
-        dd_vertices.push_back(thrust::raw_pointer_cast(d_vertices[i].data()));
-        dd_faces.push_back(thrust::raw_pointer_cast(d_faces[i].data()));
-    }
-
+    // 공통.
     thrust::device_vector<int> d_group_id(group_id);
     thrust::device_vector<Triangle> d_triangles(*triangles);
-    thrust::device_vector<int> d_index_lookup_chunk(group_index * total_vertex_count, -1);
-    thrust::device_vector<int> d_vertex_index_out(group_index);
-    thrust::device_vector<int> d_index_index_out(group_index);
 
-    __segment_union_to_obj<<<group_count.size(), std::min(triangles->size(), (size_t)1024)>>>(thrust::raw_pointer_cast(dd_vertices.data()),
-                                                                                              thrust::raw_pointer_cast(dd_faces.data()),
-                                                                                              thrust::raw_pointer_cast(d_group_id.data()),
-                                                                                              thrust::raw_pointer_cast(d_triangles.data()),
-                                                                                              d_triangles.size(), total_vertex_count,
-                                                                                              thrust::raw_pointer_cast(d_index_lookup_chunk.data()),
-                                                                                              thrust::raw_pointer_cast(d_vertex_index_out.data()),
-                                                                                              thrust::raw_pointer_cast(d_index_index_out.data()));
-    cudaDeviceSynchronize();
+    for (cudaStream_t& stream : streams)
+        cudaStreamCreate(&stream);
 
-    // Data Transfer: Device -> Host.
-    thrust::host_vector<int> vertex_index_out(d_vertex_index_out);
-    thrust::host_vector<int> index_index_out(d_index_index_out);
+    #pragma omp parallel for
+    for (int i = 0; i < group_index; i++) {
+        cudaStream_t& stream = streams[i];
+
+        glm::vec3* d_vertices;
+        glm::ivec3* d_faces;
+
+        int* d_index_lookup;
+        int* d_vertex_index_out;
+        int* d_face_index_out;
+
+        cudaMallocAsync(&d_vertices, triangles->size() * 3 * sizeof(glm::vec3), stream);
+        cudaMallocAsync(&d_faces, triangles->size() * sizeof(glm::ivec3), stream);
+
+        cudaMallocAsync(&d_index_lookup, total_vertex_count * sizeof(int), stream);
+        cudaMallocAsync(&d_vertex_index_out, sizeof(int), stream);
+        cudaMallocAsync(&d_face_index_out, sizeof(int), stream);
+        cudaStreamSynchronize(stream);      // 동적 할당 동기화.
+
+        cudaMemsetAsync(d_index_lookup, 0xFF, total_vertex_count * sizeof(int), stream);
+        cudaStreamSynchronize(stream);      // 메모리 초기화 동기화.
+
+        __segment_union_to_obj<<<1, std::min(triangles->size(), (size_t)1024), 0, stream>>>(d_vertices,
+                                                                                            d_faces,
+                                                                                            thrust::raw_pointer_cast(d_group_id.data()),
+                                                                                            thrust::raw_pointer_cast(d_triangles.data()),
+                                                                                            d_triangles.size(), total_vertex_count,
+                                                                                            d_index_lookup,
+                                                                                            i,
+                                                                                            d_vertex_index_out,
+                                                                                            d_face_index_out);
+        cudaStreamSynchronize(stream);      // 연산 동기화.
+
+        cudaMemcpyAsync(&vertex_index_out[i], d_vertex_index_out, sizeof(int), cudaMemcpyDeviceToHost, stream);
+        cudaMemcpyAsync(&face_index_out[i], d_face_index_out, sizeof(int), cudaMemcpyDeviceToHost, stream);
+        cudaStreamSynchronize(stream);      // device -> host 동기화.
+
+        cudaMemcpyAsync(vertex_out[i], d_vertices, vertex_index_out[i] * sizeof(glm::vec3), cudaMemcpyDeviceToHost, stream);
+        cudaMemcpyAsync(face_out[i], d_faces, face_index_out[i] * sizeof(glm::ivec3), cudaMemcpyDeviceToHost, stream);
+
+        cudaFreeAsync(d_vertices, stream);
+        cudaFreeAsync(d_faces, stream);
+
+        cudaFreeAsync(d_index_lookup, stream);
+        cudaFreeAsync(d_vertex_index_out, stream);
+        cudaFreeAsync(d_face_index_out, stream);
+    }
+    cudaDeviceSynchronize();      // 최종 동기화.
+
+    for (cudaStream_t& stream : streams)
+        cudaStreamDestroy(stream);
 
     for (int i = 0; i < result.size(); i++) {
-        result[i]->vertex.resize(vertex_index_out[i]);
-        result[i]->index.resize(index_index_out[i]);
-
-        thrust::copy(d_vertices[i].begin(), d_vertices[i].begin() + vertex_index_out[i], result[i]->vertex.begin());
-        thrust::copy(d_faces[i].begin(), d_faces[i].begin() + index_index_out[i], result[i]->index.begin());
+        result[i]->vertex.insert(result[i]->vertex.begin(), vertex_out[i], vertex_out[i] + vertex_index_out[i]);
+        result[i]->index.insert(result[i]->index.begin(), face_out[i], face_out[i] + face_index_out[i]);
     }
-    cudaDeviceSynchronize();
+
+    for (int i = 0; i < group_index; i++) cudaFreeHost(&vertex_out[i]);
+    for (int i = 0; i < group_index; i++) cudaFreeHost(&face_out[i]);
+    cudaFreeHost(vertex_index_out);
+    cudaFreeHost(face_index_out);
 
     return result;
 }
