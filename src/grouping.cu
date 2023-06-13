@@ -1,15 +1,16 @@
-#include <thrust/sort.h>
-#include <thrust/device_vector.h>
-#include "device_launch_parameters.h"
 #include "cuda_runtime.h"
+#include "device_launch_parameters.h"
 #include "grouping.h"
 #include "trianglemesh.hpp"
 #include <dstimer.hpp>
 #include <glm/gtx/normal.hpp>
 #include <omp.h>
-#include <cstdlib>
-#include <algorithm>
+#include <stdlib.h>
 
+#include <algorithm>
+#include <thrust/device_vector.h>
+#include <thrust/execution_policy.h>
+#include <thrust/sort.h>
 
 struct Pair {
     unsigned int first;  // group id
