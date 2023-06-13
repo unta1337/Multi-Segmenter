@@ -103,50 +103,5 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
                                                                            tolerance);
     std::unordered_map<unsigned int, std::vector<Triangle>> normal_triangle_list_map;
 
-    cudaDeviceSynchronize();
-
-    thrust::device_vector<Pair> deviceData(dGroup, dGroup + mesh->index.size());
-    thrust::sort(deviceData.begin(), deviceData.end(), Pair());
-
-    unsigned int* dPos;
-    unsigned int* dPosList;
-    cudaMallocAsync(&dPos, sizeof(unsigned int), stream);
-    cudaMemsetAsync(dPos, 0, sizeof(unsigned int), stream);
-    cudaMallocAsync(&dPosList, sizeof(unsigned int) * pow(360.f / tolerance, 3), stream);
-    cudaMemsetAsync(dPosList, 0, sizeof(unsigned int) * pow(360.f / tolerance, 3), stream);
-
-    std::vector<Pair> hostData(mesh->index.size());
-    thrust::copy(deviceData.begin(), deviceData.end(), hostData.begin());
-
-    splitIndex<<<ceil((float)mesh->index.size() / BLOCK_SIZE), BLOCK_SIZE>>>(
-        thrust::raw_pointer_cast(deviceData.data()), dPosList, dPos, mesh->index.size());
-
-    unsigned int pos = 0;
-    unsigned int* posList = (unsigned int*)malloc(sizeof(unsigned int) * pow(360.f / tolerance, 3));
-
-    cudaMemcpy(posList, dPosList, sizeof(unsigned int) * pow(360.f / tolerance, 3), cudaMemcpyDeviceToHost);
-    cudaMemcpy(&pos, dPos, sizeof(unsigned int), cudaMemcpyDeviceToHost);
-
-    posList[pos] = 0;
-    pos++;
-    posList[pos] = mesh->index.size();
-    pos++;
-
-    std::sort(posList, posList + pos);
-
-#pragma omp parallel for
-    for (int i = 0; i < pos - 1; i++) {
-        unsigned int start = posList[i];
-        unsigned int end = posList[i + 1];
-        unsigned int gid = hostData[start].first;
-        normal_triangle_list_map.insert({gid, std::vector<Triangle>(end - start)});
-
-        for (unsigned int j = start; j < end; j++)
-            normal_triangle_list_map[gid][j - start] = TriangleList[hostData[j].second];
-    }
-
-    timer.offTimer(0);
-    timer.printTimer();
-
     return normal_triangle_list_map;
 }
