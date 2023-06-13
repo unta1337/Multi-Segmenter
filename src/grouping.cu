@@ -5,9 +5,10 @@
 #include <dstimer.hpp>
 #include <glm/gtx/normal.hpp>
 #include <omp.h>
-#include <stdlib.h>
+#include <cstdlib>
 
 #include <algorithm>
+#include <thrust/sort.h>
 
 struct Pair {
     unsigned int first;  // group id
@@ -31,6 +32,7 @@ struct Pair {
 
 #define PI 3.14
 __global__ void grouping(Triangle* dVertexAlign, Pair* group, unsigned int indexSize, float tolerance) {
+
     unsigned int threadId = threadIdx.x + (blockIdx.x * blockDim.x);
     if (threadId >= indexSize)
         return;
@@ -77,6 +79,26 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
     cudaStream_t stream;
     cudaStreamCreate(&stream);
 
+    DS_timer timer(1);
+    timer.onTimer(0);
+
+    Triangle* dVertexAlign;
+    Pair* dGroup;
+    Triangle* TriangleList = (Triangle*)malloc(sizeof(Triangle) * mesh->index.size());
+    Pair* group = (Pair*)malloc(sizeof(Pair) * mesh->index.size());
+#pragma omp parallel for
+    for (int i = 0; i < mesh->index.size(); i++) {
+        TriangleList[i].vertex[0] = mesh->vertex[mesh->index[i].x];
+        TriangleList[i].vertex[1] = mesh->vertex[mesh->index[i].y];
+        TriangleList[i].vertex[2] = mesh->vertex[mesh->index[i].z];
+    }
+    cudaMallocAsync(&dGroup, sizeof(Pair) * mesh->index.size(), stream);
+    cudaMalloc(&dVertexAlign, sizeof(Triangle) * mesh->index.size());
+    cudaMemcpy(dVertexAlign, TriangleList, sizeof(Triangle) * mesh->index.size(), cudaMemcpyHostToDevice);
+
+#define BLOCK_SIZE 512
+    grouping<<<ceil((float)mesh->index.size() / BLOCK_SIZE), BLOCK_SIZE>>>(dVertexAlign, dGroup, mesh->index.size(),
+                                                                           tolerance);
     std::unordered_map<unsigned int, std::vector<Triangle>> normal_triangle_list_map;
 
     return normal_triangle_list_map;
