@@ -8,7 +8,6 @@
 #include <cstdlib>
 
 #include <algorithm>
-#include <thrust/sort.h>
 
 struct Pair {
     unsigned int first;  // group id
