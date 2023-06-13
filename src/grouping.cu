@@ -12,10 +12,9 @@
 #include <thrust/execution_policy.h>
 #include <thrust/sort.h>
 
-
 struct Pair {
     unsigned int first;  // group id
-    size_t second;       // TriangleList index
+    unsigned int second; // TriangleList index
 
     __device__ bool operator()(const Pair& a, const Pair& b) const {
         if (a.first < b.first)
@@ -25,9 +24,9 @@ struct Pair {
 };
 
 #define PI 3.14
-__global__ void grouping(Triangle* dVertexAlign, Pair* group, size_t indexSize, float tolerance) {
+__global__ void grouping(Triangle* dVertexAlign, Pair* group, unsigned int indexSize, float tolerance) {
 
-    size_t threadId = threadIdx.x + (blockIdx.x * blockDim.x);
+    unsigned int threadId = threadIdx.x + (blockIdx.x * blockDim.x);
     if (threadId >= indexSize)
         return;
     glm::vec3 normal = glm::normalize(glm::triangleNormal(
@@ -57,14 +56,14 @@ __global__ void grouping(Triangle* dVertexAlign, Pair* group, size_t indexSize, 
     group[threadId].second = threadId;
 }
 
-__global__ void splitIndex(Pair* group, size_t* posList, size_t* size, size_t indexSize) {
+__global__ void splitIndex(Pair* group, unsigned int* posList, unsigned int* size, unsigned int indexSize) {
 
-    size_t threadId = threadIdx.x + (blockIdx.x * blockDim.x);
+    unsigned int threadId = threadIdx.x + (blockIdx.x * blockDim.x);
     if (threadId >= indexSize || threadId == 0)
         return;
 
     if (group[threadId].first != group[threadId - 1].first) {
-        size_t prev = atomicAdd(size, 1);
+        unsigned int prev = atomicAdd(size, 1);
         posList[prev] = threadId;
     }
 }
@@ -102,12 +101,12 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
     thrust::device_vector<Pair> deviceData(dGroup, dGroup + mesh->index.size());
     thrust::sort(deviceData.begin(), deviceData.end(), Pair());
 
-    size_t* dPos;
-    size_t* dPosList;
-    cudaMallocAsync(&dPos, sizeof(size_t), stream);
-    cudaMemsetAsync(dPos, 0, sizeof(size_t), stream);
-    cudaMallocAsync(&dPosList, sizeof(size_t) * pow(360.f / tolerance, 3), stream);
-    cudaMemsetAsync(dPosList, 0, sizeof(size_t) * pow(360.f / tolerance, 3), stream);
+    unsigned int* dPos;
+    unsigned int* dPosList;
+    cudaMallocAsync(&dPos, sizeof(unsigned int), stream);
+    cudaMemsetAsync(dPos, 0, sizeof(unsigned int), stream);
+    cudaMallocAsync(&dPosList, sizeof(unsigned int) * pow(360.f / tolerance, 3), stream);
+    cudaMemsetAsync(dPosList, 0, sizeof(unsigned int) * pow(360.f / tolerance, 3), stream);
 
     std::vector<Pair> hostData(mesh->index.size());
     thrust::copy(deviceData.begin(), deviceData.end(), hostData.begin());
@@ -115,11 +114,11 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
     splitIndex<<<ceil((float)mesh->index.size() / BLOCK_SIZE), BLOCK_SIZE>>>(
         thrust::raw_pointer_cast(deviceData.data()), dPosList, dPos, mesh->index.size());
 
-    size_t pos = 0;
-    size_t* posList = (size_t*)malloc(sizeof(size_t) * pow(360.f / tolerance, 3));
+    unsigned int pos = 0;
+    unsigned int* posList = (unsigned int*)malloc(sizeof(unsigned int) * pow(360.f / tolerance, 3));
 
-    cudaMemcpy(posList, dPosList, sizeof(size_t) * pow(360.f / tolerance, 3), cudaMemcpyDeviceToHost);
-    cudaMemcpy(&pos, dPos, sizeof(size_t), cudaMemcpyDeviceToHost);
+    cudaMemcpy(posList, dPosList, sizeof(unsigned int) * pow(360.f / tolerance, 3), cudaMemcpyDeviceToHost);
+    cudaMemcpy(&pos, dPos, sizeof(unsigned int), cudaMemcpyDeviceToHost);
     cudaDeviceSynchronize();
     posList[pos] = 0;
     pos++;
@@ -129,11 +128,11 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
     std::sort(posList, posList + pos);
 
 #pragma omp parallel for
-    for (int i = 0; i < pos - 1; i++) {
-        int start = posList[i];
-        int end = posList[i + 1];
+    for (unsigned int i = 0; i < pos - 1; i++) {
+        unsigned int start = posList[i];
+        unsigned int end = posList[i + 1];
         normal_triangle_list_map.insert({hostData[start].first, std::vector<Triangle>()});
-        for (int j = start; j < end; j++)
+        for (unsigned int j = start; j < end; j++)
             normal_triangle_list_map[hostData[start].first].push_back(TriangleList[hostData[j].second]);
     }
 
