@@ -118,7 +118,6 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
     cudaMemcpy(posList, dPosList, sizeof(unsigned int) * pow(360.f / tolerance, 3), cudaMemcpyDeviceToHost);
     cudaMemcpy(&pos, dPos, sizeof(unsigned int), cudaMemcpyDeviceToHost);
 
-
     posList[pos] = 0;
     pos++;
     posList[pos] = mesh->index.size();
@@ -127,12 +126,14 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
     std::sort(posList, posList + pos);
 
 #pragma omp parallel for
-    for (unsigned int i = 0; i < pos - 1; i++) {
+    for (int i = 0; i < pos - 1; i++) {
         unsigned int start = posList[i];
         unsigned int end = posList[i + 1];
-        normal_triangle_list_map.insert({hostData[start].first, std::vector<Triangle>()});
+        unsigned int gid = hostData[start].first;
+        normal_triangle_list_map.insert({gid, std::vector<Triangle>(end - start)});
+
         for (unsigned int j = start; j < end; j++)
-            normal_triangle_list_map[hostData[start].first].push_back(TriangleList[hostData[j].second]);
+            normal_triangle_list_map[gid][j - start] = TriangleList[hostData[j].second];
     }
 
     timer.offTimer(0);
