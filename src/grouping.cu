@@ -16,6 +16,15 @@ struct Pair {
     unsigned int first;  // group id
     unsigned int second; // TriangleList index
 
+    __device__ Pair& operator=(const Pair& other) {
+        if (this != &other) { // protect against invalid self-assignment
+            first = other.first;
+            second = other.second;
+        }
+        // by convention, always return *this
+        return *this;
+    }
+
     __device__ bool operator()(const Pair& a, const Pair& b) const {
         if (a.first < b.first)
             return true;
