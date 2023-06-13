@@ -42,7 +42,7 @@ __global__ void grouping(Triangle* dVertexAlign, Pair* group, unsigned int index
     if (normal.y < 0.5f)
         zSeta = 360 - zSeta;
 
-    xSeta += 15; // Àý´ë °¢µµ ½ÃÀÛ À§Ä¡ ¼³Á¤.
+    xSeta += 15; // ì ˆëŒ€ ê°ë„ ì‹œìž‘ ìœ„ì¹˜ ì„¤ì •.
     ySeta += 15;
     zSeta += 15;
 
