@@ -12,16 +12,13 @@ __global__ void __segment_union_to_obj(glm::vec3* vertices, glm::ivec3* faces, i
     __shared__ int index_index;     // push_back 대신 유지하는 삼각형 인덱스 추적 변수.
     __shared__ int* index_lookup;   // 기존 unordered_map을 유지하는 중복 검사용 변수.
     __shared__ cuda::binary_semaphore<cuda::thread_scope_block>* vertex_sem;     // 정점 삽입 mutex.
-    __shared__ cuda::binary_semaphore<cuda::thread_scope_block>* index_sem;      // 삼각형 삽입 mutex.
 
     if (threadIdx.x == 0) {
         vertex_index = 0;
         index_index = 0;
         index_lookup = index_lookup_chunk;
         vertex_sem = new cuda::binary_semaphore<cuda::thread_scope_block>();
-        index_sem = new cuda::binary_semaphore<cuda::thread_scope_block>();
         vertex_sem->release();
-        index_sem->release();
     }
     __syncthreads();
 
@@ -43,10 +40,7 @@ __global__ void __segment_union_to_obj(glm::vec3* vertices, glm::ivec3* faces, i
             new_index[j] = index_if_exist;
         }
 
-        index_sem->acquire();
-        faces[index_index] = new_index;
-        index_index++;
-        index_sem->release();
+        faces[atomicAdd(&index_index, 1) - 1] = new_index;
     }
 
     __syncthreads();
@@ -55,7 +49,6 @@ __global__ void __segment_union_to_obj(glm::vec3* vertices, glm::ivec3* faces, i
         *vertex_index_out = vertex_index;
         *index_index_out = index_index;
         delete vertex_sem;
-        delete index_sem;
     }
 }
 
