@@ -63,7 +63,7 @@ __global__ void splitIndex(Pair* group, unsigned int* posList, unsigned int* siz
         return;
 
     if (group[threadId].first != group[threadId - 1].first) {
-        unsigned int prev = atomicAdd(size, 1);
+        unsigned int prev = atomicInc(size, 1);
         posList[prev] = threadId;
     }
 }
