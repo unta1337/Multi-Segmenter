@@ -7,6 +7,4 @@
 
 class TriangleMesh;
 
-
-
 std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh* mesh, float tolerance);

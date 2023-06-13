@@ -1,16 +1,15 @@
-#include "cuda_runtime.h"
+#include <thrust/sort.h>
+#include <thrust/device_vector.h>
 #include "device_launch_parameters.h"
+#include "cuda_runtime.h"
 #include "grouping.h"
 #include "trianglemesh.hpp"
 #include <dstimer.hpp>
 #include <glm/gtx/normal.hpp>
 #include <omp.h>
-#include <stdlib.h>
-
+#include <cstdlib>
 #include <algorithm>
-#include <thrust/device_vector.h>
-#include <thrust/execution_policy.h>
-#include <thrust/sort.h>
+
 
 struct Pair {
     unsigned int first;  // group id
@@ -42,7 +41,7 @@ __global__ void grouping(Triangle* dVertexAlign, Pair* group, unsigned int index
     if (normal.y < 0.5f)
         zSeta = 360 - zSeta;
 
-    xSeta += 15; // Àý´ë °¢µµ ½ÃÀÛ À§Ä¡ ¼³Á¤.
+    xSeta += 15; // ì ˆëŒ€ ê°ë„ ì‹œìž‘ ìœ„ì¹˜ ì„¤ì •.
     ySeta += 15;
     zSeta += 15;
 
