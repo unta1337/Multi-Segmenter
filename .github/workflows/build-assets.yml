@@ -1,8 +1,13 @@
-name: OpenMP Build Assets
+name: Build Assets
 on: [push]
 jobs:
+  build_linux:
+    name: Build Project (Linux)
+    uses: ./.github/workflows/build-linux.yml
+
   listing:
-    name: Generate assets matrix
+    name: Generate Assets Matrix
+    needs: build_linux
     runs-on: ubuntu-22.04
     outputs:
       MATRIX: ${{ steps.generate_matrix.outputs.MATRIX }}
@@ -17,39 +22,31 @@ jobs:
       - name: Generate assets matrix
         shell: bash
         id: generate_matrix
-        run: echo MATRIX=$(find assets -name '*.obj' -printf '%P\n' -type f | jq -R -s 'split("\n")[:-1]|{assets:.,mode:["serial","parallel"]}' -c) >> $GITHUB_OUTPUT
+        run: echo MATRIX=$(find assets -name '*.obj' -printf '%P\n' -type f | jq -R -s 'split("\n")[:-1]|{assets:.,mode:["serial","parallel","cuda"]}' -c) >> $GITHUB_OUTPUT
 
   build_asset:
-    name: OpenMP Build Assets
+    name: Build Assets
     needs: listing
     strategy:
       matrix: ${{ fromJSON(needs.listing.outputs.MATRIX) }}
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-lab
     steps:
       - name: Get latest code
         uses: actions/checkout@v3
 
-      - name: Install prerequisite
-        shell: bash
-        run: sudo apt-get update && sudo apt-get install libegl1-mesa libegl1 ninja-build -y
-
-      - name: CMake x64
-        shell: bash
-        run: cmake OpenMP -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR=x86-64 -B OpenMP/x64
-
-      - name: Build x64
-        shell: bash
-        run: cmake --build OpenMP/x64 --target Multi-Segmenter --config Release
+      - uses: actions/download-artifact@master
+        with:
+          name: build
 
       - name: Launch segmenter
         shell: bash
-        run: ./OpenMP/x64/Multi-Segmenter ${{ matrix.mode }} assets/${{ matrix.assets }}
+        run: chmod 777 Multi-Segmenter && ./Multi-Segmenter ${{ matrix.mode }} assets/${{ matrix.assets }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: build
+          name: build-assets
           path: |
             assets/Segmented_*.obj
             assets/Segmented_*.mtl
@@ -57,3 +54,12 @@ jobs:
             assets/complex_models/Segmented_*.obj
             assets/complex_models/Segmented_*.mtl
             assets/complex_models/Segmented_*.txt
+
+  remove_artifact:
+    name: Remove Build Artifacts
+    needs: build_asset
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: build
