@@ -63,7 +63,7 @@ __global__ void splitIndex(Pair* group, unsigned int* posList, unsigned int* siz
         return;
 
     if (group[threadId].first != group[threadId - 1].first) {
-        unsigned int prev = atomicInc(size, 1);
+        unsigned int prev = atomicAdd(size, 1);
         posList[prev] = threadId;
     }
 }
@@ -86,10 +86,8 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
         TriangleList[i].vertex[2] = mesh->vertex[mesh->index[i].z];
     }
     cudaMallocAsync(&dGroup, sizeof(Pair) * mesh->index.size(), stream);
-    // cudaEventRecord(async, stream);
     cudaMalloc(&dVertexAlign, sizeof(Triangle) * mesh->index.size());
     cudaMemcpy(dVertexAlign, TriangleList, sizeof(Triangle) * mesh->index.size(), cudaMemcpyHostToDevice);
-    // cudaEventSynchronize(async);
 
 #define BLOCK_SIZE 512
     grouping<<<ceil((float)mesh->index.size() / BLOCK_SIZE), BLOCK_SIZE>>>(dVertexAlign, dGroup, mesh->index.size(),
@@ -119,7 +117,8 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
 
     cudaMemcpy(posList, dPosList, sizeof(unsigned int) * pow(360.f / tolerance, 3), cudaMemcpyDeviceToHost);
     cudaMemcpy(&pos, dPos, sizeof(unsigned int), cudaMemcpyDeviceToHost);
-    cudaDeviceSynchronize();
+
+
     posList[pos] = 0;
     pos++;
     posList[pos] = mesh->index.size();
