@@ -2,6 +2,7 @@
 #define __CUDASEGMENTER_H
 
 #include "color.hpp"
+#include "devicetrianglemesh.hpp"
 #include "dstimer.hpp"
 #include "facegraph.hpp"
 #include "logutils.h"
@@ -23,7 +24,9 @@
 class CUDASegmenter : public Segmenter {
   public:
     CUDASegmenter(TriangleMesh* mesh, float tolerance = 0.0f);
+    ~CUDASegmenter();
     virtual std::vector<TriangleMesh*> do_segmentation();
+    DeviceTriangleMesh * deviceMesh;
 
   private:
     inline glm::vec3 get_normal_key(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map, glm::vec3& normal);

@@ -29,9 +29,10 @@ parser.add_argument('-e', '--gsemail', {type: 'str', help: 'Google Spreadsheet e
 parser.add_argument('-k', '--gskey', {type: 'str', help: 'Google Spreadsheet key'});
 parser.add_argument('-d', '--gsdoc', {type: 'str', help: 'Google Spreadsheet doc'});
 parser.add_argument('-w', '--watch', {type: 'str', help: 'Watch mode path'});
-const args = parser.parse_args();
 
+const args = parser.parse_args();
 const gpus = getGPUs();
+
 async function getData(filePath) {
     const version = execSync('git rev-parse HEAD', {encoding: 'utf-8'}).trim();
     const extension = path.extname(filePath);

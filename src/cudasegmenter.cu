@@ -2,10 +2,18 @@
 #include "cudafacegraph.h"
 
 CUDASegmenter::CUDASegmenter(TriangleMesh* mesh, float tolerance) : Segmenter(mesh, tolerance) {
+    timer.onTimer(TIMER_DATA_TRANSFER_D2H);
+    deviceMesh = new DeviceTriangleMesh(mesh);
+    timer.offTimer(TIMER_DATA_TRANSFER_D2H);
+}
+
+CUDASegmenter::~CUDASegmenter() {
+    deviceMesh->free();
+    free(deviceMesh);
 }
 
 inline glm::vec3 CUDASegmenter::get_normal_key(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map,
-                                                 glm::vec3& normal) {
+                                               glm::vec3& normal) {
     for (const auto& entry : count_map) {
         glm::vec3 compare = entry.first;
         float norm_angle = glm::degrees(glm::angle(compare, normal));
@@ -19,7 +27,7 @@ inline glm::vec3 CUDASegmenter::get_normal_key(std::unordered_map<glm::vec3, siz
 }
 
 inline void CUDASegmenter::init_count_map(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map,
-                                            std::vector<glm::vec3>& face_normals) {
+                                          std::vector<glm::vec3>& face_normals) {
     for (auto& normal : face_normals) {
         count_map[get_normal_key(count_map, normal)]++;
     }
@@ -34,6 +42,7 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
 
     // obj에 포함된 면의 개수만큼 법선 벡터 계산 필요.
     std::vector<glm::vec3> face_normals(mesh->index.size());
+    thrust::device_vector<glm::vec3> d_face_normals(mesh->index.size());
 
     // 오브젝트에 포함된 면에 대한 법선 벡터 계산.
     for (int i = 0; i < mesh->index.size(); i++) {
@@ -102,9 +111,8 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
         for (const auto& segment : segments) {
             TriangleMesh* sub_object = triangle_list_to_obj(segment);
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
-            sub_object->material->name = "sub_materials_" + std::to_string(number);
-            sub_object->name = mesh->name + "_seg_" + std::to_string(number++);
-
+            strcpy(sub_object->material->name, ("sub_materials_" + std::to_string(number)).c_str());
+            strcpy(sub_object->name, (std::string(mesh->name) + "_seg_" + std::to_string(number++)).c_str());
             result.push_back(sub_object);
         }
         timer.offTimer(TIMER_TRIANGLE_MESH_GENERATING);
