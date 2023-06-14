@@ -31,6 +31,7 @@ parser.add_argument('-d', '--gsdoc', {type: 'str', help: 'Google Spreadsheet doc
 parser.add_argument('-w', '--watch', {type: 'str', help: 'Watch mode path'});
 
 const args = parser.parse_args();
+const gpus = getGPUs();
 
 async function getData(filePath) {
     const version = execSync('git rev-parse HEAD', {encoding: 'utf-8'}).trim();
@@ -60,7 +61,6 @@ async function getData(filePath) {
     const cpu = cpus[0].model.trim();
     const threads = cpus.length;
     const memory = os.totalmem();
-    const gpus = getGPUs();
     const createdAtRaw = fs.statSync(filePath).birthtime;
     const createdAt = `${createdAtRaw.getFullYear()}-${(createdAtRaw.getMonth() + 1).toString().padStart(2, '0')}-${createdAtRaw.getDate().toString().padStart(2, '0')} ${createdAtRaw.getHours().toString().padStart(2, '0')}:${createdAtRaw.getMinutes().toString().padStart(2, '0')}:${createdAtRaw.getSeconds().toString().padStart(2, '0')}`;
 
@@ -107,7 +107,6 @@ async function getData(filePath) {
     const data = await getData(args.file);
     console.log(JSON.stringify(data, null, 4));
     if (args.gsemail && args.gskey && args.gsdoc) {
-        console.log('Start upload...');
         const doc = new GoogleSpreadsheet(args.gsdoc);
         await doc.useServiceAccountAuth({
             client_email: args.gsemail,
@@ -121,7 +120,7 @@ async function getData(filePath) {
             ...data, ...r,
             routineNumber: i + 1,
             routines: undefined,
-            gpu: gpus.join(', ')
+            gpus: gpus.join(', ')
         })).map(r => headers.map(k => r[k]));
         await sheet.addRows(list);
         console.log(`End upload: ${list.length} Rows`);
