@@ -10,7 +10,7 @@ jobs:
 
       - name: CMake x64
         shell: bash
-        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -B Linux
+        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DThrust_DIR=/usr/local/cuda/lib64/cmake/thrust -B Linux
 
       - name: Build x64
         shell: bash
