@@ -9,29 +9,18 @@
 #include <cstdlib>
 #include <algorithm>
 
+#define BLOCK_SIZE 512
 #define TIMER_PREPROCESSING 0
 #define TIMER_NORMAL_VECTOR_COMPUTATION 1
 #define TIMER_MAP_COUNT 2
 #define TIMER_NORMAL_MAP_INSERTION 3
-#define TIMER_CC_N_TMG 4
-#define TIMER_FACEGRAPH_INIT_A 5
-#define TIMER_FACEGRAPH_INIT_B 6
-#define TIMER_FACEGRAPH_GET_SETMENTS_A 7
-#define TIMER_FACEGRAPH_GET_SETMENTS_B 8
-#define TIMER_TRIANGLE_MESH_GENERATING 9
-#define TIMER_SEGMENT_COLORING 10
 #define TIMER_TOTAL 11
-#define TIMER_SIZE (TIMER_TOTAL + 1)
-
-#define cudaEventSynchronize(i)                                                                                        \
-    while (cudaEventQuery(eventList[i]) != cudaSuccess)                                                                \
-        ;
 
 struct Pair {
     unsigned int first;  // group id
     unsigned int second; // TriangleList index
 
-    __device__ bool operator()(const Pair& a, const Pair& b) const {
+    __host__ __device__ bool operator()(const Pair& a, const Pair& b) const {
         if (a.first < b.first)
             return true;
         return false;
@@ -85,15 +74,11 @@ __global__ void splitIndex(Pair* group, unsigned int* posList, unsigned int* siz
 
 std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh* mesh, float tolerance,
                                                                    DS_timer& timer) {
+
     timer.onTimer(TIMER_PREPROCESSING);
 
-    cudaStream_t stream;
-    cudaStreamCreate(&stream);
-    cudaEvent_t eventList[3];
-    for (int i = 0; i < 3; i++)
-        cudaEventCreate(&eventList[i]);
-
     std::unordered_map<unsigned int, std::vector<Triangle>> normal_triangle_list_map;
+    std::vector<Pair> hostData(mesh->index.size());
     Triangle* dVertexAlign;
     Pair* dGroup;
     Triangle* TriangleList = (Triangle*)malloc(sizeof(Triangle) * mesh->index.size());
@@ -103,15 +88,27 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
     unsigned int* dPosList;
     unsigned int pos = 0;
 
-    cudaMallocAsync(&dVertexAlign, sizeof(Triangle) * mesh->index.size(), stream);
-    cudaEventRecord(eventList[0], stream);
-    cudaMallocAsync(&dGroup, sizeof(Pair) * mesh->index.size(), stream);
-    cudaEventRecord(eventList[1], stream);
-    cudaMallocAsync(&dPos, sizeof(unsigned int), stream);
-    cudaMemsetAsync(dPos, 0, sizeof(unsigned int), stream);
-    cudaMallocAsync(&dPosList, sizeof(unsigned int) * pow(360.f / tolerance, 3), stream);
-    cudaMemsetAsync(dPosList, 0, sizeof(unsigned int) * pow(360.f / tolerance, 3), stream);
-    cudaEventRecord(eventList[2], stream);
+    // ------------------------------------- variable initial
+
+    DS_timer variableTimer(2);
+
+    variableTimer.onTimer(0);
+    cudaMalloc(&dVertexAlign, sizeof(Triangle) * mesh->index.size());
+    cudaMalloc(&dGroup, sizeof(Pair) * mesh->index.size());
+    cudaMalloc(&dPos, sizeof(unsigned int));
+    cudaMalloc(&dPosList, sizeof(unsigned int) * pow(360.f / tolerance, 3));
+
+    variableTimer.onTimer(1);
+    cudaMemset(dPos, 0, sizeof(unsigned int));
+    cudaMemset(dPosList, 0, sizeof(unsigned int) * pow(360.f / tolerance, 3));
+    variableTimer.offTimer(1);
+    cudaDeviceSynchronize();
+    variableTimer.offTimer(0);
+
+
+    variableTimer.printTimer();
+    // ------------------------------------ Triangle Caculate
+
 
 #pragma omp parallel for
     for (int i = 0; i < mesh->index.size(); i++) {
@@ -119,28 +116,41 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
         TriangleList[i].vertex[1] = mesh->vertex[mesh->index[i].y];
         TriangleList[i].vertex[2] = mesh->vertex[mesh->index[i].z];
     }
-    cudaEventSynchronize(0);
+
     cudaMemcpy(dVertexAlign, TriangleList, sizeof(Triangle) * mesh->index.size(), cudaMemcpyHostToDevice);
-    cudaEventSynchronize(1);
+
+
+    
+    // ----------------------------------- Vector Computation(grouping)
 
     timer.onTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
-#define BLOCK_SIZE 512
+
+
+
     grouping<<<ceil((float)mesh->index.size() / BLOCK_SIZE), BLOCK_SIZE>>>(dVertexAlign, dGroup, mesh->index.size(),
                                                                            tolerance);
     cudaStreamSynchronize(0);
+
+
+
     timer.offTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
 
-    std::vector<Pair> hostData(mesh->index.size());
+
+    // ----------------------------------- Sort
+
+
+    timer.onTimer(TIMER_MAP_COUNT);
+
+
     thrust::device_vector<Pair> deviceData(dGroup, dGroup + mesh->index.size());
     thrust::sort(deviceData.begin(), deviceData.end(), Pair());
     thrust::copy(deviceData.begin(), deviceData.end(), hostData.begin());
 
-    cudaEventSynchronize(2);
-    timer.onTimer(TIMER_MAP_COUNT);
+
     splitIndex<<<ceil((float)mesh->index.size() / BLOCK_SIZE), BLOCK_SIZE>>>(
         thrust::raw_pointer_cast(deviceData.data()), dPosList, dPos, mesh->index.size());
+
     cudaStreamSynchronize(0);
-    timer.offTimer(TIMER_MAP_COUNT);
 
     posList = (unsigned int*)malloc(sizeof(unsigned int) * pow(360.f / tolerance, 3));
 
@@ -154,6 +164,15 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
 
     std::sort(posList, posList + pos);
 
+
+    timer.offTimer(TIMER_MAP_COUNT);
+
+
+    // --------------------------------- Map Insertion
+
+    timer.onTimer(TIMER_NORMAL_MAP_INSERTION);
+
+
     for (int i = 0; i < pos - 1; i++) {
         unsigned int start = posList[i];
         unsigned int end = posList[i + 1];
@@ -161,7 +180,6 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
         normal_triangle_list_map.insert({gid, std::vector<Triangle>(end - start)});
     }
 
-    timer.onTimer(TIMER_NORMAL_MAP_INSERTION);
 #pragma omp parallel for
     for (int i = 0; i < pos - 1; i++) {
         unsigned int start = posList[i];
@@ -171,8 +189,9 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
         for (unsigned int j = start; j < end; j++)
             normal_triangle_list_map[gid][j - start] = TriangleList[hostData[j].second];
     }
-    timer.offTimer(TIMER_NORMAL_MAP_INSERTION);
 
+
+    timer.offTimer(TIMER_NORMAL_MAP_INSERTION);
     timer.offTimer(TIMER_PREPROCESSING);
 
     return normal_triangle_list_map;
