@@ -92,7 +92,7 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     std::vector<std::pair<std::vector<int>, std::vector<Triangle>*>> segments_collection;
     for (auto& entry : normal_triangle_list_map) {
         STEP_LOG(std::cout << "[Step] FaceGraph: Init.\n");
-        CUDAFaceGraph fg(&entry.second, &timer);
+        CUDAFaceGraph fg(&entry.second, &timer, mesh->vertex.size());
 
         STEP_LOG(std::cout << "[Step] FaceGraph: Get Segments.\n");
         segments_collection.push_back(std::make_pair(fg.get_segments_as_union(), fg.triangles));
