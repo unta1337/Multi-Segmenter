@@ -122,9 +122,13 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
     cudaEventSynchronize(0);
     cudaMemcpy(dVertexAlign, TriangleList, sizeof(Triangle) * mesh->index.size(), cudaMemcpyHostToDevice);
     cudaEventSynchronize(1);
+
+    timer.onTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
 #define BLOCK_SIZE 512
     grouping<<<ceil((float)mesh->index.size() / BLOCK_SIZE), BLOCK_SIZE>>>(dVertexAlign, dGroup, mesh->index.size(),
                                                                            tolerance);
+    cudaStreamSynchronize(0);
+    timer.offTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
 
     std::vector<Pair> hostData(mesh->index.size());
     thrust::device_vector<Pair> deviceData(dGroup, dGroup + mesh->index.size());
@@ -132,8 +136,11 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
     thrust::copy(deviceData.begin(), deviceData.end(), hostData.begin());
 
     cudaEventSynchronize(2);
+    timer.onTimer(TIMER_MAP_COUNT);
     splitIndex<<<ceil((float)mesh->index.size() / BLOCK_SIZE), BLOCK_SIZE>>>(
         thrust::raw_pointer_cast(deviceData.data()), dPosList, dPos, mesh->index.size());
+    cudaStreamSynchronize(0);
+    timer.offTimer(TIMER_MAP_COUNT);
 
     posList = (unsigned int*)malloc(sizeof(unsigned int) * pow(360.f / tolerance, 3));
 
@@ -154,6 +161,7 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
         normal_triangle_list_map.insert({gid, std::vector<Triangle>(end - start)});
     }
 
+    timer.onTimer(TIMER_NORMAL_MAP_INSERTION);
 #pragma omp parallel for
     for (int i = 0; i < pos - 1; i++) {
         unsigned int start = posList[i];
@@ -163,6 +171,7 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
         for (unsigned int j = start; j < end; j++)
             normal_triangle_list_map[gid][j - start] = TriangleList[hostData[j].second];
     }
+    timer.offTimer(TIMER_NORMAL_MAP_INSERTION);
 
     timer.offTimer(TIMER_PREPROCESSING);
 
