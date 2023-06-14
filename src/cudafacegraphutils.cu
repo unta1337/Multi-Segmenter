@@ -40,7 +40,7 @@ __global__ void __segment_union_to_obj(glm::vec3* vertices, glm::ivec3* faces, i
             new_index[j] = index_if_exist;
         }
 
-        faces[atomicAdd(&index_index, 1) - 1] = new_index;
+        faces[atomicAdd(&index_index, 1)] = new_index;
     }
 
     __syncthreads();
