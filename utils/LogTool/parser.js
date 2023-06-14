@@ -121,7 +121,7 @@ async function getData(filePath) {
             ...data, ...r,
             routineNumber: i + 1,
             routines: undefined,
-            gpu: gpus.join(', ')
+            gpus: gpus.join(', ')
         })).map(r => headers.map(k => r[k]));
         await sheet.addRows(list);
         console.log(`End upload: ${list.length} Rows`);
