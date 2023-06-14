@@ -42,7 +42,7 @@ void Model::read_obj(std::string obj_file_path) {
         for (int material_id : material_ids) {
             TriangleMesh* mesh = new TriangleMesh;
             Material* mat = new Material;
-            strcpy_s(mesh->name, shape.name.c_str());
+            strcpy(mesh->name, shape.name.c_str());
             mesh->material = mat;
 
             for (int face_id = 0; face_id < shape.mesh.material_ids.size(); face_id++) {
@@ -64,7 +64,7 @@ void Model::read_obj(std::string obj_file_path) {
                 mesh->material->shininess = (const float&)materials[material_id].shininess;
                 mesh->material->dissolve = (const float&)materials[material_id].dissolve;
                 mesh->material->illumination_model = (const int&)materials[material_id].illum;
-                strcpy_s(mesh->material->name, materials[material_id].name.c_str());
+                strcpy(mesh->material->name, materials[material_id].name.c_str());
             }
 
             if (mesh->vertex.empty())

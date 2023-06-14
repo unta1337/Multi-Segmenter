@@ -101,8 +101,8 @@ std::vector<TriangleMesh*> SerialSegmenter::do_segmentation() {
         for (const auto& segment : segments) {
             TriangleMesh* sub_object = triangle_list_to_obj(segment);
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
-            strcpy_s(sub_object->material->name, ("sub_materials_" + std::to_string(number)).c_str());
-            strcpy_s(sub_object->name, (std::string(mesh->name) + "_seg_" + std::to_string(number++)).c_str());
+            strcpy(sub_object->material->name, ("sub_materials_" + std::to_string(number)).c_str());
+            strcpy(sub_object->name, (std::string(mesh->name) + "_seg_" + std::to_string(number++)).c_str());
             result.push_back(sub_object);
         }
         timer.offTimer(TIMER_TRIANGLE_MESH_GENERATING);
