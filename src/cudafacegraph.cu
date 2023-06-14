@@ -3,7 +3,7 @@
 #define ADJ_MAX 20
 #define BLOCK_LEN 512
 
-__global__ void __get_vertex_to_adj(int* vertex_adj, size_t* triangles, int triangle_count, int* vertex_count_out, int vertex_index_begin, int adj_max) {
+__global__ void __get_vertex_to_adj(int* vertex_adj, Triangle* triangles, int triangle_count, int* vertex_count_out, int vertex_index_begin, int adj_max) {
     __shared__ int vertex_index;
     __shared__ int index;
     __shared__ int internal_index;
@@ -19,7 +19,7 @@ __global__ void __get_vertex_to_adj(int* vertex_adj, size_t* triangles, int tria
 
     for (int j = 0; j < 3; j++) {
         for (int i = threadIdx.x; i < triangle_count; i += blockDim.x) {
-            if (triangles[j * triangle_count + i] != vertex_index)
+            if (triangles[i].id[j] != vertex_index)
                 continue;
 
             s_vertex_adj[atomicAdd(&index, 1)] = i;
@@ -35,20 +35,8 @@ __global__ void __get_vertex_to_adj(int* vertex_adj, size_t* triangles, int tria
 }
 
 std::vector<std::vector<int>> CUDAFaceGraph::get_vertex_to_adj() {
+    d_triangles = thrust::device_vector<Triangle>(*triangles);
     std::vector<std::vector<int>> vertex_adjacent_map(total_vertex_count);
-
-    // AOS에서 SOA로의 변환 비용이 없다고 가정.
-    // 더 나은 변환 방법이 있거나 Triangle을 SOA로 변경하면 해결 가능.
-    timer->offTimer(TIMER_FACEGRAPH_INIT_A);
-
-    cudaMalloc(&d_triangles_soa, triangles->size() * 3 * sizeof(size_t));
-    for (int j = 0; j < 3; j++) {
-        for (int i = 0; i < triangles->size(); i++) {
-            cudaMemcpy(&d_triangles_soa[j * triangles->size() + i], &triangles->at(i).id[j], sizeof(size_t), cudaMemcpyHostToDevice);
-        }
-    }
-
-    timer->onTimer(TIMER_FACEGRAPH_INIT_A);
 
     int adj_max = ADJ_MAX;
     int batch_size = 8192;
@@ -83,7 +71,7 @@ std::vector<std::vector<int>> CUDAFaceGraph::get_vertex_to_adj() {
     // 연산.
     for (int i = 0; i < iter; i++) {
         __get_vertex_to_adj<<<batch_size, std::min(triangles->size(), (size_t)BLOCK_LEN), 0, streams[i]>>>(d_vertex_adj[i],
-                                                                                                           d_triangles_soa, triangles->size(),
+                                                                                                           thrust::raw_pointer_cast(d_triangles.data()), d_triangles.size(),
                                                                                                            d_vertex_count[i], i * batch_size, adj_max);
     }
     cudaDeviceSynchronize();

@@ -12,8 +12,8 @@ class CUDAFaceGraph : public FaceGraph {
      * 삼각형에 대한 인접 리스트
      */
     std::vector<std::vector<int>> adj_triangles;
-    size_t* d_triangles_soa;
     int total_vertex_count;
+    thrust::device_vector<Triangle> d_triangles;
     CUDAFaceGraph(std::vector<Triangle>* triangles);
     CUDAFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer);
     CUDAFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer, int total_vertex_count);
