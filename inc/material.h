@@ -10,7 +10,7 @@
  */
 class Material {
   public:
-    std::string name;
+    char name[255];
     glm::vec3 ambient;      // Ka
     glm::vec3 diffuse;      // Kd
     glm::vec3 specular;     // Ks

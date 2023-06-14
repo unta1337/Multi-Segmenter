@@ -143,8 +143,8 @@ std::vector<TriangleMesh*> ParallelSegmenter::do_segmentation() {
             auto subs = segments[i];
             TriangleMesh* sub_object = triangle_list_to_obj(subs);
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
-            sub_object->material->name = "sub_materials_" + std::to_string(number);
-            sub_object->name = mesh->name + "_seg_" + std::to_string(number++);
+            strcpy_s(sub_object->material->name, ("sub_materials_" + std::to_string(number)).c_str());
+            strcpy_s(sub_object->name, (std::string(mesh->name) + "_seg_" + std::to_string(number++)).c_str());
             #pragma omp critical
             result.push_back(sub_object);
         }
