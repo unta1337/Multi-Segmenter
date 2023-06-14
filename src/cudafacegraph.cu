@@ -1,5 +1,7 @@
 #include "cudafacegraph.h"
 
+#include <thrust/device_vector.h>
+
 #define ADJ_MAX 20
 #define BLOCK_LEN 512
 
@@ -35,7 +37,7 @@ __global__ void __get_vertex_to_adj(int* vertex_adj, Triangle* triangles, int tr
 }
 
 std::vector<std::vector<int>> CUDAFaceGraph::get_vertex_to_adj() {
-    d_triangles = thrust::device_vector<Triangle>(*triangles);
+    thrust::device_vector<Triangle> d_triangles(*triangles);
     std::vector<std::vector<int>> vertex_adjacent_map(total_vertex_count);
 
     int adj_max = ADJ_MAX;

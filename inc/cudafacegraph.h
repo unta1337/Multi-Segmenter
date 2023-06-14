@@ -4,8 +4,6 @@
 #include "facegraph.hpp"
 #include "segmenter.hpp"
 
-#include <thrust/device_vector.h>
-
 class CUDAFaceGraph : public FaceGraph {
   public:
     /**
@@ -13,7 +11,6 @@ class CUDAFaceGraph : public FaceGraph {
      */
     std::vector<std::vector<int>> adj_triangles;
     int total_vertex_count;
-    thrust::device_vector<Triangle> d_triangles;
     CUDAFaceGraph(std::vector<Triangle>* triangles);
     CUDAFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer);
     CUDAFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer, int total_vertex_count);
