@@ -28,8 +28,8 @@ inline void CUDASegmenter::init_count_map(std::unordered_map<glm::vec3, size_t, 
 
 std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
 
-    std::unordered_map<unsigned int, std::vector<Triangle>> normal_triangle_list_map = kernelCall(mesh, tolerance);
-
+    std::unordered_map<unsigned int, std::vector<Triangle>> normal_triangle_list_map = kernelCall(mesh, tolerance, timer);
+    
     // timer.onTimer(TIMER_TOTAL);
     // STEP_LOG(std::cout << "[Begin] Preprocessing.\n");
     // timer.onTimer(TIMER_PREPROCESSING);

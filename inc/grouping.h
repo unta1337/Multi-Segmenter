@@ -4,7 +4,8 @@
 #include <unordered_map>
 #include <vector>
 #include "triangle.h"
+#include <dstimer.hpp>
 
 class TriangleMesh;
 
-std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh* mesh, float tolerance);
+std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh* mesh, float tolerance, DS_timer& timer);
