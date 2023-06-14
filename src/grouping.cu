@@ -1,13 +1,13 @@
-#include <thrust/sort.h>
-#include <thrust/device_vector.h>
-#include "device_launch_parameters.h"
 #include "cuda_runtime.h"
+#include "device_launch_parameters.h"
 #include "grouping.h"
 #include "trianglemesh.hpp"
+#include <algorithm>
+#include <cstdlib>
 #include <glm/gtx/normal.hpp>
 #include <omp.h>
-#include <cstdlib>
-#include <algorithm>
+#include <thrust/device_vector.h>
+#include <thrust/sort.h>
 
 #define BLOCK_SIZE 512
 #define TIMER_PREPROCESSING 0
@@ -90,25 +90,15 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
 
     // ------------------------------------- variable initial
 
-    DS_timer variableTimer(2);
-
-    variableTimer.onTimer(0);
     cudaMalloc(&dVertexAlign, sizeof(Triangle) * mesh->index.size());
     cudaMalloc(&dGroup, sizeof(Pair) * mesh->index.size());
     cudaMalloc(&dPos, sizeof(unsigned int));
     cudaMalloc(&dPosList, sizeof(unsigned int) * pow(360.f / tolerance, 3));
 
-    variableTimer.onTimer(1);
     cudaMemset(dPos, 0, sizeof(unsigned int));
     cudaMemset(dPosList, 0, sizeof(unsigned int) * pow(360.f / tolerance, 3));
-    variableTimer.offTimer(1);
-    cudaDeviceSynchronize();
-    variableTimer.offTimer(0);
 
-
-    variableTimer.printTimer();
     // ------------------------------------ Triangle Caculate
-
 
 #pragma omp parallel for
     for (int i = 0; i < mesh->index.size(); i++) {
@@ -119,33 +109,23 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
 
     cudaMemcpy(dVertexAlign, TriangleList, sizeof(Triangle) * mesh->index.size(), cudaMemcpyHostToDevice);
 
-
-    
     // ----------------------------------- Vector Computation(grouping)
 
     timer.onTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
-
-
 
     grouping<<<ceil((float)mesh->index.size() / BLOCK_SIZE), BLOCK_SIZE>>>(dVertexAlign, dGroup, mesh->index.size(),
                                                                            tolerance);
     cudaStreamSynchronize(0);
 
-
-
     timer.offTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
-
 
     // ----------------------------------- Sort
 
-
     timer.onTimer(TIMER_MAP_COUNT);
-
 
     thrust::device_vector<Pair> deviceData(dGroup, dGroup + mesh->index.size());
     thrust::sort(deviceData.begin(), deviceData.end(), Pair());
     thrust::copy(deviceData.begin(), deviceData.end(), hostData.begin());
-
 
     splitIndex<<<ceil((float)mesh->index.size() / BLOCK_SIZE), BLOCK_SIZE>>>(
         thrust::raw_pointer_cast(deviceData.data()), dPosList, dPos, mesh->index.size());
@@ -164,14 +144,11 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
 
     std::sort(posList, posList + pos);
 
-
     timer.offTimer(TIMER_MAP_COUNT);
-
 
     // --------------------------------- Map Insertion
 
     timer.onTimer(TIMER_NORMAL_MAP_INSERTION);
-
 
     for (int i = 0; i < pos - 1; i++) {
         unsigned int start = posList[i];
@@ -190,8 +167,16 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
             normal_triangle_list_map[gid][j - start] = TriangleList[hostData[j].second];
     }
 
-
     timer.offTimer(TIMER_NORMAL_MAP_INSERTION);
+
+    cudaFree(dVertexAlign);
+    cudaFree(dGroup);
+    cudaFree(dPos);
+    cudaFree(dPosList);
+    free(TriangleList);
+    free(group);
+    free(posList);
+
     timer.offTimer(TIMER_PREPROCESSING);
 
     return normal_triangle_list_map;
