@@ -1,5 +1,5 @@
-﻿#include "cudafacegraph.h"
-#include "cudasegmenter.h"
+﻿#include "cudasegmenter.h"
+#include "cudafacegraph.h"
 
 CUDASegmenter::CUDASegmenter(TriangleMesh* mesh, float tolerance) : Segmenter(mesh, tolerance) {
     timer.onTimer(TIMER_DATA_TRANSFER_D2H);
