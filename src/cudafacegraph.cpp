@@ -15,12 +15,7 @@ CUDAFaceGraph::CUDAFaceGraph(std::vector<Triangle>* triangles) : FaceGraph(trian
 void CUDAFaceGraph::init() {
     timer->onTimer(TIMER_FACEGRAPH_INIT_A);
     // 정점 -> 정점과 인접한 삼각형 매핑.
-    std::vector<std::vector<int>> vertex_adjacent_map(total_vertex_count);
-    for (int i = 0; i < triangles->size(); i++) {
-        for (int j = 0; j < 3; j++) {
-            vertex_adjacent_map[triangles->at(i).id[j]].push_back(i);
-        }
-    }
+    std::vector<std::vector<int>> vertex_adjacent_map = get_vertex_to_adj();
     timer->offTimer(TIMER_FACEGRAPH_INIT_A);
 
     timer->onTimer(TIMER_FACEGRAPH_INIT_B);

@@ -7,9 +7,16 @@
 class CUDAFaceGraph : public FaceGraph {
   public:
     /**
+     * FaceGraph에 속한 정점 리스트
+     */
+    std::vector<glm::vec3> vertices;
+    /**
      * 삼각형에 대한 인접 리스트
      */
     std::vector<std::vector<int>> adj_triangles;
+    /**
+     * 원본 obj에 있던 모든 정점 개수
+     */
     int total_vertex_count;
     CUDAFaceGraph(std::vector<Triangle>* triangles);
     CUDAFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer);
