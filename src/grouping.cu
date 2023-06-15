@@ -141,13 +141,13 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
 
         for (size_t i = memCpyStart; i < SPLIT_SIZE; i++) {
             if (cudaEventQuery(eventListForAlloc[i]) == cudaSuccess) {
-                if (i != SPLIT_SIZE - 1)
+                //if (i != SPLIT_SIZE - 1)
                     cudaMemcpyAsync(dVertexAlign[i], &TriangleList[calcSize * i], sizeof(Triangle) * calcSize,
                                     cudaMemcpyHostToDevice, streamForCopy);
-                else
+                /*else
                     cudaMemcpyAsync(dVertexAlign[i], &TriangleList[calcSize * i],
                                     sizeof(Triangle) * (mesh->index.size() - calcSize * i), cudaMemcpyHostToDevice,
-                                    streamForCopy);
+                                    streamForCopy);*/
 
                 cudaEventRecord(eventListForCopy[i], streamForCopy);
                 memCpyStart = i;
