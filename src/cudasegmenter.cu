@@ -37,16 +37,20 @@ struct NormalWrapper {
     float xAngle;
     float yAngle;
     float zAngle;
+    int index;
     Triangle triangle;
 };
 
 struct NormalMapper {
     glm::vec3* vertex;
+    int baseSize;
+    float tolerance;
     glm::vec3 xAxis = glm::vec3(1, 0, 0);
     glm::vec3 yAxis = glm::vec3(0, 1, 0);
     glm::vec3 zAxis = glm::vec3(0, 0, 1);
 
-    explicit NormalMapper(glm::vec3* vertex) : vertex(vertex) {
+    explicit NormalMapper(glm::vec3* vertex, float tolerance)
+        : vertex(vertex), baseSize(ceil(180.0f / tolerance)), tolerance(glm::radians(tolerance)) {
     }
 
     __host__ __device__ NormalWrapper operator()(const glm::ivec3& idx) const {
@@ -58,22 +62,20 @@ struct NormalMapper {
         float xAngle = glm::angle(normal, xAxis);
         float yAngle = glm::angle(normal, yAxis);
         float zAngle = glm::angle(normal, zAxis);
-        return {normal, xAngle, yAngle, zAngle, triangle};
+        int xIndex = floor(xAngle / tolerance);
+        int yIndex = floor(yAngle / tolerance);
+        int zIndex = floor(zAngle / tolerance);
+        int index = xIndex + yIndex * baseSize + zIndex * baseSize * baseSize;
+        return {normal, xAngle, yAngle, zAngle, index, triangle};
     }
 };
 
 struct NormalIndexMapper {
-    float tolerance;
-    int baseSize;
-
-    explicit NormalIndexMapper(float tolerance) {
-        baseSize = floor(180.0f / tolerance);
-        this->tolerance = glm::radians(tolerance);
+    explicit NormalIndexMapper() {
     }
 
     __host__ __device__ int operator()(const NormalWrapper& normal) const {
-        return ((int)floor(normal.xAngle / tolerance)) + ((int)floor(normal.yAngle / tolerance)) * baseSize +
-               ((int)floor(normal.zAngle / tolerance)) * baseSize * baseSize;
+        return normal.index;
     }
 };
 
@@ -86,13 +88,9 @@ struct NormalTriangleMapper {
     }
 };
 
-struct AngleComparator {
+struct IndexComparator {
     __host__ __device__ bool operator()(const NormalWrapper& o1, const NormalWrapper& o2) const {
-        if (o1.xAngle < o2.xAngle)
-            return true;
-        else if (o1.xAngle > o2.xAngle)
-            return false;
-        return false;
+        return o1.index < o2.index;
     }
 };
 
@@ -106,15 +104,15 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     // obj에 포함된 면의 개수만큼 법선 벡터 계산 필요.
     thrust::device_vector<NormalWrapper> face_normals(mesh->index.size());
     thrust::transform(deviceMesh->index_device_vector->begin(), deviceMesh->index_device_vector->end(),
-                      face_normals.begin(), NormalMapper(deviceMesh->vertex));
+                      face_normals.begin(), NormalMapper(deviceMesh->vertex, tolerance));
 
     timer.offTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
 
     STEP_LOG(std::cout << "[End] Normal Vector Computation.\n");
 
-    thrust::sort(face_normals.begin(), face_normals.end(), AngleComparator());
+    thrust::sort(face_normals.begin(), face_normals.end(), IndexComparator());
     thrust::device_vector<int> fn_indexes(face_normals.size());
-    thrust::transform(face_normals.begin(), face_normals.end(), fn_indexes.begin(), NormalIndexMapper(tolerance));
+    thrust::transform(face_normals.begin(), face_normals.end(), fn_indexes.begin(), NormalIndexMapper());
 
     int baseSize = ceil(180.0f / tolerance);
     int binSize = baseSize * baseSize * baseSize;
