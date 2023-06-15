@@ -1,7 +1,5 @@
 #include "cudafacegraph.h"
 
-#include <thrust/device_vector.h>
-
 #define ADJ_MAX 20
 #define BLOCK_LEN 1024
 
@@ -70,15 +68,17 @@ std::vector<std::vector<int>> CUDAFaceGraph::get_vertex_to_adj() {
     // memset async.
     for (int i = 0; i < iter; i++)
         cudaMemsetAsync(&d_local_adj_map_index[i * vertices_index], 0, vertices_index * sizeof(int), streams[i]);
-    thrust::device_vector<Triangle> d_triangles_vec(*triangles);
-    Triangle* d_triangles = thrust::raw_pointer_cast(d_triangles_vec.data());
+
+    Triangle* d_triangles;
+    cudaMalloc(&d_triangles, triangles->size() * sizeof(Triangle));
+    cudaMemcpy(d_triangles, triangles->data(), triangles->size() * sizeof(Triangle), cudaMemcpyHostToDevice);
 
     cudaDeviceSynchronize();        // memset 동기화.
 
     // 연산 async.
     for (int i = 0; i < iter; i++) {
         __get_vertex_to_adj<<<1, BLOCK_LEN, 0, streams[i]>>>(d_local_adj_map, d_local_adj_map_index,
-                                                             d_triangles, d_triangles_vec.size(), triangles_per_block,
+                                                             d_triangles, triangles->size(), triangles_per_block,
                                                              vertices_index, i);
     }
     cudaDeviceSynchronize();        // 연산 동기화.
@@ -95,6 +95,7 @@ std::vector<std::vector<int>> CUDAFaceGraph::get_vertex_to_adj() {
     // free.
     cudaFree(d_local_adj_map);
     cudaFree(d_local_adj_map_index);
+    cudaFree(d_triangles);
 
     // 로컬 adj 취합.
     std::vector<std::vector<int>> vertex_adjacent_map(vertices_index);
