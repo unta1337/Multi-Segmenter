@@ -34,6 +34,9 @@ add_compile_options("$<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=\"-DDO_STEP_LOG\">")
 add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:-DDO_TIME_LOG>")
 add_compile_options("$<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=\"-DDO_TIME_LOG\">")
 
+# OpenMP 사용
+add_compile_options($<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=-openmp>)
+
 find_package(OpenMP REQUIRED)
 find_package(Thrust REQUIRED)
 thrust_create_target(Thrust)
