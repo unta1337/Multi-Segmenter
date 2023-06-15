@@ -123,6 +123,7 @@ std::vector<TriangleMesh*> segment_union_to_obj(const std::vector<int> segment_u
         cudaMemcpyAsync(&face_index_out[i], &d_face_index_out[i], sizeof(int), cudaMemcpyDeviceToHost, streams[i]);
     }
 
+    cudaDeviceSynchronize();
     for (int i = 0; i < group_index; i++) {
         cudaMemcpyAsync(vertex_out[i], &d_vertices[i * (triangles->size() + 3)], vertex_index_out[i] * sizeof(glm::vec3), cudaMemcpyDeviceToHost, streams[i]);
         cudaMemcpyAsync(face_out[i], &d_faces[i * (triangles->size() + 3)], face_index_out[i] * sizeof(glm::ivec3), cudaMemcpyDeviceToHost, streams[i]);
