@@ -109,7 +109,6 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
 
     std::vector<std::vector<TriangleMesh*>> results(segments.size());
 
-    #pragma omp parallel for
     for (int i = 0; i < segments.size(); i++) {
         results[i] = segment_union_to_obj(segments[i], triangles[i], vertices[i].size());
     }

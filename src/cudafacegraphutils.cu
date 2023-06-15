@@ -80,13 +80,13 @@ std::vector<TriangleMesh*> segment_union_to_obj(const std::vector<int> segment_u
 
     int* d_index_lookup; cudaMalloc(&d_index_lookup, group_index * total_vertex_count * sizeof(int));
     for (int i = 0; i < group_index; i++) {
-        cudaMemsetAsync(d_index_lookup, 0xFF, total_vertex_count * sizeof(int), streams[i]);
+        cudaMemsetAsync(&d_index_lookup[i * total_vertex_count], 0xFF, total_vertex_count * sizeof(int), streams[i]);
     }
     int* d_vertex_index_out; cudaMalloc(&d_vertex_index_out, group_index * sizeof(int));
     int* d_face_index_out; cudaMalloc(&d_face_index_out, group_index * sizeof(int));
 
     glm::vec3* d_vertices; cudaMalloc(&d_vertices, group_index * triangles->size() * 3 * sizeof(glm::vec3));
-    glm::ivec3* d_faces; cudaMalloc(&d_faces, group_index * triangles->size() * 3 * sizeof(glm::ivec3));
+    glm::ivec3* d_faces; cudaMalloc(&d_faces, group_index * triangles->size() * sizeof(glm::ivec3));
 
     thrust::device_vector<int> d_group_id_vec(group_id);
     thrust::device_vector<Triangle> d_triangles_vec(*triangles);
@@ -107,7 +107,7 @@ std::vector<TriangleMesh*> segment_union_to_obj(const std::vector<int> segment_u
     cudaDeviceSynchronize();
     for (int i = 0; i < group_index; i++) {
         __segment_union_to_obj<<<1, std::min(triangles->size(), (size_t)1024), 0, streams[i]>>>(&d_vertices[i * (triangles->size() + 3)],
-                                                                                                &d_faces[i * (triangles->size() + 3)],
+                                                                                                &d_faces[i * triangles->size()],
                                                                                                 d_group_id,
                                                                                                 d_triangles,
                                                                                                 triangles->size(), total_vertex_count,
@@ -126,20 +126,21 @@ std::vector<TriangleMesh*> segment_union_to_obj(const std::vector<int> segment_u
     cudaDeviceSynchronize();
     for (int i = 0; i < group_index; i++) {
         cudaMemcpyAsync(vertex_out[i], &d_vertices[i * (triangles->size() + 3)], vertex_index_out[i] * sizeof(glm::vec3), cudaMemcpyDeviceToHost, streams[i]);
-        cudaMemcpyAsync(face_out[i], &d_faces[i * (triangles->size() + 3)], face_index_out[i] * sizeof(glm::ivec3), cudaMemcpyDeviceToHost, streams[i]);
+        cudaMemcpyAsync(face_out[i], &d_faces[i * triangles->size()], face_index_out[i] * sizeof(glm::ivec3), cudaMemcpyDeviceToHost, streams[i]);
     }
-
-    cudaFree(d_vertices);
-    cudaFree(d_faces);
 
     cudaFree(d_index_lookup);
     cudaFree(d_vertex_index_out);
     cudaFree(d_face_index_out);
 
+    cudaDeviceSynchronize();
     for (int i = 0; i < result.size(); i++) {
         result[i]->vertex.insert(result[i]->vertex.begin(), vertex_out[i], vertex_out[i] + vertex_index_out[i]);
         result[i]->index.insert(result[i]->index.begin(), face_out[i], face_out[i] + face_index_out[i]);
     }
+
+    cudaFree(d_vertices);
+    cudaFree(d_faces);
 
     for (int i = 0; i < group_index; i++) cudaFreeHost(&vertex_out[i]);
     for (int i = 0; i < group_index; i++) cudaFreeHost(&face_out[i]);
