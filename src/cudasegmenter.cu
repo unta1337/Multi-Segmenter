@@ -43,8 +43,8 @@ struct NormalWrapper {
 struct NormalMapper {
     glm::vec3* vertex;
     glm::vec3 xAxis = glm::vec3(1, 0, 0);
-    glm::vec3 yAxis = glm::vec3(1, 0, 0);
-    glm::vec3 zAxis = glm::vec3(1, 0, 0);
+    glm::vec3 yAxis = glm::vec3(0, 1, 0);
+    glm::vec3 zAxis = glm::vec3(0, 0, 1);
 
     explicit NormalMapper(glm::vec3* vertex) : vertex(vertex) {
     }
@@ -92,18 +92,7 @@ struct AngleComparator {
             return true;
         else if (o1.xAngle > o2.xAngle)
             return false;
-
-        // If xAngle is equal, then compare yAngle
-        if (o1.yAngle < o2.yAngle)
-            return true;
-        else if (o1.yAngle > o2.yAngle)
-            return false;
-
-        // If yAngle is also equal, then compare zAngle
-        if (o1.zAngle < o2.zAngle)
-            return true;
-        else
-            return false;
+        return false;
     }
 };
 
