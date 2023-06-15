@@ -21,6 +21,7 @@
 #include <stack>
 #include <unordered_map>
 #include <vector>
+#include <omp.h>
 
 class CUDASegmenter : public Segmenter {
   public:

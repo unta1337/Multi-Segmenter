@@ -116,7 +116,10 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     }
 
     std::vector<TriangleMesh*> result;
+    omp_lock_t result_lock;
+    omp_init_lock(&result_lock);
     int number = 0;
+
     #pragma omp parallel for
     for (int i = 0; i < binSize; i++) {
         int start = startIndexes[i];
@@ -137,10 +140,13 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
             strcpy(sub_object->material->name, ("sub_materials_" + std::to_string(number)).c_str());
             strcpy(sub_object->name, (std::string(mesh->name) + "_seg_" + std::to_string(number++)).c_str());
+            omp_set_lock(&result_lock);
             result.push_back(sub_object);
+            omp_unset_lock(&result_lock);
         }
         timer.offTimer(TIMER_TRIANGLE_MESH_GENERATING);
     }
+    omp_destroy_lock(&result_lock);
 
     timer.offTimer(TIMER_CC_N_TMG);
     STEP_LOG(std::cout << "[End] Connectivity Checking and Triangle Mesh Generating.\n");
