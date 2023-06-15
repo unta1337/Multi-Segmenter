@@ -119,15 +119,14 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     }
 
     std::vector<TriangleMesh*> result;
-    // 이제 병렬화가 가능할 것으로 보임
     int number = 0;
+    #pragma omp parallel for
     for (int i = 0; i < binSize; i++) {
         int start = startIndexes[i];
         int end = start + counts[i];
         STEP_LOG(std::cout << "[Step] FaceGraph: Init.\n");
         std::vector<Triangle> triangles(counts[i]);
         thrust::copy(fn_triangles.begin() + start, fn_triangles.begin() + end, triangles.begin());
-        // 오버헤드 제거 가능
 
         CUDAFaceGraph fg(&triangles, &timer);
 
@@ -152,6 +151,7 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     STEP_LOG(std::cout << "[Begin] Segment Coloring.\n");
     timer.onTimer(TIMER_SEGMENT_COLORING);
 
+    #pragma omp parallel for
     for (int i = 0; i < result.size(); i++) {
         result[i]->material->diffuse = Color::get_color_from_jet((float)i, 0, (float)result.size());
         result[i]->material->ambient = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -160,8 +160,6 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
 
     STEP_LOG(std::cout << "[End] Segment Coloring.\n");
     timer.offTimer(TIMER_SEGMENT_COLORING);
-
-    //    normal_triangle_list_map.clear();
 
     timer.offTimer(TIMER_TOTAL);
     return result;
