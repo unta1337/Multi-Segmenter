@@ -1,5 +1,5 @@
-﻿#include "cudafacegraph.h"
-#include "cudasegmenter.h"
+﻿#include "cudasegmenter.h"
+#include "cudafacegraph.h"
 
 #define PI 3.141592
 
@@ -24,9 +24,6 @@ struct NormalMapper {
     glm::vec3* vertex;
     int baseSize;
     float tolerance;
-    glm::vec3 xAxis = glm::vec3(1, 0, 0);
-    glm::vec3 yAxis = glm::vec3(0, 1, 0);
-    glm::vec3 zAxis = glm::vec3(0, 0, 1);
 
     explicit NormalMapper(glm::vec3* vertex, float tolerance)
         : vertex(vertex), baseSize(ceil(180.0f / tolerance)), tolerance(glm::radians(tolerance)) {
