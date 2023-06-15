@@ -244,8 +244,5 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
 
     timer.offTimer(TIMER_PREPROCESSING);
 
-    timer.printTimer();
-    exit(0);
-
     return normal_triangle_list_map;
 }
