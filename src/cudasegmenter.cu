@@ -1,5 +1,5 @@
-﻿#include "cudafacegraph.h"
-#include "cudasegmenter.h"
+﻿#include "cudasegmenter.h"
+#include "cudafacegraph.h"
 
 #define PI 3.141592
 
