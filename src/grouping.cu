@@ -80,7 +80,9 @@ __global__ void splitIndex(Pair* group, unsigned int* posList, unsigned int* siz
 std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh* mesh, float tolerance,
                                                                    DS_timer& timer) {
 
+    
     timer.onTimer(TIMER_PREPROCESSING);
+
 
     cudaStream_t streamForAlloc;
     cudaStreamCreate(&streamForAlloc);
@@ -225,7 +227,14 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
 
     timer.offTimer(TIMER_NORMAL_MAP_INSERTION);
 
-    // cudaFree(dVertexAlign);
+    
+    for (int i = 0; i < SPLIT_SIZE; i++) {
+        cudaFree(dVertexAlign[i]);
+        cudaEventDestroy(eventListForAlloc[i]);
+        cudaEventDestroy(eventListForCopy[i]);
+    }
+    cudaStreamDestroy(streamForAlloc);
+    cudaStreamDestroy(streamForCopy);
     cudaFree(dGroup);
     cudaFree(dPos);
     cudaFree(dPosList);
