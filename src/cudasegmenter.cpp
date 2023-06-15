@@ -89,24 +89,29 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     STEP_LOG(std::cout << "[Begin] Connectivity Checking and Triangle Mesh Generating.\n");
     timer.onTimer(TIMER_CC_N_TMG);
 
-    std::vector<std::pair<std::vector<int>, std::vector<Triangle>*>> segments_collection;
+    std::vector<std::vector<int>> segments;
+    std::vector<std::vector<Triangle>*> triangles;
+    std::vector<std::vector<glm::vec3>> vertices;
+
     for (auto& entry : normal_triangle_list_map) {
         STEP_LOG(std::cout << "[Step] FaceGraph: Init.\n");
         CUDAFaceGraph fg(&entry.second, &timer, mesh->vertex.size());
 
         STEP_LOG(std::cout << "[Step] FaceGraph: Get Segments.\n");
-        segments_collection.push_back(std::make_pair(fg.get_segments_as_union(), fg.triangles));
+
+        segments.push_back(fg.get_segments_as_union());
+        triangles.push_back(fg.triangles);
+        vertices.push_back(fg.vertices);
     }
 
     STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
     timer.onTimer(TIMER_TRIANGLE_MESH_GENERATING);
 
-    std::vector<std::vector<TriangleMesh*>> results(segments_collection.size());
+    std::vector<std::vector<TriangleMesh*>> results(segments.size());
 
     #pragma omp parallel for
-    for (int i = 0; i < segments_collection.size(); i++) {
-        auto& [segments, triangles] = segments_collection[i];
-        results[i] = segment_union_to_obj(segments, triangles, mesh->vertex.size());
+    for (int i = 0; i < segments.size(); i++) {
+        results[i] = segment_union_to_obj(segments[i], triangles[i], vertices[i].size());
     }
 
     std::vector<TriangleMesh*> result;
