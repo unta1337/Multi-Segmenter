@@ -1,7 +1,8 @@
-﻿#include "cudasegmenter.h"
-#include "cudafacegraph.h"
+﻿#include "cudafacegraph.h"
+#include "cudasegmenter.h"
 
-#define PI 3.141592
+#define PI 3.141592f
+#define PI_2 (2 * PI)
 
 CUDASegmenter::CUDASegmenter(TriangleMesh* mesh, float tolerance) : Segmenter(mesh, tolerance) {
     timer.onTimer(TIMER_DATA_TRANSFER_D2H);
@@ -40,6 +41,14 @@ struct NormalMapper {
         float xAngle = acosf(normal.x) + PI;
         float yAngle = acosf(normal.y) + PI;
         float zAngle = acosf(normal.z) + PI;
+
+        xAngle += tolerance / 2;
+        yAngle += tolerance / 2;
+        zAngle += tolerance / 2;
+
+        xAngle = xAngle > PI_2 ? xAngle - PI_2 : xAngle;
+        yAngle = yAngle > PI_2 ? yAngle - PI_2 : yAngle;
+        zAngle = zAngle > PI_2 ? zAngle - PI_2 : zAngle;
 
         int xIndex = floor(xAngle / tolerance);
         int yIndex = floor(yAngle / tolerance);
@@ -154,7 +163,7 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     STEP_LOG(std::cout << "[Begin] Segment Coloring.\n");
     timer.onTimer(TIMER_SEGMENT_COLORING);
 
-    #pragma omp parallel for
+#pragma omp parallel for
     for (int i = 0; i < result.size(); i++) {
         result[i]->material->diffuse = Color::get_color_from_jet((float)i, 0, (float)result.size());
         result[i]->material->ambient = glm::vec3(1.0f, 1.0f, 1.0f);
