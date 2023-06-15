@@ -1,8 +1,5 @@
-﻿#include "cudafacegraph.h"
-#include "cudasegmenter.h"
-
-#define PI 3.141592f
-#define PI_2 (2 * PI)
+﻿#include "cudasegmenter.h"
+#include "cudafacegraph.h"
 
 CUDASegmenter::CUDASegmenter(TriangleMesh* mesh, float tolerance) : Segmenter(mesh, tolerance) {
     timer.onTimer(TIMER_DATA_TRANSFER_D2H);

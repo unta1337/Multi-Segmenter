@@ -23,6 +23,9 @@
 #include <vector>
 #include <omp.h>
 
+#define PI 3.141592f
+#define PI_2 (2 * PI)
+
 class CUDASegmenter : public Segmenter {
   public:
     CUDASegmenter(TriangleMesh* mesh, float tolerance = 0.0f);
