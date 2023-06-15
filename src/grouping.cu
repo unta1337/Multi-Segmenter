@@ -9,6 +9,7 @@
 #include <thrust/device_vector.h>
 #include <thrust/sort.h>
 
+
 #define BLOCK_SIZE 512
 #define PI 3.14
 #define SPLIT_SIZE 5
