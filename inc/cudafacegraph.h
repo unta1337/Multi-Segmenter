@@ -3,6 +3,7 @@
 
 #include "facegraph.hpp"
 #include "segmenter.hpp"
+#include "segmentunion.hpp"
 
 class CUDAFaceGraph : public FaceGraph {
   public:
@@ -23,8 +24,9 @@ class CUDAFaceGraph : public FaceGraph {
     CUDAFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer, int total_vertex_count);
     virtual void init();
     virtual std::vector<std::vector<Triangle>> get_segments();
-    virtual std::vector<int> get_segments_as_union();
+    virtual SegmentUnion get_segments_as_union();
     virtual void traverse_dfs(std::vector<int>& visit, int start_vert, int count);
+    virtual void traverse_dfs(SegmentUnion& visit, int start_vert, int count);
     virtual std::vector<std::vector<int>> get_vertex_to_adj();
 };
 

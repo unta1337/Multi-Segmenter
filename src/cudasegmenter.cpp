@@ -89,7 +89,7 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     STEP_LOG(std::cout << "[Begin] Connectivity Checking and Triangle Mesh Generating.\n");
     timer.onTimer(TIMER_CC_N_TMG);
 
-    std::vector<std::vector<int>> segments;
+    std::vector<SegmentUnion> segments;
     std::vector<std::vector<Triangle>*> triangles;
     std::vector<std::vector<glm::vec3>> vertices;
 

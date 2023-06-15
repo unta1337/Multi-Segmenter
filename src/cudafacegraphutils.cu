@@ -52,26 +52,15 @@ __global__ void __segment_union_to_obj(glm::vec3* vertices, glm::ivec3* faces, i
     }
 }
 
-std::vector<TriangleMesh*> segment_union_to_obj(const std::vector<int> segment_union,
+std::vector<TriangleMesh*> segment_union_to_obj(const SegmentUnion segment_union,
                                                 const std::vector<Triangle>* triangles, size_t total_vertex_count) {
+    const std::vector<int>& group_id = segment_union.segment_union;
+    int group_index = segment_union.group_count;
+
     std::vector<TriangleMesh*> result;
-    std::vector<int> group_id(segment_union.size(), -1);    // 특정 요소가 속한 그룹 id.
-    std::vector<int> group_count;                           // 특정 그룹의 요소 개수.
-
-    int group_index = 0;
-    for (int i = 0; i < segment_union.size(); i++) {
-        int group_root = segment_union[i];
-        int& g_id = group_id[group_root];
-
-        if (g_id == -1) {
-            result.push_back(new TriangleMesh);
-            g_id = group_index++;
-            result[g_id]->material = new Material;
-            group_count.push_back(1);
-        }
-
-        group_id[i] = g_id;
-        group_count[g_id]++;
+    for (int i = 0; i < group_index; i++) {
+        result.push_back(new TriangleMesh);
+        result[i]->material = new Material;
     }
 
     std::vector<cudaStream_t> streams(group_index);
