@@ -1,13 +1,13 @@
-#include "cuda_runtime.h"
+#include <thrust/sort.h>
+#include <thrust/device_vector.h>
 #include "device_launch_parameters.h"
+#include "cuda_runtime.h"
 #include "grouping.h"
 #include "trianglemesh.hpp"
-#include <algorithm>
-#include <cstdlib>
 #include <glm/gtx/normal.hpp>
 #include <omp.h>
-#include <thrust/device_vector.h>
-#include <thrust/sort.h>
+#include <cstdlib>
+#include <algorithm>
 
 
 #define BLOCK_SIZE 512
