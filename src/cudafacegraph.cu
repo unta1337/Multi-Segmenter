@@ -12,14 +12,6 @@ __global__ void __get_vertex_to_adj(int* local_adj_map, int* local_adj_map_index
     int* local_index = &local_adj_map_index[i_iter * vertex_count];
     int i_begin = i_iter * triangles_per_block;
 
-    // __shared__ int cache[BLOCK_LEN][3];
-    // for (int i = threadIdx.x; i + i_begin < triangle_count && i < triangles_per_block; i += BLOCK_LEN) {
-    //     cache[threadIdx.x][0] = triangles[i + i_begin].id[0];
-    //     cache[threadIdx.x][1] = triangles[i + i_begin].id[1];
-    //     cache[threadIdx.x][2] = triangles[i + i_begin].id[2];
-    // }
-    // __syncthreads();
-
     for (int i = threadIdx.x; i + i_begin < triangle_count && i < triangles_per_block; i += BLOCK_LEN) {
         for (int j = 0; j < 3; j++) {
             int tri_id = triangles[i].id[j];
@@ -58,6 +50,7 @@ std::vector<std::vector<int>> CUDAFaceGraph::get_vertex_to_adj() {
     // 이로써 원래 obj에서의 인덱스를 고유 번호로 사용하지 않아도 됨.
     // 이후 정점 룩업 시 저장 공간 및 탐색 시간이 줄어듦.
 
+    // TODO: triangles_per_block을 triangles->size()보다 작게 하면 오류 발생.
     int triangles_per_block = triangles->size();
     int iter = (int)ceil((float)triangles->size() / triangles_per_block);
 
