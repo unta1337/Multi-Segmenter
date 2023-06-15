@@ -1,5 +1,5 @@
-﻿#include "cudasegmenter.h"
-#include "cudafacegraph.h"
+﻿#include "cudafacegraph.h"
+#include "cudasegmenter.h"
 
 CUDASegmenter::CUDASegmenter(TriangleMesh* mesh, float tolerance) : Segmenter(mesh, tolerance) {
     timer.onTimer(TIMER_DATA_TRANSFER_D2H);
@@ -35,12 +35,16 @@ inline void CUDASegmenter::init_count_map(std::unordered_map<glm::vec3, size_t, 
 struct NormalWrapper {
     glm::vec3 normal;
     float xAngle;
+    float yAngle;
+    float zAngle;
     Triangle triangle;
 };
 
 struct NormalMapper {
     glm::vec3* vertex;
     glm::vec3 xAxis = glm::vec3(1, 0, 0);
+    glm::vec3 yAxis = glm::vec3(1, 0, 0);
+    glm::vec3 zAxis = glm::vec3(1, 0, 0);
 
     explicit NormalMapper(glm::vec3* vertex) : vertex(vertex) {
     }
@@ -52,18 +56,24 @@ struct NormalMapper {
         triangle.vertex[2] = vertex[idx[2]];
         glm::vec3 normal = glm::triangleNormal(triangle.vertex[0], triangle.vertex[1], triangle.vertex[2]);
         float xAngle = glm::angle(normal, xAxis);
-        return {normal, xAngle, triangle};
+        float yAngle = glm::angle(normal, yAxis);
+        float zAngle = glm::angle(normal, zAxis);
+        return {normal, xAngle, yAngle, zAngle, triangle};
     }
 };
 
 struct NormalIndexMapper {
     float tolerance;
+    int baseSize;
 
-    explicit NormalIndexMapper(float tolerance) : tolerance(glm::radians(tolerance)) {
+    explicit NormalIndexMapper(float tolerance) {
+        baseSize = floor(180.0f / tolerance);
+        this->tolerance = glm::radians(tolerance);
     }
 
     __host__ __device__ int operator()(const NormalWrapper& normal) const {
-        return floor(normal.xAngle / tolerance);
+        return ((int)floor(normal.xAngle / tolerance)) + ((int)floor(normal.yAngle / tolerance)) * baseSize +
+               ((int)floor(normal.zAngle / tolerance)) * baseSize * baseSize;
     }
 };
 
@@ -78,7 +88,22 @@ struct NormalTriangleMapper {
 
 struct AngleComparator {
     __host__ __device__ bool operator()(const NormalWrapper& o1, const NormalWrapper& o2) const {
-        return o1.xAngle < o2.xAngle;
+        if (o1.xAngle < o2.xAngle)
+            return true;
+        else if (o1.xAngle > o2.xAngle)
+            return false;
+
+        // If xAngle is equal, then compare yAngle
+        if (o1.yAngle < o2.yAngle)
+            return true;
+        else if (o1.yAngle > o2.yAngle)
+            return false;
+
+        // If yAngle is also equal, then compare zAngle
+        if (o1.zAngle < o2.zAngle)
+            return true;
+        else
+            return false;
     }
 };
 
@@ -102,7 +127,8 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     thrust::device_vector<int> fn_indexes(face_normals.size());
     thrust::transform(face_normals.begin(), face_normals.end(), fn_indexes.begin(), NormalIndexMapper(tolerance));
 
-    int binSize = ceil(180.0f / tolerance);
+    int baseSize = ceil(180.0f / tolerance);
+    int binSize = baseSize * baseSize * baseSize;
     thrust::device_vector<int> indexes(binSize);
     thrust::device_vector<int> counts(binSize);
     thrust::reduce_by_key(fn_indexes.begin(), fn_indexes.end(), thrust::make_constant_iterator(1), indexes.begin(),
@@ -124,6 +150,7 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
 
     std::vector<TriangleMesh*> result;
     // 이제 병렬화가 가능할 것으로 보임
+    int number = 0;
     for (int i = 0; i < binSize; i++) {
         int start = startIndexes[i];
         int end = start + counts[i];
@@ -139,7 +166,6 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
 
         STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
         timer.onTimer(TIMER_TRIANGLE_MESH_GENERATING);
-        int number = 0;
         for (const auto& segment : segments) {
             TriangleMesh* sub_object = triangle_list_to_obj(segment);
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
