@@ -12,7 +12,7 @@
 
 #define BLOCK_SIZE 512
 #define PI 3.14
-#define SPLIT_SIZE 5
+#define SPLIT_SIZE 2
 
 #define TIMER_PREPROCESSING 0
 #define TIMER_NORMAL_VECTOR_COMPUTATION 1
@@ -146,7 +146,7 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
                                     cudaMemcpyHostToDevice, streamForCopy);
                 else
                     cudaMemcpyAsync(dVertexAlign[i], &TriangleList[calcSize * i],
-                                    sizeof(Triangle) * mesh->index.size() % SPLIT_SIZE, cudaMemcpyHostToDevice,
+                                    sizeof(Triangle) * (mesh->index.size() - calcSize * i), cudaMemcpyHostToDevice,
                                     streamForCopy);
 
                 cudaEventRecord(eventListForCopy[i], streamForCopy);
