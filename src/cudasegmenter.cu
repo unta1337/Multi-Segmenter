@@ -124,6 +124,7 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
 
     std::vector<TriangleMesh*> result;
     // 이제 병렬화가 가능할 것으로 보임
+    int number = 0;
     for (int i = 0; i < binSize; i++) {
         int start = startIndexes[i];
         int end = start + counts[i];
@@ -139,7 +140,6 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
 
         STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
         timer.onTimer(TIMER_TRIANGLE_MESH_GENERATING);
-        int number = 0;
         for (const auto& segment : segments) {
             TriangleMesh* sub_object = triangle_list_to_obj(segment);
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
