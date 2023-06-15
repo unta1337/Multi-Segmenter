@@ -10,6 +10,9 @@
 #include <thrust/sort.h>
 
 #define BLOCK_SIZE 512
+#define PI 3.14
+#define SPLIT_SIZE 5
+
 #define TIMER_PREPROCESSING 0
 #define TIMER_NORMAL_VECTOR_COMPUTATION 1
 #define TIMER_MAP_COUNT 2
@@ -27,11 +30,12 @@ struct Pair {
     }
 };
 
-#define PI 3.14
-__global__ void grouping(Triangle* dVertexAlign, Pair* group, unsigned int indexSize, float tolerance) {
+__global__ void grouping(Triangle* dVertexAlign, Pair* group, unsigned int indexSize, float tolerance,
+                         unsigned int startPos) {
 
     unsigned int threadId = threadIdx.x + (blockIdx.x * blockDim.x);
-    if (threadId >= indexSize)
+    unsigned int saveIndex = startPos + threadIdx.x + (blockIdx.x * blockDim.x);
+    if (saveIndex >= indexSize)
         return;
     glm::vec3 normal = glm::normalize(glm::triangleNormal(
         dVertexAlign[threadId].vertex[0], dVertexAlign[threadId].vertex[1], dVertexAlign[threadId].vertex[2]));
@@ -56,8 +60,8 @@ __global__ void grouping(Triangle* dVertexAlign, Pair* group, unsigned int index
     bitmap = bitmap << 8;
     bitmap += (unsigned int)(zSeta / tolerance) % 360;
 
-    group[threadId].first = bitmap;
-    group[threadId].second = threadId;
+    group[saveIndex].first = bitmap;
+    group[saveIndex].second = saveIndex;
 }
 
 __global__ void splitIndex(Pair* group, unsigned int* posList, unsigned int* size, unsigned int indexSize) {
@@ -77,12 +81,27 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
 
     timer.onTimer(TIMER_PREPROCESSING);
 
+    cudaStream_t streamForAlloc;
+    cudaStreamCreate(&streamForAlloc);
+    cudaStream_t streamForCopy;
+    cudaStreamCreate(&streamForCopy);
+
+    cudaEvent_t eventListForAlloc[SPLIT_SIZE];
+    cudaEvent_t eventListForCopy[SPLIT_SIZE];
+    for (int i = 0; i < SPLIT_SIZE; i++) {
+        cudaEventCreate(&eventListForAlloc[i]);
+        cudaEventCreate(&eventListForCopy[i]);
+    }
+
+    size_t indexSize = mesh->index.size();
+    size_t calcSize = ceil((double)indexSize / SPLIT_SIZE);
+
     std::unordered_map<unsigned int, std::vector<Triangle>> normal_triangle_list_map;
-    std::vector<Pair> hostData(mesh->index.size());
-    Triangle* dVertexAlign;
+    std::vector<Pair> hostData(indexSize);
+    Triangle* dVertexAlign[SPLIT_SIZE];
     Pair* dGroup;
-    Triangle* TriangleList = (Triangle*)malloc(sizeof(Triangle) * mesh->index.size());
-    Pair* group = (Pair*)malloc(sizeof(Pair) * mesh->index.size());
+    Triangle* TriangleList = (Triangle*)malloc(sizeof(Triangle) * indexSize);
+    Pair* group = (Pair*)malloc(sizeof(Pair) * indexSize);
     unsigned int* posList;
     unsigned int* dPos;
     unsigned int* dPosList;
@@ -90,31 +109,66 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
 
     // ------------------------------------- variable initial
 
-    cudaMalloc(&dVertexAlign, sizeof(Triangle) * mesh->index.size());
-    cudaMalloc(&dGroup, sizeof(Pair) * mesh->index.size());
-    cudaMalloc(&dPos, sizeof(unsigned int));
-    cudaMalloc(&dPosList, sizeof(unsigned int) * pow(360.f / tolerance, 3));
-
-    cudaMemset(dPos, 0, sizeof(unsigned int));
-    cudaMemset(dPosList, 0, sizeof(unsigned int) * pow(360.f / tolerance, 3));
+    cudaMallocAsync(&dGroup, sizeof(Pair) * indexSize, streamForAlloc);
+    for (int i = 0; i < SPLIT_SIZE; i++) {
+        cudaMallocAsync(&dVertexAlign[i], sizeof(Triangle) * calcSize, streamForAlloc);
+        cudaEventRecord(eventListForAlloc[i], streamForAlloc);
+    }
+    cudaMallocAsync(&dPos, sizeof(unsigned int), streamForAlloc);
+    cudaMallocAsync(&dPosList, sizeof(unsigned int) * pow(360.f / tolerance, 3), streamForAlloc);
+    cudaMemsetAsync(dPos, 0, sizeof(unsigned int), streamForAlloc);
+    cudaMemsetAsync(dPosList, 0, sizeof(unsigned int) * pow(360.f / tolerance, 3), streamForAlloc);
 
     // ------------------------------------ Triangle Caculate
 
+    timer.onTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
+
 #pragma omp parallel for
-    for (int i = 0; i < mesh->index.size(); i++) {
+    for (int i = 0; i < indexSize; i++) {
         TriangleList[i].vertex[0] = mesh->vertex[mesh->index[i].x];
         TriangleList[i].vertex[1] = mesh->vertex[mesh->index[i].y];
         TriangleList[i].vertex[2] = mesh->vertex[mesh->index[i].z];
     }
 
-    cudaMemcpy(dVertexAlign, TriangleList, sizeof(Triangle) * mesh->index.size(), cudaMemcpyHostToDevice);
-
     // ----------------------------------- Vector Computation(grouping)
 
-    timer.onTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
+    size_t memCpyStart = 0;
+    size_t groupingStart = 0;
+    while (true) {
 
-    grouping<<<ceil((float)mesh->index.size() / BLOCK_SIZE), BLOCK_SIZE>>>(dVertexAlign, dGroup, mesh->index.size(),
-                                                                           tolerance);
+        for (size_t i = memCpyStart; i < SPLIT_SIZE; i++) {
+            if (cudaEventQuery(eventListForAlloc[i]) == cudaSuccess) {
+                if (i != SPLIT_SIZE - 1)
+                    cudaMemcpyAsync(dVertexAlign[i], &TriangleList[calcSize * i], sizeof(Triangle) * calcSize,
+                                    cudaMemcpyHostToDevice, streamForCopy);
+                else
+                    cudaMemcpyAsync(dVertexAlign[i], &TriangleList[calcSize * i],
+                                    sizeof(Triangle) * mesh->index.size() % SPLIT_SIZE, cudaMemcpyHostToDevice,
+                                    streamForCopy);
+
+                cudaEventRecord(eventListForCopy[i], streamForCopy);
+                memCpyStart = i;
+                if (memCpyStart == SPLIT_SIZE - 1)
+                    memCpyStart++;
+            } else
+                break;
+        }
+
+        for (size_t i = groupingStart; i < SPLIT_SIZE; i++) {
+            if (cudaEventQuery(eventListForCopy[i]) == cudaSuccess) {
+                grouping<<<ceil((float)calcSize / BLOCK_SIZE), BLOCK_SIZE>>>(dVertexAlign[i], dGroup, indexSize,
+                                                                             tolerance, calcSize * i);
+                groupingStart = i;
+                if (groupingStart == SPLIT_SIZE - 1)
+                    groupingStart++;
+            } else
+                break;
+        }
+
+        if (memCpyStart == SPLIT_SIZE && groupingStart == SPLIT_SIZE)
+            break;
+    }
+
     cudaStreamSynchronize(0);
 
     timer.offTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
@@ -123,12 +177,13 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
 
     timer.onTimer(TIMER_MAP_COUNT);
 
-    thrust::device_vector<Pair> deviceData(dGroup, dGroup + mesh->index.size());
+    cudaStreamSynchronize(streamForAlloc);
+    thrust::device_vector<Pair> deviceData(dGroup, dGroup + indexSize);
     thrust::sort(deviceData.begin(), deviceData.end(), Pair());
     thrust::copy(deviceData.begin(), deviceData.end(), hostData.begin());
 
-    splitIndex<<<ceil((float)mesh->index.size() / BLOCK_SIZE), BLOCK_SIZE>>>(
-        thrust::raw_pointer_cast(deviceData.data()), dPosList, dPos, mesh->index.size());
+    splitIndex<<<ceil((float)indexSize / BLOCK_SIZE), BLOCK_SIZE>>>(thrust::raw_pointer_cast(deviceData.data()),
+                                                                    dPosList, dPos, indexSize);
 
     cudaStreamSynchronize(0);
 
@@ -139,7 +194,7 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
 
     posList[pos] = 0;
     pos++;
-    posList[pos] = mesh->index.size();
+    posList[pos] = indexSize;
     pos++;
 
     std::sort(posList, posList + pos);
@@ -169,7 +224,7 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
 
     timer.offTimer(TIMER_NORMAL_MAP_INSERTION);
 
-    cudaFree(dVertexAlign);
+    // cudaFree(dVertexAlign);
     cudaFree(dGroup);
     cudaFree(dPos);
     cudaFree(dPosList);
@@ -178,6 +233,9 @@ std::unordered_map<unsigned int, std::vector<Triangle>> kernelCall(TriangleMesh*
     free(posList);
 
     timer.offTimer(TIMER_PREPROCESSING);
+
+    timer.printTimer();
+    exit(0);
 
     return normal_triangle_list_map;
 }
