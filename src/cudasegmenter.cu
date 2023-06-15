@@ -1,6 +1,8 @@
 ﻿#include "cudafacegraph.h"
 #include "cudasegmenter.h"
 
+#define PI 3.141592
+
 CUDASegmenter::CUDASegmenter(TriangleMesh* mesh, float tolerance) : Segmenter(mesh, tolerance) {
     timer.onTimer(TIMER_DATA_TRANSFER_D2H);
     deviceMesh = new DeviceTriangleMesh(mesh);
@@ -12,31 +14,8 @@ CUDASegmenter::~CUDASegmenter() {
     free(deviceMesh);
 }
 
-inline glm::vec3 CUDASegmenter::get_normal_key(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map,
-                                               glm::vec3& normal) {
-    for (const auto& entry : count_map) {
-        glm::vec3 compare = entry.first;
-        float norm_angle = glm::degrees(glm::angle(compare, normal));
-
-        if (norm_angle < tolerance) {
-            normal = compare;
-            break;
-        }
-    }
-    return normal;
-}
-
-inline void CUDASegmenter::init_count_map(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map,
-                                          std::vector<glm::vec3>& face_normals) {
-    for (auto& normal : face_normals) {
-        count_map[get_normal_key(count_map, normal)]++;
-    }
-}
 struct NormalWrapper {
     glm::vec3 normal;
-    float xAngle;
-    float yAngle;
-    float zAngle;
     int index;
     Triangle triangle;
 };
@@ -58,15 +37,19 @@ struct NormalMapper {
         triangle.vertex[0] = vertex[idx[0]];
         triangle.vertex[1] = vertex[idx[1]];
         triangle.vertex[2] = vertex[idx[2]];
-        glm::vec3 normal = glm::triangleNormal(triangle.vertex[0], triangle.vertex[1], triangle.vertex[2]);
-        float xAngle = glm::angle(normal, xAxis);
-        float yAngle = glm::angle(normal, yAxis);
-        float zAngle = glm::angle(normal, zAxis);
+        glm::vec3 normal =
+            glm::normalize(glm::triangleNormal(triangle.vertex[0], triangle.vertex[1], triangle.vertex[2]));
+
+        float xAngle = acosf(normal.x) + PI;
+        float yAngle = acosf(normal.y) + PI;
+        float zAngle = acosf(normal.z) + PI;
+
         int xIndex = floor(xAngle / tolerance);
         int yIndex = floor(yAngle / tolerance);
         int zIndex = floor(zAngle / tolerance);
+
         int index = xIndex + yIndex * baseSize + zIndex * baseSize * baseSize;
-        return {normal, xAngle, yAngle, zAngle, index, triangle};
+        return {normal, index, triangle};
     }
 };
 
