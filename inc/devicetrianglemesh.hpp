@@ -6,7 +6,7 @@
 #include <glm/glm.hpp>
 #include <string>
 #include <vector>
-#include <thrust/device_vector.h>
+#include "thrustlib.h"
 
 /**
  * @brief 오브젝트에서 하나의 속성을 공유하는 삼각형의 집합. (Device 용)

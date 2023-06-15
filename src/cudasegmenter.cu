@@ -32,6 +32,55 @@ inline void CUDASegmenter::init_count_map(std::unordered_map<glm::vec3, size_t, 
         count_map[get_normal_key(count_map, normal)]++;
     }
 }
+struct NormalWrapper {
+    glm::vec3 normal;
+    float xAngle;
+    Triangle triangle;
+};
+
+struct NormalMapper {
+    glm::vec3* vertex;
+    glm::vec3 xAxis = glm::vec3(1, 0, 0);
+
+    explicit NormalMapper(glm::vec3* vertex) : vertex(vertex) {
+    }
+
+    __host__ __device__ NormalWrapper operator()(const glm::ivec3& idx) const {
+        Triangle triangle;
+        triangle.vertex[0] = vertex[idx[0]];
+        triangle.vertex[1] = vertex[idx[1]];
+        triangle.vertex[2] = vertex[idx[2]];
+        glm::vec3 normal = glm::triangleNormal(triangle.vertex[0], triangle.vertex[1], triangle.vertex[2]);
+        float xAngle = glm::angle(normal, xAxis);
+        return {normal, xAngle, triangle};
+    }
+};
+
+struct NormalIndexMapper {
+    float tolerance;
+
+    explicit NormalIndexMapper(float tolerance) : tolerance(glm::radians(tolerance)) {
+    }
+
+    __host__ __device__ int operator()(const NormalWrapper& normal) const {
+        return floor(normal.xAngle / tolerance);
+    }
+};
+
+struct NormalTriangleMapper {
+    explicit NormalTriangleMapper() {
+    }
+
+    __host__ __device__ Triangle operator()(const NormalWrapper& normal) const {
+        return normal.triangle;
+    }
+};
+
+struct AngleComparator {
+    __host__ __device__ bool operator()(const NormalWrapper& o1, const NormalWrapper& o2) const {
+        return o1.xAngle < o2.xAngle;
+    }
+};
 
 std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     timer.onTimer(TIMER_TOTAL);
@@ -41,73 +90,56 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     timer.onTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
 
     // obj에 포함된 면의 개수만큼 법선 벡터 계산 필요.
-    std::vector<glm::vec3> face_normals(mesh->index.size());
-    thrust::device_vector<glm::vec3> d_face_normals(mesh->index.size());
-
-    // 오브젝트에 포함된 면에 대한 법선 벡터 계산.
-    for (int i = 0; i < mesh->index.size(); i++) {
-        glm::ivec3& index = mesh->index[i];
-        face_normals[i] = glm::triangleNormal(mesh->vertex[index[0]], mesh->vertex[index[1]], mesh->vertex[index[2]]);
-    }
+    thrust::device_vector<NormalWrapper> face_normals(mesh->index.size());
+    thrust::transform(deviceMesh->index_device_vector->begin(), deviceMesh->index_device_vector->end(),
+                      face_normals.begin(), NormalMapper(deviceMesh->vertex));
 
     timer.offTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
+
     STEP_LOG(std::cout << "[End] Normal Vector Computation.\n");
 
-    STEP_LOG(std::cout << "[Begin] Map Count.\n");
-    timer.onTimer(TIMER_MAP_COUNT);
+    thrust::sort(face_normals.begin(), face_normals.end(), AngleComparator());
+    thrust::device_vector<int> fn_indexes(face_normals.size());
+    thrust::transform(face_normals.begin(), face_normals.end(), fn_indexes.begin(), NormalIndexMapper(tolerance));
 
-    size_t face_normals_count = face_normals.size();
+    int binSize = ceil(180.0f / tolerance);
+    thrust::device_vector<int> indexes(binSize);
+    thrust::device_vector<int> counts(binSize);
+    thrust::reduce_by_key(fn_indexes.begin(), fn_indexes.end(), thrust::make_constant_iterator(1), indexes.begin(),
+                          counts.begin(), thrust::equal_to<int>(), thrust::plus<int>());
 
-    // 법선 벡터 -> 개수.
-    // 특정 법선 벡터와 비슷한 방향성을 갖는 법선 벡터의 개수.
-    std::unordered_map<glm::vec3, size_t, Vec3Hash> count_map;
-    init_count_map(count_map, face_normals);
-
-    // 법선 벡터 -> 삼각형(면).
-    // 특정 법선 벡터와 비슷한 방향성을 갖는 벡터를 법선 벡터로 갖는 면.
-    std::unordered_map<glm::vec3, std::vector<Triangle>, Vec3Hash> normal_triangle_list_map;
-    for (const auto& entry : count_map) {
-        normal_triangle_list_map.insert({entry.first, std::vector<Triangle>()});
-    }
-
-    timer.offTimer(TIMER_MAP_COUNT);
-    STEP_LOG(std::cout << "[End] Map Count. (Map size: " << count_map.size() << ")\n");
-
-    STEP_LOG(std::cout << "[Begin] Normal Map Insertion.\n");
-    timer.onTimer(TIMER_NORMAL_MAP_INSERTION);
-
-    for (int i = 0; i < face_normals_count; i++) {
-        glm::vec3 target_normal = get_normal_key(count_map, face_normals[i]);
-
-        Triangle triangle;
-        glm::ivec3 indexes = mesh->index[i];
-        for (int d = 0; d < 3; d++) {
-            triangle.vertex[d] = mesh->vertex[indexes[d]];
-        }
-
-        normal_triangle_list_map[target_normal].push_back(triangle);
-    }
-
-    timer.offTimer(TIMER_NORMAL_MAP_INSERTION);
-    STEP_LOG(std::cout << "[End] Normal Map Insertion. (Total: " << normal_triangle_list_map.size() << ")\n");
-
+    thrust::device_vector<Triangle> fn_triangles(face_normals.size());
+    thrust::transform(face_normals.begin(), face_normals.end(), fn_triangles.begin(), NormalTriangleMapper());
     timer.offTimer(TIMER_PREPROCESSING);
     STEP_LOG(std::cout << "[End] Preprocessing.\n");
 
     STEP_LOG(std::cout << "[Begin] Connectivity Checking and Triangle Mesh Generating.\n");
     timer.onTimer(TIMER_CC_N_TMG);
 
+    std::vector<int> startIndexes(binSize);
+    int startIndex = 0;
+    for (int i = 1; i < indexes.size(); i++) {
+        startIndexes[i] = (startIndex += counts[i - 1]);
+    }
+
     std::vector<TriangleMesh*> result;
-    int number = 0;
-    for (auto& entry : normal_triangle_list_map) {
+    // 이제 병렬화가 가능할 것으로 보임
+    for (int i = 0; i < binSize; i++) {
+        int start = startIndexes[i];
+        int end = start + counts[i];
         STEP_LOG(std::cout << "[Step] FaceGraph: Init.\n");
-        CUDAFaceGraph fg(&entry.second, &timer);
+        std::vector<Triangle> triangles(counts[i]);
+        thrust::copy(fn_triangles.begin() + start, fn_triangles.begin() + end, triangles.begin());
+        // 오버헤드 제거 가능
+
+        CUDAFaceGraph fg(&triangles, &timer);
 
         STEP_LOG(std::cout << "[Step] FaceGraph: Get Segments.\n");
         std::vector<std::vector<Triangle>> segments = fg.get_segments();
 
         STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
         timer.onTimer(TIMER_TRIANGLE_MESH_GENERATING);
+        int number = 0;
         for (const auto& segment : segments) {
             TriangleMesh* sub_object = triangle_list_to_obj(segment);
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
@@ -133,7 +165,7 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     STEP_LOG(std::cout << "[End] Segment Coloring.\n");
     timer.offTimer(TIMER_SEGMENT_COLORING);
 
-    normal_triangle_list_map.clear();
+    //    normal_triangle_list_map.clear();
 
     timer.offTimer(TIMER_TOTAL);
     return result;

@@ -3,6 +3,7 @@
 
 #include "color.hpp"
 #include "devicetrianglemesh.hpp"
+#include "thrustlib.h"
 #include "dstimer.hpp"
 #include "facegraph.hpp"
 #include "logutils.h"
