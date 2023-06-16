@@ -1,6 +1,8 @@
 #include "cudafacegraph.h"
 
-#define VERT_ADJ_MAX 20
+#include <algorithm>
+
+#define VERT_ADJ_MAX 40
 #define TRI_ADJ_MAX 20
 
 __global__ void __get_vertex_to_adj(int* local_adj_map, int* local_adj_map_index,
@@ -12,8 +14,8 @@ __global__ void __get_vertex_to_adj(int* local_adj_map, int* local_adj_map_index
 
     for (int i = threadIdx.x; i + i_begin < triangle_count && i < triangles_per_block; i += blockDim.x) {
         for (int j = 0; j < 3; j++) {
-            int tri_id = triangles[i].id[j];
-            local_map[tri_id * VERT_ADJ_MAX + atomicAdd(&local_index[tri_id], 1)] = i + i_begin;
+            int vert_id = triangles[i + i_begin].id[j];
+            local_map[vert_id * VERT_ADJ_MAX + atomicAdd(&local_index[vert_id], 1)] = i + i_begin;
         }
     }
 }
@@ -49,7 +51,8 @@ std::vector<std::vector<int>> CUDAFaceGraph::get_vertex_to_adj() {
     // 이후 정점 룩업 시 저장 공간 및 탐색 시간이 줄어듦.
 
     // TODO: triangles_per_block을 triangles->size()보다 작게 하면 노이즈 발생.
-    int triangles_per_block = triangles->size();
+    int triangles_per_block = 128;
+    // int triangles_per_block = triangles->size();
     int iter = (int)ceil((float)triangles->size() / triangles_per_block);
 
     // 쿠다 스트림 생성.
@@ -78,8 +81,8 @@ std::vector<std::vector<int>> CUDAFaceGraph::get_vertex_to_adj() {
     // 연산 async.
     for (int i = 0; i < iter; i++) {
         __get_vertex_to_adj<<<1, 1024, 0, streams[i]>>>(d_local_adj_map, d_local_adj_map_index,
-                                                             d_triangles, triangles->size(), triangles_per_block,
-                                                             vertices_index, i);
+                                                        d_triangles, triangles->size(), triangles_per_block,
+                                                        vertices_index, i);
     }
     cudaDeviceSynchronize();        // 연산 동기화.
 
