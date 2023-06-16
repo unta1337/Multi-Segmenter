@@ -6,19 +6,31 @@
 #include <thrust/host_vector.h>
 
 __global__ void __segment_union_to_obj(glm::vec3* vertices, glm::ivec3* faces, int* group_id, Triangle* triangles,
-                                       size_t triangles_count, size_t total_vertex_count, int* index_lookup_chunk, int g_id,
+                                       size_t triangles_count, size_t total_vertex_count, int* index_lookup_chunk, int __temp,
                                        int* vertex_index_out, int* index_index_out) {
     __shared__ int vertex_index;    // push_back 대신 유지하는 정점 인덱스 추적 변수.
     __shared__ int index_index;     // push_back 대신 유지하는 삼각형 인덱스 추적 변수.
-    __shared__ int* index_lookup;   // 기존 unordered_map을 유지하는 중복 검사용 변수.
     __shared__ cuda::binary_semaphore<cuda::thread_scope_block>* vertex_sem;     // 정점 삽입 mutex.
+
+    __shared__ glm::vec3* local_vertices;
+    __shared__ glm::ivec3* local_faces;
+    __shared__ int* local_index_lookup;
+    __shared__ int* local_vertex_index_out;
+    __shared__ int* local_face_index_out;
+
+    int g_id = blockIdx.x;
 
     if (threadIdx.x == 0) {
         vertex_index = 0;
         index_index = 0;
-        index_lookup = index_lookup_chunk;
         vertex_sem = new cuda::binary_semaphore<cuda::thread_scope_block>();
         vertex_sem->release();
+
+        local_vertices = &vertices[g_id * (triangles_count + 3)];
+        local_faces = &faces[g_id * triangles_count];
+        local_index_lookup = &index_lookup_chunk[g_id * total_vertex_count];
+        local_vertex_index_out = &vertex_index_out[g_id];
+        local_face_index_out = &index_index_out[g_id];
     }
     __syncthreads();
 
@@ -28,11 +40,11 @@ __global__ void __segment_union_to_obj(glm::vec3* vertices, glm::ivec3* faces, i
 
         glm::ivec3 new_index;
         for (int j = 0; j < 3; j++) {
-            int& index_if_exist = index_lookup[triangles[i].id[j]];
+            int& index_if_exist = local_index_lookup[triangles[i].id[j]];
 
             vertex_sem->acquire();
             if (index_if_exist == -1) {
-                vertices[vertex_index] = triangles[i].vertex[j];
+                local_vertices[vertex_index] = triangles[i].vertex[j];
                 index_if_exist = ++vertex_index;
             }
             vertex_sem->release();
@@ -40,14 +52,14 @@ __global__ void __segment_union_to_obj(glm::vec3* vertices, glm::ivec3* faces, i
             new_index[j] = index_if_exist;
         }
 
-        faces[atomicAdd(&index_index, 1)] = new_index;
+        local_faces[atomicAdd(&index_index, 1)] = new_index;
     }
 
     __syncthreads();
 
     if (threadIdx.x == 0) {
-        *vertex_index_out = vertex_index;
-        *index_index_out = index_index;
+        *local_vertex_index_out = vertex_index;
+        *local_face_index_out = index_index;
         delete vertex_sem;
     }
 }
@@ -63,14 +75,12 @@ std::vector<TriangleMesh*> segment_union_to_obj(const SegmentUnion segment_union
         result[i]->material = new Material;
     }
 
-    std::vector<cudaStream_t> streams(group_index);
-    for (cudaStream_t& stream : streams)
-        cudaStreamCreate(&stream);
+    cudaStream_t memset_stream;
+    cudaStreamCreate(&memset_stream);
 
     int* d_index_lookup; cudaMalloc(&d_index_lookup, group_index * total_vertex_count * sizeof(int));
-    for (int i = 0; i < group_index; i++) {
-        cudaMemsetAsync(&d_index_lookup[i * total_vertex_count], 0xFF, total_vertex_count * sizeof(int), streams[i]);
-    }
+    cudaMemsetAsync(d_index_lookup, 0xFF, group_index * total_vertex_count * sizeof(int), memset_stream);
+
     int* d_vertex_index_out; cudaMalloc(&d_vertex_index_out, group_index * sizeof(int));
     int* d_face_index_out; cudaMalloc(&d_face_index_out, group_index * sizeof(int));
 
@@ -93,36 +103,32 @@ std::vector<TriangleMesh*> segment_union_to_obj(const SegmentUnion segment_union
     cudaMallocHost(&vertex_index_out, group_index * sizeof(int));
     cudaMallocHost(&face_index_out, group_index * sizeof(int));
 
-    cudaDeviceSynchronize();
-    for (int i = 0; i < group_index; i++) {
-        __segment_union_to_obj<<<1, std::min(triangles->size(), (size_t)1024), 0, streams[i]>>>(&d_vertices[i * (triangles->size() + 3)],
-                                                                                                &d_faces[i * triangles->size()],
-                                                                                                d_group_id,
-                                                                                                d_triangles,
-                                                                                                triangles->size(), total_vertex_count,
-                                                                                                &d_index_lookup[i * total_vertex_count],
-                                                                                                i,
-                                                                                                &d_vertex_index_out[i],
-                                                                                                &d_face_index_out[i]);
-    }
+    cudaStreamSynchronize(memset_stream);
+    __segment_union_to_obj<<<group_index, std::min(triangles->size(), (size_t)1024)>>>(d_vertices,
+                                                                                       d_faces,
+                                                                                       d_group_id,
+                                                                                       d_triangles,
+                                                                                       triangles->size(), total_vertex_count,
+                                                                                       d_index_lookup,
+                                                                                       0,
+                                                                                       d_vertex_index_out,
+                                                                                       d_face_index_out);
     cudaDeviceSynchronize();
 
     for (int i = 0; i < group_index; i++) {
-        cudaMemcpyAsync(&vertex_index_out[i], &d_vertex_index_out[i], sizeof(int), cudaMemcpyDeviceToHost, streams[i]);
-        cudaMemcpyAsync(&face_index_out[i], &d_face_index_out[i], sizeof(int), cudaMemcpyDeviceToHost, streams[i]);
+        cudaMemcpy(&vertex_index_out[i], &d_vertex_index_out[i], sizeof(int), cudaMemcpyDeviceToHost);
+        cudaMemcpy(&face_index_out[i], &d_face_index_out[i], sizeof(int), cudaMemcpyDeviceToHost);
     }
 
-    cudaDeviceSynchronize();
     for (int i = 0; i < group_index; i++) {
-        cudaMemcpyAsync(vertex_out[i], &d_vertices[i * (triangles->size() + 3)], vertex_index_out[i] * sizeof(glm::vec3), cudaMemcpyDeviceToHost, streams[i]);
-        cudaMemcpyAsync(face_out[i], &d_faces[i * triangles->size()], face_index_out[i] * sizeof(glm::ivec3), cudaMemcpyDeviceToHost, streams[i]);
+        cudaMemcpy(vertex_out[i], &d_vertices[i * (triangles->size() + 3)], vertex_index_out[i] * sizeof(glm::vec3), cudaMemcpyDeviceToHost);
+        cudaMemcpy(face_out[i], &d_faces[i * triangles->size()], face_index_out[i] * sizeof(glm::ivec3), cudaMemcpyDeviceToHost);
     }
 
     cudaFree(d_index_lookup);
     cudaFree(d_vertex_index_out);
     cudaFree(d_face_index_out);
 
-    cudaDeviceSynchronize();
     for (int i = 0; i < result.size(); i++) {
         result[i]->vertex.insert(result[i]->vertex.begin(), vertex_out[i], vertex_out[i] + vertex_index_out[i]);
         result[i]->index.insert(result[i]->index.begin(), face_out[i], face_out[i] + face_index_out[i]);
@@ -135,10 +141,6 @@ std::vector<TriangleMesh*> segment_union_to_obj(const SegmentUnion segment_union
     for (int i = 0; i < group_index; i++) cudaFreeHost(&face_out[i]);
     cudaFreeHost(vertex_index_out);
     cudaFreeHost(face_index_out);
-
-    cudaDeviceSynchronize();
-    for (cudaStream_t& stream : streams)
-        cudaStreamDestroy(stream);
 
     return result;
 }
