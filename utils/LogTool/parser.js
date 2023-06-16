@@ -35,6 +35,8 @@ const gpus = getGPUs();
 
 async function getData(filePath) {
     const version = execSync('git rev-parse HEAD', {encoding: 'utf-8'}).trim();
+    const commit = execSync('git log --pretty=\'format:%Creset%s\' --no-merges -1', {encoding: 'utf-8'}).trim();
+    const branch = execSync('git rev-parse --abbrev-ref HEAD', {encoding: 'utf-8'}).trim();
     const extension = path.extname(filePath);
     const fileName = path.basename(filePath, extension);
     const fileContent = fs.readFileSync(filePath, 'utf8');
@@ -75,7 +77,9 @@ async function getData(filePath) {
         memory,
         gpus,
         createdAt,
-        version
+        version,
+        commit,
+        branch
     };
 }
 
