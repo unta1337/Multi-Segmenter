@@ -15,7 +15,22 @@ struct AdjacentNode {
     int filled_index = 0;
 } typedef AdjacentNode;
 
-__global__ void cuda_union_find(std::vector<Triangle>* triangles, int triangle_idx, std::vector<int> adj_triangles, int* adjacents,int adjacents_size){
+__device__ bool is_connected_device(const Triangle& a, const Triangle& b) {
+    int shared_vertices = 0;
+
+    for (auto i : a.vertex) {
+        for (auto j : b.vertex) {
+            if (glm::all(glm::equal(i, j))) {
+                shared_vertices++;
+                break;
+            }
+        }
+    }
+
+    return (shared_vertices > 1);
+}
+
+__global__ void cuda_union_find(Triangle* triangles, int triangle_idx, int* adj_triangles, int* adjacents,int adjacents_size){
     int idx = blockDim.x * blockIdx.x + threadIdx.x;
     //각 삼각형의 root를 자신으로 초기화
     if(idx >= adjacents_size)
@@ -23,9 +38,10 @@ __global__ void cuda_union_find(std::vector<Triangle>* triangles, int triangle_i
 
     // 맞닿아 있는 삼각형이,
     int adjacent_triangle = adjacents[idx];
-    // 자기 자신이 아니고,
+    Triangle tri_idx = triangles[triangle_idx];
+    Triangle tri_adj = triangles[adjacent_triangle];
     // 원래의 삼각형과도 맞닿아 있으면 루트를 원래의 삼각형으로 지정.
-    if (triangle_idx != adjacent_triangle && is_connected(triangles->at(triangle_idx), triangles[adjacent_triangle])) {
+    if (is_connected_device(tri_idx, tri_adj)) {
         if(adj_triangles[adjacent_triangle] > adj_triangles[triangle_idx])
             adj_triangles[adjacent_triangle] = adj_triangles[triangle_idx];
     }
@@ -109,16 +125,19 @@ void CUDAFaceGraph::init() {
     // 각 면에 대한 인접 리스트 생성.
     adj_triangles = std::vector<std::vector<int>>(triangles->size());
     triangles_parents = std::vector<int>(triangles->size());
-    std::vector<int> dev_triangles_parents = std::vector<int>(triangles->size());
-    std::vector<Triangle>* dev_triangles;
-
     //각 삼각형의 root를 자신으로 초기화
     #pragma omp parallel for
     for(int i = 0; i < triangles->size(); i++){
         triangles_parents[i] = i;
     }
+
+    Triangle* dev_triangles;
+    cudaMalloc(&dev_triangles, triangles->size() * sizeof(Triangle));
+    cudaMemcpy(dev_triangles, triangles->data(), triangles->size() * sizeof(Triangle), cudaMemcpyHostToDevice);
+
+    int* dev_triangles_parents = 0;
+    cudaMalloc(&dev_triangles_parents, triangles->size() * sizeof(int));
     cudaMemcpy(&dev_triangles_parents, &triangles_parents, triangles->size() * sizeof(int), cudaMemcpyHostToDevice);
-    cudaMemcpy(&dev_triangles, &triangles, triangles->size() * sizeof(Triangle), cudaMemcpyHostToDevice);
 
     // 각 삼각형에 대해서,
     for (int i = 0; i < triangles->size(); i++) {
@@ -130,7 +149,8 @@ void CUDAFaceGraph::init() {
             AdjacentNode* node = &adjacent_nodes[vertex_hash];
 
             int* adjacents = node->adjacents;
-            int* dev_adjacents = 0;
+            int* dev_adjacents;
+            cudaMalloc(&dev_adjacents, triangles->size() * sizeof(int));
             cudaMemcpy(&dev_adjacents, &adjacents, node->filled_index * sizeof(int), cudaMemcpyHostToDevice);
 
             dim3 dimBlock(1024, 1);
@@ -176,23 +196,6 @@ std::vector<std::vector<Triangle>> CUDAFaceGraph::get_segments() {
     return component_list;
 }
 
-void CUDAFaceGraph::traverse_dfs(std::vector<int>& visit, int start_vert, int count) {
-    std::stack<int> dfs_stack;
-    dfs_stack.push(start_vert);
-
-    while (!dfs_stack.empty()) {
-        int current_vert = dfs_stack.top();
-        dfs_stack.pop();
-
-        visit[current_vert] = count;
-        for (int i = 0; i < adj_triangles[current_vert].size(); i++) {
-            int adjacent_triangle = adj_triangles[current_vert][i];
-            if (visit[adjacent_triangle] == 0) {
-                dfs_stack.push(adjacent_triangle);
-            }
-        }
-    }
-}
 /*
 void CUDAFaceGraph::union_find(std::vector<int>& visit, int start_vert, int count) {
 
@@ -223,7 +226,7 @@ void CUDAFaceGraph::union_find(std::vector<int>& visit, int start_vert, int coun
                 // 원래의 삼각형과도 맞닿아 있으면 루트를 원래의 삼각형으로 지정.
                 if (i != adjacent_triangle && is_connected(triangles->at(i), triangles->at(adjacent_triangle))) {
                     if(triangles_parents[i] < triangles_parents[adjacent_triangle]){
-                        triangles_parents[adjacent_triangle] = triangles_parents[i];    
+                        triangles_parents[adjacent_triangle] = triangles_parents[i];
                     }
                 }
             }

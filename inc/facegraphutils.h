@@ -20,7 +20,7 @@ struct Vec3Hash {
     }
 };
 
-__host__ __device__ bool is_connected(const Triangle& a, const Triangle& b) {
+inline bool is_connected(const Triangle& a, const Triangle& b) {
     int shared_vertices = 0;
 
     for (auto i : a.vertex) {
