@@ -57,18 +57,12 @@ struct NormalMapper {
 };
 
 struct NormalIndexMapper {
-    explicit NormalIndexMapper() {
-    }
-
     __host__ __device__ int operator()(const NormalWrapper& normal) const {
         return normal.index;
     }
 };
 
 struct NormalTriangleMapper {
-    explicit NormalTriangleMapper() {
-    }
-
     __host__ __device__ Triangle operator()(const NormalWrapper& normal) const {
         return normal.triangle;
     }
