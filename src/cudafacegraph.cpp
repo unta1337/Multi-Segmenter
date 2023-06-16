@@ -20,26 +20,7 @@ void CUDAFaceGraph::init() {
 
     timer->onTimer(TIMER_FACEGRAPH_INIT_B);
     // 각 면에 대한 인접 리스트 생성.
-    adj_triangles = std::vector<std::vector<int>>(triangles->size());
-
-    // 각 삼각형에 대해서,
-    for (int i = 0; i < triangles->size(); i++) {
-        // 그 삼각형에 속한 정점과,
-        for (int j = 0; j < 3; j++) {
-            glm::vec3 vertex = triangles->at(i).vertex[j];
-            std::vector<int> adjacent_triangles = vertex_adjacent_map[triangles->at(i).id[j]];
-            // 맞닿아 있는 삼각형이,
-            for (int k = 0; k < adjacent_triangles.size(); k++) {
-                int adjacent_triangle = adjacent_triangles[k];
-
-                // 자기 자신이 아니고,
-                // 원래의 삼각형과도 맞닿아 있으면 인접 리스트에 추가.
-                if (i != adjacent_triangle && is_connected(triangles->at(i), triangles->at(adjacent_triangle))) {
-                    adj_triangles[i].push_back(adjacent_triangle);
-                }
-            }
-        }
-    }
+    adj_triangles = get_adj_triangles(vertex_adjacent_map);
     timer->offTimer(TIMER_FACEGRAPH_INIT_B);
 }
 

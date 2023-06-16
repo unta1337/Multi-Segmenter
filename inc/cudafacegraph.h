@@ -28,6 +28,7 @@ class CUDAFaceGraph : public FaceGraph {
     virtual void traverse_dfs(std::vector<int>& visit, int start_vert, int count);
     virtual void traverse_dfs(SegmentUnion& visit, int start_vert, int count);
     virtual std::vector<std::vector<int>> get_vertex_to_adj();
+    virtual std::vector<std::vector<int>> get_adj_triangles(std::vector<std::vector<int>>& vertex_adjacent_map);
 };
 
 #endif
