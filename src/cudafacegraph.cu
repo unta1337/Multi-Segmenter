@@ -56,16 +56,25 @@ std::vector<std::vector<int>> CUDAFaceGraph::get_vertex_to_adj() {
     // 이로써 원래 obj에서의 인덱스를 고유 번호로 사용하지 않아도 됨.
     // 이후 정점 룩업 시 저장 공간 및 탐색 시간이 줄어듦.
 
+    cudaStream_t s_a, s_b, s_c;
+    cudaStreamCreate(&s_a);
+    cudaStreamCreate(&s_b);
+    cudaStreamCreate(&s_c);
+
     int triangles_per_block = 8192;
     int iter = (int)ceil((float)triangles->size() / triangles_per_block);
 
-    int* d_local_adj_map; cudaMalloc(&d_local_adj_map, iter * vertices_index * VERT_ADJ_MAX * sizeof(int));
-    int* d_local_adj_index; cudaMalloc(&d_local_adj_index, iter * vertices_index * sizeof(int));
-    cudaMemset(d_local_adj_index, 0, iter * vertices_index * sizeof(int));
+    int* d_local_adj_map; cudaMallocAsync(&d_local_adj_map, iter * vertices_index * VERT_ADJ_MAX * sizeof(int), s_a);
+    int* d_local_adj_index; cudaMallocAsync(&d_local_adj_index, iter * vertices_index * sizeof(int), s_b);
+    Triangle* d_triangles; cudaMallocAsync(&d_triangles, triangles->size() * sizeof(Triangle), s_c);
 
-    Triangle* d_triangles; cudaMalloc(&d_triangles, triangles->size() * sizeof(Triangle));
-    cudaMemcpy(d_triangles, triangles->data(), triangles->size() * sizeof(Triangle), cudaMemcpyHostToDevice);
+    int* local_adj_map; cudaMallocHost(&local_adj_map,iter * vertices_index * VERT_ADJ_MAX * sizeof(int));
+    int* local_adj_index; cudaMallocHost(&local_adj_index, iter * vertices_index * sizeof(int));
 
+    cudaMemsetAsync(d_local_adj_index, 0, iter * vertices_index * sizeof(int), s_b);
+    cudaMemcpyAsync(d_triangles, triangles->data(), triangles->size() * sizeof(Triangle), cudaMemcpyHostToDevice, s_c);
+
+    cudaDeviceSynchronize();
     tt.onTimer(1);
     __get_vertex_to_adj<<<iter, 1024>>>(d_local_adj_map, d_local_adj_index,
                                         d_triangles,
@@ -73,14 +82,12 @@ std::vector<std::vector<int>> CUDAFaceGraph::get_vertex_to_adj() {
     cudaDeviceSynchronize();
     tt.offTimer(1);
 
-    int* local_adj_map = (int*)malloc(iter * vertices_index * VERT_ADJ_MAX * sizeof(int));
-    int* local_adj_index = (int*)malloc(iter * vertices_index * sizeof(int));
-
-    cudaMemcpy(local_adj_map, d_local_adj_map, iter * vertices_index * VERT_ADJ_MAX * sizeof(int), cudaMemcpyDeviceToHost);
-    cudaMemcpy(local_adj_index, d_local_adj_index, iter * vertices_index * sizeof(int), cudaMemcpyDeviceToHost);
+    cudaMemcpyAsync(local_adj_map, d_local_adj_map, iter * vertices_index * VERT_ADJ_MAX * sizeof(int), cudaMemcpyDeviceToHost, s_a);
+    cudaMemcpyAsync(local_adj_index, d_local_adj_index, iter * vertices_index * sizeof(int), cudaMemcpyDeviceToHost, s_b);
 
     std::vector<std::vector<int>> vertex_adjacent_map(vertices_index);
 
+    cudaDeviceSynchronize();
     for (int i = 0; i < iter; i++) {
         int* local_map = &local_adj_map[i * vertices_index * VERT_ADJ_MAX];
         int* local_index = &local_adj_index[i * vertices_index];
@@ -92,12 +99,16 @@ std::vector<std::vector<int>> CUDAFaceGraph::get_vertex_to_adj() {
         }
     }
 
-    cudaFree(d_local_adj_map);
-    cudaFree(d_local_adj_index);
-    cudaFree(d_triangles);
+    cudaFreeAsync(d_local_adj_map, s_a);
+    cudaFreeAsync(d_local_adj_index, s_b);
+    cudaFreeAsync(d_triangles, s_c);
 
-    free(local_adj_map);
-    free(local_adj_index);
+    cudaFreeHost(local_adj_map);
+    cudaFreeHost(local_adj_index);
+
+    cudaStreamDestroy(s_a);
+    cudaStreamDestroy(s_b);
+    cudaStreamDestroy(s_c);
 
     tt.offTimer(0);
 
