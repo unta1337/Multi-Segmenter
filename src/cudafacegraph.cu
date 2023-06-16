@@ -1,12 +1,12 @@
 #include "cudafacegraph.h"
 
-#include <algorithm>
+#include "dstimer.hpp"
 
 #define VERT_ADJ_MAX 10
 #define TRI_ADJ_MAX 10
 
 __global__ void __get_vertex_to_adj(int* local_adj_map_chunk, int* local_adj_map_index_chunk,
-                                    size_t* face_indicies,
+                                    Triangle* triangles,
                                     int triangle_count, int triangle_per_block, int vertex_count) {
     int* local_map = &local_adj_map_chunk[blockIdx.x * vertex_count * VERT_ADJ_MAX];
     int* local_index = &local_adj_map_index_chunk[blockIdx.x * vertex_count];
@@ -14,13 +14,19 @@ __global__ void __get_vertex_to_adj(int* local_adj_map_chunk, int* local_adj_map
 
     for (int i = threadIdx.x; i + i_begin < triangle_count && i < triangle_per_block; i += blockDim.x) {
         for (int j = 0; j < 3; j++) {
-            size_t vert_id = face_indicies[(i + i_begin) * 3 + j];
+            size_t vert_id = triangles[i + i_begin].id[j];
             local_map[vert_id * VERT_ADJ_MAX + atomicAdd(&local_index[vert_id], 1)] = i + i_begin;
         }
     }
 }
 
 std::vector<std::vector<int>> CUDAFaceGraph::get_vertex_to_adj() {
+    static DS_timer tt(2);
+    tt.setTimerName(0, (char*)"total");
+    tt.setTimerName(1, (char*)"comp ");
+
+    tt.onTimer(0);
+
     // Vertex Lookup vertices.
     vertices = std::vector<glm::vec3>(triangles->size() * 3);        // 정점 룩업 테이블.
     size_t vertices_index = 0;                                       // 테이블 인덱스.
@@ -57,15 +63,15 @@ std::vector<std::vector<int>> CUDAFaceGraph::get_vertex_to_adj() {
     int* d_local_adj_index; cudaMalloc(&d_local_adj_index, iter * vertices_index * sizeof(int));
     cudaMemset(d_local_adj_index, 0, iter * vertices_index * sizeof(int));
 
-    size_t* d_face_indices; cudaMalloc(&d_face_indices, triangles->size() * 3 * sizeof(size_t));
-    for (int i = 0; i < triangles->size(); i++) {
-        cudaMemcpy(&d_face_indices[i * 3], triangles->at(i).id, 3 * sizeof(size_t), cudaMemcpyHostToDevice);
-    }
+    Triangle* d_triangles; cudaMalloc(&d_triangles, triangles->size() * sizeof(Triangle));
+    cudaMemcpy(d_triangles, triangles->data(), triangles->size() * sizeof(Triangle), cudaMemcpyHostToDevice);
 
+    tt.onTimer(1);
     __get_vertex_to_adj<<<iter, 1024>>>(d_local_adj_map, d_local_adj_index,
-                                        d_face_indices,
+                                        d_triangles,
                                         triangles->size(), triangles_per_block, vertices_index);
     cudaDeviceSynchronize();
+    tt.offTimer(1);
 
     int* local_adj_map = (int*)malloc(iter * vertices_index * VERT_ADJ_MAX * sizeof(int));
     int* local_adj_index = (int*)malloc(iter * vertices_index * sizeof(int));
@@ -86,12 +92,16 @@ std::vector<std::vector<int>> CUDAFaceGraph::get_vertex_to_adj() {
         }
     }
 
-    cudaFree(&d_local_adj_map);
-    cudaFree(&d_local_adj_index);
-    cudaFree(d_face_indices);
+    cudaFree(d_local_adj_map);
+    cudaFree(d_local_adj_index);
+    cudaFree(d_triangles);
 
     free(local_adj_map);
     free(local_adj_index);
+
+    tt.offTimer(0);
+
+    tt.printTimer();
 
     return vertex_adjacent_map;
 }
