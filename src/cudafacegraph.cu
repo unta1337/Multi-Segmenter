@@ -2,19 +2,19 @@
 
 #include <algorithm>
 
-#define VERT_ADJ_MAX 40
-#define TRI_ADJ_MAX 20
+#define VERT_ADJ_MAX 10
+#define TRI_ADJ_MAX 10
 
-__global__ void __get_vertex_to_adj(int* local_adj_map, int* local_adj_map_index,
-                                    Triangle* triangles, int triangle_count, int triangles_per_block,
-                                    int vertex_count, int i_iter) {
-    int* local_map = &local_adj_map[i_iter * (vertex_count + VERT_ADJ_MAX)];
-    int* local_index = &local_adj_map_index[i_iter * vertex_count];
-    int i_begin = i_iter * triangles_per_block;
+__global__ void __get_vertex_to_adj(int* local_adj_map_chunk, int* local_adj_map_index_chunk,
+                                    size_t* face_indicies,
+                                    int triangle_count, int triangle_per_block, int vertex_count) {
+    int* local_map = &local_adj_map_chunk[blockIdx.x * vertex_count * VERT_ADJ_MAX];
+    int* local_index = &local_adj_map_index_chunk[blockIdx.x * vertex_count];
+    int i_begin = blockIdx.x * triangle_per_block;
 
-    for (int i = threadIdx.x; i + i_begin < triangle_count && i < triangles_per_block; i += blockDim.x) {
+    for (int i = threadIdx.x; i + i_begin < triangle_count && i < triangle_per_block; i += blockDim.x) {
         for (int j = 0; j < 3; j++) {
-            int vert_id = triangles[i + i_begin].id[j];
+            size_t vert_id = face_indicies[(i + i_begin) * 3 + j];
             local_map[vert_id * VERT_ADJ_MAX + atomicAdd(&local_index[vert_id], 1)] = i + i_begin;
         }
     }
@@ -50,75 +50,48 @@ std::vector<std::vector<int>> CUDAFaceGraph::get_vertex_to_adj() {
     // 이로써 원래 obj에서의 인덱스를 고유 번호로 사용하지 않아도 됨.
     // 이후 정점 룩업 시 저장 공간 및 탐색 시간이 줄어듦.
 
-    // TODO: triangles_per_block을 triangles->size()보다 작게 하면 노이즈 발생.
-    int triangles_per_block = 128;
-    // int triangles_per_block = triangles->size();
+    int triangles_per_block = 8192;
     int iter = (int)ceil((float)triangles->size() / triangles_per_block);
 
-    // 쿠다 스트림 생성.
-    std::vector<cudaStream_t> streams(iter);
-    for (cudaStream_t& stream : streams)
-        cudaStreamCreate(&stream);
-
-    // 로컬 adj 생성. (Host)
-    int* local_adj_map; cudaMallocHost(&local_adj_map, iter * vertices_index * VERT_ADJ_MAX * sizeof(int));
-    int* local_adj_map_index; cudaMallocHost(&local_adj_map_index, iter * vertices_index * sizeof(int));
-
-    // 로컬 adj 생성. (Cuda)
     int* d_local_adj_map; cudaMalloc(&d_local_adj_map, iter * vertices_index * VERT_ADJ_MAX * sizeof(int));
-    int* d_local_adj_map_index; cudaMalloc(&d_local_adj_map_index, iter * vertices_index * sizeof(int));
+    int* d_local_adj_index; cudaMalloc(&d_local_adj_index, iter * vertices_index * sizeof(int));
+    cudaMemset(d_local_adj_index, 0, iter * vertices_index * sizeof(int));
 
-    // memset async.
-    for (int i = 0; i < iter; i++)
-        cudaMemsetAsync(&d_local_adj_map_index[i * vertices_index], 0, vertices_index * sizeof(int), streams[i]);
-
-    Triangle* d_triangles;
-    cudaMalloc(&d_triangles, triangles->size() * sizeof(Triangle));
-    cudaMemcpy(d_triangles, triangles->data(), triangles->size() * sizeof(Triangle), cudaMemcpyHostToDevice);
-
-    cudaDeviceSynchronize();        // memset 동기화.
-
-    // 연산 async.
-    for (int i = 0; i < iter; i++) {
-        __get_vertex_to_adj<<<1, 1024, 0, streams[i]>>>(d_local_adj_map, d_local_adj_map_index,
-                                                        d_triangles, triangles->size(), triangles_per_block,
-                                                        vertices_index, i);
+    size_t* d_face_indices; cudaMalloc(&d_face_indices, triangles->size() * 3 * sizeof(size_t));
+    for (int i = 0; i < triangles->size(); i++) {
+        cudaMemcpy(&d_face_indices[i * 3], triangles->at(i).id, 3 * sizeof(size_t), cudaMemcpyHostToDevice);
     }
-    cudaDeviceSynchronize();        // 연산 동기화.
 
-    // memcpy async.
-    for (int i = 0; i < iter; i++) {
-        cudaMemcpyAsync(&local_adj_map[i * (vertices_index + VERT_ADJ_MAX)], &d_local_adj_map[i * (vertices_index + VERT_ADJ_MAX)],
-                        vertices_index * VERT_ADJ_MAX * sizeof(int), cudaMemcpyDeviceToHost, streams[i]);
-        cudaMemcpyAsync(&local_adj_map_index[i * vertices_index], &d_local_adj_map_index[i * vertices_index],
-                        vertices_index * sizeof(int), cudaMemcpyDeviceToHost, streams[i]);
-    }
-    cudaDeviceSynchronize();        // memcpy 동기화.
+    __get_vertex_to_adj<<<iter, 1024>>>(d_local_adj_map, d_local_adj_index,
+                                        d_face_indices,
+                                        triangles->size(), triangles_per_block, vertices_index);
+    cudaDeviceSynchronize();
 
-    // free.
-    cudaFree(d_local_adj_map);
-    cudaFree(d_local_adj_map_index);
-    cudaFree(d_triangles);
+    int* local_adj_map = (int*)malloc(iter * vertices_index * VERT_ADJ_MAX * sizeof(int));
+    int* local_adj_index = (int*)malloc(iter * vertices_index * sizeof(int));
 
-    // 로컬 adj 취합.
+    cudaMemcpy(local_adj_map, d_local_adj_map, iter * vertices_index * VERT_ADJ_MAX * sizeof(int), cudaMemcpyDeviceToHost);
+    cudaMemcpy(local_adj_index, d_local_adj_index, iter * vertices_index * sizeof(int), cudaMemcpyDeviceToHost);
+
     std::vector<std::vector<int>> vertex_adjacent_map(vertices_index);
 
-    for (int i_iter = 0; i_iter < iter; i_iter++) {
-        int* local_map = &local_adj_map[i_iter * (vertices_index + VERT_ADJ_MAX)];
-        int* local_index = &local_adj_map_index[i_iter * vertices_index];
+    for (int i = 0; i < iter; i++) {
+        int* local_map = &local_adj_map[i * vertices_index * VERT_ADJ_MAX];
+        int* local_index = &local_adj_index[i * vertices_index];
 
-        for (int i = 0; i < vertices_index; i++) {
-            vertex_adjacent_map[i].insert(vertex_adjacent_map[i].begin(), &local_map[i * VERT_ADJ_MAX], &local_map[i * VERT_ADJ_MAX + local_index[i]]);
+        for (int j = 0; j < vertices_index; j++) {
+            vertex_adjacent_map[j].insert(vertex_adjacent_map[j].end(),
+                                          &local_map[j * VERT_ADJ_MAX],
+                                          &local_map[j * VERT_ADJ_MAX + local_index[j]]);
         }
     }
 
-    // free.
-    cudaFreeHost(local_adj_map);
-    cudaFreeHost(local_adj_map_index);
+    cudaFree(&d_local_adj_map);
+    cudaFree(&d_local_adj_index);
+    cudaFree(d_face_indices);
 
-    // 쿠다 스트림 종료.
-    for (cudaStream_t& stream : streams)
-        cudaStreamDestroy(stream);
+    free(local_adj_map);
+    free(local_adj_index);
 
     return vertex_adjacent_map;
 }
