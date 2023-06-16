@@ -1,11 +1,11 @@
 #include "cudafacegraph.h"
 #include "lockutils.hpp"
 
-ParallelFaceGraph::ParallelFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer) : FaceGraph(triangles, timer) {
+CUDAFaceGraph::CUDAFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer) : FaceGraph(triangles, timer) {
     init();
 }
 
-ParallelFaceGraph::ParallelFaceGraph(std::vector<Triangle>* triangles) : FaceGraph(triangles) {
+CUDAFaceGraph::CUDAFaceGraph(std::vector<Triangle>* triangles) : FaceGraph(triangles) {
     init();
 }
 
@@ -25,13 +25,13 @@ __global__ void cuda_union_find(std::vector<Triangle>* triangles, int triangle_i
     int adjacent_triangle = adjacents[idx];
     // 자기 자신이 아니고,
     // 원래의 삼각형과도 맞닿아 있으면 루트를 원래의 삼각형으로 지정.
-    if (triangle_idx != adjacent_triangle && is_connected(triangles->at(triangle_idx), triangles->at(adjacent_triangle))) {
+    if (triangle_idx != adjacent_triangle && is_connected(triangles->at(triangle_idx), triangles[adjacent_triangle])) {
         if(adj_triangles[adjacent_triangle] > adj_triangles[triangle_idx])
             adj_triangles[adjacent_triangle] = adj_triangles[triangle_idx];
     }
 }
 
-void ParallelFaceGraph::init() {
+void CUDAFaceGraph::init() {
     timer->onTimer(TIMER_FACEGRAPH_INIT_A);
     /* 변수 선언 */
     Vec3Hash hash_function;
@@ -135,7 +135,7 @@ void ParallelFaceGraph::init() {
 
             dim3 dimBlock(1024, 1);
             dim3 dimGrid(ceil(node->filled_index / 1024), 1);
-            cuda_union_find << < dimGrid, dimBlock >> > (dev_triangles, i, dev_triangles_parents, dev_adjacents, node->filled_index);
+            cuda_union_find <<< dimGrid, dimBlock >>> (dev_triangles, i, dev_triangles_parents, dev_adjacents, node->filled_index);
 
             cudaMemcpy(&triangles_parents, &dev_triangles_parents, triangles->size() * sizeof(int), cudaMemcpyDeviceToHost);
         }
@@ -156,13 +156,13 @@ void ParallelFaceGraph::init() {
 int value(int va) {
     return va;
 }
-std::vector<std::vector<Triangle>> ParallelFaceGraph::get_segments() {
+std::vector<std::vector<Triangle>> CUDAFaceGraph::get_segments() {
     timer->onTimer(TIMER_FACEGRAPH_GET_SETMENTS_A);
 
     timer->offTimer(TIMER_FACEGRAPH_GET_SETMENTS_A);
 
     timer->onTimer(TIMER_FACEGRAPH_GET_SETMENTS_B);
-    std::vector<std::vector<Triangle>> component_list(count);
+    std::vector<std::vector<Triangle>>component_list(triangles->size());
     omp_lock_t* locks = new_locks(triangles_parents.size());
     #pragma omp parallel for
     for(int i = 0; triangles_parents.size(); i++){
@@ -176,7 +176,7 @@ std::vector<std::vector<Triangle>> ParallelFaceGraph::get_segments() {
     return component_list;
 }
 
-void ParallelFaceGraph::traverse_dfs(std::vector<int>& visit, int start_vert, int count) {
+void CUDAFaceGraph::traverse_dfs(std::vector<int>& visit, int start_vert, int count) {
     std::stack<int> dfs_stack;
     dfs_stack.push(start_vert);
 
@@ -194,7 +194,7 @@ void ParallelFaceGraph::traverse_dfs(std::vector<int>& visit, int start_vert, in
     }
 }
 /*
-void ParallelFaceGraph::union_find(std::vector<int>& visit, int start_vert, int count) {
+void CUDAFaceGraph::union_find(std::vector<int>& visit, int start_vert, int count) {
 
     triangles_parents = std::vector<int>(triangles->size());
 
