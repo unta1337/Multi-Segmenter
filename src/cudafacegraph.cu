@@ -103,7 +103,7 @@ std::vector<std::vector<int>> CUDAFaceGraph::get_vertex_to_adj() {
     return vertex_adjacent_map;
 }
 
-__device__ int __is_connected(const Triangle& a, const Triangle& b) {
+__host__ __device__ int __is_connected(const Triangle& a, const Triangle& b) {
     int shared_vertices = 0;
 
     for (auto i : a.id) {
@@ -139,7 +139,7 @@ __global__ void __get_adj_triangles(int* local_adj_map, int* local_adj_map_index
                 Triangle tri_adj = triangles[adjacent_triangle];
 
                 if (i + i_begin != adjacent_triangle && __is_connected(tri_i, tri_adj)) {
-                    local_adj_map[(i + i_begin) * TRI_ADJ_MAX + atomicAdd(&local_index[i + i_begin], 1)] = adjacent_triangle;
+                    local_map[(i + i_begin) * TRI_ADJ_MAX + atomicAdd(&local_index[i + i_begin], 1)] = adjacent_triangle;
                 }
             }
         }
@@ -148,59 +148,59 @@ __global__ void __get_adj_triangles(int* local_adj_map, int* local_adj_map_index
 
 std::vector<std::vector<int>> CUDAFaceGraph::get_adj_triangles(std::vector<std::vector<int>>& vertex_adjacent_map) {
     // TODO: triangles->size()보다 작게 했을 때 버그 발생.
-    int triangles_per_block = triangles->size();
+    // int triangles_per_block = triangles->size();
+    int triangles_per_block = 8192;
     int iter = (int)ceil((float)triangles->size() / triangles_per_block);
-
-    int* local_adj_map; cudaMallocHost(&local_adj_map, iter * triangles->size() * TRI_ADJ_MAX * sizeof(int));
-    int* local_adj_map_index; cudaMallocHost(&local_adj_map_index, iter * triangles->size() * sizeof(int));
-
-    int* d_local_adj_map; cudaMalloc(&d_local_adj_map, iter * triangles->size() * TRI_ADJ_MAX * sizeof(int));
-    int* d_local_adj_map_index; cudaMalloc(&d_local_adj_map_index, iter * triangles->size() * sizeof(int));
-    cudaMemset(d_local_adj_map_index, 0, iter * triangles->size() * sizeof(int));
 
     Triangle* d_triangles; cudaMalloc(&d_triangles, triangles->size() * sizeof(Triangle));
     cudaMemcpy(d_triangles, triangles->data(), triangles->size() * sizeof(Triangle), cudaMemcpyHostToDevice);
 
+    int* local_adj_map = (int*)malloc(iter * triangles->size() * TRI_ADJ_MAX * sizeof(int));
+    int* local_adj_count = (int*)malloc(iter * triangles->size() * sizeof(int));
+
+    int* d_local_adj_map; cudaMalloc(&d_local_adj_map, iter * triangles->size() * TRI_ADJ_MAX * sizeof(int));
+    int* d_local_adj_count; cudaMalloc(&d_local_adj_count, iter * triangles->size() * sizeof(int));
+    cudaMemset(d_local_adj_count, 0, iter * triangles->size() * sizeof(int));
+
     int* d_vertex_adjacent_map; cudaMalloc(&d_vertex_adjacent_map, vertices.size() * VERT_ADJ_MAX * sizeof(int));
-    int* d_vertex_adjacent_map_count; cudaMalloc(&d_vertex_adjacent_map_count, vertices.size() * sizeof(int));
+    int* d_vertex_adjacent_count; cudaMalloc(&d_vertex_adjacent_count, vertices.size() * sizeof(int));
 
     for (int i = 0; i < vertices.size(); i++) {
         int size = vertex_adjacent_map[i].size();
         cudaMemcpy(&d_vertex_adjacent_map[i * VERT_ADJ_MAX], (int*)vertex_adjacent_map[i].data(), size * sizeof(int), cudaMemcpyHostToDevice);
-        cudaMemcpy(&d_vertex_adjacent_map_count[i], &size, sizeof(int), cudaMemcpyHostToDevice);
+        cudaMemcpy(&d_vertex_adjacent_count[i], &size, sizeof(int), cudaMemcpyHostToDevice);
     }
 
-    cudaDeviceSynchronize();
-    __get_adj_triangles<<<iter, 1024>>>(d_local_adj_map, d_local_adj_map_index,
+    __get_adj_triangles<<<iter, 1024>>>(d_local_adj_map, d_local_adj_count,
                                         d_triangles, triangles->size(), triangles_per_block,
-                                        d_vertex_adjacent_map, d_vertex_adjacent_map_count);
+                                        d_vertex_adjacent_map, d_vertex_adjacent_count);
     cudaDeviceSynchronize();
 
     cudaMemcpy(local_adj_map, d_local_adj_map, iter * triangles->size() * TRI_ADJ_MAX * sizeof(int), cudaMemcpyDeviceToHost);
-    cudaMemcpy(local_adj_map_index, d_local_adj_map_index, iter * triangles->size() * sizeof(int), cudaMemcpyDeviceToHost);
+    cudaMemcpy(local_adj_count, d_local_adj_count, iter * triangles->size() * sizeof(int), cudaMemcpyDeviceToHost);
 
     adj_triangles = std::vector<std::vector<int>>(triangles->size());
 
     cudaDeviceSynchronize();
     for (int i_iter = 0; i_iter < iter; i_iter++) {
         int* local_map = &local_adj_map[i_iter * triangles->size() * TRI_ADJ_MAX];
-        int* local_index = &local_adj_map_index[i_iter * triangles->size()];
+        int* local_count = &local_adj_count[i_iter * triangles->size()];
 
         for (int i = 0; i < triangles->size(); i++) {
             adj_triangles[i].insert(adj_triangles[i].end(),
                                     &local_map[i * TRI_ADJ_MAX],
-                                    &local_map[i * TRI_ADJ_MAX + local_index[i]]);
+                                    &local_map[i * TRI_ADJ_MAX + local_count[i]]);
         }
     }
 
     cudaFree(d_local_adj_map);
-    cudaFree(d_local_adj_map_index);
-    cudaFree(d_triangles);
+    cudaFree(d_local_adj_count);
     cudaFree(d_vertex_adjacent_map);
-    cudaFree(d_vertex_adjacent_map_count);
+    cudaFree(d_vertex_adjacent_count);
+    cudaFree(d_triangles);
 
-    cudaFreeHost(local_adj_map);
-    cudaFreeHost(local_adj_map_index);
+    free(local_adj_map);
+    free(local_adj_count);
 
     return adj_triangles;
 }
