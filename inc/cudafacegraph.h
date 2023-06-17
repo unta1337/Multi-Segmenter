@@ -1,7 +1,10 @@
 ﻿#ifndef __CUDAFACEGRAPH_H
 #define __CUDAFACEGRAPH_H
 
+#include "cuda_runtime.h"
+#include "device_launch_parameters.h"
 #include "facegraph.hpp"
+#include "lockutils.hpp"
 #include "segmenter.hpp"
 
 class CUDAFaceGraph : public FaceGraph {

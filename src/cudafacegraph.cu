@@ -1,5 +1,10 @@
+#include "cuda_runtime.h"
 #include "cudafacegraph.h"
-#include "lockutils.hpp"
+#include "device_launch_parameters.h"
+#include <omp.h>
+
+#define BLOCK_SIZE 32
+#define GRID_SIZE 512
 
 CUDAFaceGraph::CUDAFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer) : FaceGraph(triangles, timer) {
     init();
@@ -8,6 +13,10 @@ CUDAFaceGraph::CUDAFaceGraph(std::vector<Triangle>* triangles, DS_timer* timer) 
 CUDAFaceGraph::CUDAFaceGraph(std::vector<Triangle>* triangles) : FaceGraph(triangles) {
     init();
 }
+
+struct VertexHash {
+    int vertex[3];
+};
 
 struct AdjacentNode {
     glm::vec3* vertex = nullptr;
@@ -30,20 +39,46 @@ __device__ bool is_connected_device(const Triangle& a, const Triangle& b) {
     return (shared_vertices > 1);
 }
 
-__global__ void cuda_union_find(Triangle* triangles, int triangle_idx, int* adj_triangles, int* adjacents,int adjacents_size){
+__global__ void cuda_union_find(Triangle* triangles, int triangle_idx, int* adj_triangles, int* adjacents,
+                                int adjacents_size) {
     int idx = blockDim.x * blockIdx.x + threadIdx.x;
-    //각 삼각형의 root를 자신으로 초기화
-    if(idx >= adjacents_size)
+    if (idx >= adjacents_size)
         return;
-
+    /*if (threadIdx.x == 0)
+        printf("%d\n", adjacents_size);*/
     // 맞닿아 있는 삼각형이,
     int adjacent_triangle = adjacents[idx];
-    Triangle tri_idx = triangles[triangle_idx];
-    Triangle tri_adj = triangles[adjacent_triangle];
     // 원래의 삼각형과도 맞닿아 있으면 루트를 원래의 삼각형으로 지정.
-    if (is_connected_device(tri_idx, tri_adj)) {
-        if(adj_triangles[adjacent_triangle] > adj_triangles[triangle_idx])
+    if (is_connected_device(triangles[triangle_idx], triangles[adjacent_triangle])) {
+        // printf("%d,%d : %d %d\n", triangle_idx, adjacent_triangle, adj_triangles[triangle_idx],
+        //        adj_triangles[adjacent_triangle]);
+        if (adj_triangles[adjacent_triangle] > adj_triangles[triangle_idx])
             adj_triangles[adjacent_triangle] = adj_triangles[triangle_idx];
+        else if (adj_triangles[adjacent_triangle] < adj_triangles[triangle_idx])
+            adj_triangles[triangle_idx] = adj_triangles[adjacent_triangle];
+    }
+}
+
+__global__ void cuda_union_find_all(Triangle* triangles, AdjacentNode* adjacent_nodes, VertexHash* vertex_hash_list,
+                                    int* triangles_parents, int triangle_size, int offset) {
+    int i = blockDim.x * blockIdx.x + threadIdx.x + offset;
+    if (i >= triangle_size)
+        return;
+    printf("%d\n", triangle_size);
+    for (int j = 0; j < 3; j++) {
+        int vertex_hash = vertex_hash_list[i].vertex[j];
+        AdjacentNode* node = &adjacent_nodes[vertex_hash];
+
+        int* adjacents = node->adjacents;
+
+        for (int k = 0; k < node->filled_index; k++) {
+            if (is_connected_device(triangles[i], triangles[adjacents[k]])) {
+                if (triangles_parents[adjacents[k]] > triangles_parents[i])
+                    triangles_parents[adjacents[k]] = triangles_parents[i];
+                else if (triangles_parents[adjacents[k]] < triangles_parents[i])
+                    triangles_parents[i] = triangles_parents[adjacents[k]];
+            }
+        }
     }
 }
 
@@ -54,25 +89,20 @@ void CUDAFaceGraph::init() {
     size_t vertex_size = triangles->size() * 3;
     omp_lock_t* locks = new_locks(vertex_size);
     // 해제 주의
-    size_t** vertex_hash_list;
-
+    VertexHash* vertex_hash_list;
     /* 초기화 */
-    vertex_hash_list = new size_t*[vertex_size];
-    for (int i = 0; i < vertex_size; i++) {
-        vertex_hash_list[i] = new size_t[3];
-    }
-
+    vertex_hash_list = new VertexHash[vertex_size];
     /* 해시 리스트 초기화 및 카운트 세기 */
     int* over_count_map = new int[vertex_size];
     std::fill_n(over_count_map, vertex_size, 0);
     // duplicated_vertex_key에 중복 vertex들의 triangle 포함 횟수 합산
 
-    #pragma omp parallel for
+#pragma omp parallel for
     for (int i = 0; i < triangles->size(); i++) {
         for (int j = 0; j < 3; j++) {
             glm::vec3 vertex = triangles->at(i).vertex[j];
-            size_t index = vertex_hash_list[i][j] = hash_function(vertex) % vertex_size;
-            #pragma omp atomic
+            size_t index = vertex_hash_list[i].vertex[j] = hash_function(vertex) % vertex_size;
+#pragma omp atomic
             over_count_map[index]++;
         }
     }
@@ -86,11 +116,11 @@ void CUDAFaceGraph::init() {
     }
 
     AdjacentNode* adjacent_nodes = new AdjacentNode[vertex_size];
-    #pragma omp parallel for
+#pragma omp parallel for
     for (int i = 0; i < triangles->size(); i++) {
         for (int j = 0; j < 3; j++) {
             glm::vec3& vertex = triangles->at(i).vertex[j];
-            size_t vertex_hash = vertex_hash_list[i][j];
+            size_t vertex_hash = vertex_hash_list[i].vertex[j];
             bool is_exist = false;
             AdjacentNode* node = &adjacent_nodes[vertex_hash];
 
@@ -105,7 +135,7 @@ void CUDAFaceGraph::init() {
                 vertex_hash = (vertex_hash + 1) % vertex_size;
                 node = &adjacent_nodes[vertex_hash];
             }
-            vertex_hash_list[i][j] = vertex_hash;
+            vertex_hash_list[i].vertex[j] = vertex_hash;
             omp_unset_lock(&locks[locked_hash]);
 
             omp_set_lock(&locks[vertex_hash]);
@@ -125,45 +155,96 @@ void CUDAFaceGraph::init() {
     // 각 면에 대한 인접 리스트 생성.
     adj_triangles = std::vector<std::vector<int>>(triangles->size());
     triangles_parents = std::vector<int>(triangles->size());
-    //각 삼각형의 root를 자신으로 초기화
-    #pragma omp parallel for
-    for(int i = 0; i < triangles->size(); i++){
+// 각 삼각형의 root를 자신으로 초기화
+#pragma omp parallel for
+    for (int i = 0; i < triangles->size(); i++) {
         triangles_parents[i] = i;
     }
+    /*
+    Triangle* dev_triangles;
+    cudaMallocHost(&dev_triangles, triangles->size() * sizeof(Triangle));
+    cudaMemcpy(dev_triangles, triangles->data(), triangles->size() * sizeof(Triangle), cudaMemcpyHostToDevice);
+
+    AdjacentNode* dev_adjacent_nodes;
+    cudaMalloc(&dev_adjacent_nodes, vertex_size * sizeof(AdjacentNode));
+    cudaMemcpy(dev_adjacent_nodes, adjacent_nodes, vertex_size * sizeof(AdjacentNode), cudaMemcpyHostToDevice);
+
+    VertexHash* dev_vertex_hash_list;
+    cudaMalloc(&dev_vertex_hash_list, vertex_size * sizeof(VertexHash));
+    cudaMemcpy(dev_vertex_hash_list, vertex_hash_list, vertex_size * sizeof(VertexHash), cudaMemcpyHostToDevice);
+
+    int* dev_triangles_parents;
+    cudaMalloc(&dev_triangles_parents, triangles->size() * sizeof(int));
+    cudaMemcpy(dev_triangles_parents, triangles_parents.data(), triangles->size() * sizeof(int),
+    cudaMemcpyHostToDevice);
+
+    for (int i = 0; i < 10; i++)
+        printf("%d ", adjacent_nodes[i].adjacents[0]);
+
+
+
+    for (int i = 0; i < triangles->size(); i += BLOCK_SIZE) {
+        cuda_union_find_all<<<1, BLOCK_SIZE>>>(dev_triangles, dev_adjacent_nodes, dev_vertex_hash_list,
+                                               dev_triangles_parents, triangles->size(), BLOCK_SIZE);
+    }
+
+
+    cudaMemcpy(triangles_parents.data(), dev_triangles_parents, triangles->size() * sizeof(int),
+               cudaMemcpyDeviceToHost);
+
+    cudaFreeHost(dev_triangles);
+    cudaFree(dev_vertex_hash_list);
+    cudaFree(dev_adjacent_nodes);
+    cudaFree(dev_triangles_parents);
+    */
 
     Triangle* dev_triangles;
     cudaMalloc(&dev_triangles, triangles->size() * sizeof(Triangle));
     cudaMemcpy(dev_triangles, triangles->data(), triangles->size() * sizeof(Triangle), cudaMemcpyHostToDevice);
 
-    int* dev_triangles_parents = 0;
+    int* dev_triangles_parents;
     cudaMalloc(&dev_triangles_parents, triangles->size() * sizeof(int));
-    cudaMemcpy(&dev_triangles_parents, &triangles_parents, triangles->size() * sizeof(int), cudaMemcpyHostToDevice);
+    cudaMemcpy(dev_triangles_parents, triangles_parents.data(), triangles->size() * sizeof(int),
+               cudaMemcpyHostToDevice);
+    int* dev_adjacents;
+    cudaMalloc(&dev_adjacents, triangles->size() * sizeof(int));
+    cudaMalloc(&dev_triangles_parents, triangles->size() * sizeof(int));
 
+    cudaMemcpy(dev_triangles_parents, triangles_parents.data(), triangles->size() * sizeof(int),
+               cudaMemcpyHostToDevice);
+    timer->onTimer(TIMER_FACEGRAPH_GET_SETMENTS_A);
     // 각 삼각형에 대해서,
     for (int i = 0; i < triangles->size(); i++) {
         // 그 삼각형에 속한 정점과,
         for (int j = 0; j < 3; j++) {
+
             glm::vec3 vertex = triangles->at(i).vertex[j];
 
-            size_t vertex_hash = vertex_hash_list[i][j];
+            size_t vertex_hash = vertex_hash_list[i].vertex[j];
             AdjacentNode* node = &adjacent_nodes[vertex_hash];
 
             int* adjacents = node->adjacents;
-            int* dev_adjacents;
-            cudaMalloc(&dev_adjacents, triangles->size() * sizeof(int));
-            cudaMemcpy(&dev_adjacents, &adjacents, node->filled_index * sizeof(int), cudaMemcpyHostToDevice);
+            // #pragma omp parallel for
+            // for(int j = 0; j < node->filled_index; j++){
+            //     Triangle tri_idx = triangles->at(i);
+            //     Triangle tri_adj = triangles->at(adjacents[j]);
+            //     if(triangles_parents[adjacents[j]] > triangles_parents[i])
+            //         triangles_parents[adjacents[j]] = triangles_parents[i];
+            // }
+            cudaMemcpy(dev_adjacents, adjacents, node->filled_index * sizeof(int), cudaMemcpyHostToDevice);
 
-            dim3 dimBlock(1024, 1);
-            dim3 dimGrid(ceil(node->filled_index / 1024), 1);
-            cuda_union_find <<< dimGrid, dimBlock >>> (dev_triangles, i, dev_triangles_parents, dev_adjacents, node->filled_index);
-
-            cudaMemcpy(&triangles_parents, &dev_triangles_parents, triangles->size() * sizeof(int), cudaMemcpyDeviceToHost);
+            int grid_size = ceil(node->filled_index / BLOCK_SIZE);
+            cuda_union_find<<<1, BLOCK_SIZE>>>(dev_triangles, i, dev_triangles_parents, dev_adjacents,
+                                               node->filled_index);
         }
     }
+    cudaMemcpy(triangles_parents.data(), dev_triangles_parents, triangles->size() * sizeof(int),
+               cudaMemcpyDeviceToHost);
+    timer->offTimer(TIMER_FACEGRAPH_GET_SETMENTS_A);
+    cudaFree(dev_triangles_parents);
+    cudaFree(dev_adjacents);
+    cudaFree(dev_triangles);
 
-    for (int i = 0; i < vertex_size; i++) {
-        delete[] vertex_hash_list[i];
-    }
     delete[] vertex_hash_list;
 
     delete[] over_count_map;
@@ -176,6 +257,31 @@ void CUDAFaceGraph::init() {
 int value(int va) {
     return va;
 }
+
+std::vector<std::vector<Triangle>> CUDAFaceGraph::get_segments() {
+
+    //  std::vector<int> is_visit(adj_triangles.size());
+    // 방문했다면 정점이 속한 그룹의 카운트 + 1.
+
+    /*int count = 0;
+    for (int i = 0; i < adj_triangles.size(); i++) {
+        if (is_visit[i] == 0) {
+            traverse_dfs(is_visit, i, ++count);
+        }
+    }*/
+
+    timer->onTimer(TIMER_FACEGRAPH_GET_SETMENTS_B);
+    std::vector<std::vector<Triangle>> component_list(triangles->size());
+
+    for (int i = 0; i < adj_triangles.size(); i++) {
+        component_list[triangles_parents[i]].push_back(triangles->data()[i]);
+    }
+
+    timer->offTimer(TIMER_FACEGRAPH_GET_SETMENTS_B);
+
+    return component_list;
+}
+/*
 std::vector<std::vector<Triangle>> CUDAFaceGraph::get_segments() {
     timer->onTimer(TIMER_FACEGRAPH_GET_SETMENTS_A);
 
@@ -184,18 +290,37 @@ std::vector<std::vector<Triangle>> CUDAFaceGraph::get_segments() {
     timer->onTimer(TIMER_FACEGRAPH_GET_SETMENTS_B);
     std::vector<std::vector<Triangle>>component_list(triangles->size());
     omp_lock_t* locks = new_locks(triangles_parents.size());
+
     #pragma omp parallel for
-    for(int i = 0; triangles_parents.size(); i++){
+    for(int i = 0; i < triangles_parents.size(); i++){
         omp_set_lock(&locks[i]);
         component_list[triangles_parents[i]].push_back(triangles->data()[i]);
         omp_unset_lock(&locks[i]);
     }
 
     timer->offTimer(TIMER_FACEGRAPH_GET_SETMENTS_B);
+    destroy_locks(locks, triangles_parents.size());
 
     return component_list;
-}
+}*/
 
+void CUDAFaceGraph::traverse_dfs(std::vector<int>& visit, int start_vert, int count) {
+    std::stack<int> dfs_stack;
+    dfs_stack.push(start_vert);
+
+    while (!dfs_stack.empty()) {
+        int current_vert = dfs_stack.top();
+        dfs_stack.pop();
+
+        visit[current_vert] = count;
+        for (int i = 0; i < adj_triangles[current_vert].size(); i++) {
+            int adjacent_triangle = adj_triangles[current_vert][i];
+            if (visit[adjacent_triangle] == 0) {
+                dfs_stack.push(adjacent_triangle);
+            }
+        }
+    }
+}
 /*
 void CUDAFaceGraph::union_find(std::vector<int>& visit, int start_vert, int count) {
 
