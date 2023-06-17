@@ -141,7 +141,7 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     timer.offTimer(TIMER_CC_N_TMG_A);
 
     timer.onTimer(TIMER_CC_N_TMG_B);
-    int group_size = triangle_groups.size();
+    size_t group_size = triangle_groups.size();
     #pragma omp parallel for
     for (int i = 0; i < group_size; i++) {
         STEP_LOG(std::cout << "[Step] FaceGraph: Init.\n");
