@@ -120,7 +120,7 @@ __host__ __device__ int __is_connected(const Triangle& a, const Triangle& b) {
 
 __global__ void __get_adj_triangles(int* local_adj_map, int* local_adj_map_index,
                                     Triangle* triangles, int triangle_count, int triangles_per_block,
-                                    int* vertex_adjacent_map, int* vertex_adjacent_map_count) {
+                                    int* vertex_adjacent_map) {
     int* local_map = &local_adj_map[blockIdx.x * triangle_count * TRI_ADJ_MAX];
     int* local_index = &local_adj_map_index[blockIdx.x * triangle_count];
     int i_begin = blockIdx.x * triangles_per_block;
@@ -131,10 +131,9 @@ __global__ void __get_adj_triangles(int* local_adj_map, int* local_adj_map_index
         for (int j = 0; j < 3; j++) {
             int vert_id = tri_i.id[j];
 
-            int* adjacent_triangles = &vertex_adjacent_map[vert_id * VERT_ADJ_MAX];
-            int adjacent_triangle_count = vertex_adjacent_map_count[vert_id];
+            int* adjacent_triangles = &vertex_adjacent_map[vert_id * (VERT_ADJ_MAX + 1)];
 
-            for (int k = 0; k < adjacent_triangle_count; k++) {
+            for (int k = 0; adjacent_triangles[k] != -1; k++) {
                 int adjacent_triangle = adjacent_triangles[k];
                 Triangle tri_adj = triangles[adjacent_triangle];
 
@@ -147,8 +146,6 @@ __global__ void __get_adj_triangles(int* local_adj_map, int* local_adj_map_index
 }
 
 std::vector<std::vector<int>> CUDAFaceGraph::get_adj_triangles(std::vector<std::vector<int>>& vertex_adjacent_map) {
-    // TODO: triangles->size()보다 작게 했을 때 버그 발생.
-    // int triangles_per_block = triangles->size();
     int triangles_per_block = 8192;
     int iter = (int)ceil((float)triangles->size() / triangles_per_block);
 
@@ -162,18 +159,18 @@ std::vector<std::vector<int>> CUDAFaceGraph::get_adj_triangles(std::vector<std::
     int* d_local_adj_count; cudaMalloc(&d_local_adj_count, iter * triangles->size() * sizeof(int));
     cudaMemset(d_local_adj_count, 0, iter * triangles->size() * sizeof(int));
 
-    int* d_vertex_adjacent_map; cudaMalloc(&d_vertex_adjacent_map, vertices.size() * VERT_ADJ_MAX * sizeof(int));
-    int* d_vertex_adjacent_count; cudaMalloc(&d_vertex_adjacent_count, vertices.size() * sizeof(int));
+    int* d_vertex_adjacent_map; cudaMalloc(&d_vertex_adjacent_map, vertices.size() * (VERT_ADJ_MAX + 1) * sizeof(int));
+    cudaMemset(d_vertex_adjacent_map, 0xFF, vertices.size() * (VERT_ADJ_MAX + 1) * sizeof(int));
 
     for (int i = 0; i < vertices.size(); i++) {
         int size = vertex_adjacent_map[i].size();
-        cudaMemcpy(&d_vertex_adjacent_map[i * VERT_ADJ_MAX], (int*)vertex_adjacent_map[i].data(), size * sizeof(int), cudaMemcpyHostToDevice);
-        cudaMemcpy(&d_vertex_adjacent_count[i], &size, sizeof(int), cudaMemcpyHostToDevice);
+        cudaMemcpy(&d_vertex_adjacent_map[i * (VERT_ADJ_MAX + 1)], (int*)vertex_adjacent_map[i].data(), size * sizeof(int), cudaMemcpyHostToDevice);
     }
 
+    cudaDeviceSynchronize();
     __get_adj_triangles<<<iter, 1024>>>(d_local_adj_map, d_local_adj_count,
                                         d_triangles, triangles->size(), triangles_per_block,
-                                        d_vertex_adjacent_map, d_vertex_adjacent_count);
+                                        d_vertex_adjacent_map);
     cudaDeviceSynchronize();
 
     cudaMemcpy(local_adj_map, d_local_adj_map, iter * triangles->size() * TRI_ADJ_MAX * sizeof(int), cudaMemcpyDeviceToHost);
@@ -196,7 +193,6 @@ std::vector<std::vector<int>> CUDAFaceGraph::get_adj_triangles(std::vector<std::
     cudaFree(d_local_adj_map);
     cudaFree(d_local_adj_count);
     cudaFree(d_vertex_adjacent_map);
-    cudaFree(d_vertex_adjacent_count);
     cudaFree(d_triangles);
 
     free(local_adj_map);
