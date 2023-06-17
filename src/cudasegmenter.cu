@@ -104,17 +104,18 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
 
     thrust::device_vector<Triangle> fn_triangles(face_normals.size());
     thrust::transform(face_normals.begin(), face_normals.end(), fn_triangles.begin(), NormalTriangleMapper());
-    timer.offTimer(TIMER_PREPROCESSING);
-    STEP_LOG(std::cout << "[End] Preprocessing.\n");
-
-    STEP_LOG(std::cout << "[Begin] Connectivity Checking and Triangle Mesh Generating.\n");
-    timer.onTimer(TIMER_CC_N_TMG);
 
     std::vector<int> startIndexes(binSize);
     int startIndex = 0;
     for (int i = 1; i < indexes.size(); i++) {
         startIndexes[i] = (startIndex += counts[i - 1]);
     }
+
+    timer.offTimer(TIMER_PREPROCESSING);
+    STEP_LOG(std::cout << "[End] Preprocessing.\n");
+
+    STEP_LOG(std::cout << "[Begin] Connectivity Checking and Triangle Mesh Generating.\n");
+    timer.onTimer(TIMER_CC_N_TMG);
 
     std::vector<TriangleMesh*> result;
     omp_lock_t result_lock;
@@ -135,7 +136,6 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
         std::vector<std::vector<Triangle>> segments = fg.get_segments();
 
         STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
-        timer.onTimer(TIMER_TRIANGLE_MESH_GENERATING);
         for (const auto& segment : segments) {
             TriangleMesh* sub_object = triangle_list_to_obj(segment);
             sub_object->material->diffuse = glm::vec3(1, 0, 0);
@@ -145,7 +145,6 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
             result.push_back(sub_object);
             omp_unset_lock(&result_lock);
         }
-        timer.offTimer(TIMER_TRIANGLE_MESH_GENERATING);
     }
     omp_destroy_lock(&result_lock);
 
