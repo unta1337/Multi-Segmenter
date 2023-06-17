@@ -5,6 +5,7 @@ email=$2
 key=$3
 doc=$4
 sheet=$5
+save=$6
 modes=("serial" "parallel" "cuda")
 tolerances=("15.0" "30.0" "45.0")
 obj_files=(assets/tests/*.obj)
@@ -16,7 +17,7 @@ for obj_file in "${obj_files[@]}"; do
       filename=$(basename -- "$obj_file")
       filename="${filename%.*}"
       segmented_file="assets/tests/Segmented_${mode}_${tolerance}_${filename}.txt"
-      node utils/LogTool/parser.js --f "$segmented_file" -e "$email" -k "$key" -d "$doc" -s "$sheet" &
+      node utils/LogTool/parser.js --f "$segmented_file" -e "$email" -k "$key" -d "$doc" -s "$sheet" -t "$save" &
     done
   done
 done
