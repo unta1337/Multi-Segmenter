@@ -30,6 +30,7 @@ parser.add_argument('-k', '--gskey', {type: 'str', help: 'Google Spreadsheet key
 parser.add_argument('-d', '--gsdoc', {type: 'str', help: 'Google Spreadsheet doc'});
 parser.add_argument('-s', '--gssheet', {type: 'str', help: 'Google Spreadsheet sheet'});
 parser.add_argument('-w', '--watch', {type: 'str', help: 'Watch mode path'});
+parser.add_argument('-t', '--save', {type: 'str', help: 'Save data path'});
 const args = parser.parse_args();
 
 const gpus = getGPUs();
@@ -111,6 +112,9 @@ async function getData(filePath) {
     }
     const data = await getData(args.file);
     console.log(JSON.stringify(data, null, 4));
+    if (args.save) {
+        fs.writeFileSync(args.save, JSON.stringify(data, null, 4), 'utf8');
+    }
     if (args.gsemail && args.gskey && args.gsdoc) {
         const doc = new GoogleSpreadsheet(args.gsdoc);
         await doc.useServiceAccountAuth({
@@ -118,7 +122,7 @@ async function getData(filePath) {
             private_key: Buffer.from(args.gskey, 'base64').toString('utf8'),
         });
         await doc.loadInfo();
-        const sheet = args.gssheet ? doc.sheetsByTitle(args.gssheet) : doc.sheetsByIndex[0];
+        const sheet = args.gssheet ? doc.sheetsByTitle[args.gssheet] : doc.sheetsByIndex[0];
         await sheet.loadHeaderRow();
         const headers = sheet.headerValues;
         const list = data.routines.map((r, i) => ({
