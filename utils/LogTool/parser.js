@@ -31,8 +31,8 @@ parser.add_argument('-d', '--gsdoc', {type: 'str', help: 'Google Spreadsheet doc
 parser.add_argument('-s', '--gssheet', {type: 'str', help: 'Google Spreadsheet sheet'});
 parser.add_argument('-w', '--watch', {type: 'str', help: 'Watch mode path'});
 parser.add_argument('-t', '--save', {type: 'str', help: 'Save data path'});
-const args = parser.parse_args();
 
+const args = parser.parse_args();
 const gpus = getGPUs();
 
 async function getData(filePath) {
