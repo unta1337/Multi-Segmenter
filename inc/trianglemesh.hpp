@@ -21,7 +21,7 @@ class TriangleMesh {
     /**
      * 그룹 이름.
      */
-    std::string name;
+    char name[255];
     /**
      * 그룹에 속한 정점 목록.
      */

@@ -12,6 +12,7 @@ typedef struct Triangle {
      * 제안: std::array<glm::vec3, 3>으로 STL 사용.
      */
     glm::vec3 vertex[3];
+    size_t id[3];
 } Triangle;
 
 #endif

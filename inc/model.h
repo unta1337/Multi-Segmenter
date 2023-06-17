@@ -10,6 +10,7 @@
 #include <string>
 #include <tiny_obj_loader.h>
 #include <vector>
+#include <cstring>
 
 /**
  * @brief 하나의 .obj 파일을 저장하는 내부 자료형.

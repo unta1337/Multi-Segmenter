@@ -13,7 +13,10 @@
 #define TIMER_TRIANGLE_MESH_GENERATING 9
 #define TIMER_SEGMENT_COLORING 10
 #define TIMER_TOTAL 11
-#define TIMER_SIZE (TIMER_TOTAL + 1)
+#define TIMER_DATA_TRANSFER_D2H 12
+#define TIMER_CC_N_TMG_A 13
+#define TIMER_CC_N_TMG_B 14
+#define TIMER_SIZE (TIMER_CC_N_TMG_B + 1)
 
 #include "dstimer.hpp"
 #include "trianglemesh.hpp"
@@ -64,6 +67,12 @@ class Segmenter {
                            (char*)"Segment Coloring                                  ");
         timer.setTimerName(TIMER_TOTAL,
                            (char*)"Total (Preprocessing + CC & TMG)                  ");
+        timer.setTimerName(TIMER_DATA_TRANSFER_D2H,
+                           (char*)"Data Transfer Device To Host                      ");
+        timer.setTimerName(TIMER_CC_N_TMG_A,
+                           (char*)"Timer CC & TMG A                                  ");
+        timer.setTimerName(TIMER_CC_N_TMG_B,
+                           (char*)"Timer CC & TMG B                                  ");
     }
     virtual ~Segmenter(){};
 
