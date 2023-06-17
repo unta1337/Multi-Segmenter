@@ -113,7 +113,13 @@ async function getData(filePath) {
     const data = await getData(args.file);
     console.log(JSON.stringify(data, null, 4));
     if (args.save) {
-        fs.writeFileSync(args.save, JSON.stringify(data, null, 4), 'utf8');
+        let list = [];
+        try {
+            list = JSON.parse(fs.readFileSync(args.save, 'utf8'));
+        } catch (e) {
+
+        }
+        fs.writeFileSync(args.save, JSON.stringify([...list, data], null, 4), 'utf8');
     }
     if (args.gsemail && args.gskey && args.gsdoc) {
         const doc = new GoogleSpreadsheet(args.gsdoc);
