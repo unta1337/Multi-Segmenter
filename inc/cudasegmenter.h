@@ -2,6 +2,9 @@
 #define __CUDASEGMENTER_H
 
 #include "color.hpp"
+#include "cudafacegraphutils.h"
+#include "devicetrianglemesh.hpp"
+#include "thrustlib.h"
 #include "dstimer.hpp"
 #include "facegraph.hpp"
 #include "logutils.h"
@@ -19,16 +22,16 @@
 #include <stack>
 #include <unordered_map>
 #include <vector>
+#include <omp.h>
+
+#define PI 3.141592f
+#define PI_2 (2 * PI)
 
 class CUDASegmenter : public Segmenter {
   public:
     CUDASegmenter(TriangleMesh* mesh, float tolerance = 0.0f);
+    ~CUDASegmenter();
     virtual std::vector<TriangleMesh*> do_segmentation();
-
-  private:
-    inline glm::vec3 get_normal_key(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map, glm::vec3& normal);
-
-    inline void init_count_map(std::unordered_map<glm::vec3, size_t, Vec3Hash>& count_map,
-                               std::vector<glm::vec3>& face_normals);
+    DeviceTriangleMesh * deviceMesh;
 };
 #endif
