@@ -22,43 +22,43 @@ class DeviceTriangleMesh {
         *vertex_device_vector = mesh->vertex;
         vertex = thrust::raw_pointer_cast(vertex_device_vector->data());
 
-        normal_device_vector = new thrust::device_vector<glm::vec3>();
-        *normal_device_vector = mesh->normal;
-        normal = thrust::raw_pointer_cast(normal_device_vector->data());
+        // normal_device_vector = new thrust::device_vector<glm::vec3>();
+        // *normal_device_vector = mesh->normal;
+        // normal = thrust::raw_pointer_cast(normal_device_vector->data());
 
-        texcoord_device_vector = new thrust::device_vector<glm::vec2>();
-        *texcoord_device_vector = mesh->texcoord;
-        texcoord = thrust::raw_pointer_cast(texcoord_device_vector->data());
+        // texcoord_device_vector = new thrust::device_vector<glm::vec2>();
+        // *texcoord_device_vector = mesh->texcoord;
+        // texcoord = thrust::raw_pointer_cast(texcoord_device_vector->data());
 
         index_device_vector = new thrust::device_vector<glm::ivec3>();
         *index_device_vector = mesh->index;
         index = thrust::raw_pointer_cast(index_device_vector->data());
 
-        cudaMalloc((void **) &name, sizeof(char) * 255);
-        cudaMemcpy(name, mesh->name, sizeof(char) * 255, cudaMemcpyHostToDevice);
-        cudaMalloc((void **) &material, sizeof(Material));
-        cudaMemcpy(material, mesh->material, sizeof(Material), cudaMemcpyHostToDevice);
-        cudaMalloc((void **) &material_texture_id, sizeof(int));
-        cudaMemcpy(material_texture_id, &mesh->material_texture_id, sizeof(int), cudaMemcpyHostToDevice);
+        // cudaMalloc((void **) &name, sizeof(char) * 255);
+        // cudaMemcpy(name, mesh->name, sizeof(char) * 255, cudaMemcpyHostToDevice);
+        // cudaMalloc((void **) &material, sizeof(Material));
+        // cudaMemcpy(material, mesh->material, sizeof(Material), cudaMemcpyHostToDevice);
+        // cudaMalloc((void **) &material_texture_id, sizeof(int));
+        // cudaMemcpy(material_texture_id, &mesh->material_texture_id, sizeof(int), cudaMemcpyHostToDevice);
         cudaMalloc((void **) &devicePointer, sizeof(DeviceTriangleMesh));
         cudaMemcpy(devicePointer, this, sizeof(DeviceTriangleMesh), cudaMemcpyHostToDevice);
     }
 
     void free() {
         delete vertex_device_vector;
-        delete normal_device_vector;
-        delete texcoord_device_vector;
+        // delete normal_device_vector;
+        // delete texcoord_device_vector;
         delete index_device_vector;
-        cudaFree(name);
-        cudaFree(material);
-        cudaFree(material_texture_id);
+        // cudaFree(name);
+        // cudaFree(material);
+        //cudaFree(material_texture_id);
     }
 
     DeviceTriangleMesh * devicePointer;
     /**
      * 그룹 이름.
      */
-    char* name;
+    // char* name;
 
     /**
      * 그룹에 속한 정점 목록.
@@ -68,14 +68,14 @@ class DeviceTriangleMesh {
     /**
      * 그룹에 속한 정점의 법선 벡터.
      */
-    thrust::device_vector<glm::vec3>* normal_device_vector;
-    glm::vec3* normal;
+    // thrust::device_vector<glm::vec3>* normal_device_vector;
+    // glm::vec3* normal;
 
     /**
      * 그룹에 속한 정점의 텍스쳐 좌표 정보.
      */
-    thrust::device_vector<glm::vec2>* texcoord_device_vector;
-    glm::vec2* texcoord;
+    // thrust::device_vector<glm::vec2>* texcoord_device_vector;
+    // glm::vec2* texcoord;
     /**
      * 그룹에 속한 정점들로 이뤄지는 면에 대한 정보.
      */
@@ -86,12 +86,12 @@ class DeviceTriangleMesh {
      * 그룹에 일괄적으로 적용되는 재질.
      * 오브젝트의 각 부분을 색상 등으로 구분하기 위해 사용.
      */
-    Material* material;
+    // Material* material;
 
     /**
      * 그룹에 적용되는 재질에 대응하는 인덱스.
      */
-    int* material_texture_id;
+    // int* material_texture_id;
 };
 
 #endif
