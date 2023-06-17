@@ -39,17 +39,17 @@ struct NormalMapper {
         glm::vec3 normal =
             glm::normalize(glm::triangleNormal(triangle.vertex[0], triangle.vertex[1], triangle.vertex[2]));
 
-        float xAngle = acosf(normal.x) + PI;
-        float yAngle = acosf(normal.y) + PI;
-        float zAngle = acosf(normal.z) + PI;
+        float xAngle = acosf(normal.x);
+        float yAngle = acosf(normal.y);
+        float zAngle = acosf(normal.z);
 
         xAngle += tolerance / 2;
         yAngle += tolerance / 2;
         zAngle += tolerance / 2;
 
-        xAngle = xAngle > PI_2 ? xAngle - PI_2 : xAngle;
-        yAngle = yAngle > PI_2 ? yAngle - PI_2 : yAngle;
-        zAngle = zAngle > PI_2 ? zAngle - PI_2 : zAngle;
+        xAngle = xAngle > PI ? xAngle - PI : xAngle;
+        yAngle = yAngle > PI ? yAngle - PI : yAngle;
+        zAngle = zAngle > PI ? zAngle - PI : zAngle;
 
         int xIndex = floor(xAngle / tolerance);
         int yIndex = floor(yAngle / tolerance);
