@@ -126,7 +126,6 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     std::vector<std::vector<glm::vec3>> vertices;
 
     std::vector<std::vector<Triangle>> triangle_groups;
-    #pragma omp parallel for
     for (int i = 0; i < binSize; i++) {
         int start = startIndexes[i];
         int end = start + counts[i];
@@ -134,25 +133,20 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
         if(start != end) {
             std::vector<Triangle> triangles(counts[i]);
             thrust::copy(fn_triangles.begin() + start, fn_triangles.begin() + end, triangles.begin());
-            #pragma omp critical
             triangle_groups.push_back(triangles);
         }
     }
     timer.offTimer(TIMER_CC_N_TMG_A);
 
     timer.onTimer(TIMER_CC_N_TMG_B);
-    int group_size = triangle_groups.size();
-    #pragma omp parallel for
+    size_t group_size = triangle_groups.size();
     for (int i = 0; i < group_size; i++) {
         STEP_LOG(std::cout << "[Step] FaceGraph: Init.\n");
         CUDAFaceGraph fg(&triangle_groups[i], &timer, mesh->vertex.size());
 
-        #pragma omp critical
-        {
-            segments.push_back(fg.get_segments_as_union());
-            seg_triangles.push_back(fg.triangles);
-            vertices.push_back(fg.vertices);
-        }
+        segments.push_back(fg.get_segments_as_union());
+        seg_triangles.push_back(fg.triangles);
+        vertices.push_back(fg.vertices);
     }
     timer.offTimer(TIMER_CC_N_TMG_B);
     STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
