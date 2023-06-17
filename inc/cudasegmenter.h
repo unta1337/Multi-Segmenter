@@ -2,6 +2,7 @@
 #define __CUDASEGMENTER_H
 
 #include "color.hpp"
+#include "cudafacegraphutils.h"
 #include "devicetrianglemesh.hpp"
 #include "thrustlib.h"
 #include "dstimer.hpp"
