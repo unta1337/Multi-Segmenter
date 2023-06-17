@@ -53,7 +53,8 @@ std::vector<std::vector<int>> CUDAFaceGraph::get_vertex_to_adj() {
     cudaStreamCreate(&s_b);
     cudaStreamCreate(&s_c);
 
-    int triangles_per_block = 8192;
+    // int triangles_per_block = 8192;
+    int triangles_per_block = triangles->size();
     int iter = (int)ceil((float)triangles->size() / triangles_per_block);
 
     int* d_local_adj_map; cudaMallocAsync(&d_local_adj_map, iter * vertices_index * VERT_ADJ_MAX * sizeof(int), s_a);
@@ -146,7 +147,8 @@ __global__ void __get_adj_triangles(int* local_adj_map, int* local_adj_map_index
 }
 
 std::vector<std::vector<int>> CUDAFaceGraph::get_adj_triangles(std::vector<std::vector<int>>& vertex_adjacent_map) {
-    int triangles_per_block = 8192;
+    // int triangles_per_block = 8192;
+    int triangles_per_block = triangles->size();
     int iter = (int)ceil((float)triangles->size() / triangles_per_block);
 
     Triangle* d_triangles; cudaMalloc(&d_triangles, triangles->size() * sizeof(Triangle));
