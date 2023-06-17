@@ -2,6 +2,10 @@
 #include "cudafacegraph.h"
 
 CUDASegmenter::CUDASegmenter(TriangleMesh* mesh, float tolerance) : Segmenter(mesh, tolerance) {
+    timer.onTimer(TIMER_TOTAL);
+    STEP_LOG(std::cout << "[Begin] Preprocessing.\n");
+    timer.onTimer(TIMER_PREPROCESSING);
+
     timer.onTimer(TIMER_DATA_TRANSFER_D2H);
     deviceMesh = new DeviceTriangleMesh(mesh);
     timer.offTimer(TIMER_DATA_TRANSFER_D2H);
@@ -75,9 +79,6 @@ struct IndexComparator {
 };
 
 std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
-    timer.onTimer(TIMER_TOTAL);
-    STEP_LOG(std::cout << "[Begin] Preprocessing.\n");
-    timer.onTimer(TIMER_PREPROCESSING);
     STEP_LOG(std::cout << "[Begin] Normal Vector Computation.\n");
     timer.onTimer(TIMER_NORMAL_VECTOR_COMPUTATION);
 
