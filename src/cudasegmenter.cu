@@ -36,6 +36,9 @@ struct NormalMapper {
         triangle.vertex[0] = vertex[idx[0]];
         triangle.vertex[1] = vertex[idx[1]];
         triangle.vertex[2] = vertex[idx[2]];
+        triangle.id[0] = idx[0];
+        triangle.id[1] = idx[1];
+        triangle.id[2] = idx[2];
         glm::vec3 normal =
             glm::normalize(glm::triangleNormal(triangle.vertex[0], triangle.vertex[1], triangle.vertex[2]));
 
@@ -117,36 +120,63 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     STEP_LOG(std::cout << "[Begin] Connectivity Checking and Triangle Mesh Generating.\n");
     timer.onTimer(TIMER_CC_N_TMG);
 
-    std::vector<TriangleMesh*> result;
-    omp_lock_t result_lock;
-    omp_init_lock(&result_lock);
-    int number = 0;
+    timer.onTimer(TIMER_CC_N_TMG_A);
+    std::vector<SegmentUnion> segments;
+    std::vector<std::vector<Triangle>*> seg_triangles;
+    std::vector<std::vector<glm::vec3>> vertices;
 
+    std::vector<std::vector<Triangle>> triangle_groups;
     #pragma omp parallel for
     for (int i = 0; i < binSize; i++) {
         int start = startIndexes[i];
         int end = start + counts[i];
-        STEP_LOG(std::cout << "[Step] FaceGraph: Init.\n");
-        std::vector<Triangle> triangles(counts[i]);
-        thrust::copy(fn_triangles.begin() + start, fn_triangles.begin() + end, triangles.begin());
 
-        CUDAFaceGraph fg(&triangles, &timer);
-
-        STEP_LOG(std::cout << "[Step] FaceGraph: Get Segments.\n");
-        std::vector<std::vector<Triangle>> segments = fg.get_segments();
-
-        STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
-        for (const auto& segment : segments) {
-            TriangleMesh* sub_object = triangle_list_to_obj(segment);
-            sub_object->material->diffuse = glm::vec3(1, 0, 0);
-            strcpy(sub_object->material->name, ("sub_materials_" + std::to_string(number)).c_str());
-            strcpy(sub_object->name, (std::string(mesh->name) + "_seg_" + std::to_string(number++)).c_str());
-            omp_set_lock(&result_lock);
-            result.push_back(sub_object);
-            omp_unset_lock(&result_lock);
+        if(start != end) {
+            std::vector<Triangle> triangles(counts[i]);
+            thrust::copy(fn_triangles.begin() + start, fn_triangles.begin() + end, triangles.begin());
+            #pragma omp critical
+            triangle_groups.push_back(triangles);
         }
     }
-    omp_destroy_lock(&result_lock);
+    timer.offTimer(TIMER_CC_N_TMG_A);
+
+    timer.onTimer(TIMER_CC_N_TMG_B);
+    int group_size = triangle_groups.size();
+    #pragma omp parallel for
+    for (int i = 0; i < group_size; i++) {
+        STEP_LOG(std::cout << "[Step] FaceGraph: Init.\n");
+        CUDAFaceGraph fg(&triangle_groups[i], &timer, mesh->vertex.size());
+
+        #pragma omp critical
+        {
+            segments.push_back(fg.get_segments_as_union());
+            seg_triangles.push_back(fg.triangles);
+            vertices.push_back(fg.vertices);
+        }
+    }
+    timer.offTimer(TIMER_CC_N_TMG_B);
+    STEP_LOG(std::cout << "[Step] Triangle Mesh Generating.\n");
+    timer.onTimer(TIMER_TRIANGLE_MESH_GENERATING);
+
+    std::vector<std::vector<TriangleMesh*>> results(segments.size());
+    for (int i = 0; i < segments.size(); i++) {
+        results[i] = segment_union_to_obj(segments[i], seg_triangles[i], vertices[i].size());
+    }
+
+    std::vector<TriangleMesh*> result;
+    for (auto r : results) {
+        result.insert(result.end(), r.begin(), r.end());
+    }
+
+    #pragma omp parallel for
+    for (int i = 0; i < result.size(); i++) {
+        TriangleMesh* sub_object = result[i];
+        sub_object->material->diffuse = glm::vec3(1, 0, 0);
+        strcpy(sub_object->material->name, ("sub_materials_" + std::to_string(i)).c_str());
+        strcpy(sub_object->name, (std::string(mesh->name) + "_seg_" + std::to_string(i)).c_str());
+    }
+
+    timer.offTimer(TIMER_TRIANGLE_MESH_GENERATING);
 
     timer.offTimer(TIMER_CC_N_TMG);
     STEP_LOG(std::cout << "[End] Connectivity Checking and Triangle Mesh Generating.\n");
@@ -154,7 +184,7 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     STEP_LOG(std::cout << "[Begin] Segment Coloring.\n");
     timer.onTimer(TIMER_SEGMENT_COLORING);
 
-#pragma omp parallel for
+    #pragma omp parallel for
     for (int i = 0; i < result.size(); i++) {
         result[i]->material->diffuse = Color::get_color_from_jet((float)i, 0, (float)result.size());
         result[i]->material->ambient = glm::vec3(1.0f, 1.0f, 1.0f);
