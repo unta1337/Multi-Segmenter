@@ -1,6 +1,6 @@
-﻿#include "cudafacegraph.h"
+﻿#include "parallelfacegraph.h"
+#include "cudafacegraph.h"
 #include "cudasegmenter.h"
-#include "parallelfacegraph.h"
 
 CUDASegmenter::CUDASegmenter(TriangleMesh* mesh, float tolerance) : Segmenter(mesh, tolerance) {
     timer.onTimer(TIMER_TOTAL);
