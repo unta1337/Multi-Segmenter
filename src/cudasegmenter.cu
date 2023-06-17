@@ -122,6 +122,10 @@ std::vector<TriangleMesh*> CUDASegmenter::do_segmentation() {
     for (int i = 0; i < binSize; i++) {
         int start = startIndexes[i];
         int end = start + counts[i];
+        if(start == end){
+            continue;
+        }
+
         STEP_LOG(std::cout << "[Step] FaceGraph: Init.\n");
         std::vector<Triangle> triangles(counts[i]);
         thrust::copy(fn_triangles.begin() + start, fn_triangles.begin() + end, triangles.begin());
