@@ -36,20 +36,23 @@ struct NormalMapper {
         triangle.vertex[0] = vertex[idx[0]];
         triangle.vertex[1] = vertex[idx[1]];
         triangle.vertex[2] = vertex[idx[2]];
+        triangle.id[0] = idx[0];
+        triangle.id[1] = idx[1];
+        triangle.id[2] = idx[2];
         glm::vec3 normal =
             glm::normalize(glm::triangleNormal(triangle.vertex[0], triangle.vertex[1], triangle.vertex[2]));
 
-        float xAngle = acosf(normal.x);
-        float yAngle = acosf(normal.y);
-        float zAngle = acosf(normal.z);
+        float xAngle = acosf(normal.x) + PI;
+        float yAngle = acosf(normal.y) + PI;
+        float zAngle = acosf(normal.z) + PI;
 
         xAngle += tolerance / 2;
         yAngle += tolerance / 2;
         zAngle += tolerance / 2;
 
-        xAngle = xAngle > PI ? xAngle - PI : xAngle;
-        yAngle = yAngle > PI ? yAngle - PI : yAngle;
-        zAngle = zAngle > PI ? zAngle - PI : zAngle;
+        xAngle = xAngle > PI_2 ? xAngle - PI_2 : xAngle;
+        yAngle = yAngle > PI_2 ? yAngle - PI_2 : yAngle;
+        zAngle = zAngle > PI_2 ? zAngle - PI_2 : zAngle;
 
         int xIndex = floor(xAngle / tolerance);
         int yIndex = floor(yAngle / tolerance);
