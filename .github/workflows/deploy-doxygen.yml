@@ -1,0 +1,16 @@
+name: Deploy Doxygen
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: DenverCoder1/doxygen-github-pages-action@v1.2.0
+        with:
+          folder: docs
+          github_token: ${{ secrets.ACCESS_TOKEN }}
