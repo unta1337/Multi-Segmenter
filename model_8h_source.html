@@ -97,22 +97,23 @@ $(document).ready(function(){initNavTree('model_8h_source.html',''); initResizab
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;tiny_obj_loader.h&gt;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="struct_model.html">   17</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_model.html">Model</a> {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="struct_model.html#ad6ebd2062a0b823db841a0b88baac4c0">~Model</a>();</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="struct_model.html#a205a97a1dfd9e39aaa71021359b7baef">   23</a></span>&#160;    std::vector&lt;TriangleMesh*&gt; <a class="code" href="struct_model.html#a205a97a1dfd9e39aaa71021359b7baef">meshes</a>;</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="struct_model.html#a72326328feb6ed3dd979200982502969">   27</a></span>&#160;    std::vector&lt;Texture*&gt; <a class="code" href="struct_model.html#a72326328feb6ed3dd979200982502969">textures</a>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="struct_model.html#a1dee6172f89b27a20de52a8c835e5fe7">read_obj</a>(std::string obj_file_path);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;};</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;cstring&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="struct_model.html">   18</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_model.html">Model</a> {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="struct_model.html#ad6ebd2062a0b823db841a0b88baac4c0">~Model</a>();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="struct_model.html#a205a97a1dfd9e39aaa71021359b7baef">   24</a></span>&#160;    std::vector&lt;TriangleMesh*&gt; <a class="code" href="struct_model.html#a205a97a1dfd9e39aaa71021359b7baef">meshes</a>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="struct_model.html#a72326328feb6ed3dd979200982502969">   28</a></span>&#160;    std::vector&lt;Texture*&gt; <a class="code" href="struct_model.html#a72326328feb6ed3dd979200982502969">textures</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="struct_model.html#a1dee6172f89b27a20de52a8c835e5fe7">read_obj</a>(std::string obj_file_path);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;};</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="amaterial_8h_html"><div class="ttname"><a href="material_8h.html">material.h</a></div></div>
-<div class="ttc" id="astruct_model_html"><div class="ttname"><a href="struct_model.html">Model</a></div><div class="ttdoc">하나의 .obj 파일을 저장하는 내부 자료형.</div><div class="ttdef"><b>Definition:</b> <a href="model_8h_source.html#l00017">model.h:17</a></div></div>
+<div class="ttc" id="astruct_model_html"><div class="ttname"><a href="struct_model.html">Model</a></div><div class="ttdoc">하나의 .obj 파일을 저장하는 내부 자료형.</div><div class="ttdef"><b>Definition:</b> <a href="model_8h_source.html#l00018">model.h:18</a></div></div>
 <div class="ttc" id="astruct_model_html_a1dee6172f89b27a20de52a8c835e5fe7"><div class="ttname"><a href="struct_model.html#a1dee6172f89b27a20de52a8c835e5fe7">Model::read_obj</a></div><div class="ttdeci">void read_obj(std::string obj_file_path)</div><div class="ttdoc">경로에 있는 .obj 파일 로드.</div><div class="ttdef"><b>Definition:</b> <a href="model_8cpp_source.html#l00011">model.cpp:11</a></div></div>
-<div class="ttc" id="astruct_model_html_a205a97a1dfd9e39aaa71021359b7baef"><div class="ttname"><a href="struct_model.html#a205a97a1dfd9e39aaa71021359b7baef">Model::meshes</a></div><div class="ttdeci">std::vector&lt; TriangleMesh * &gt; meshes</div><div class="ttdef"><b>Definition:</b> <a href="model_8h_source.html#l00023">model.h:23</a></div></div>
-<div class="ttc" id="astruct_model_html_a72326328feb6ed3dd979200982502969"><div class="ttname"><a href="struct_model.html#a72326328feb6ed3dd979200982502969">Model::textures</a></div><div class="ttdeci">std::vector&lt; Texture * &gt; textures</div><div class="ttdef"><b>Definition:</b> <a href="model_8h_source.html#l00027">model.h:27</a></div></div>
+<div class="ttc" id="astruct_model_html_a205a97a1dfd9e39aaa71021359b7baef"><div class="ttname"><a href="struct_model.html#a205a97a1dfd9e39aaa71021359b7baef">Model::meshes</a></div><div class="ttdeci">std::vector&lt; TriangleMesh * &gt; meshes</div><div class="ttdef"><b>Definition:</b> <a href="model_8h_source.html#l00024">model.h:24</a></div></div>
+<div class="ttc" id="astruct_model_html_a72326328feb6ed3dd979200982502969"><div class="ttname"><a href="struct_model.html#a72326328feb6ed3dd979200982502969">Model::textures</a></div><div class="ttdeci">std::vector&lt; Texture * &gt; textures</div><div class="ttdef"><b>Definition:</b> <a href="model_8h_source.html#l00028">model.h:28</a></div></div>
 <div class="ttc" id="astruct_model_html_ad6ebd2062a0b823db841a0b88baac4c0"><div class="ttname"><a href="struct_model.html#ad6ebd2062a0b823db841a0b88baac4c0">Model::~Model</a></div><div class="ttdeci">~Model()</div><div class="ttdef"><b>Definition:</b> <a href="model_8cpp_source.html#l00004">model.cpp:4</a></div></div>
 <div class="ttc" id="atexture_8hpp_html"><div class="ttname"><a href="texture_8hpp.html">texture.hpp</a></div></div>
 <div class="ttc" id="atrianglemesh_8hpp_html"><div class="ttname"><a href="trianglemesh_8hpp.html">trianglemesh.hpp</a></div></div>

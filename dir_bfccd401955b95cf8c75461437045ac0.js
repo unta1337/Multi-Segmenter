@@ -5,8 +5,10 @@ var dir_bfccd401955b95cf8c75461437045ac0 =
     [ "cudafacegraph.h", "cudafacegraph_8h.html", [
       [ "CUDAFaceGraph", "class_c_u_d_a_face_graph.html", "class_c_u_d_a_face_graph" ]
     ] ],
-    [ "cudasegmenter.h", "cudasegmenter_8h.html", [
-      [ "CUDASegmenter", "class_c_u_d_a_segmenter.html", "class_c_u_d_a_segmenter" ]
+    [ "cudafacegraphutils.h", "cudafacegraphutils_8h.html", "cudafacegraphutils_8h" ],
+    [ "cudasegmenter.h", "cudasegmenter_8h.html", "cudasegmenter_8h" ],
+    [ "devicetrianglemesh.hpp", "devicetrianglemesh_8hpp.html", [
+      [ "DeviceTriangleMesh", "class_device_triangle_mesh.html", "class_device_triangle_mesh" ]
     ] ],
     [ "dstimer.hpp", "dstimer_8hpp.html", "dstimer_8hpp" ],
     [ "facegraph.hpp", "facegraph_8hpp.html", [
@@ -30,6 +32,9 @@ var dir_bfccd401955b95cf8c75461437045ac0 =
       [ "ParallelSegmenter", "class_parallel_segmenter.html", "class_parallel_segmenter" ]
     ] ],
     [ "segmenter.hpp", "segmenter_8hpp.html", "segmenter_8hpp" ],
+    [ "segmentunion.hpp", "segmentunion_8hpp.html", [
+      [ "SegmentUnion", "struct_segment_union.html", "struct_segment_union" ]
+    ] ],
     [ "serialfacegraph.h", "serialfacegraph_8h.html", [
       [ "SerialFaceGraph", "class_serial_face_graph.html", "class_serial_face_graph" ]
     ] ],
@@ -39,6 +44,7 @@ var dir_bfccd401955b95cf8c75461437045ac0 =
     [ "texture.hpp", "texture_8hpp.html", [
       [ "Texture", "struct_texture.html", "struct_texture" ]
     ] ],
+    [ "thrustlib.h", "thrustlib_8h.html", null ],
     [ "triangle.h", "triangle_8h.html", "triangle_8h" ],
     [ "trianglemesh.hpp", "trianglemesh_8hpp.html", [
       [ "TriangleMesh", "class_triangle_mesh.html", "class_triangle_mesh" ]

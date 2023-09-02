@@ -1,6 +1,7 @@
 <map id="CUDAFaceGraph::init" name="CUDAFaceGraph::init">
-<area shape="rect" id="node1" title=" " alt="" coords="5,56,163,83"/>
-<area shape="rect" id="node2" href="$facegraphutils_8h.html#a4bb6b74466eb8a16cda72725de76bb1b" title=" " alt="" coords="230,5,337,32"/>
-<area shape="rect" id="node3" href="$class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca" title=" " alt="" coords="211,56,356,83"/>
-<area shape="rect" id="node4" href="$class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0" title=" " alt="" coords="211,107,355,133"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,107,163,134"/>
+<area shape="rect" id="node2" href="$class_c_u_d_a_face_graph.html#a1574084a1f836aac09f75bbf8ac5b151" title=" " alt="" coords="211,5,368,47"/>
+<area shape="rect" id="node3" href="$class_c_u_d_a_face_graph.html#ac348f548dda2707a86222da58bc73120" title=" " alt="" coords="211,71,368,112"/>
+<area shape="rect" id="node4" href="$class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca" title=" " alt="" coords="217,137,362,163"/>
+<area shape="rect" id="node5" href="$class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0" title=" " alt="" coords="217,187,361,214"/>
 </map>

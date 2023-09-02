@@ -1,6 +1,3 @@
 <map id="그래픽컬한 클래스 계통도" name="그래픽컬한 클래스 계통도">
-<area shape="rect" id="node1" href="$class_segmenter.html" title="하나의 메시 그룹에 대한 세그멘테이션을 수행." alt="" coords="5,56,99,83"/>
-<area shape="rect" id="node2" href="$class_c_u_d_a_segmenter.html" title=" " alt="" coords="152,5,283,32"/>
-<area shape="rect" id="node3" href="$class_parallel_segmenter.html" title=" " alt="" coords="147,56,288,83"/>
-<area shape="rect" id="node4" href="$class_serial_segmenter.html" title=" " alt="" coords="152,107,283,133"/>
+<area shape="rect" id="node1" href="$structname_match.html" title=" " alt="" coords="5,5,104,32"/>
 </map>

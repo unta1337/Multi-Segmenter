@@ -1,5 +1,4 @@
 <map id="CUDAFaceGraph::traverse_dfs" name="CUDAFaceGraph::traverse_dfs">
-<area shape="rect" id="node1" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="511,13,728,39"/>
-<area shape="rect" id="node2" href="$class_c_u_d_a_face_graph.html#a66b63daa7b269a35cbd93ec6cf0947ac" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="305,5,463,47"/>
-<area shape="rect" id="node3" href="$class_c_u_d_a_segmenter.html#ab100aac32100ba22645f313a1bfaa243" title="세그멘테이션 수행." alt="" coords="5,13,257,39"/>
+<area shape="rect" id="node1" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="212,13,429,39"/>
+<area shape="rect" id="node2" href="$class_c_u_d_a_face_graph.html#a5b4c51e49b2d941807ec35e04f7c0881" title=" " alt="" coords="5,5,164,47"/>
 </map>

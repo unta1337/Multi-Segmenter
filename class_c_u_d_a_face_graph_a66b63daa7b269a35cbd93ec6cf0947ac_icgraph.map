@@ -1,4 +1,0 @@
-<map id="CUDAFaceGraph::get_segments" name="CUDAFaceGraph::get_segments">
-<area shape="rect" id="node1" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="305,5,463,47"/>
-<area shape="rect" id="node2" href="$class_c_u_d_a_segmenter.html#ab100aac32100ba22645f313a1bfaa243" title="세그멘테이션 수행." alt="" coords="5,13,257,39"/>
-</map>

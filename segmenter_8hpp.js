@@ -2,6 +2,9 @@ var segmenter_8hpp =
 [
     [ "Segmenter", "class_segmenter.html", "class_segmenter" ],
     [ "TIMER_CC_N_TMG", "segmenter_8hpp.html#a77110f54178a63cb79c21dee317d22f4", null ],
+    [ "TIMER_CC_N_TMG_A", "segmenter_8hpp.html#ab7056e2477f07f21f538c6b32518752f", null ],
+    [ "TIMER_CC_N_TMG_B", "segmenter_8hpp.html#a7a15432582f90e2bc850909e915de0e1", null ],
+    [ "TIMER_DATA_TRANSFER_D2H", "segmenter_8hpp.html#a68cbc2f0bfb2cfa948478ce620270163", null ],
     [ "TIMER_FACEGRAPH_GET_SETMENTS_A", "segmenter_8hpp.html#aba768e1dd33806b5c4fcb645798ffa1b", null ],
     [ "TIMER_FACEGRAPH_GET_SETMENTS_B", "segmenter_8hpp.html#a07d8cacf79e675c46b912d28e6d19de3", null ],
     [ "TIMER_FACEGRAPH_INIT_A", "segmenter_8hpp.html#a9c376274b705b21144dc8711bb79b9d2", null ],

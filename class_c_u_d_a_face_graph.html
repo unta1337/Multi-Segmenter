@@ -117,14 +117,24 @@ Public 멤버 함수</h2></td></tr>
 <tr class="separator:a1273ca1b2857cc4543c306f324139902"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd5b2386ae92b2f210bbf7c9f83f7889"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_u_d_a_face_graph.html#abd5b2386ae92b2f210bbf7c9f83f7889">CUDAFaceGraph</a> (std::vector&lt; <a class="el" href="struct_triangle.html">Triangle</a> &gt; *<a class="el" href="class_face_graph.html#a673a9a5a0ee96331c71364204d599262">triangles</a>, <a class="el" href="class_d_s__timer.html">DS_timer</a> *<a class="el" href="class_face_graph.html#ae2c7432085f41919413b5487b67c34ca">timer</a>)</td></tr>
 <tr class="separator:abd5b2386ae92b2f210bbf7c9f83f7889"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3268e9faa8ceeca8058165b97db63d4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_u_d_a_face_graph.html#ad3268e9faa8ceeca8058165b97db63d4">CUDAFaceGraph</a> (std::vector&lt; <a class="el" href="struct_triangle.html">Triangle</a> &gt; *<a class="el" href="class_face_graph.html#a673a9a5a0ee96331c71364204d599262">triangles</a>, <a class="el" href="class_d_s__timer.html">DS_timer</a> *<a class="el" href="class_face_graph.html#ae2c7432085f41919413b5487b67c34ca">timer</a>, int <a class="el" href="class_c_u_d_a_face_graph.html#a8a7ed55c8368087402e49cf2da858877">total_vertex_count</a>)</td></tr>
+<tr class="separator:ad3268e9faa8ceeca8058165b97db63d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41a9fc1528267602a52df4e817654a43"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_u_d_a_face_graph.html#a41a9fc1528267602a52df4e817654a43">init</a> ()</td></tr>
 <tr class="separator:a41a9fc1528267602a52df4e817654a43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66b63daa7b269a35cbd93ec6cf0947ac"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::vector&lt; <a class="el" href="struct_triangle.html">Triangle</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_u_d_a_face_graph.html#a66b63daa7b269a35cbd93ec6cf0947ac">get_segments</a> ()</td></tr>
 <tr class="memdesc:a66b63daa7b269a35cbd93ec6cf0947ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">인접 리스트에 있는 면을 인접한 면끼리 분류.  <a href="class_c_u_d_a_face_graph.html#a66b63daa7b269a35cbd93ec6cf0947ac">더 자세히 ...</a><br /></td></tr>
 <tr class="separator:a66b63daa7b269a35cbd93ec6cf0947ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b4c51e49b2d941807ec35e04f7c0881"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="struct_segment_union.html">SegmentUnion</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_u_d_a_face_graph.html#a5b4c51e49b2d941807ec35e04f7c0881">get_segments_as_union</a> ()</td></tr>
+<tr class="separator:a5b4c51e49b2d941807ec35e04f7c0881"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad44fd0587f4ebd2831282c1c95398f6a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_u_d_a_face_graph.html#ad44fd0587f4ebd2831282c1c95398f6a">traverse_dfs</a> (std::vector&lt; int &gt; &amp;visit, int start_vert, int count)</td></tr>
 <tr class="memdesc:ad44fd0587f4ebd2831282c1c95398f6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">인접 리스트에 있는 면을 순회하며 인덱스 부여.  <a href="class_c_u_d_a_face_graph.html#ad44fd0587f4ebd2831282c1c95398f6a">더 자세히 ...</a><br /></td></tr>
 <tr class="separator:ad44fd0587f4ebd2831282c1c95398f6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b786a34c77bff4107ad6c20ee4d270a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_u_d_a_face_graph.html#a5b786a34c77bff4107ad6c20ee4d270a">traverse_dfs</a> (<a class="el" href="struct_segment_union.html">SegmentUnion</a> &amp;visit, int start_vert, int count)</td></tr>
+<tr class="separator:a5b786a34c77bff4107ad6c20ee4d270a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac348f548dda2707a86222da58bc73120"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::vector&lt; int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_u_d_a_face_graph.html#ac348f548dda2707a86222da58bc73120">get_vertex_to_adj</a> ()</td></tr>
+<tr class="separator:ac348f548dda2707a86222da58bc73120"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1574084a1f836aac09f75bbf8ac5b151"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::vector&lt; int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_u_d_a_face_graph.html#a1574084a1f836aac09f75bbf8ac5b151">get_adj_triangles</a> (std::vector&lt; std::vector&lt; int &gt;&gt; &amp;vertex_adjacent_map)</td></tr>
+<tr class="separator:a1574084a1f836aac09f75bbf8ac5b151"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_face_graph"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_face_graph')"><img src="closed.png" alt="-"/>&#160;<a class="el" href="class_face_graph.html">FaceGraph</a>(으)로부터 상속된 Public 멤버 함수</td></tr>
 <tr class="memitem:abebdc8a498ddad3de8f6badee324c952 inherit pub_methods_class_face_graph"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph.html#abebdc8a498ddad3de8f6badee324c952">FaceGraph</a> (std::vector&lt; <a class="el" href="struct_triangle.html">Triangle</a> &gt; *<a class="el" href="class_face_graph.html#a673a9a5a0ee96331c71364204d599262">triangles</a>, <a class="el" href="class_d_s__timer.html">DS_timer</a> *<a class="el" href="class_face_graph.html#ae2c7432085f41919413b5487b67c34ca">timer</a>)</td></tr>
 <tr class="separator:abebdc8a498ddad3de8f6badee324c952 inherit pub_methods_class_face_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,8 +145,12 @@ Public 멤버 함수</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public 속성</h2></td></tr>
+<tr class="memitem:a9b22866d3cd6e4cb74968c328cc8c3ac"><td class="memItemLeft" align="right" valign="top">std::vector&lt; glm::vec3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_u_d_a_face_graph.html#a9b22866d3cd6e4cb74968c328cc8c3ac">vertices</a></td></tr>
+<tr class="separator:a9b22866d3cd6e4cb74968c328cc8c3ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5166d29eae79676325c8f14e2fe35b9a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_u_d_a_face_graph.html#a5166d29eae79676325c8f14e2fe35b9a">adj_triangles</a></td></tr>
 <tr class="separator:a5166d29eae79676325c8f14e2fe35b9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a7ed55c8368087402e49cf2da858877"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_u_d_a_face_graph.html#a8a7ed55c8368087402e49cf2da858877">total_vertex_count</a></td></tr>
+<tr class="separator:a8a7ed55c8368087402e49cf2da858877"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_class_face_graph"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class_face_graph')"><img src="closed.png" alt="-"/>&#160;<a class="el" href="class_face_graph.html">FaceGraph</a>(으)로부터 상속된 Public 속성</td></tr>
 <tr class="memitem:aaf4f97b76e425612557c564eda941c8e inherit pub_attribs_class_face_graph"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_face_graph.html#aaf4f97b76e425612557c564eda941c8e">adj_triangles</a></td></tr>
 <tr class="separator:aaf4f97b76e425612557c564eda941c8e inherit pub_attribs_class_face_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,10 +161,10 @@ Public 속성</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">상세한 설명</h2>
 <div class="textblock">
-<p class="definition"><a class="el" href="cudafacegraph_8h_source.html">cudafacegraph.h</a> 파일의 <a class="el" href="cudafacegraph_8h_source.html#l00007">7</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="cudafacegraph_8h_source.html">cudafacegraph.h</a> 파일의 <a class="el" href="cudafacegraph_8h_source.html#l00008">8</a> 번째 라인에서 정의되었습니다.</p>
 </div><h2 class="groupheader">생성자 &amp; 소멸자 문서화</h2>
 <a id="a1273ca1b2857cc4543c306f324139902"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1273ca1b2857cc4543c306f324139902">&#9670;&nbsp;</a></span>CUDAFaceGraph() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1273ca1b2857cc4543c306f324139902">&#9670;&nbsp;</a></span>CUDAFaceGraph() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -165,24 +179,25 @@ Public 속성</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition"><a class="el" href="cudafacegraph_8cpp_source.html">cudafacegraph.cpp</a> 파일의 <a class="el" href="cudafacegraph_8cpp_source.html#l00007">7</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="cudafacegraph_8cpp_source.html">cudafacegraph.cpp</a> 파일의 <a class="el" href="cudafacegraph_8cpp_source.html#l00011">11</a> 번째 라인에서 정의되었습니다.</p>
 <div class="dynheader">
 이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_c_u_d_a_face_graph_a1273ca1b2857cc4543c306f324139902_cgraph.png" border="0" usemap="#aclass_c_u_d_a_face_graph_a1273ca1b2857cc4543c306f324139902_cgraph" alt=""/></div>
 <map name="aclass_c_u_d_a_face_graph_a1273ca1b2857cc4543c306f324139902_cgraph" id="aclass_c_u_d_a_face_graph_a1273ca1b2857cc4543c306f324139902_cgraph">
-<area shape="rect" title=" " alt="" coords="5,56,248,83"/>
-<area shape="rect" href="class_c_u_d_a_face_graph.html#a41a9fc1528267602a52df4e817654a43" title=" " alt="" coords="296,56,453,83"/>
-<area shape="rect" href="facegraphutils_8h.html#a4bb6b74466eb8a16cda72725de76bb1b" title=" " alt="" coords="521,5,627,32"/>
-<area shape="rect" href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca" title=" " alt="" coords="501,56,647,83"/>
-<area shape="rect" href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0" title=" " alt="" coords="502,107,646,133"/>
+<area shape="rect" title=" " alt="" coords="5,107,248,134"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#a41a9fc1528267602a52df4e817654a43" title=" " alt="" coords="296,107,453,134"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#a1574084a1f836aac09f75bbf8ac5b151" title=" " alt="" coords="501,5,659,47"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#ac348f548dda2707a86222da58bc73120" title=" " alt="" coords="501,71,659,112"/>
+<area shape="rect" href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca" title=" " alt="" coords="507,137,653,163"/>
+<area shape="rect" href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0" title=" " alt="" coords="508,187,652,214"/>
 </map>
 </div>
 
 </div>
 </div>
 <a id="abd5b2386ae92b2f210bbf7c9f83f7889"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd5b2386ae92b2f210bbf7c9f83f7889">&#9670;&nbsp;</a></span>CUDAFaceGraph() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abd5b2386ae92b2f210bbf7c9f83f7889">&#9670;&nbsp;</a></span>CUDAFaceGraph() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -207,23 +222,109 @@ Public 속성</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition"><a class="el" href="cudafacegraph_8cpp_source.html">cudafacegraph.cpp</a> 파일의 <a class="el" href="cudafacegraph_8cpp_source.html#l00003">3</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="cudafacegraph_8cpp_source.html">cudafacegraph.cpp</a> 파일의 <a class="el" href="cudafacegraph_8cpp_source.html#l00007">7</a> 번째 라인에서 정의되었습니다.</p>
 <div class="dynheader">
 이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_c_u_d_a_face_graph_abd5b2386ae92b2f210bbf7c9f83f7889_cgraph.png" border="0" usemap="#aclass_c_u_d_a_face_graph_abd5b2386ae92b2f210bbf7c9f83f7889_cgraph" alt=""/></div>
 <map name="aclass_c_u_d_a_face_graph_abd5b2386ae92b2f210bbf7c9f83f7889_cgraph" id="aclass_c_u_d_a_face_graph_abd5b2386ae92b2f210bbf7c9f83f7889_cgraph">
-<area shape="rect" title=" " alt="" coords="5,56,248,83"/>
-<area shape="rect" href="class_c_u_d_a_face_graph.html#a41a9fc1528267602a52df4e817654a43" title=" " alt="" coords="296,56,453,83"/>
-<area shape="rect" href="facegraphutils_8h.html#a4bb6b74466eb8a16cda72725de76bb1b" title=" " alt="" coords="521,5,627,32"/>
-<area shape="rect" href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca" title=" " alt="" coords="501,56,647,83"/>
-<area shape="rect" href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0" title=" " alt="" coords="502,107,646,133"/>
+<area shape="rect" title=" " alt="" coords="5,107,248,134"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#a41a9fc1528267602a52df4e817654a43" title=" " alt="" coords="296,107,453,134"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#a1574084a1f836aac09f75bbf8ac5b151" title=" " alt="" coords="501,5,659,47"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#ac348f548dda2707a86222da58bc73120" title=" " alt="" coords="501,71,659,112"/>
+<area shape="rect" href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca" title=" " alt="" coords="507,137,653,163"/>
+<area shape="rect" href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0" title=" " alt="" coords="508,187,652,214"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad3268e9faa8ceeca8058165b97db63d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3268e9faa8ceeca8058165b97db63d4">&#9670;&nbsp;</a></span>CUDAFaceGraph() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CUDAFaceGraph::CUDAFaceGraph </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="struct_triangle.html">Triangle</a> &gt; *&#160;</td>
+          <td class="paramname"><em>triangles</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_d_s__timer.html">DS_timer</a> *&#160;</td>
+          <td class="paramname"><em>timer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>total_vertex_count</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition"><a class="el" href="cudafacegraph_8cpp_source.html">cudafacegraph.cpp</a> 파일의 <a class="el" href="cudafacegraph_8cpp_source.html#l00003">3</a> 번째 라인에서 정의되었습니다.</p>
+<div class="dynheader">
+이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_c_u_d_a_face_graph_ad3268e9faa8ceeca8058165b97db63d4_cgraph.png" border="0" usemap="#aclass_c_u_d_a_face_graph_ad3268e9faa8ceeca8058165b97db63d4_cgraph" alt=""/></div>
+<map name="aclass_c_u_d_a_face_graph_ad3268e9faa8ceeca8058165b97db63d4_cgraph" id="aclass_c_u_d_a_face_graph_ad3268e9faa8ceeca8058165b97db63d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,107,248,134"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#a41a9fc1528267602a52df4e817654a43" title=" " alt="" coords="296,107,453,134"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#a1574084a1f836aac09f75bbf8ac5b151" title=" " alt="" coords="501,5,659,47"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#ac348f548dda2707a86222da58bc73120" title=" " alt="" coords="501,71,659,112"/>
+<area shape="rect" href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca" title=" " alt="" coords="507,137,653,163"/>
+<area shape="rect" href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0" title=" " alt="" coords="508,187,652,214"/>
 </map>
 </div>
 
 </div>
 </div>
 <h2 class="groupheader">멤버 함수 문서화</h2>
+<a id="a1574084a1f836aac09f75bbf8ac5b151"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1574084a1f836aac09f75bbf8ac5b151">&#9670;&nbsp;</a></span>get_adj_triangles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::vector&lt;std::vector&lt;int&gt; &gt; CUDAFaceGraph::get_adj_triangles </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; std::vector&lt; int &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>vertex_adjacent_map</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_c_u_d_a_face_graph_a1574084a1f836aac09f75bbf8ac5b151_icgraph.png" border="0" usemap="#aclass_c_u_d_a_face_graph_a1574084a1f836aac09f75bbf8ac5b151_icgraph" alt=""/></div>
+<map name="aclass_c_u_d_a_face_graph_a1574084a1f836aac09f75bbf8ac5b151_icgraph" id="aclass_c_u_d_a_face_graph_a1574084a1f836aac09f75bbf8ac5b151_icgraph">
+<area shape="rect" title=" " alt="" coords="501,5,659,47"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#a41a9fc1528267602a52df4e817654a43" title=" " alt="" coords="296,13,453,39"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#ad3268e9faa8ceeca8058165b97db63d4" title=" " alt="" coords="5,13,248,39"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a66b63daa7b269a35cbd93ec6cf0947ac"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a66b63daa7b269a35cbd93ec6cf0947ac">&#9670;&nbsp;</a></span>get_segments()</h2>
 
@@ -252,25 +353,78 @@ Public 속성</h2></td></tr>
 
 <p><a class="el" href="class_face_graph.html#a67bcbb68888255acb526397cdc387f35">FaceGraph</a>를 구현.</p>
 
-<p class="definition"><a class="el" href="cudafacegraph_8cpp_source.html">cudafacegraph.cpp</a> 파일의 <a class="el" href="cudafacegraph_8cpp_source.html#l00048">48</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="cudafacegraph_8cpp_source.html">cudafacegraph.cpp</a> 파일의 <a class="el" href="cudafacegraph_8cpp_source.html#l00027">27</a> 번째 라인에서 정의되었습니다.</p>
+
+</div>
+</div>
+<a id="a5b4c51e49b2d941807ec35e04f7c0881"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b4c51e49b2d941807ec35e04f7c0881">&#9670;&nbsp;</a></span>get_segments_as_union()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_segment_union.html">SegmentUnion</a> CUDAFaceGraph::get_segments_as_union </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition"><a class="el" href="cudafacegraph_8cpp_source.html">cudafacegraph.cpp</a> 파일의 <a class="el" href="cudafacegraph_8cpp_source.html#l00031">31</a> 번째 라인에서 정의되었습니다.</p>
 <div class="dynheader">
 이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_c_u_d_a_face_graph_a66b63daa7b269a35cbd93ec6cf0947ac_cgraph.png" border="0" usemap="#aclass_c_u_d_a_face_graph_a66b63daa7b269a35cbd93ec6cf0947ac_cgraph" alt=""/></div>
-<map name="aclass_c_u_d_a_face_graph_a66b63daa7b269a35cbd93ec6cf0947ac_cgraph" id="aclass_c_u_d_a_face_graph_a66b63daa7b269a35cbd93ec6cf0947ac_cgraph">
-<area shape="rect" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="5,49,163,90"/>
-<area shape="rect" href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca" title=" " alt="" coords="247,5,392,32"/>
-<area shape="rect" href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0" title=" " alt="" coords="247,56,391,83"/>
-<area shape="rect" href="class_c_u_d_a_face_graph.html#ad44fd0587f4ebd2831282c1c95398f6a" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="211,107,428,133"/>
+<div class="center"><img src="class_c_u_d_a_face_graph_a5b4c51e49b2d941807ec35e04f7c0881_cgraph.png" border="0" usemap="#aclass_c_u_d_a_face_graph_a5b4c51e49b2d941807ec35e04f7c0881_cgraph" alt=""/></div>
+<map name="aclass_c_u_d_a_face_graph_a5b4c51e49b2d941807ec35e04f7c0881_cgraph" id="aclass_c_u_d_a_face_graph_a5b4c51e49b2d941807ec35e04f7c0881_cgraph">
+<area shape="rect" title=" " alt="" coords="5,49,164,90"/>
+<area shape="rect" href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca" title=" " alt="" coords="248,5,393,32"/>
+<area shape="rect" href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0" title=" " alt="" coords="249,56,393,83"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#ad44fd0587f4ebd2831282c1c95398f6a" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="212,107,429,133"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="ac348f548dda2707a86222da58bc73120"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac348f548dda2707a86222da58bc73120">&#9670;&nbsp;</a></span>get_vertex_to_adj()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::vector&lt;std::vector&lt;int&gt; &gt; CUDAFaceGraph::get_vertex_to_adj </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 <div class="dynheader">
 이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_c_u_d_a_face_graph_a66b63daa7b269a35cbd93ec6cf0947ac_icgraph.png" border="0" usemap="#aclass_c_u_d_a_face_graph_a66b63daa7b269a35cbd93ec6cf0947ac_icgraph" alt=""/></div>
-<map name="aclass_c_u_d_a_face_graph_a66b63daa7b269a35cbd93ec6cf0947ac_icgraph" id="aclass_c_u_d_a_face_graph_a66b63daa7b269a35cbd93ec6cf0947ac_icgraph">
-<area shape="rect" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="305,5,463,47"/>
-<area shape="rect" href="class_c_u_d_a_segmenter.html#ab100aac32100ba22645f313a1bfaa243" title="세그멘테이션 수행." alt="" coords="5,13,257,39"/>
+<div class="center"><img src="class_c_u_d_a_face_graph_ac348f548dda2707a86222da58bc73120_icgraph.png" border="0" usemap="#aclass_c_u_d_a_face_graph_ac348f548dda2707a86222da58bc73120_icgraph" alt=""/></div>
+<map name="aclass_c_u_d_a_face_graph_ac348f548dda2707a86222da58bc73120_icgraph" id="aclass_c_u_d_a_face_graph_ac348f548dda2707a86222da58bc73120_icgraph">
+<area shape="rect" title=" " alt="" coords="501,5,659,47"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#a41a9fc1528267602a52df4e817654a43" title=" " alt="" coords="296,13,453,39"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#ad3268e9faa8ceeca8058165b97db63d4" title=" " alt="" coords="5,13,248,39"/>
 </map>
 </div>
 
@@ -301,16 +455,17 @@ Public 속성</h2></td></tr>
 
 <p><a class="el" href="class_face_graph.html#a3864be98ebca94d2c0f821d8283889a0">FaceGraph</a>를 구현.</p>
 
-<p class="definition"><a class="el" href="cudafacegraph_8cpp_source.html">cudafacegraph.cpp</a> 파일의 <a class="el" href="cudafacegraph_8cpp_source.html#l00011">11</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="cudafacegraph_8cpp_source.html">cudafacegraph.cpp</a> 파일의 <a class="el" href="cudafacegraph_8cpp_source.html#l00015">15</a> 번째 라인에서 정의되었습니다.</p>
 <div class="dynheader">
 이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_c_u_d_a_face_graph_a41a9fc1528267602a52df4e817654a43_cgraph.png" border="0" usemap="#aclass_c_u_d_a_face_graph_a41a9fc1528267602a52df4e817654a43_cgraph" alt=""/></div>
 <map name="aclass_c_u_d_a_face_graph_a41a9fc1528267602a52df4e817654a43_cgraph" id="aclass_c_u_d_a_face_graph_a41a9fc1528267602a52df4e817654a43_cgraph">
-<area shape="rect" title=" " alt="" coords="5,56,163,83"/>
-<area shape="rect" href="facegraphutils_8h.html#a4bb6b74466eb8a16cda72725de76bb1b" title=" " alt="" coords="230,5,337,32"/>
-<area shape="rect" href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca" title=" " alt="" coords="211,56,356,83"/>
-<area shape="rect" href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0" title=" " alt="" coords="211,107,355,133"/>
+<area shape="rect" title=" " alt="" coords="5,107,163,134"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#a1574084a1f836aac09f75bbf8ac5b151" title=" " alt="" coords="211,5,368,47"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#ac348f548dda2707a86222da58bc73120" title=" " alt="" coords="211,71,368,112"/>
+<area shape="rect" href="class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca" title=" " alt="" coords="217,137,362,163"/>
+<area shape="rect" href="class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0" title=" " alt="" coords="217,187,361,214"/>
 </map>
 </div>
 <div class="dynheader">
@@ -319,14 +474,58 @@ Public 속성</h2></td></tr>
 <div class="center"><img src="class_c_u_d_a_face_graph_a41a9fc1528267602a52df4e817654a43_icgraph.png" border="0" usemap="#aclass_c_u_d_a_face_graph_a41a9fc1528267602a52df4e817654a43_icgraph" alt=""/></div>
 <map name="aclass_c_u_d_a_face_graph_a41a9fc1528267602a52df4e817654a43_icgraph" id="aclass_c_u_d_a_face_graph_a41a9fc1528267602a52df4e817654a43_icgraph">
 <area shape="rect" title=" " alt="" coords="296,5,453,32"/>
-<area shape="rect" href="class_c_u_d_a_face_graph.html#abd5b2386ae92b2f210bbf7c9f83f7889" title=" " alt="" coords="5,5,248,32"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#ad3268e9faa8ceeca8058165b97db63d4" title=" " alt="" coords="5,5,248,32"/>
 </map>
 </div>
 
 </div>
 </div>
+<a id="a5b786a34c77bff4107ad6c20ee4d270a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b786a34c77bff4107ad6c20ee4d270a">&#9670;&nbsp;</a></span>traverse_dfs() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CUDAFaceGraph::traverse_dfs </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_segment_union.html">SegmentUnion</a> &amp;&#160;</td>
+          <td class="paramname"><em>visit</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>start_vert</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>count</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition"><a class="el" href="cudafacegraph_8cpp_source.html">cudafacegraph.cpp</a> 파일의 <a class="el" href="cudafacegraph_8cpp_source.html#l00053">53</a> 번째 라인에서 정의되었습니다.</p>
+
+</div>
+</div>
 <a id="ad44fd0587f4ebd2831282c1c95398f6a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad44fd0587f4ebd2831282c1c95398f6a">&#9670;&nbsp;</a></span>traverse_dfs()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad44fd0587f4ebd2831282c1c95398f6a">&#9670;&nbsp;</a></span>traverse_dfs() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -377,15 +576,14 @@ Public 속성</h2></td></tr>
 
 <p><a class="el" href="class_face_graph.html#a7f355a34195446a27b03f3f1af6738b9">FaceGraph</a>를 구현.</p>
 
-<p class="definition"><a class="el" href="cudafacegraph_8cpp_source.html">cudafacegraph.cpp</a> 파일의 <a class="el" href="cudafacegraph_8cpp_source.html#l00074">74</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="cudafacegraph_8cpp_source.html">cudafacegraph.cpp</a> 파일의 <a class="el" href="cudafacegraph_8cpp_source.html#l00050">50</a> 번째 라인에서 정의되었습니다.</p>
 <div class="dynheader">
 이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_c_u_d_a_face_graph_ad44fd0587f4ebd2831282c1c95398f6a_icgraph.png" border="0" usemap="#aclass_c_u_d_a_face_graph_ad44fd0587f4ebd2831282c1c95398f6a_icgraph" alt=""/></div>
 <map name="aclass_c_u_d_a_face_graph_ad44fd0587f4ebd2831282c1c95398f6a_icgraph" id="aclass_c_u_d_a_face_graph_ad44fd0587f4ebd2831282c1c95398f6a_icgraph">
-<area shape="rect" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="511,13,728,39"/>
-<area shape="rect" href="class_c_u_d_a_face_graph.html#a66b63daa7b269a35cbd93ec6cf0947ac" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="305,5,463,47"/>
-<area shape="rect" href="class_c_u_d_a_segmenter.html#ab100aac32100ba22645f313a1bfaa243" title="세그멘테이션 수행." alt="" coords="5,13,257,39"/>
+<area shape="rect" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="212,13,429,39"/>
+<area shape="rect" href="class_c_u_d_a_face_graph.html#a5b4c51e49b2d941807ec35e04f7c0881" title=" " alt="" coords="5,5,164,47"/>
 </map>
 </div>
 
@@ -405,7 +603,41 @@ Public 속성</h2></td></tr>
 </div><div class="memdoc">
 <p>삼각형에 대한 인접 리스트 </p>
 
-<p class="definition"><a class="el" href="cudafacegraph_8h_source.html">cudafacegraph.h</a> 파일의 <a class="el" href="cudafacegraph_8h_source.html#l00012">12</a> 번째 라인에서 정의되었습니다.</p>
+<p class="definition"><a class="el" href="cudafacegraph_8h_source.html">cudafacegraph.h</a> 파일의 <a class="el" href="cudafacegraph_8h_source.html#l00017">17</a> 번째 라인에서 정의되었습니다.</p>
+
+</div>
+</div>
+<a id="a8a7ed55c8368087402e49cf2da858877"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a7ed55c8368087402e49cf2da858877">&#9670;&nbsp;</a></span>total_vertex_count</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int CUDAFaceGraph::total_vertex_count</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>원본 obj에 있던 모든 정점 개수 </p>
+
+<p class="definition"><a class="el" href="cudafacegraph_8h_source.html">cudafacegraph.h</a> 파일의 <a class="el" href="cudafacegraph_8h_source.html#l00021">21</a> 번째 라인에서 정의되었습니다.</p>
+
+</div>
+</div>
+<a id="a9b22866d3cd6e4cb74968c328cc8c3ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b22866d3cd6e4cb74968c328cc8c3ac">&#9670;&nbsp;</a></span>vertices</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;glm::vec3&gt; CUDAFaceGraph::vertices</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>FaceGraph에 속한 정점 리스트 </p>
+
+<p class="definition"><a class="el" href="cudafacegraph_8h_source.html">cudafacegraph.h</a> 파일의 <a class="el" href="cudafacegraph_8h_source.html#l00013">13</a> 번째 라인에서 정의되었습니다.</p>
 
 </div>
 </div>

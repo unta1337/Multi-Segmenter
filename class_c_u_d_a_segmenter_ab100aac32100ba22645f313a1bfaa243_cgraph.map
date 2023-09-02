@@ -1,9 +1,0 @@
-<map id="CUDASegmenter::do_segmentation" name="CUDASegmenter::do_segmentation">
-<area shape="rect" id="node1" title="세그멘테이션 수행." alt="" coords="5,115,257,141"/>
-<area shape="rect" id="node2" href="$namespace_color.html#a63c419ad75758acc7b685dfb62bbf6d2" title=" " alt="" coords="305,5,492,32"/>
-<area shape="rect" id="node3" href="$class_c_u_d_a_face_graph.html#a66b63daa7b269a35cbd93ec6cf0947ac" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="320,107,477,149"/>
-<area shape="rect" id="node4" href="$class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca" title=" " alt="" coords="576,60,721,87"/>
-<area shape="rect" id="node5" href="$class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0" title=" " alt="" coords="577,169,721,196"/>
-<area shape="rect" id="node7" href="$facegraphutils_8h.html#af3ee9a8b50f8cf032310abb89ed48784" title=" " alt="" coords="325,224,472,251"/>
-<area shape="rect" id="node6" href="$class_c_u_d_a_face_graph.html#ad44fd0587f4ebd2831282c1c95398f6a" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="540,115,757,141"/>
-</map>

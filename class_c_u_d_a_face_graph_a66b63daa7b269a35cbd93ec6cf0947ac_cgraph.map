@@ -1,6 +1,0 @@
-<map id="CUDAFaceGraph::get_segments" name="CUDAFaceGraph::get_segments">
-<area shape="rect" id="node1" title="인접 리스트에 있는 면을 인접한 면끼리 분류." alt="" coords="5,49,163,90"/>
-<area shape="rect" id="node2" href="$class_d_s__timer.html#ad70ada9cf08b890d81ec0568134860ca" title=" " alt="" coords="247,5,392,32"/>
-<area shape="rect" id="node3" href="$class_d_s__timer.html#a7dbede6331a22f58fae49f413db4b7e0" title=" " alt="" coords="247,56,391,83"/>
-<area shape="rect" id="node4" href="$class_c_u_d_a_face_graph.html#ad44fd0587f4ebd2831282c1c95398f6a" title="인접 리스트에 있는 면을 순회하며 인덱스 부여." alt="" coords="211,107,428,133"/>
-</map>
